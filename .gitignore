@@ -1,0 +1,22 @@
+# 依赖与构建产物
+node_modules/
+dist/
+ui-dist/
+
+# 系统与编辑器
+.DS_Store
+*.log
+
+# dev-flow 本机状态(机器各自维护;持久化工件 proposal/prd/red-team/tasks 正常提交)
+.flow/state.json
+
+# 大体积录制夹具(可用 npm run research -- spike --record 重新生成);问题清单保留
+testdata/*.json
+!testdata/live-s1-questions.json
+
+# 本地数据与密钥(永不入库)
+.deep-research/
+*.pem
+*.key
+.env
+.env.*
