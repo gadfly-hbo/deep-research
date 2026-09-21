@@ -17,3 +17,5 @@
 {"at":"2026-09-21T06:42:37.983Z","event":"run-finished","data":{"runId":"1d127ddd-19e9-48ab-af46-574009956264","requestId":"req-muavdszs","status":"running","usage":{"searches":8,"fetches":12,"costEstimate":0.023678039999999997,"wallMs":0}}}
 {"at":"2026-09-21T06:43:07.416Z","event":"run-finished","data":{"runId":"1d127ddd-19e9-48ab-af46-574009956264","requestId":"req-muavdszs","status":"limited","usage":{"searches":8,"fetches":12,"costEstimate":0.03202902,"wallMs":533254}}}
 {"at":"2026-09-21T06:43:07.420Z","event":"bundle-saved","data":{"runId":"1d127ddd-19e9-48ab-af46-574009956264","claims":101,"evidence":101}}
+{"at":"2026-09-21T06:43:55.393Z","event":"published","data":{"version":2,"runId":"1d127ddd-19e9-48ab-af46-574009956264","configHash":"b2e15545784093cd705fbeb69c393f5e41f85bb0b4c4578a2d862895e9ce59f6"}}
+{"at":"2026-09-21T06:45:39.327Z","event":"formal","data":{"version":2,"summarySource":"model","delivery":"limited"}}
