@@ -246,6 +246,8 @@ function ProjectPage() {
           module: meta.module, goal: runForm.goal,
           scope: { summary: runForm.summary, queries: plan.map((q) => q.question) },
           attachments: runForm.attachments.split("\n").map((s) => s.trim()).filter(Boolean),
+          // 交互运行用适中预算:约 10 分钟内出结果;更深的重跑走 CLI 自定义预算
+          budget: { maxSearches: 8, maxFetches: 12 },
         },
         plan: { questions: plan.map((q) => ({ ...q, status: "open" })) },
       });
