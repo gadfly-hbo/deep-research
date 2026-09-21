@@ -1,0 +1,13 @@
+{
+  "id": "1d127ddd-19e9-48ab-af46-574009956264",
+  "requestId": "req-muavdszs",
+  "stage": "publish",
+  "status": "limited",
+  "checkpoints": [],
+  "usage": {
+    "searches": 8,
+    "fetches": 12,
+    "costEstimate": 0.03202902,
+    "wallMs": 533254
+  }
+}
