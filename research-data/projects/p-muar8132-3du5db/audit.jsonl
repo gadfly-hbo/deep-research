@@ -13,3 +13,4 @@
 {"at":"2026-09-21T12:00:00.076Z","event":"run-finished","data":{"runId":"101191b6-465f-4361-a740-e34aa51d7f8e","requestId":"req-mub6y4gw","status":"running","usage":{"searches":8,"fetches":10,"costEstimate":0.031401359999999996,"wallMs":0}}}
 {"at":"2026-09-21T12:00:54.122Z","event":"run-finished","data":{"runId":"101191b6-465f-4361-a740-e34aa51d7f8e","requestId":"req-mub6y4gw","status":"limited","usage":{"searches":8,"fetches":10,"costEstimate":0.04372685999999999,"wallMs":176193}}}
 {"at":"2026-09-21T12:00:54.124Z","event":"bundle-saved","data":{"runId":"101191b6-465f-4361-a740-e34aa51d7f8e","claims":142,"evidence":142}}
+{"at":"2026-09-21T12:01:01.788Z","event":"published","data":{"version":1,"runId":"101191b6-465f-4361-a740-e34aa51d7f8e","configHash":"f968960dfbabeed783223c5f1390a8f8c74e3e827a5438f70aa0c001b5626ba5"}}
