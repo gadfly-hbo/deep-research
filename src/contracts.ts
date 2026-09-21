@@ -16,6 +16,8 @@ export const SourceSnapshotSchema = z.object({
   bodyText: z.string(),
   parseStatus: z.enum(["ok", "failed"]),
   contentType: z.string(),
+  /** 信源等级:A 官方/权威一手 · B 行业报告/专业平台 · C 社媒/自媒体/未知 */
+  tier: z.enum(["A", "B", "C"]).optional(),
 });
 export type SourceSnapshot = z.infer<typeof SourceSnapshotSchema>;
 
@@ -33,6 +35,8 @@ export const ClaimSchema = z.object({
   kind: z.enum(["fact", "inference", "unverified"]),
   evidenceIds: z.array(z.string().min(1)),
   calibration: CalibrationSchema.optional(),
+  /** 置信度(发布门禁聚合):核查全过+多源+高等级信源=high;单源/弱核查=medium;降级=low */
+  confidence: z.enum(["high", "medium", "low"]).optional(),
 });
 export type Claim = z.infer<typeof ClaimSchema>;
 
@@ -40,6 +44,12 @@ export const CitationVerdictSchema = z.object({
   evidenceId: z.string().min(1),
   verdict: z.enum(["quote-hit", "quote-mismatch", "snapshot-missing"]),
   urlAlive: z.boolean().optional(),
+  /** 语义蕴涵:strong 转述被引句支撑 / weak 弱支撑 / fail 不支撑 / na 无法判定 */
+  entailment: z.enum(["strong", "weak", "fail", "na"]).optional(),
+  /** 数值复算:ok 口径值与引句一致 / mismatch 不一致 / na 无口径值 */
+  numeric: z.enum(["ok", "mismatch", "na"]).optional(),
+  /** 该证据来源快照的信源等级 */
+  tier: z.enum(["A", "B", "C"]).optional(),
 });
 export type CitationVerdict = z.infer<typeof CitationVerdictSchema>;
 

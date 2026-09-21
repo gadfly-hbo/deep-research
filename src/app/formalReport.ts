@@ -31,12 +31,12 @@ export interface FormalReport {
   version: number;
   generatedAt: string;
   delivery: "full" | "limited";
-  stats: { claims: number; verified: number; unverified: number; inference: number; sources: number };
+  stats: { claims: number; verified: number; unverified: number; inference: number; sources: number; tierA: number; tierB: number; tierC: number };
   executiveSummary: string[];
   sections: FormalSection[];
   limitations: string[];
   unresolved: string[];
-  sources: { title: string; url: string }[];
+  sources: { title: string; url: string; tier?: string }[];
   claimsTable: { statement: string; kind: string; verdict: string }[];
 }
 
@@ -102,6 +102,9 @@ export function assembleFormalReport(
     unverified: bundle.claims.filter((c) => c.kind === "unverified").length,
     inference: bundle.claims.filter((c) => c.kind === "inference").length,
     sources: bundle.snapshots.length,
+    tierA: bundle.snapshots.filter((s) => s.tier === "A").length,
+    tierB: bundle.snapshots.filter((s) => s.tier === "B").length,
+    tierC: bundle.snapshots.filter((s) => !s.tier || s.tier === "C").length,
   };
   const highlightBySection = new Map(formal.sectionHighlights.map((h) => [h.sectionId, h.bullets]));
 
@@ -159,7 +162,7 @@ export function assembleFormalReport(
     sections,
     limitations: bundle.limitations,
     unresolved: bundle.unresolved,
-    sources: bundle.snapshots.map((s) => ({ title: s.title || s.url, url: s.url })),
+    sources: bundle.snapshots.map((s) => ({ title: s.title || s.url, url: s.url, tier: s.tier })),
     claimsTable: bundle.claims.map((c) => ({
       statement: c.statement,
       kind: c.kind,
@@ -269,7 +272,7 @@ export function renderFormalHtml(r: FormalReport): string {
       <span>日期 <b>${dateStr}</b></span>
       <span>交付 <b><span class="badge ${limited ? "limited" : "full"}">${limited ? "有限交付" : "完整交付"}</span></b></span>
       <span>主张 <b>${r.stats.claims}</b>(已核查 ${r.stats.verified} · 推断 ${r.stats.inference} · 未验证 ${r.stats.unverified})</span>
-      <span>来源 <b>${r.stats.sources}</b></span>
+      <span>来源 <b>${r.stats.sources}</b>(A级 ${r.stats.tierA} · B级 ${r.stats.tierB} · C级 ${r.stats.tierC})</span>
     </div>
   </header>
   <nav class="toc">
@@ -287,7 +290,7 @@ export function renderFormalHtml(r: FormalReport): string {
     ${r.limitations.length ? `<h2>限制</h2><div class="warn"><ul>${r.limitations.map((l) => `<li>${renderInline(l)}</li>`).join("")}</ul></div>` : ""}
     ${r.unresolved.length ? `<h2>未解决问题</h2><ul>${r.unresolved.map((u) => `<li>${renderInline(u)}</li>`).join("")}</ul>` : ""}
     <h2>来源清单</h2>
-    <ol>${r.sources.map((s) => `<li>${escapeHtml(s.title)} — ${escapeHtml(s.url)}</li>`).join("")}</ol>
+    <ol>${r.sources.map((s) => `<li>${escapeHtml(s.title)}${s.tier ? ` <b>[${escapeHtml(s.tier)}级]</b>` : ""} — ${escapeHtml(s.url)}</li>`).join("")}</ol>
   </div>
   <div class="foot">
     <span>独立深度研究工作台 · 证据可追溯</span>

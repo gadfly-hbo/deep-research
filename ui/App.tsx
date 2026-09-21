@@ -13,9 +13,10 @@ interface Outline { title: string; subtitle?: string; sections: OutlineSection[]
 interface VersionEntry { version: number; runId: string; publishedAt: string; diffSummary?: { addedClaims: string[]; removedClaims: string[]; evidenceDelta: number } }
 interface ProjectMeta { id: string; module: Module; goal: string; scope: { summary: string; queries: string[] }; updatedAt: string; versions: VersionEntry[] }
 interface Run { id: string; requestId: string; stage: string; status: "running" | "cancelled" | "failed" | "published" | "limited"; usage: { searches: number; fetches: number; costEstimate: number; wallMs: number }; error?: string }
-interface Snapshot { id: string; url: string; title: string; fetchedAt: string; parseStatus: string }
-interface Claim { id: string; statement: string; kind: string; evidenceIds: string[]; calibration?: { entity: string; period: string; unit: string; value?: number } }
-interface Bundle { runId: string; version: number; reportMd: string; claims: Claim[]; evidence: { id: string; snapshotId: string; quote: string }[]; snapshots: Snapshot[]; limitations: string[]; unresolved: string[]; verdicts: { evidenceId: string; verdict: string }[] }
+interface Snapshot { id: string; url: string; title: string; fetchedAt: string; parseStatus: string; tier?: "A" | "B" | "C" }
+interface Claim { id: string; statement: string; kind: string; evidenceIds: string[]; calibration?: { entity: string; period: string; unit: string; value?: number }; confidence?: "high" | "medium" | "low" }
+interface Verdict { evidenceId: string; verdict: string; entailment?: "strong" | "weak" | "fail" | "na"; numeric?: "ok" | "mismatch" | "na"; tier?: "A" | "B" | "C" }
+interface Bundle { runId: string; version: number; reportMd: string; claims: Claim[]; evidence: { id: string; snapshotId: string; quote: string }[]; snapshots: Snapshot[]; limitations: string[]; unresolved: string[]; verdicts: Verdict[] }
 interface ProjectDetail { meta: ProjectMeta; runs: Run[]; snapshots: Snapshot[] }
 
 const api = async <T,>(path: string, init?: RequestInit): Promise<T> => {
@@ -44,6 +45,18 @@ const VERDICT: Record<string, { label: string; tone: "good" | "bad" | "warn" }> 
   "quote-mismatch": { label: "未通过", tone: "bad" },
   "snapshot-missing": { label: "快照缺失", tone: "warn" },
 };
+const CONFIDENCE: Record<string, { label: string; tone: "good" | "warn" | "bad" }> = {
+  high: { label: "高置信", tone: "good" },
+  medium: { label: "中置信", tone: "warn" },
+  low: { label: "低置信", tone: "bad" },
+};
+const TIER_BADGE: Record<string, { label: string; tone: "good" | "info" | "neutral" }> = {
+  A: { label: "A级", tone: "good" },
+  B: { label: "B级", tone: "info" },
+  C: { label: "C级", tone: "neutral" },
+};
+const ENTAIL_LABEL: Record<string, string> = { strong: "蕴涵:强支撑", weak: "蕴涵:弱支撑", fail: "蕴涵:不支撑", na: "蕴涵:未评估" };
+const NUMERIC_LABEL: Record<string, string> = { ok: "数值复算:一致", mismatch: "数值复算:不一致", na: "数值复算:未评估" };
 const STAGE_STEPS = [
   { key: "plan", title: "计划" },
   { key: "gather", title: "采证" },
@@ -473,15 +486,23 @@ function ProjectPage() {
               <ReportBody md={bundle.reportMd} />
               <h2 style={{ margin: "16px 0 8px" }}>主张与证据</h2>
               <table className="cmp-table">
-                <thead><tr><th>主张</th><th>类型</th><th>核查</th></tr></thead>
+                <thead><tr><th>主张</th><th>类型</th><th>置信度</th><th>信源</th><th>核查</th></tr></thead>
                 <tbody>
-                  {bundle.claims.map((c) => (
-                    <tr key={c.id} className="claim-row" onClick={() => void openDrawer(c)}>
-                      <td>{c.statement}{c.calibration && <div style={{ color: "var(--soft)", fontSize: 11.5 }}>{c.calibration.entity} · {c.calibration.period} · {c.calibration.unit}</div>}</td>
-                      <td><Badge tone={KIND[c.kind]?.tone ?? "neutral"}>{KIND[c.kind]?.label ?? c.kind}</Badge></td>
-                      <td><Badge tone={VERDICT[verdictOf(c)]?.tone ?? "neutral"}>{VERDICT[verdictOf(c)]?.label ?? verdictOf(c)}</Badge></td>
-                    </tr>
-                  ))}
+                  {bundle.claims.map((c) => {
+                    const tiers = c.evidenceIds
+                      .map((eid) => bundle.verdicts.find((v) => v.evidenceId === eid)?.tier)
+                      .filter((t): t is "A" | "B" | "C" => t !== undefined);
+                    const bestTier = tiers.sort()[0];
+                    return (
+                      <tr key={c.id} className="claim-row" onClick={() => void openDrawer(c)}>
+                        <td>{c.statement}{c.calibration && <div style={{ color: "var(--soft)", fontSize: 11.5 }}>{c.calibration.entity} · {c.calibration.period} · {c.calibration.unit}</div>}</td>
+                        <td><Badge tone={KIND[c.kind]?.tone ?? "neutral"}>{KIND[c.kind]?.label ?? c.kind}</Badge></td>
+                        <td>{c.confidence && <Badge tone={CONFIDENCE[c.confidence]?.tone ?? "neutral"}>{CONFIDENCE[c.confidence]?.label ?? c.confidence}</Badge>}</td>
+                        <td>{bestTier && <Badge tone={TIER_BADGE[bestTier]?.tone ?? "neutral"} noDot>{TIER_BADGE[bestTier]?.label ?? bestTier}</Badge>}</td>
+                        <td><Badge tone={VERDICT[verdictOf(c)]?.tone ?? "neutral"}>{VERDICT[verdictOf(c)]?.label ?? verdictOf(c)}</Badge></td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </>
@@ -523,7 +544,20 @@ function ProjectPage() {
       <Drawer title="证据抽屉" placement="right" width={460} open={drawer !== null} onClose={() => setDrawer(null)}>
         {drawer && (
           <>
-            <p><Badge tone={KIND[drawer.claim.kind]?.tone ?? "neutral"}>{KIND[drawer.claim.kind]?.label ?? drawer.claim.kind}</Badge> {drawer.claim.statement}</p>
+            <p><Badge tone={KIND[drawer.claim.kind]?.tone ?? "neutral"}>{KIND[drawer.claim.kind]?.label ?? drawer.claim.kind}</Badge>{" "}
+            {drawer.claim.confidence && <Badge tone={CONFIDENCE[drawer.claim.confidence]?.tone ?? "neutral"}>{CONFIDENCE[drawer.claim.confidence]?.label}</Badge>} {drawer.claim.statement}</p>
+            {(() => {
+              const v = bundle?.verdicts.find((x) => x.evidenceId === drawer.claim.evidenceIds[0]);
+              if (!v) return null;
+              return (
+                <div style={{ fontSize: 12, color: "var(--muted)", margin: "4px 0 8px", display: "flex", gap: 10, flexWrap: "wrap" }}>
+                  <span>引用:{VERDICT[v.verdict]?.label ?? v.verdict}</span>
+                  {v.entailment && v.entailment !== "na" && <span>{ENTAIL_LABEL[v.entailment]}</span>}
+                  {v.numeric && v.numeric !== "na" && <span>{NUMERIC_LABEL[v.numeric]}</span>}
+                  {v.tier && <span>信源:{TIER_BADGE[v.tier]?.label ?? v.tier}级</span>}
+                </div>
+              );
+            })()}
             <div className="quote-block">引句(须在原文逐字命中):{bundle?.evidence.find((e) => e.id === drawer.claim.evidenceIds[0])?.quote}</div>
             <p className="sec-desc">快照原文(净化纯文本,来源内容不执行):</p>
             <pre className="snap-text">{drawer.text}</pre>

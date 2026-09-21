@@ -59,6 +59,8 @@ describe("gather 抓取预算按问题分配", () => {
     expect(fetched.length).toBe(4);
     expect(fetched.filter((u) => u.startsWith("https://a") || u.startsWith("https://b") || u.startsWith("https://c")).length).toBe(2);
     expect(fetched.filter((u) => u.startsWith("https://d") || u.startsWith("https://e") || u.startsWith("https://f")).length).toBe(2);
-    expect(bundle!.claims.length).toBeGreaterThanOrEqual(2);
+    // 同一事实跨源合并为一条主张,证据应覆盖两个问题各自的来源
+    expect(bundle!.claims.length).toBeGreaterThanOrEqual(1);
+    expect(bundle!.claims[0]!.evidenceIds.length).toBeGreaterThanOrEqual(2);
   });
 });

@@ -265,7 +265,8 @@ describe("runResearch 全流水线(plan → gather → analyze → draft → rev
       { plan: { questions: [{ id: "q1", question: "市场规模", status: "open" }] } },
     );
     expect(run.status).toBe("limited");
-    expect(bundle!.reportMd).toContain("unverified / quote-mismatch");
+    expect(bundle!.reportMd).toContain("unverified|置信度:low");
+    expect(bundle!.reportMd).toContain("quote-mismatch");
     expect(bundle!.claims.map((c) => c.kind).sort()).toEqual(["fact", "unverified"]);
   });
 
@@ -292,5 +293,71 @@ describe("runResearch 全流水线(plan → gather → analyze → draft → rev
     expect(run.status).toBe("published");
     expect(bundle!.reportMd).toContain("## 口径冲突披露");
     expect(bundle!.reportMd).toContain("中国咖啡市场");
+  });
+
+  it("真实性核查:蕴涵失败/数值不符硬降级,跨源合并主张置信度 high,仅C级单源置信度 low", async () => {
+    const U1 = "https://www.21jingji.com/article/a1";
+    const U2 = "https://www.yicai.com/news/a2";
+    const U3 = "https://zhuanlan.zhihu.com/p/a3";
+    const U4 = "https://unknown.example.com/a4";
+    const { run, bundle } = await runResearch(
+      baseRequest(),
+      fakes({
+        searchResults: {
+          规模与门店: [
+            { url: U1, title: "21财经", snippet: "" },
+            { url: U2, title: "一财", snippet: "" },
+            { url: U3, title: "知乎", snippet: "" },
+            { url: U4, title: "未知站", snippet: "" },
+          ],
+        },
+        bodies: {
+          [U1]: "森马门店数达1488家,居行业前列。市场规模约1,200亿元。",
+          [U2]: "市场规模约1,200亿元。",
+          [U3]: "门店口碑热度很高。",
+          [U4]: "年营收约1,200亿元。",
+        },
+        extract: (url) => {
+          if (url === U1)
+            return {
+              claims: [
+                { statement: "森马门店数位居全国行业榜首", kind: "fact" as const, quote: "门店数达1488家,居行业前列" },
+                { statement: "市场规模约1200亿元", kind: "fact" as const, quote: "市场规模约1,200亿元", calibration: { entity: "市场规模", period: "2025", unit: "亿元", value: 1200 } },
+              ],
+              cost: 0.01,
+            };
+          if (url === U2)
+            return { claims: [{ statement: "市场规模约1200亿元", kind: "fact" as const, quote: "市场规模约1,200亿元", calibration: { entity: "市场规模", period: "2025", unit: "亿元", value: 1200 } }], cost: 0.01 };
+          if (url === U3)
+            return { claims: [{ statement: "门店口碑热度很高", kind: "fact" as const, quote: "门店口碑热度很高" }], cost: 0.01 };
+          return { claims: [{ statement: "年营收999亿元", kind: "fact" as const, quote: "年营收约1,200亿元", calibration: { entity: "年营收", period: "2025", unit: "亿元", value: 999 } }], cost: 0.01 };
+        },
+        stage: (stage) => cleanStages(stage),
+      }),
+      createMemoryStore(),
+      { plan: { questions: [{ id: "q1", question: "规模与门店", status: "open" }] } },
+    );
+    expect(run.status).toBe("limited");
+    // 语义蕴涵失败:引句不支持转述 → 未验证
+    const entailed = bundle!.claims.find((c) => c.statement.includes("行业榜首"))!;
+    expect(entailed.kind).toBe("unverified");
+    expect(bundle!.limitations.some((l) => l.includes("语义蕴涵未通过"))).toBe(true);
+    // 数值复算:口径值与引句数字不一致 → 未验证
+    const mismatch = bundle!.claims.find((c) => c.statement.includes("999"))!;
+    expect(mismatch.kind).toBe("unverified");
+    expect(bundle!.limitations.some((l) => l.includes("数值复算未通过"))).toBe(true);
+    // 跨源合并:同口径同数值双源 → 仍为事实,置信度 high
+    const merged = bundle!.claims.find((c) => c.statement === "市场规模约1200亿元")!;
+    expect(merged.evidenceIds).toHaveLength(2);
+    expect(merged.kind).toBe("fact");
+    expect(merged.confidence).toBe("high");
+    // 仅 C 级单源:不降级类型,置信度 low + 披露
+    const weak = bundle!.claims.find((c) => c.statement === "门店口碑热度很高")!;
+    expect(weak.kind).toBe("fact");
+    expect(weak.confidence).toBe("low");
+    expect(bundle!.limitations.some((l) => l.includes("C 级信源"))).toBe(true);
+    // 快照携带信源等级
+    expect(bundle!.snapshots.find((s) => s.url === U1)?.tier).toBe("B");
+    expect(bundle!.snapshots.find((s) => s.url === U3)?.tier).toBe("C");
   });
 });
