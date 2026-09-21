@@ -9,6 +9,8 @@ import { recordingAdapters } from "./adapters/recording.js";
 import { replayAdapters } from "./adapters/replay.js";
 import type { Adapters, RecordedCall, Recording } from "./adapters/types.js";
 import { createProject, publishBundle, runOnProject } from "./app/projectService.js";
+import { defaultDataDir } from "./app/dataDir.js";
+import { dataSync } from "./app/dataSync.js";
 import { ResearchRequestSchema } from "./contracts.js";
 import { runResearch } from "./core/runResearch.js";
 import { buildSpikeReport, type SpikeQuestionResult } from "./core/spikeReport.js";
@@ -54,7 +56,7 @@ interface Fixture {
 }
 
 function loadConfig(): SpikeConfig {
-  const dataDir = process.env.DEEP_RESEARCH_DATA_DIR ?? join(homedir(), ".deep-research");
+  const dataDir = defaultDataDir();
   let fileConfig: SpikeConfig = {};
   try {
     fileConfig = JSON.parse(readFileSync(join(dataDir, "config.json"), "utf8")) as SpikeConfig;
@@ -201,7 +203,7 @@ async function runCmd(flags: Record<string, string>): Promise<void> {
 }
 
 async function projectCmd(sub: string, flags: Record<string, string>): Promise<void> {
-  const dataDir = flags.datadir ?? process.env.DEEP_RESEARCH_DATA_DIR ?? join(homedir(), ".deep-research");
+  const dataDir = flags.datadir ?? defaultDataDir();
   if (sub === "create") {
     if (!flags.request) throw new Error("用法: project create --request <path> [--datadir <path>]");
     const input = JSON.parse(readFileSync(flags.request, "utf8")) as {
@@ -253,8 +255,12 @@ async function projectCmd(sub: string, flags: Record<string, string>): Promise<v
 const [command, ...rest] = process.argv.slice(2);
 const flags = parseFlags(rest);
 
-if (command === "serve") {
-  const dataDir = flags.datadir ?? process.env.DEEP_RESEARCH_DATA_DIR ?? join(homedir(), ".deep-research");
+if (command === "data-sync") {
+  const result = dataSync();
+  console.log(JSON.stringify(result, null, 2));
+  if (!result.ok) process.exitCode = 1;
+} else if (command === "serve") {
+  const dataDir = flags.datadir ?? defaultDataDir();
   const config = loadConfig();
   const makeAdapters = (): Adapters => {
     if (!config.model || !config.search) {

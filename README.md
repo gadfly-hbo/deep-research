@@ -10,14 +10,15 @@
 npm install
 npm test            # 单元/集成测试(vitest,适配器为录制夹具,无需密钥)
 npm run build       # tsc + vite 构建 SPA 到 ui-dist/
-npm run research -- serve            # 启动工作台,仅监听 127.0.0.1:4173
 ```
 
-打开 http://127.0.0.1:4173 → 新建项目(品牌/行业)→ 生成并确认研究计划 → 运行 → 证据抽屉核查 → 发布版本 → 导出成果包(zip:report.md / report.html / evidence/ / manifest.json)。
+**一键启动**:双击仓库根的 `启动深度研究.command`(自动同步数据 → 起本机服务 → 打开浏览器;Ctrl+C 退出时自动回推数据)。首次运行会自动安装依赖并构建。
+
+或手动:`npm run research -- serve`,打开 http://127.0.0.1:4173 → 新建项目(品牌/行业)→ 生成并确认研究计划 → 运行 → 证据抽屉核查 → 发布版本 → 导出成果包(zip:report.md / report.html / evidence/ / manifest.json)。
 
 ## 配置(live 运行需要)
 
-数据目录默认 `~/.deep-research/`(env `DEEP_RESEARCH_DATA_DIR` 可覆盖)。`<datadir>/config.json`(0600 权限):
+**研究数据双机共享**:数据目录默认为仓库内 `research-data/`(env `DEEP_RESEARCH_DATA_DIR` 可覆盖),随 git 同步——run 结束后服务端自动 commit+pull+push;也可手动 `npm run research -- data-sync`(冲突时保留本机并提示人工处理)。历史数据已从 `~/.deep-research/` 迁入(旧目录保留为备份)。`<datadir>/config.json`(0600 权限):
 
 ```json
 {

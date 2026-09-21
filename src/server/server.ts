@@ -11,6 +11,8 @@ import { DEFAULT_BUDGET } from "../core/runResearch.js";
 import { PlanOutputSchema } from "../core/stages.js";
 import { getModuleConfig } from "../modules/registry.js";
 import { FsProjectStore } from "../stores/fsStore.js";
+import { defaultDataDir } from "../app/dataDir.js";
+import { dataSync } from "../app/dataSync.js";
 
 export interface ServerDeps {
   dataDir: string;
@@ -140,7 +142,15 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
               error: String(error instanceof Error ? error.message : error),
             });
           })
-          .finally(() => controllers.delete(request.id ?? ""));
+          .finally(() => {
+            controllers.delete(request.id ?? "");
+            // 数据寄居仓库内时,run 结束即同步到远端(双机共享);失败只提示不阻断
+            if (deps.dataDir === defaultDataDir()) {
+              void Promise.resolve(dataSync()).then((r) => {
+                if (!r.ok) console.error(`[data-sync] ${r.action}: ${r.detail}`);
+              });
+            }
+          });
         json(res, 200, { started: true, requestId: request.id });
         return;
       }
@@ -181,7 +191,14 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
               error: String(error instanceof Error ? error.message : error),
             });
           })
-          .finally(() => controllers.delete(request.id ?? ""));
+          .finally(() => {
+            controllers.delete(request.id ?? "");
+            if (deps.dataDir === defaultDataDir()) {
+              void Promise.resolve(dataSync()).then((r) => {
+                if (!r.ok) console.error(`[data-sync] ${r.action}: ${r.detail}`);
+              });
+            }
+          });
         json(res, 200, { resumed: true, requestId: request.id });
         return;
       }
