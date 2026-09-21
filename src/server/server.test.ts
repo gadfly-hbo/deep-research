@@ -243,8 +243,7 @@ describe("本地 HTTP 服务", () => {
   }, 20_000);
 });
 
-describe("settings 配置合并", () => {
-  it("POST 只覆盖提及的键:search 链路保留;链式 model 只换链首", async () => {
+describe("settings 配置合并", () => {  it("POST 只覆盖提及的键:search 链路保留;链式 model 只换链首", async () => {
     const dataDir = mkdtempSync(join(tmpdir(), "dr-srv-cfg-"));
     const { writeFileSync, readFileSync } = await import("node:fs");
     writeFileSync(
@@ -272,6 +271,45 @@ describe("settings 配置合并", () => {
         { provider: "minimax-cn", modelId: "MiniMax-M2.7" },
         { provider: "xiaomi-token-plan-cn", modelId: "mimo-v2.5-pro" },
       ]);
+    } finally {
+      await srv.close();
+    }
+  });
+});
+
+describe("项目归档", () => {
+  it("归档后 status=archived 且仍在列表;恢复回 active;均落审计", async () => {
+    const dataDir = mkdtempSync(join(tmpdir(), "dr-srv-arch-"));
+    const srv = await startServer({ dataDir, makeAdapters: () => fakeAdapters() });
+    const base = `http://127.0.0.1:${srv.port}`;
+    try {
+      const created = await fetch(`${base}/api/projects`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ module: "brand", goal: "归档测试", scope: { summary: "s", queries: [] } }),
+      });
+      const { id } = (await created.json()) as { id: string };
+
+      await fetch(`${base}/api/projects/${id}/archive`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ archived: true }),
+      });
+      let detail = (await (await fetch(`${base}/api/projects/${id}`)).json()) as { meta: { status?: string } };
+      expect(detail.meta.status).toBe("archived");
+
+      await fetch(`${base}/api/projects/${id}/archive`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ archived: false }),
+      });
+      detail = (await (await fetch(`${base}/api/projects/${id}`)).json()) as { meta: { status?: string } };
+      expect(detail.meta.status).toBe("active");
+
+      const { readFileSync } = await import("node:fs");
+      const audit = readFileSync(join(dataDir, "projects", id, "audit.jsonl"), "utf8");
+      expect(audit).toContain('"archived"');
+      expect(audit).toContain('"unarchived"');
     } finally {
       await srv.close();
     }

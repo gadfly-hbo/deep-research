@@ -25,6 +25,8 @@ export interface ProjectMeta {
   createdAt: string;
   updatedAt: string;
   versions: VersionEntry[];
+  /** 归档状态:archived 不进主列表,可随时恢复;缺省视为 active */
+  status?: "active" | "archived";
 }
 
 export class FsProjectStore implements ResearchStore {

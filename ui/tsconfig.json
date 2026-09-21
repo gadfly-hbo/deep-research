@@ -10,5 +10,5 @@
     "noEmit": true,
     "types": ["vite/client"]
   },
-  "include": [".", "../src/app/markdown.ts"]
+  "include": [".", "../src/app/markdown.ts", "../src/app/projectGroups.ts"]
 }

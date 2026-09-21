@@ -260,6 +260,15 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
         return;
       }
 
+      if (method === "POST" && rest === "/archive") {
+        const archived = body.archived !== false;
+        const s = store();
+        s.saveMeta({ status: archived ? "archived" : "active" });
+        s.audit(archived ? "archived" : "unarchived", {});
+        json(res, 200, { status: archived ? "archived" : "active" });
+        return;
+      }
+
       const versionMatch = rest.match(/^\/versions\/(\d+)(\/.*)?$/);
       if (versionMatch) {
         const [, vRaw, vRest = ""] = versionMatch;

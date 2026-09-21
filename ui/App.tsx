@@ -5,13 +5,14 @@ import Badge from "./components/Badge";
 import MetricCard from "./components/MetricCard";
 import Section from "./components/Section";
 import { markdownToHtml } from "../src/app/markdown";
+import { groupProjects } from "../src/app/projectGroups";
 
 /* ————— 数据类型 ————— */
 type Module = "brand" | "industry";
 interface OutlineSection { id: string; title: string; purpose?: string; bullets: string[] }
 interface Outline { title: string; subtitle?: string; sections: OutlineSection[] }
 interface VersionEntry { version: number; runId: string; publishedAt: string; diffSummary?: { addedClaims: string[]; removedClaims: string[]; evidenceDelta: number } }
-interface ProjectMeta { id: string; module: Module; goal: string; scope: { summary: string; queries: string[] }; updatedAt: string; versions: VersionEntry[] }
+interface ProjectMeta { id: string; module: Module; goal: string; scope: { summary: string; queries: string[] }; updatedAt: string; versions: VersionEntry[]; status?: "active" | "archived" }
 interface Run { id: string; requestId: string; stage: string; status: "running" | "cancelled" | "failed" | "published" | "limited"; usage: { searches: number; fetches: number; costEstimate: number; wallMs: number }; error?: string }
 interface Snapshot { id: string; url: string; title: string; fetchedAt: string; parseStatus: string; tier?: "A" | "B" | "C" }
 interface Claim { id: string; statement: string; kind: string; evidenceIds: string[]; calibration?: { entity: string; period: string; unit: string; value?: number }; confidence?: "high" | "medium" | "low" }
@@ -77,7 +78,7 @@ function ReportBody({ md }: { md: string }) {
 function Layout() {
   const [count, setCount] = useState<number | null>(null);
   useEffect(() => {
-    api<{ projects: unknown[] }>("/api/projects").then((r) => setCount(r.projects.length)).catch(() => {});
+    api<{ projects: { status?: string }[] }>("/api/projects").then((r) => setCount(r.projects.filter((p) => p.status !== "archived").length)).catch(() => {});
   }, []);
   return (
     <div className="app-shell">
@@ -121,6 +122,7 @@ function ProjectsPage() {
   const navigate = useNavigate();
   const [projects, setProjects] = useState<ProjectMeta[]>([]);
   const [creating, setCreating] = useState(false);
+  const [showArchived, setShowArchived] = useState(false);
   const [form, setForm] = useState({ module: "brand" as Module, goal: "", summary: "", attachments: "" });
   const load = useCallback(() => api<{ projects: ProjectMeta[] }>("/api/projects").then((r) => setProjects(r.projects)), []);
   useEffect(() => { void load(); }, [load]);
@@ -138,6 +140,35 @@ function ProjectsPage() {
       message.error(String(e instanceof Error ? e.message : e).slice(0, 160));
     }
   };
+
+  const toggleArchive = async (p: ProjectMeta) => {
+    try {
+      await post(`/api/projects/${p.id}/archive`, { archived: p.status !== "archived" });
+      message.success(p.status === "archived" ? "已恢复到进行中" : "已归档,数据与版本全部保留");
+      await load();
+    } catch (e) {
+      message.error(String(e instanceof Error ? e.message : e).slice(0, 160));
+    }
+  };
+
+  const groups = groupProjects(projects);
+
+  const row = (p: ProjectMeta) => (
+    <div key={p.id} className="runline" style={{ cursor: "pointer" }} onClick={() => navigate(`/project/${p.id}`)}>
+      <div>
+        <Badge tone="brand" noDot>{MODULE_LABEL[p.module]}</Badge> <strong>{p.goal}</strong>
+        <div style={{ color: "var(--soft)", fontSize: 11.5, marginTop: 2 }}>
+          更新于 {new Date(p.updatedAt).toLocaleString("zh-CN")}
+        </div>
+      </div>
+      <div className="actions-row">
+        <Badge tone="neutral" noDot>{p.versions.length} 个版本</Badge>
+        <Button size="small" onClick={(e) => { e.stopPropagation(); void toggleArchive(p); }}>
+          {p.status === "archived" ? "恢复" : "归档"}
+        </Button>
+      </div>
+    </div>
+  );
 
   return (
     <>
@@ -174,17 +205,24 @@ function ProjectsPage() {
           </div>
         )}
         {projects.length === 0 && <Empty description="还没有项目,点击右上角「新建项目」开始第一项研究" />}
-        {projects.map((p) => (
-          <div key={p.id} className="runline" style={{ cursor: "pointer" }} onClick={() => navigate(`/project/${p.id}`)}>
-            <div>
-              <Badge tone="brand" noDot>{MODULE_LABEL[p.module]}</Badge> <strong>{p.goal}</strong>
-              <div style={{ color: "var(--soft)", fontSize: 11.5, marginTop: 2 }}>
-                更新于 {new Date(p.updatedAt).toLocaleString("zh-CN")}
-              </div>
-            </div>
-            <Badge tone="neutral" noDot>{p.versions.length} 个版本</Badge>
+        {groups.filter((g) => g.key !== "archived").map((g) => (
+          <div key={g.key}>
+            <p className="sec-desc" style={{ margin: "14px 0 4px", letterSpacing: ".06em" }}>{g.label} · {g.items.length}</p>
+            {g.items.map(row)}
           </div>
         ))}
+        {groups.some((g) => g.key === "archived") && (
+          <div>
+            <p
+              className="sec-desc"
+              style={{ margin: "16px 0 4px", letterSpacing: ".06em", cursor: "pointer", userSelect: "none" }}
+              onClick={() => setShowArchived(!showArchived)}
+            >
+              已归档 · {groups.find((g) => g.key === "archived")!.items.length} {showArchived ? "▾ 收起" : "▸ 展开"}
+            </p>
+            {showArchived && groups.find((g) => g.key === "archived")!.items.map(row)}
+          </div>
+        )}
       </Section>
     </>
   );
