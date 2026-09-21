@@ -242,3 +242,38 @@ describe("本地 HTTP 服务", () => {
     expect(status).toBe("published");
   }, 20_000);
 });
+
+describe("settings 配置合并", () => {
+  it("POST 只覆盖提及的键:search 链路保留;链式 model 只换链首", async () => {
+    const dataDir = mkdtempSync(join(tmpdir(), "dr-srv-cfg-"));
+    const { writeFileSync, readFileSync } = await import("node:fs");
+    writeFileSync(
+      join(dataDir, "config.json"),
+      JSON.stringify({
+        model: [
+          { provider: "minimax-cn", modelId: "MiniMax-M3" },
+          { provider: "xiaomi-token-plan-cn", modelId: "mimo-v2.5-pro" },
+        ],
+        search: [{ type: "minimax-mcp" }, { type: "xiaomi-websearch" }],
+      }),
+    );
+    const srv = await startServer({ dataDir, makeAdapters: () => fakeAdapters() });
+    try {
+      const res = await fetch(`http://127.0.0.1:${srv.port}/api/settings`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ model: { provider: "minimax-cn", modelId: "MiniMax-M2.7" } }),
+      });
+      expect(res.status).toBe(200);
+      const merged = JSON.parse(readFileSync(join(dataDir, "config.json"), "utf8")) as Record<string, unknown>;
+      // 搜索链必须保留——此前整文件覆盖导致 plan-preview 500 的根因
+      expect(merged.search).toEqual([{ type: "minimax-mcp" }, { type: "xiaomi-websearch" }]);
+      expect(merged.model).toEqual([
+        { provider: "minimax-cn", modelId: "MiniMax-M2.7" },
+        { provider: "xiaomi-token-plan-cn", modelId: "mimo-v2.5-pro" },
+      ]);
+    } finally {
+      await srv.close();
+    }
+  });
+});

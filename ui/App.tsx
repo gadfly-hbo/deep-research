@@ -543,9 +543,11 @@ function SettingsPage() {
   useEffect(() => {
     void api<{ config: Record<string, unknown>; budgetDefaults: Record<string, number> }>("/api/settings").then((r) => {
       setBudget(r.budgetDefaults);
-      const m = r.config.model as { provider?: string; modelId?: string } | undefined;
-      setProvider(m?.provider ?? "");
-      setModelId(m?.modelId ?? "");
+      // 模型为主备链(数组)时编辑链首;其余备用项由服务端配置维护
+      const m = r.config.model as unknown;
+      const head = (Array.isArray(m) ? m[0] : m) as { provider?: string; modelId?: string } | undefined;
+      setProvider(head?.provider ?? "");
+      setModelId(head?.modelId ?? "");
     });
   }, []);
   return (

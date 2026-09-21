@@ -364,8 +364,17 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
             return;
           }
         }
+        // 合并而非整体覆盖:body 未提及的键(如 search 链路)必须保留
+        const existing = existsSync(configPath)
+          ? (JSON.parse(readFileSync(configPath, "utf8")) as Record<string, unknown>)
+          : {};
+        const merged: Record<string, unknown> = { ...existing, ...body };
+        // 模型为主备链(数组)时,UI 只编辑链首
+        if (body.model && !Array.isArray(body.model) && Array.isArray(existing.model)) {
+          merged.model = [body.model, ...(existing.model as unknown[]).slice(1)];
+        }
         mkdirSync(deps.dataDir, { recursive: true });
-        writeFileSync(configPath, JSON.stringify(body, null, 2));
+        writeFileSync(configPath, JSON.stringify(merged, null, 2));
         chmodSync(configPath, 0o600);
         json(res, 200, { saved: true });
         return;
