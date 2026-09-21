@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import type { Adapters } from "../adapters/types.js";
 import { ResearchRequestSchema } from "../contracts.js";
-import { createProject, publishBundle, runOnProject, templateRequest } from "./projectService.js";
+import { createProject, generateFormal, publishBundle, runOnProject, templateRequest } from "./projectService.js";
 import type { StageName } from "../core/stages.js";
 
 const tmp = () => mkdtempSync(join(tmpdir(), "dr-svc-"));
@@ -100,5 +100,82 @@ describe("projectService(版本与生命周期)", () => {
     expect(template.goal).toBe("中国咖啡行业研究");
     expect(template.scope).toEqual({ summary: "s", queries: ["q"] });
     expect(template.id).toBeUndefined();
+  });
+});
+
+const OUTLINE = {
+  title: "中国咖啡行业研究报告",
+  subtitle: "规模与结构",
+  sections: [{ id: "s1", title: "市场规模", purpose: "规模口径", bullets: ["市场规模"] }],
+};
+
+describe("报告框架与正式报告", () => {
+  it("request.outline 进入草稿阶段输入,并回填到结果包", async () => {
+    const seen: { draftInputs: unknown[] } = { draftInputs: [] };
+    const dir = createProject(tmp(), { module: "industry", goal: "中国咖啡行业研究", scope: { summary: "s", queries: [] } });
+    const adapters = fakes([{ statement: "市场规模约 1200 亿元(2025)", quote: "市场规模约 1,200 亿元" }]);
+    adapters.model = {
+      extractClaims: adapters.model.extractClaims,
+      runStage: async (stage: StageName, input: unknown) => {
+        if (stage === "draft") seen.draftInputs.push(input);
+        return stage === "analyze"
+          ? { output: { findings: [], gaps: [] }, cost: 0.01 }
+          : stage === "draft"
+            ? { output: { reportMd: "# 中国咖啡行业研究报告\n\n## 市场规模\n- 约 1200 亿元" }, cost: 0.01 }
+            : { output: { issues: [], counterexampleChecked: true }, cost: 0.01 };
+      },
+    };
+    const request = ResearchRequestSchema.parse({
+      id: "req-ol",
+      module: "industry",
+      goal: "中国咖啡行业研究",
+      scope: { summary: "s", queries: [] },
+      outline: OUTLINE,
+    });
+    const { bundle } = await runOnProject(dir, request, adapters, { plan });
+    expect(seen.draftInputs).toHaveLength(1);
+    expect((seen.draftInputs[0] as { outline?: unknown }).outline).toEqual(OUTLINE);
+    expect(bundle?.outline).toEqual(OUTLINE);
+  });
+
+  it("generateFormal 产出 formal.json/report.html/report.pptx 并记录审计", async () => {
+    const dir = createProject(tmp(), { module: "brand", goal: "森马经营研究", scope: { summary: "s", queries: [] } });
+    const request = ResearchRequestSchema.parse({ id: "req-f", module: "brand", goal: "森马经营研究", scope: { summary: "s", queries: [] }, outline: OUTLINE });
+    const { run } = await runOnProject(dir, request, fakes([{ statement: "市场规模约 1200 亿元(2025)", quote: "市场规模约 1,200 亿元" }]), { plan });
+    await publishBundle(dir, run.id);
+    const fakeModel: Adapters["model"] = {
+      extractClaims: async () => ({ claims: [], cost: 0 }),
+      runStage: async () => ({
+        output: { executiveSummary: ["咖啡市场持续增长"], sectionHighlights: [{ sectionId: "s1", bullets: ["规模约 1200 亿元"] }] },
+        cost: 0.005,
+      }),
+    };
+    const result = await generateFormal(dir, 1, fakeModel);
+    expect(result.summarySource).toBe("model");
+    const formalDir = join(dir, "reports", "v1", "formal");
+    expect(existsSync(join(formalDir, "formal.json"))).toBe(true);
+    expect(existsSync(join(formalDir, "report.html"))).toBe(true);
+    expect(existsSync(join(formalDir, "report.pptx"))).toBe(true);
+    const formal = JSON.parse(readFileSync(join(formalDir, "formal.json"), "utf8")) as { executiveSummary: string[]; sections: unknown[] };
+    expect(formal.executiveSummary).toEqual(["咖啡市场持续增长"]);
+    expect(formal.sections.length).toBeGreaterThan(0);
+    const audit = readFileSync(join(dir, "audit.jsonl"), "utf8");
+    expect(audit).toContain('"formal"');
+  });
+
+  it("模型不可用时正式报告走确定性兜底,仍完整产出", async () => {
+    const dir = createProject(tmp(), { module: "industry", goal: "中国咖啡行业研究", scope: { summary: "s", queries: [] } });
+    const request = ResearchRequestSchema.parse({ id: "req-fb", module: "industry", goal: "中国咖啡行业研究", scope: { summary: "s", queries: [] } });
+    const { run } = await runOnProject(dir, request, fakes([{ statement: "市场规模约 1200 亿元(2025)", quote: "市场规模约 1,200 亿元" }]), { plan });
+    await publishBundle(dir, run.id);
+    const brokenModel: Adapters["model"] = {
+      extractClaims: async () => ({ claims: [], cost: 0 }),
+      runStage: async () => {
+        throw new Error("provider down");
+      },
+    };
+    const result = await generateFormal(dir, 1, brokenModel);
+    expect(result.summarySource).toBe("fallback");
+    expect(existsSync(join(dir, "reports", "v1", "formal", "report.pptx"))).toBe(true);
   });
 });

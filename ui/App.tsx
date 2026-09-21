@@ -4,9 +4,12 @@ import { Alert, Button, Drawer, Empty, Input, Select, Spin, Steps, message } fro
 import Badge from "./components/Badge";
 import MetricCard from "./components/MetricCard";
 import Section from "./components/Section";
+import { markdownToHtml } from "../src/app/markdown";
 
 /* ————— 数据类型 ————— */
 type Module = "brand" | "industry";
+interface OutlineSection { id: string; title: string; purpose?: string; bullets: string[] }
+interface Outline { title: string; subtitle?: string; sections: OutlineSection[] }
 interface VersionEntry { version: number; runId: string; publishedAt: string; diffSummary?: { addedClaims: string[]; removedClaims: string[]; evidenceDelta: number } }
 interface ProjectMeta { id: string; module: Module; goal: string; scope: { summary: string; queries: string[] }; updatedAt: string; versions: VersionEntry[] }
 interface Run { id: string; requestId: string; stage: string; status: "running" | "cancelled" | "failed" | "published" | "limited"; usage: { searches: number; fetches: number; costEstimate: number; wallMs: number }; error?: string }
@@ -51,19 +54,10 @@ const STAGE_STEPS = [
 ];
 
 /** 报告正文安全渲染:逐段构建元素,不走 HTML 注入。 */
+/** 报告正文渲染:与服务端导出共用 markdownToHtml,文本在渲染器内全量转义。 */
 function ReportBody({ md }: { md: string }) {
-  const blocks = useMemo(() => md.split("\n"), [md]);
-  return (
-    <div className="report-body">
-      {blocks.map((line, i) => {
-        if (line.startsWith("## ")) return <h3 key={i}>{line.slice(3)}</h3>;
-        if (line.startsWith("# ")) return <h2 key={i}>{line.slice(2)}</h2>;
-        if (line.startsWith("- ")) return <li key={i}>{line.slice(2)}</li>;
-        if (line.trim() === "") return <br key={i} />;
-        return <p key={i}>{line}</p>;
-      })}
-    </div>
-  );
+  const html = useMemo(() => markdownToHtml(md), [md]);
+  return <div className="report-body" dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
 /* ————— 外壳 ————— */
@@ -193,6 +187,8 @@ function ProjectPage() {
   const [drawer, setDrawer] = useState<{ claim: Claim; text: string } | null>(null);
   const [runForm, setRunForm] = useState({ open: false, goal: "", summary: "", attachments: "" });
   const [plan, setPlan] = useState<{ id: string; question: string }[] | null>(null);
+  const [outline, setOutline] = useState<Outline | null>(null);
+  const [formalReady, setFormalReady] = useState<Record<number, boolean>>({});
   const [busy, setBusy] = useState("");
   const runPanelRef = useRef<HTMLDivElement | null>(null);
 
@@ -213,6 +209,23 @@ function ProjectPage() {
     return () => clearInterval(timer);
   }, [load]);
 
+  // 探测各版本正式报告是否已生成(仅挂载时一次)
+  useEffect(() => {
+    void (async () => {
+      try {
+        const d = await api<ProjectDetail>(`/api/projects/${id}`);
+        const ready: Record<number, boolean> = {};
+        await Promise.all(
+          d.meta.versions.map(async (v) => {
+            const res = await fetch(`/api/projects/${id}/versions/${v.version}/formal/json`);
+            if (res.ok) ready[v.version] = true;
+          }),
+        );
+        setFormalReady(ready);
+      } catch { /* 忽略探测失败 */ }
+    })();
+  }, [id]);
+
   if (!detail) return <Spin style={{ margin: "80px auto", display: "block" }} />;
   const { meta, runs } = detail;
   const publishedRunIds = new Set(meta.versions.map((v) => v.runId));
@@ -220,8 +233,11 @@ function ProjectPage() {
   const verdictOf = (c: Claim) =>
     bundle?.verdicts.find((v) => v.evidenceId === c.evidenceIds[0])?.verdict ?? "snapshot-missing";
 
-  const openRunForm = () =>
+  const openRunForm = () => {
+    setPlan(null);
+    setOutline(null);
     setRunForm({ open: true, goal: meta.goal, summary: meta.scope.summary, attachments: "" });
+  };
 
   const previewPlan = async () => {
     setBusy("生成计划中…通常 1-2 分钟");
@@ -231,13 +247,29 @@ function ProjectPage() {
         scope: { summary: runForm.summary, queries: [] },
       });
       setPlan(r.plan.questions);
+      setOutline(null);
+    } catch (e) {
+      message.error(String(e instanceof Error ? e.message : e).slice(0, 200));
+    } finally { setBusy(""); }
+  };
+
+  const previewOutline = async () => {
+    if (!plan) return;
+    setBusy("生成报告框架中…通常 1-2 分钟");
+    try {
+      const r = await post<{ outline: Outline }>(`/api/projects/${id}/outline-preview`, {
+        module: meta.module, goal: runForm.goal,
+        scope: { summary: runForm.summary, queries: plan.map((q) => q.question) },
+        questions: plan.map((q) => ({ id: q.id, question: q.question })),
+      });
+      setOutline(r.outline);
     } catch (e) {
       message.error(String(e instanceof Error ? e.message : e).slice(0, 200));
     } finally { setBusy(""); }
   };
 
   const startRun = async () => {
-    if (!plan) return;
+    if (!plan || !outline) return;
     setBusy("启动中…");
     try {
       await post(`/api/projects/${id}/runs`, {
@@ -246,6 +278,7 @@ function ProjectPage() {
           module: meta.module, goal: runForm.goal,
           scope: { summary: runForm.summary, queries: plan.map((q) => q.question) },
           attachments: runForm.attachments.split("\n").map((s) => s.trim()).filter(Boolean),
+          outline,
           // 交互运行用适中预算:约 10 分钟内出结果;更深的重跑走 CLI 自定义预算
           budget: { maxSearches: 8, maxFetches: 12 },
         },
@@ -253,6 +286,7 @@ function ProjectPage() {
       });
       message.success("研究运行已启动,可在下方跟踪进度");
       setPlan(null);
+      setOutline(null);
       setRunForm({ ...runForm, open: false });
       await load();
       runPanelRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -269,6 +303,17 @@ function ProjectPage() {
     } catch (e) {
       message.error(String(e instanceof Error ? e.message : e).slice(0, 200));
     }
+  };
+
+  const genFormal = async (v: number) => {
+    setBusy(`生成正式报告中…(v${v})`);
+    try {
+      const r = await post<{ summarySource: string }>(`/api/projects/${id}/versions/${v}/formal`, {});
+      setFormalReady({ ...formalReady, [v]: true });
+      message.success(r.summarySource === "model" ? "正式报告已生成(含摘要提炼)" : "正式报告已生成(摘要为确定性兜底)");
+    } catch (e) {
+      message.error(String(e instanceof Error ? e.message : e).slice(0, 200));
+    } finally { setBusy(""); }
   };
 
   const viewVersion = async (v: number) => {
@@ -311,7 +356,7 @@ function ProjectPage() {
       </div>
 
       {runForm.open && (
-        <Section title="新建研究运行" desc="生成计划后可编辑问题清单,确认才开始执行">
+        <Section title="新建研究运行" desc="三步:研究计划(可编辑)→ 报告框架(可编辑、确认后执行)→ 开始研究">
           <Input value={runForm.goal} onChange={(e) => setRunForm({ ...runForm, goal: e.target.value })} placeholder="研究目标" />
           <Input style={{ marginTop: 8 }} value={runForm.summary} onChange={(e) => setRunForm({ ...runForm, summary: e.target.value })} placeholder="范围说明" />
           <Input.TextArea style={{ marginTop: 8 }} rows={2} value={runForm.attachments} onChange={(e) => setRunForm({ ...runForm, attachments: e.target.value })} placeholder="附件(本机文件路径,每行一个,可空)" />
@@ -322,17 +367,48 @@ function ProjectPage() {
               </Button>
               <Button onClick={() => setRunForm({ ...runForm, open: false })}>取消</Button>
             </div>
-          ) : (
+          ) : !outline ? (
             <div style={{ marginTop: 12 }}>
-              <p className="sec-desc">研究计划(可编辑,确认后开始执行;请保持本页打开以跟踪进度)</p>
+              <p className="sec-desc">第一步 · 研究计划(可编辑问题清单;请保持本页打开以跟踪进度)</p>
               {plan.map((q, i) => (
                 <Input key={q.id} className="plan-item" value={q.question}
                   onChange={(e) => setPlan(plan.map((x, j) => (j === i ? { ...x, question: e.target.value } : x)))} />
               ))}
               <div className="actions-row" style={{ marginTop: 10 }}>
-                <Button type="primary" loading={busy !== ""} onClick={() => void startRun()}>{busy || "确认计划并开始研究"}</Button>
-                <Button onClick={() => void previewPlan()}>重新生成</Button>
+                <Button type="primary" loading={busy !== ""} onClick={() => void previewOutline()}>{busy || "下一步:生成报告框架"}</Button>
+                <Button onClick={() => void previewPlan()}>重新生成计划</Button>
                 <Button onClick={() => setPlan(null)}>返回上一步</Button>
+              </div>
+            </div>
+          ) : (
+            <div style={{ marginTop: 12 }}>
+              <p className="sec-desc">第二步 · 报告框架(可编辑;此框架决定草稿与正式报告的章节结构,确认后开始执行)</p>
+              <Input value={outline.title} onChange={(e) => setOutline({ ...outline, title: e.target.value })} placeholder="报告标题" />
+              <Input style={{ marginTop: 6 }} value={outline.subtitle ?? ""} onChange={(e) => setOutline({ ...outline, subtitle: e.target.value })} placeholder="副标题(可空)" />
+              {outline.sections.map((s, i) => (
+                <div className="outline-card" key={s.id}>
+                  <div className="actions-row">
+                    <strong className="num" style={{ fontSize: 12, color: "var(--soft)" }}>{i + 1}.</strong>
+                    <Input value={s.title} placeholder="章节标题"
+                      onChange={(e) => setOutline({ ...outline, sections: outline.sections.map((x, j) => (j === i ? { ...x, title: e.target.value } : x)) })} />
+                    <Button danger size="small" disabled={outline.sections.length <= 1}
+                      onClick={() => setOutline({ ...outline, sections: outline.sections.filter((_, j) => j !== i) })}>删除</Button>
+                  </div>
+                  <Input style={{ marginTop: 6 }} value={s.purpose ?? ""} placeholder="本节目的(可空)"
+                    onChange={(e) => setOutline({ ...outline, sections: outline.sections.map((x, j) => (j === i ? { ...x, purpose: e.target.value } : x)) })} />
+                  <Input.TextArea style={{ marginTop: 6 }} rows={3} value={s.bullets.join("\n")} placeholder="内容要点,每行一条"
+                    onChange={(e) => setOutline({ ...outline, sections: outline.sections.map((x, j) => (j === i ? { ...x, bullets: e.target.value.split("\n").map((t) => t.trim()).filter(Boolean) } : x)) })} />
+                </div>
+              ))}
+              <Button size="small" onClick={() => setOutline({ ...outline, sections: [...outline.sections, { id: `s${outline.sections.length + 1}`, title: "", bullets: [] }] })}>
+                添加章节
+              </Button>
+              <div className="actions-row" style={{ marginTop: 12 }}>
+                <Button type="primary" loading={busy !== ""} disabled={!outline.title || outline.sections.some((s) => !s.title)} onClick={() => void startRun()}>
+                  {busy || "确认框架并开始研究"}
+                </Button>
+                <Button onClick={() => void previewOutline()}>重新生成框架</Button>
+                <Button onClick={() => setOutline(null)}>返回计划</Button>
               </div>
             </div>
           )}
@@ -380,7 +456,13 @@ function ProjectPage() {
       </div>
 
       <div className="two-col" style={{ alignItems: "start" }}>
-        <Section title={`报告${bundleVersion ? ` v${bundleVersion}` : ""}`} desc="报告 + 主张核查表;点击任一主张打开证据抽屉">
+        <Section
+          title={
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+              报告{bundleVersion ? ` v${bundleVersion}` : ""} <Badge tone="warn">草稿</Badge>
+            </span>
+          }
+          desc="研究产出的结构化草稿(内容以这里为准);定稿版式在右侧版本区「生成正式报告」">
           {!bundle && <Empty description="发布版本后可在此阅读报告" />}
           {bundle && (
             <>
@@ -421,6 +503,15 @@ function ProjectPage() {
                 </div>
                 <div className="actions-row">
                   <Button size="small" type={bundleVersion === v.version ? "primary" : "default"} onClick={() => void viewVersion(v.version)}>查看</Button>
+                  {!formalReady[v.version] ? (
+                    <Button size="small" loading={busy === `生成正式报告中…(v${v.version})`} onClick={() => void genFormal(v.version)}>生成正式报告</Button>
+                  ) : (
+                    <>
+                      <a className="ant-btn ant-btn-sm" href={`/api/projects/${id}/versions/${v.version}/formal/html`} target="_blank" rel="noreferrer">HTML</a>
+                      <a className="ant-btn ant-btn-sm" href={`/api/projects/${id}/versions/${v.version}/formal/html?print=1`} target="_blank" rel="noreferrer">PDF</a>
+                      <a className="ant-btn ant-btn-sm" href={`/api/projects/${id}/versions/${v.version}/formal/pptx`} download>PPTX</a>
+                    </>
+                  )}
                   <a className="ant-btn ant-btn-sm" href={`/api/projects/${id}/versions/${v.version}/export`} download>导出 zip</a>
                 </div>
               </div>

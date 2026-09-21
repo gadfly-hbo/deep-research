@@ -9,7 +9,7 @@ export default function Section({
   children,
   style,
 }: {
-  title?: string;
+  title?: string | ReactNode;
   desc?: string;
   extra?: ReactNode;
   children: ReactNode;

@@ -1,6 +1,7 @@
 import { z } from "zod";
+import { ReportOutlineSchema } from "../contracts.js";
 
-export const StageNameSchema = z.enum(["plan", "analyze", "draft", "review"]);
+export const StageNameSchema = z.enum(["plan", "outline", "analyze", "draft", "review", "formal"]);
 export type StageName = z.infer<typeof StageNameSchema>;
 
 export const PlanQuestionSchema = z.object({
@@ -15,6 +16,18 @@ export const PlanOutputSchema = z.object({
   questions: z.array(PlanQuestionSchema).min(1),
 });
 export type PlanOutput = z.infer<typeof PlanOutputSchema>;
+
+export const OutlineOutputSchema = ReportOutlineSchema;
+export type OutlineOutput = z.infer<typeof OutlineOutputSchema>;
+
+/** 正式报告化:只允许重组草稿既有内容,不得新增事实。 */
+export const FormalOutputSchema = z.object({
+  executiveSummary: z.array(z.string().min(1)).min(1),
+  sectionHighlights: z
+    .array(z.object({ sectionId: z.string().min(1), bullets: z.array(z.string().min(1)).min(1) }))
+    .default([]),
+});
+export type FormalOutput = z.infer<typeof FormalOutputSchema>;
 
 export const AnalyzeOutputSchema = z.object({
   findings: z

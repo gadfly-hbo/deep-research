@@ -428,6 +428,7 @@ export async function runResearch(
           findings: state.findings,
           claims: state.claims,
           reportTemplate: moduleConfig.reportTemplate,
+          ...(request.outline ? { outline: request.outline } : {}),
         },
         `${keyBase}:draft:0`,
       );
@@ -492,7 +493,13 @@ export async function runResearch(
           } else if (issue.fix === "rephrase") {
             const d = await adapters.model.runStage(
               "draft",
-              { goal: request.goal, scope: request.scope, findings: state.findings, claims: state.claims },
+              {
+                goal: request.goal,
+                scope: request.scope,
+                findings: state.findings,
+                claims: state.claims,
+                ...(request.outline ? { outline: request.outline } : {}),
+              },
               `${keyBase}:draft:fix${loopsUsed}`,
             );
             run.usage.costEstimate += d.cost;
@@ -602,6 +609,7 @@ export async function runResearch(
     limitations: state.limitations,
     unresolved: state.unresolved,
     verdicts,
+    ...(request.outline ? { outline: request.outline } : {}),
   });
   run.usage.wallMs = Date.now() - started;
   const finished = ResearchRunSchema.parse(run);

@@ -89,9 +89,14 @@ function parseClaims(text: string): ExtractedClaim[] {
 
 const STAGE_PROMPTS: Record<StageName, string> = {
   plan: '你是研究计划器。只输出 JSON:{"questions":[{"id":string,"question":string,"method"?:string,"status":"open"}]}。围绕目标与范围拆解研究问题,id 用 q1、q2…,不要输出其他文字。',
+  outline:
+    '你是报告框架设计师。只输出 JSON:{"title":string,"subtitle"?:string,"sections":[{"id":string,"title":string,"purpose"?:string,"bullets":string[]}]}。基于研究目标与已确认的问题清单设计报告章节结构,id 用 s1、s2…,每节给 2-4 条内容要点(bullets),章节须覆盖全部研究问题,不要输出其他文字。',
   analyze: '你是证据分析器。只输出 JSON:{"findings":[{"questionId":string,"summary":string,"claimIds":string[]}],"gaps":[{"questionId":string,"reason":string}]}。基于已登记主张作答,不新增主张。',
-  draft: '你是研究报告撰写器。只输出 JSON:{"reportMd":string}。中文 Markdown,只陈述有证据支持的内容,推断须标注。',
+  draft:
+    '你是研究报告撰写器。只输出 JSON:{"reportMd":string}。中文 Markdown。若输入含 outline,报告标题用 outline.title,逐节按 outline.sections 的标题与要点撰写(每节用 ## 标题,证据不足的节如实说明);只陈述有证据支持的内容,推断须标注。',
   review: '你是研究评审器。只输出 JSON:{"issues":[{"severity":"high"|"low","kind":"citation"|"caliber"|"gap"|"counterexample"|"other","detail":string,"targetClaimId"?:string,"targetQuestionId"?:string,"fix":"regather"|"rephrase"|"disclose"}],"counterexampleChecked":boolean}。检查引用核查与口径冲突输入,对关键结论做反例检查。',
+  formal:
+    '你是报告定稿编辑。只输出 JSON:{"executiveSummary":string[],"sectionHighlights":[{"sectionId":string,"bullets":string[]}]}。executiveSummary 给 3-5 条决策者视角的结论要点;sectionHighlights 按输入 sections 的 sectionId 逐节提炼 2-4 条要点。只允许重组草稿已有内容与主张,严禁新增任何事实或数字。',
 };
 
 function parseJsonLoose(text: string): unknown {

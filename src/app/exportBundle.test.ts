@@ -43,7 +43,8 @@ describe("导出成果包", () => {
 
   it("manifest.json 含 runId/version/主张/限制/判定", () => {
     const files = buildExportFiles(bundle);
-    const manifest = JSON.parse(files.find((f) => f.path === "manifest.json")!.content) as Record<string, unknown>;
+    const content = files.find((f) => f.path === "manifest.json")!.content;
+    const manifest = JSON.parse(typeof content === "string" ? content : "") as Record<string, unknown>;
     expect(manifest.runId).toBe("run-1");
     expect(manifest.version).toBe(1);
     expect((manifest.claims as unknown[]).length).toBe(1);

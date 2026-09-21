@@ -52,6 +52,22 @@ export const BudgetSchema = z.object({
 });
 export type Budget = z.infer<typeof BudgetSchema>;
 
+export const OutlineSectionSchema = z.object({
+  id: z.string().min(1),
+  title: z.string().min(1),
+  purpose: z.string().optional(),
+  bullets: z.array(z.string().min(1)).default([]),
+});
+export type OutlineSection = z.infer<typeof OutlineSectionSchema>;
+
+/** 报告框架:运行前由用户确认,决定报告的章节结构与呈现。 */
+export const ReportOutlineSchema = z.object({
+  title: z.string().min(1),
+  subtitle: z.string().optional(),
+  sections: z.array(OutlineSectionSchema).min(1),
+});
+export type ReportOutline = z.infer<typeof ReportOutlineSchema>;
+
 export const ResearchRequestSchema = z.object({
   id: z.string().min(1).optional(),
   module: z.enum(["brand", "industry"]),
@@ -62,6 +78,8 @@ export const ResearchRequestSchema = z.object({
   }),
   attachments: z.array(z.string()).default([]),
   budget: BudgetSchema.partial().optional(),
+  /** 用户确认的报告框架;草稿与正式报告都按此结构组织。 */
+  outline: ReportOutlineSchema.optional(),
   configVersion: z.string().optional(),
 });
 export type ResearchRequest = z.infer<typeof ResearchRequestSchema>;
@@ -94,5 +112,7 @@ export const ResearchResultBundleSchema = z.object({
   unresolved: z.array(z.string()),
   verdicts: z.array(CitationVerdictSchema),
   auditSummary: z.string().optional(),
+  /** 本次运行采用的报告框架(用户确认稿);旧版本可能缺省。 */
+  outline: ReportOutlineSchema.optional(),
 });
 export type ResearchResultBundle = z.infer<typeof ResearchResultBundleSchema>;

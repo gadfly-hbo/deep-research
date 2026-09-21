@@ -5,10 +5,10 @@ import { randomUUID } from "node:crypto";
 import { join } from "node:path";
 import type { Adapters } from "../adapters/types.js";
 import { buildExportFiles, zipExport } from "../app/exportBundle.js";
-import { createProject, publishBundle, runOnProject } from "../app/projectService.js";
+import { createProject, generateFormal, publishBundle, runOnProject } from "../app/projectService.js";
 import { ResearchRequestSchema } from "../contracts.js";
 import { DEFAULT_BUDGET } from "../core/runResearch.js";
-import { PlanOutputSchema } from "../core/stages.js";
+import { OutlineOutputSchema, PlanOutputSchema } from "../core/stages.js";
 import { getModuleConfig } from "../modules/registry.js";
 import { FsProjectStore } from "../stores/fsStore.js";
 import { defaultDataDir } from "../app/dataDir.js";
@@ -137,6 +137,24 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
         return;
       }
 
+      if (method === "POST" && rest === "/outline-preview") {
+        const cfg = getModuleConfig(body.module ?? store().meta().module);
+        const result = await deps
+          .makeAdapters()
+          .model.runStage(
+            "outline",
+            {
+              goal: body.goal,
+              scope: body.scope,
+              questions: Array.isArray(body.questions) ? body.questions : [],
+              reportTemplate: cfg.reportTemplate,
+            },
+            `outline-preview:${id}:${Date.now()}`,
+          );
+        json(res, 200, { outline: OutlineOutputSchema.parse(result.output), cost: result.cost });
+        return;
+      }
+
       if (method === "POST" && rest === "/runs") {
         const request = ResearchRequestSchema.parse(body.request);
         const controller = new AbortController();
@@ -242,27 +260,79 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
         return;
       }
 
-      const versionMatch = rest.match(/^\/versions\/(\d+)\/(bundle|export)$/);
-      if (method === "GET" && versionMatch) {
-        const [, v, kind] = versionMatch;
+      const versionMatch = rest.match(/^\/versions\/(\d+)(\/.*)?$/);
+      if (versionMatch) {
+        const [, vRaw, vRest = ""] = versionMatch;
+        const v = Number(vRaw);
         const bundlePath = join(dir, "reports", `v${v}`, "bundle.json");
         if (!existsSync(bundlePath)) {
           json(res, 404, { error: `版本不存在: v${v}` });
           return;
         }
-        const bundle = JSON.parse(readFileSync(bundlePath, "utf8"));
-        if (kind === "bundle") {
-          json(res, 200, bundle);
+
+        // 生成正式报告(幂等:重新生成覆盖旧产物)
+        if (method === "POST" && vRest === "/formal") {
+          json(res, 200, await generateFormal(dir, v, deps.makeAdapters().model));
           return;
         }
-        const files = buildExportFiles(bundle);
-        const zipped = zipExport(files);
-        res.writeHead(200, {
-          "content-type": "application/zip",
-          "content-disposition": `attachment; filename="research-v${v}.zip"`,
-        });
-        res.end(Buffer.from(zipped));
-        return;
+
+        if (method === "GET" && vRest === "/bundle") {
+          json(res, 200, JSON.parse(readFileSync(bundlePath, "utf8")));
+          return;
+        }
+
+        const formalMatch = vRest.match(/^\/formal\/(html|pptx|json)$/);
+        if (method === "GET" && formalMatch) {
+          const formalDir = join(dir, "reports", `v${v}`, "formal");
+          const file =
+            formalMatch[1] === "html"
+              ? { path: join(formalDir, "report.html"), type: "text/html; charset=utf-8", name: `research-v${v}.html` }
+              : formalMatch[1] === "pptx"
+                ? {
+                    path: join(formalDir, "report.pptx"),
+                    type: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                    name: `research-v${v}.pptx`,
+                  }
+                : { path: join(formalDir, "formal.json"), type: "application/json; charset=utf-8", name: `research-v${v}-formal.json` };
+          if (!existsSync(file.path)) {
+            json(res, 404, { error: `正式报告尚未生成: v${v}(先 POST /versions/${v}/formal)` });
+            return;
+          }
+          const buf = readFileSync(file.path);
+          res.writeHead(200, {
+            "content-type": file.type,
+            "content-disposition": `${formalMatch[1] === "json" ? "inline" : "attachment"}; filename="${file.name}"`,
+          });
+          res.end(buf);
+          return;
+        }
+
+        if (method === "GET" && vRest === "/export") {
+          const bundle = JSON.parse(readFileSync(bundlePath, "utf8"));
+          const files = buildExportFiles(bundle);
+          const formalDir = join(dir, "reports", `v${v}`, "formal");
+          if (existsSync(formalDir)) {
+            files.push({
+              path: "formal/report.html",
+              content: readFileSync(join(formalDir, "report.html"), "utf8"),
+            });
+            files.push({
+              path: "formal/report.pptx",
+              content: new Uint8Array(readFileSync(join(formalDir, "report.pptx"))),
+            });
+            files.push({
+              path: "formal/formal.json",
+              content: readFileSync(join(formalDir, "formal.json"), "utf8"),
+            });
+          }
+          const zipped = zipExport(files);
+          res.writeHead(200, {
+            "content-type": "application/zip",
+            "content-disposition": `attachment; filename="research-v${v}.zip"`,
+          });
+          res.end(Buffer.from(zipped));
+          return;
+        }
       }
 
       if (method === "GET" && rest === "/snapshots") {

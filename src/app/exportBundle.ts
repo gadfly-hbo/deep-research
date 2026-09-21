@@ -3,7 +3,7 @@ import type { ResearchResultBundle } from "../contracts.js";
 
 export interface ExportFile {
   path: string;
-  content: string;
+  content: string | Uint8Array;
 }
 
 const escapeHtml = (text: string): string =>
@@ -101,7 +101,7 @@ export function buildExportFiles(bundle: ResearchResultBundle): ExportFile[] {
 export function zipExport(files: ExportFile[]): Uint8Array {
   const entries: Record<string, Uint8Array> = {};
   for (const file of files) {
-    entries[file.path] = strToU8(file.content);
+    entries[file.path] = typeof file.content === "string" ? strToU8(file.content) : file.content;
   }
   return zipSync(entries);
 }

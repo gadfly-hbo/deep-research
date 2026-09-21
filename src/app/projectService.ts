@@ -4,6 +4,9 @@ import { join } from "node:path";
 import type { Adapters } from "../adapters/types.js";
 import type { ResearchRequest, ResearchResultBundle } from "../contracts.js";
 import { runResearch, type RunOptions, type RunResult } from "../core/runResearch.js";
+import { FormalOutputSchema, type FormalOutput } from "../core/stages.js";
+import { assembleFormalReport, renderFormalHtml, renderFormalPptx } from "./formalReport.js";
+import { splitMdSections } from "./markdown.js";
 import { FsProjectStore } from "../stores/fsStore.js";
 
 export interface DiffSummary {
@@ -122,4 +125,61 @@ export function templateRequest(dir: string): ResearchRequest {
     scope: { ...meta.scope, queries: [...meta.scope.queries] },
     attachments: [],
   };
+}
+
+const MODULE_LABEL: Record<string, string> = { brand: "品牌研究", industry: "行业研究" };
+
+/**
+ * 生成正式报告:对已发布版本做定稿化装配(HTML/PPTX)。
+ * LLM formal 阶段仅做摘要提炼,失败或输出不合格时确定性兜底;不新增任何事实。
+ */
+export async function generateFormal(
+  dir: string,
+  version: number,
+  model: Adapters["model"],
+): Promise<{ version: number; formats: string[]; summarySource: "model" | "fallback" }> {
+  const store = FsProjectStore.open(dir);
+  const meta = store.meta();
+  const target = join(dir, "reports", `v${version}`);
+  const bundlePath = join(target, "bundle.json");
+  if (!existsSync(bundlePath)) throw new Error(`版本不存在: v${version}`);
+  const bundle = JSON.parse(readFileSync(bundlePath, "utf8")) as ResearchResultBundle;
+
+  const draftSections = splitMdSections(bundle.reportMd)
+    .filter((s) => s.heading !== undefined && s.level !== 1)
+    .map((s, i) => ({
+      sectionId: bundle.outline?.sections[i]?.id ?? `x${i + 1}`,
+      title: s.heading ?? "",
+      text: s.html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 1600),
+    }));
+  let formalOutput: FormalOutput | undefined;
+  let summarySource: "model" | "fallback" = "fallback";
+  try {
+    const res = await model.runStage(
+      "formal",
+      {
+        goal: meta.goal,
+        delivery: bundle.limitations.length > 0 ? "limited" : "full",
+        sections: draftSections,
+        claims: bundle.claims.map((c) => ({ statement: c.statement, kind: c.kind })),
+      },
+      `formal:${dir}:v${version}`,
+    );
+    const parsed = FormalOutputSchema.safeParse(res.output);
+    if (parsed.success) {
+      formalOutput = parsed.data;
+      summarySource = "model";
+    }
+  } catch {
+    // 模型不可用:走确定性兜底,正式报告仍然可产
+  }
+
+  const formal = assembleFormalReport(bundle, { moduleLabel: MODULE_LABEL[meta.module] ?? meta.module, goal: meta.goal }, formalOutput);
+  const outDir = join(target, "formal");
+  mkdirSync(outDir, { recursive: true });
+  writeFileSync(join(outDir, "formal.json"), JSON.stringify(formal, null, 2));
+  writeFileSync(join(outDir, "report.html"), renderFormalHtml(formal));
+  writeFileSync(join(outDir, "report.pptx"), Buffer.from(await renderFormalPptx(formal)));
+  store.audit("formal", { version, summarySource, delivery: formal.delivery });
+  return { version, formats: ["html", "pptx", "json"], summarySource };
 }
