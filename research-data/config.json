@@ -1,22 +1,6 @@
 {
-  "model": [
-    {
-      "provider": "minimax-cn",
-      "modelId": "MiniMax-M2.7"
-    },
-    {
-      "provider": "xiaomi-token-plan-cn",
-      "modelId": "mimo-v2.5-pro",
-      "api": "openai-completions",
-      "baseUrl": "https://token-plan-cn.xiaomimimo.com/v1"
-    }
-  ],
-  "search": [
-    {
-      "type": "minimax-mcp"
-    },
-    {
-      "type": "xiaomi-websearch"
-    }
-  ]
+  "model": {
+    "provider": "minimax-cn",
+    "modelId": "MiniMax-M3"
+  }
 }

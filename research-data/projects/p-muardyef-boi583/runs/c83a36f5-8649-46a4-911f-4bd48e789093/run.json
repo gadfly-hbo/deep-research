@@ -1,0 +1,13 @@
+{
+  "id": "c83a36f5-8649-46a4-911f-4bd48e789093",
+  "requestId": "req-muarelce",
+  "stage": "publish",
+  "status": "limited",
+  "checkpoints": [],
+  "usage": {
+    "searches": 6,
+    "fetches": 12,
+    "costEstimate": 0.02320311,
+    "wallMs": 1471712
+  }
+}
