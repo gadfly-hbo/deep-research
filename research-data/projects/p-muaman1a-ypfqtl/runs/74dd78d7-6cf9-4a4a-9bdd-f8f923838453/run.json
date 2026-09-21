@@ -1,0 +1,13 @@
+{
+  "id": "74dd78d7-6cf9-4a4a-9bdd-f8f923838453",
+  "requestId": "req-i1",
+  "stage": "publish",
+  "status": "limited",
+  "checkpoints": [],
+  "usage": {
+    "searches": 4,
+    "fetches": 6,
+    "costEstimate": 0.05608300499999999,
+    "wallMs": 955335
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "id": "req-i1",
+  "module": "industry",
+  "goal": "中国咖啡零售行业:边界、规模口径、产业链与竞争格局",
+  "scope": {
+    "summary": "中国大陆,2025,公开来源",
+    "queries": [
+      "中国咖啡市场规模 2025 亿元",
+      "中国咖啡 产业链 上游 咖啡豆 进口",
+      "瑞幸 星巴克 库迪 竞争格局 2025",
+      "中国现磨咖啡 行业边界 现磨 即饮"
+    ]
+  },
+  "attachments": [],
+  "budget": {
+    "maxSearches": 4,
+    "maxFetches": 6,
+    "maxParallel": 3
+  }
+}

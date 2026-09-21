@@ -1,0 +1,13 @@
+{
+  "id": "8347724b-42e3-465a-a00f-ac479b725d80",
+  "requestId": "req-b1",
+  "stage": "publish",
+  "status": "limited",
+  "checkpoints": [],
+  "usage": {
+    "searches": 4,
+    "fetches": 6,
+    "costEstimate": 0.010698059999999999,
+    "wallMs": 528464
+  }
+}

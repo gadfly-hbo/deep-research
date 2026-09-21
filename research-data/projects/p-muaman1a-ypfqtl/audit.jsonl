@@ -1,0 +1,4 @@
+{"at":"2026-09-21T02:19:49.919Z","event":"project-created","data":{"module":"industry","goal":"中国咖啡零售行业:边界、规模口径、产业链与竞争格局"}}
+{"at":"2026-09-21T03:10:41.148Z","event":"run-finished","data":{"runId":"74dd78d7-6cf9-4a4a-9bdd-f8f923838453","requestId":"req-i1","status":"limited","usage":{"searches":4,"fetches":6,"costEstimate":0.05608300499999999,"wallMs":955335}}}
+{"at":"2026-09-21T03:10:41.149Z","event":"bundle-saved","data":{"runId":"74dd78d7-6cf9-4a4a-9bdd-f8f923838453","claims":87,"evidence":87}}
+{"at":"2026-09-21T03:11:15.663Z","event":"published","data":{"version":1,"runId":"74dd78d7-6cf9-4a4a-9bdd-f8f923838453","configHash":"8f908096400349c9d9c6a643338a3e83a47945393091c9d174cc9401d8cba3bc"}}
