@@ -1,0 +1,13 @@
+{
+  "id": "101191b6-465f-4361-a740-e34aa51d7f8e",
+  "requestId": "req-mub6y4gw",
+  "stage": "publish",
+  "status": "limited",
+  "checkpoints": [],
+  "usage": {
+    "searches": 8,
+    "fetches": 10,
+    "costEstimate": 0.04372685999999999,
+    "wallMs": 176193
+  }
+}
