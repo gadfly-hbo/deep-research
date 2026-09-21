@@ -146,6 +146,11 @@ export async function runResearch(
   const saveCp = async (stage: Checkpoint["stage"], data: unknown) => {
     await store.saveCheckpoint({ runId, stage, data, completedAt: new Date().toISOString() });
   };
+  const persistRun = async (stage?: ResearchRun["stage"]): Promise<void> => {
+    if (stage) run.stage = stage;
+    await store.saveRun(ResearchRunSchema.parse(run));
+  };
+
   const cancelRun = async (): Promise<RunResult> => {
     run.status = "cancelled";
     run.usage.wallMs = Date.now() - started;
@@ -250,6 +255,7 @@ export async function runResearch(
           : fetchedAny
             ? "partially"
             : "unanswered";
+      await persistRun();
     }
   };
 
@@ -289,6 +295,7 @@ export async function runResearch(
   // --- gather(附件先入证据链,再按问题采证)
   if (!completedStages.has("gather")) {
     if (cancelled()) return cancelRun();
+    await persistRun("gather");
     for (let ai = 0; ai < request.attachments.length; ai++) {
       if (cancelled()) return cancelRun();
       const path = request.attachments[ai];
@@ -377,6 +384,7 @@ export async function runResearch(
   // --- analyze(含缺口补证一轮)
   if (!completedStages.has("analyze")) {
     if (cancelled()) return cancelRun();
+    await persistRun("analyze");
     if (overBudget()) {
       state.capped = true;
     } else {
@@ -408,6 +416,7 @@ export async function runResearch(
   // --- draft
   if (!completedStages.has("draft")) {
     if (cancelled()) return cancelRun();
+    await persistRun("draft");
     if (overBudget()) {
       state.capped = true;
     } else {
@@ -438,6 +447,7 @@ export async function runResearch(
   // --- review + 修复回环(缺口补证 / 反例检查 / 受影响内容复核)
   const maxLoops = options.maxLoops ?? 2;
   if (!completedStages.has("review") && !state.capped) {
+    await persistRun("review");
     let loopsUsed = 0;
     for (;;) {
       if (cancelled()) return cancelRun();
