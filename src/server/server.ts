@@ -58,6 +58,23 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
     return join(deps.dataDir, "projects", id);
   };
 
+  // 启动清扫:上次进程中断遗留的 running 记录标记为 failed,可自检查点重跑
+  const projectsRoot = join(deps.dataDir, "projects");
+  if (existsSync(projectsRoot)) {
+    for (const pid of readdirSync(projectsRoot)) {
+      const pdir = join(projectsRoot, pid);
+      if (!existsSync(join(pdir, "project.json"))) continue;
+      try {
+        const store = FsProjectStore.open(pdir);
+        for (const run of await store.listRuns()) {
+          if (run.status === "running") {
+            await store.saveRun({ ...run, status: "failed", error: "服务中断,运行未完成(可重新发起)" });
+          }
+        }
+      } catch { /* 单个项目清扫失败不影响启动 */ }
+    }
+  }
+
   const server = createServer((req, res) => {
     void handle(req, res).catch((error) => {
       json(res, 500, { error: String(error instanceof Error ? error.message : error) });
@@ -125,6 +142,15 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
         const controller = new AbortController();
         controllers.set(request.id ?? "", controller);
         const runId = randomUUID();
+        // 先落一条 running 记录:启动即可见,进程中断也不至于"无痕消失"
+        await FsProjectStore.open(dir).saveRun({
+          id: runId,
+          requestId: request.id ?? runId,
+          stage: "plan",
+          status: "running",
+          checkpoints: [],
+          usage: { searches: 0, fetches: 0, costEstimate: 0, wallMs: 0 },
+        });
         void runOnProject(dir, request, deps.makeAdapters(), {
           plan: body.plan,
           signal: controller.signal,
@@ -175,6 +201,14 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
         const controller = new AbortController();
         controllers.set(request.id ?? "", controller);
         const resumeRunId = randomUUID();
+        await FsProjectStore.open(dir).saveRun({
+          id: resumeRunId,
+          requestId: request.id ?? resumeRunId,
+          stage: "plan",
+          status: "running",
+          checkpoints: [],
+          usage: { searches: 0, fetches: 0, costEstimate: 0, wallMs: 0 },
+        });
         void runOnProject(dir, request, deps.makeAdapters(), {
           plan: body.plan,
           signal: controller.signal,

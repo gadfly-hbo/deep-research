@@ -5,6 +5,7 @@ import { unzipSync } from "fflate";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { Adapters } from "../adapters/types.js";
 import { startServer, type RunningServer } from "./server.js";
+import { FsProjectStore } from "../stores/fsStore.js";
 
 const A = "https://a/1";
 const bodyA = "中国咖啡市场规模约 1,200 亿元(2025 年)。行业边界包括现磨与即饮。产业链上游为咖啡豆贸易。竞争格局集中度提升。";
@@ -161,6 +162,40 @@ describe("本地 HTTP 服务", () => {
     }
     expect(failed?.status).toBe("failed");
     expect(failed?.error).toContain("搜索服务不可用");
+  });
+
+  it("启动即落运行记录:POST runs 后立即可见(不等待轮询),进程中断也不无痕消失", async () => {
+    await srv.close();
+    srv = await startServer({ dataDir, makeAdapters: () => fakeAdapters(true) });
+    base = `http://127.0.0.1:${srv.port}`;
+    const created = await post("/api/projects", { module: "industry", goal: "可见性", scope: { summary: "s", queries: [] } });
+    const projectId = (await created.json()).id as string;
+    await post(`/api/projects/${projectId}/runs`, {
+      request: { id: "req-visible", module: "industry", goal: "可见性", scope: { summary: "s", queries: [] } },
+      plan: { questions: [{ id: "q1", question: "市场规模", status: "open" }] },
+    });
+    const detail = await api(`/api/projects/${projectId}`);
+    const run = (await detail.json()).runs.find((r: any) => r.requestId === "req-visible");
+    expect(run?.status).toBe("running");
+    await post(`/api/projects/${projectId}/runs/cancel`, { requestId: "req-visible" });
+  });
+
+  it("启动清扫:上次服务中断遗留的 running 记录标记为 failed", async () => {
+    const created = await post("/api/projects", { module: "industry", goal: "僵尸清扫", scope: { summary: "s", queries: [] } });
+    const projectId = (await created.json()).id as string;
+    const dir = join(dataDir, "projects", projectId);
+    const store = FsProjectStore.open(dir);
+    await store.saveRun({
+      id: "zombie-run", requestId: "req-zombie", stage: "gather", status: "running",
+      checkpoints: [], usage: { searches: 1, fetches: 1, costEstimate: 0, wallMs: 100 },
+    });
+    await srv.close();
+    srv = await startServer({ dataDir, makeAdapters: () => fakeAdapters() });
+    base = `http://127.0.0.1:${srv.port}`;
+    const detail = await api(`/api/projects/${projectId}`);
+    const run = (await detail.json()).runs.find((r: any) => r.requestId === "req-zombie");
+    expect(run?.status).toBe("failed");
+    expect(String(run?.error)).toContain("服务中断");
   });
 
   it("取消与恢复:取消中止运行,恢复自检查点续跑到发布", async () => {

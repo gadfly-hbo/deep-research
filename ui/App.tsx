@@ -1,219 +1,272 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { HashRouter, NavLink, Outlet, Route, Routes, useNavigate, useParams } from "react-router-dom";
+import { Alert, Button, Drawer, Empty, Input, Select, Spin, Steps, message } from "antd";
+import Badge from "./components/Badge";
+import MetricCard from "./components/MetricCard";
+import Section from "./components/Section";
 
+/* ————— 数据类型 ————— */
 type Module = "brand" | "industry";
-
-interface ProjectMeta {
-  id: string;
-  module: Module;
-  goal: string;
-  scope: { summary: string; queries: string[] };
-  updatedAt: string;
-  versions: { version: number; runId: string; publishedAt: string; diffSummary?: { addedClaims: string[]; removedClaims: string[]; evidenceDelta: number } }[];
-}
-interface Run {
-  id: string;
-  requestId: string;
-  stage: string;
-  status: "running" | "cancelled" | "failed" | "published" | "limited";
-  usage: { searches: number; fetches: number; costEstimate: number; wallMs: number };
-}
+interface VersionEntry { version: number; runId: string; publishedAt: string; diffSummary?: { addedClaims: string[]; removedClaims: string[]; evidenceDelta: number } }
+interface ProjectMeta { id: string; module: Module; goal: string; scope: { summary: string; queries: string[] }; updatedAt: string; versions: VersionEntry[] }
+interface Run { id: string; requestId: string; stage: string; status: "running" | "cancelled" | "failed" | "published" | "limited"; usage: { searches: number; fetches: number; costEstimate: number; wallMs: number }; error?: string }
 interface Snapshot { id: string; url: string; title: string; fetchedAt: string; parseStatus: string }
 interface Claim { id: string; statement: string; kind: string; evidenceIds: string[]; calibration?: { entity: string; period: string; unit: string; value?: number } }
-interface Bundle {
-  runId: string; version: number; reportMd: string;
-  claims: Claim[];
-  evidence: { id: string; snapshotId: string; quote: string }[];
-  snapshots: Snapshot[];
-  limitations: string[]; unresolved: string[];
-  verdicts: { evidenceId: string; verdict: string }[];
-}
+interface Bundle { runId: string; version: number; reportMd: string; claims: Claim[]; evidence: { id: string; snapshotId: string; quote: string }[]; snapshots: Snapshot[]; limitations: string[]; unresolved: string[]; verdicts: { evidenceId: string; verdict: string }[] }
 interface ProjectDetail { meta: ProjectMeta; runs: Run[]; snapshots: Snapshot[] }
 
 const api = async <T,>(path: string, init?: RequestInit): Promise<T> => {
   const res = await fetch(path, init);
-  if (!res.ok) throw new Error(`${path} → ${res.status}: ${await res.text()}`);
+  if (!res.ok) throw new Error(`${path} → ${res.status}: ${(await res.text()).slice(0, 160)}`);
   return res.json() as Promise<T>;
 };
 const post = <T,>(path: string, body: unknown) =>
   api<T>(path, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
 
-const STATUS_LABEL: Record<string, { label: string; cls: string }> = {
-  running: { label: "进行中", cls: "badge-amber" },
-  cancelled: { label: "已取消", cls: "badge-neutral" },
-  failed: { label: "已失败", cls: "badge-red" },
-  published: { label: "已发布", cls: "badge-green" },
-  limited: { label: "有限交付", cls: "badge-amber" },
+const MODULE_LABEL: Record<Module, string> = { brand: "品牌研究", industry: "行业研究" };
+const STATUS: Record<string, { label: string; tone: "good" | "warn" | "bad" | "neutral" }> = {
+  running: { label: "进行中", tone: "warn" },
+  cancelled: { label: "已取消", tone: "neutral" },
+  failed: { label: "已失败", tone: "bad" },
+  published: { label: "已发布", tone: "good" },
+  limited: { label: "有限交付", tone: "warn" },
 };
-const KIND_LABEL: Record<string, { label: string; cls: string }> = {
-  fact: { label: "事实", cls: "badge-teal" },
-  inference: { label: "推断", cls: "badge-amber" },
-  unverified: { label: "未验证", cls: "badge-red" },
+const KIND: Record<string, { label: string; tone: "info" | "warn" | "bad" }> = {
+  fact: { label: "事实", tone: "info" },
+  inference: { label: "推断", tone: "warn" },
+  unverified: { label: "未验证", tone: "bad" },
 };
-const VERDICT_LABEL: Record<string, { label: string; cls: string }> = {
-  "quote-hit": { label: "已核实", cls: "badge-green" },
-  "quote-mismatch": { label: "未通过", cls: "badge-red" },
-  "snapshot-missing": { label: "快照缺失", cls: "badge-amber" },
+const VERDICT: Record<string, { label: string; tone: "good" | "bad" | "warn" }> = {
+  "quote-hit": { label: "已核实", tone: "good" },
+  "quote-mismatch": { label: "未通过", tone: "bad" },
+  "snapshot-missing": { label: "快照缺失", tone: "warn" },
 };
+const STAGE_STEPS = [
+  { key: "plan", title: "计划" },
+  { key: "gather", title: "采证" },
+  { key: "analyze", title: "分析" },
+  { key: "draft", title: "草稿" },
+  { key: "review", title: "评审" },
+  { key: "publish", title: "发布" },
+];
 
-function Badge({ map, value }: { map: Record<string, { label: string; cls: string }>; value: string }) {
-  const item = map[value] ?? { label: value, cls: "badge-neutral" };
-  return <span className={`badge ${item.cls}`}>{item.label}</span>;
-}
-
-/** 报告正文的安全渲染:逐段构建 React 元素,不走 HTML 注入。 */
+/** 报告正文安全渲染:逐段构建元素,不走 HTML 注入。 */
 function ReportBody({ md }: { md: string }) {
   const blocks = useMemo(() => md.split("\n"), [md]);
   return (
-    <div>
+    <div className="report-body">
       {blocks.map((line, i) => {
         if (line.startsWith("## ")) return <h3 key={i}>{line.slice(3)}</h3>;
-        if (line.startsWith("# ")) return <h2 key={i} style={{ fontSize: 17 }}>{line.slice(2)}</h2>;
-        if (line.startsWith("- ")) return <li key={i} style={{ marginLeft: 18 }}>{line.slice(2)}</li>;
+        if (line.startsWith("# ")) return <h2 key={i}>{line.slice(2)}</h2>;
+        if (line.startsWith("- ")) return <li key={i}>{line.slice(2)}</li>;
         if (line.trim() === "") return <br key={i} />;
-        return <p key={i} style={{ margin: "6px 0" }}>{line}</p>;
+        return <p key={i}>{line}</p>;
       })}
     </div>
   );
 }
 
-function ProjectsView({ onOpen }: { onOpen: (id: string) => void }) {
-  const [projects, setProjects] = useState<ProjectMeta[]>([]);
-  const [creating, setCreating] = useState(false);
-  const [form, setForm] = useState({ module: "brand" as Module, goal: "", summary: "", queries: "", attachments: "" });
-  const [error, setError] = useState("");
-
-  const load = () => api<{ projects: ProjectMeta[] }>("/api/projects").then((r) => setProjects(r.projects));
-  useEffect(() => { void load(); }, []);
-
-  const create = async () => {
-    setError("");
-    try {
-      const { id } = await post<{ id: string }>("/api/projects", {
-        module: form.module,
-        goal: form.goal,
-        scope: { summary: form.summary, queries: form.queries.split(/[,，\n]/).map((s) => s.trim()).filter(Boolean) },
-      });
-      setCreating(false);
-      onOpen(id);
-    } catch (e) { setError(String(e)); }
-  };
-
+/* ————— 外壳 ————— */
+function Layout() {
+  const [count, setCount] = useState<number | null>(null);
+  useEffect(() => {
+    api<{ projects: unknown[] }>("/api/projects").then((r) => setCount(r.projects.length)).catch(() => {});
+  }, []);
   return (
-    <div>
-      <div className="page-header">
-        <div>
-          <h1 className="page-title">研究项目</h1>
-          <p className="page-desc">创建并管理品牌/行业研究项目;下一步:新建项目或打开已有项目继续研究。</p>
-        </div>
-        <button className="btn-primary" onClick={() => setCreating(!creating)}>新建项目</button>
-      </div>
-
-      {creating && (
-        <div className="card">
-          <h3>新建研究项目</h3>
-          <label>研究模块</label>
-          <select value={form.module} onChange={(e) => setForm({ ...form, module: e.target.value as Module })}>
-            <option value="brand">品牌研究</option>
-            <option value="industry">行业研究</option>
-          </select>
-          <label>研究目标</label>
-          <input value={form.goal} onChange={(e) => setForm({ ...form, goal: e.target.value })} />
-          <label>范围说明</label>
-          <input value={form.summary} onChange={(e) => setForm({ ...form, summary: e.target.value })} placeholder="对象、时间、单位等边界" />
-          <label>附件(本机文件路径,文本/PDF,每行一个,可空)</label>
-          <textarea rows={2} value={form.attachments} onChange={(e) => setForm({ ...form, attachments: e.target.value })} />
-          <div className="btn-row" style={{ marginTop: 12 }}>
-            <button className="btn-primary" disabled={!form.goal || !form.summary} onClick={() => void create()}>创建</button>
-            <button onClick={() => setCreating(false)}>取消</button>
-          </div>
-          {error && <p className="badge badge-red" style={{ marginTop: 8 }}>{error}</p>}
-        </div>
-      )}
-
-      {projects.map((p) => (
-        <div className="card" key={p.id} style={{ cursor: "pointer" }} onClick={() => onOpen(p.id)}>
-          <div className="btn-row" style={{ justifyContent: "space-between" }}>
-            <div>
-              <span className="badge badge-brand">{p.module === "brand" ? "品牌研究" : "行业研究"}</span>{" "}
-              <strong>{p.goal}</strong>
-              <div className="meta">更新于 {new Date(p.updatedAt).toLocaleString("zh-CN")}</div>
-            </div>
-            <span className="badge badge-neutral">{p.versions.length} 个版本</span>
+    <div className="app-shell">
+      <aside className="app-sidebar" aria-label="主导航">
+        <div className="brand">
+          <div className="mark">深</div>
+          <div>
+            <strong>独立深度研究</strong>
+            <small>品牌 × 行业研究工作台</small>
           </div>
         </div>
-      ))}
-      {projects.length === 0 && !creating && <p className="muted">还没有项目。点击「新建项目」开始第一项研究。</p>}
-      <p className="footer-note">本工作台仅在本机运行(127.0.0.1),不连接 JuanerAI;所有研究结论须可追溯到证据。</p>
+        <div className="nav-group">
+          <div className="nav-group-label">工作台</div>
+          <nav className="app-nav">
+            <NavLink to="/" className={({ isActive }) => (isActive ? "active" : undefined)}>
+              <span className="num">01</span>研究项目
+              {count !== null && <span className="nav-count">{count}</span>}
+            </NavLink>
+            <NavLink to="/settings" className={({ isActive }) => (isActive ? "active" : undefined)}>
+              <span className="num">02</span>设置
+            </NavLink>
+          </nav>
+        </div>
+        <div className="side-note">
+          <strong>执行完成 ≠ 证据充分</strong>
+          资料不足或预算到达上限时有限交付并披露限制,不编造完整答案。
+        </div>
+      </aside>
+      <main className="app-main">
+        <Outlet />
+        <footer className="page-footer">
+          仅在本机运行(127.0.0.1),不连接 JuanerAI;关键结论逐条绑定原文快照,可核查。
+        </footer>
+      </main>
     </div>
   );
 }
 
-function ProjectView({ id, onBack }: { id: string; onBack: () => void }) {
+/* ————— 项目列表 ————— */
+function ProjectsPage() {
+  const navigate = useNavigate();
+  const [projects, setProjects] = useState<ProjectMeta[]>([]);
+  const [creating, setCreating] = useState(false);
+  const [form, setForm] = useState({ module: "brand" as Module, goal: "", summary: "", attachments: "" });
+  const load = useCallback(() => api<{ projects: ProjectMeta[] }>("/api/projects").then((r) => setProjects(r.projects)), []);
+  useEffect(() => { void load(); }, [load]);
+
+  const create = async () => {
+    try {
+      const { id } = await post<{ id: string }>("/api/projects", {
+        module: form.module,
+        goal: form.goal,
+        scope: { summary: form.summary, queries: [] },
+      });
+      message.success("项目已创建");
+      navigate(`/project/${id}`);
+    } catch (e) {
+      message.error(String(e instanceof Error ? e.message : e).slice(0, 160));
+    }
+  };
+
+  return (
+    <>
+      <header className="app-top">
+        <h1>研究项目</h1>
+        <p className="page-desc">创建品牌/行业研究项目;下一步:新建项目,或打开已有项目继续研究与导出。</p>
+      </header>
+      <Section
+        title="项目列表"
+        desc="点击进入项目:发起运行、确认计划、查看证据与版本"
+        extra={<Button type="primary" onClick={() => setCreating(!creating)}>新建项目</Button>}
+      >
+        {creating && (
+          <div className="form-pad" style={{ marginBottom: 14 }}>
+            <div className="two-col">
+              <div>
+                <p className="sec-desc">研究模块</p>
+                <Select value={form.module} style={{ width: "100%" }} onChange={(v) => setForm({ ...form, module: v })}
+                  options={[{ value: "brand", label: "品牌研究" }, { value: "industry", label: "行业研究" }]} />
+                <p className="sec-desc" style={{ marginTop: 8 }}>研究目标</p>
+                <Input value={form.goal} onChange={(e) => setForm({ ...form, goal: e.target.value })} placeholder="如:森马在中国市场的品牌定位、价格与竞品格局" />
+                <p className="sec-desc" style={{ marginTop: 8 }}>范围说明</p>
+                <Input value={form.summary} onChange={(e) => setForm({ ...form, summary: e.target.value })} placeholder="对象、时间、单位等边界" />
+              </div>
+              <div>
+                <p className="sec-desc">附件(本机文件路径,文本/PDF,每行一个,可空)</p>
+                <Input.TextArea rows={5} value={form.attachments} onChange={(e) => setForm({ ...form, attachments: e.target.value })} />
+              </div>
+            </div>
+            <div className="actions-row" style={{ marginTop: 12 }}>
+              <Button type="primary" disabled={!form.goal || !form.summary} onClick={() => void create()}>创建项目</Button>
+              <Button onClick={() => setCreating(false)}>取消</Button>
+            </div>
+          </div>
+        )}
+        {projects.length === 0 && <Empty description="还没有项目,点击右上角「新建项目」开始第一项研究" />}
+        {projects.map((p) => (
+          <div key={p.id} className="runline" style={{ cursor: "pointer" }} onClick={() => navigate(`/project/${p.id}`)}>
+            <div>
+              <Badge tone="brand" noDot>{MODULE_LABEL[p.module]}</Badge> <strong>{p.goal}</strong>
+              <div style={{ color: "var(--soft)", fontSize: 11.5, marginTop: 2 }}>
+                更新于 {new Date(p.updatedAt).toLocaleString("zh-CN")}
+              </div>
+            </div>
+            <Badge tone="neutral" noDot>{p.versions.length} 个版本</Badge>
+          </div>
+        ))}
+      </Section>
+    </>
+  );
+}
+
+/* ————— 项目详情 ————— */
+function ProjectPage() {
+  const { id = "" } = useParams();
+  const navigate = useNavigate();
   const [detail, setDetail] = useState<ProjectDetail | null>(null);
   const [bundle, setBundle] = useState<Bundle | null>(null);
   const [bundleVersion, setBundleVersion] = useState<number | null>(null);
   const [drawer, setDrawer] = useState<{ claim: Claim; text: string } | null>(null);
-  const [runForm, setRunForm] = useState<{ open: boolean; goal: string; summary: string; queries: string; attachments: string }>({ open: false, goal: "", summary: "", queries: "", attachments: "" });
+  const [runForm, setRunForm] = useState({ open: false, goal: "", summary: "", attachments: "" });
   const [plan, setPlan] = useState<{ id: string; question: string }[] | null>(null);
   const [busy, setBusy] = useState("");
-  const [error, setError] = useState("");
+  const runPanelRef = useRef<HTMLDivElement | null>(null);
 
-  const load = async () => {
-    const d = await api<ProjectDetail>(`/api/projects/${id}`);
-    setDetail(d);
-    const latest = d.meta.versions[d.meta.versions.length - 1];
-    if (latest && bundleVersion === null) {
-      setBundleVersion(latest.version);
-      setBundle(await api<Bundle>(`/api/projects/${id}/versions/${latest.version}/bundle`));
-    }
-  };
+  const load = useCallback(async () => {
+    try {
+      const d = await api<ProjectDetail>(`/api/projects/${id}`);
+      setDetail(d);
+      const latest = d.meta.versions[d.meta.versions.length - 1];
+      if (latest && bundleVersion === null) {
+        setBundleVersion(latest.version);
+        setBundle(await api<Bundle>(`/api/projects/${id}/versions/${latest.version}/bundle`));
+      }
+    } catch { /* 项目可能被删除 */ }
+  }, [id, bundleVersion]);
   useEffect(() => {
     void load();
-    const timer = setInterval(() => void load(), 2000);
+    const timer = setInterval(() => void load(), 2500);
     return () => clearInterval(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [load]);
 
-  if (!detail) return <p className="muted">加载中…</p>;
+  if (!detail) return <Spin style={{ margin: "80px auto", display: "block" }} />;
   const { meta, runs } = detail;
   const publishedRunIds = new Set(meta.versions.map((v) => v.runId));
-  const template = { goal: meta.goal, summary: meta.scope.summary, queries: meta.scope.queries.join("\n") };
+  const activeRun = runs.find((r) => r.status === "running");
+  const verdictOf = (c: Claim) =>
+    bundle?.verdicts.find((v) => v.evidenceId === c.evidenceIds[0])?.verdict ?? "snapshot-missing";
+
+  const openRunForm = () =>
+    setRunForm({ open: true, goal: meta.goal, summary: meta.scope.summary, attachments: "" });
 
   const previewPlan = async () => {
-    setBusy("生成计划中…"); setError("");
+    setBusy("生成计划中…通常 1-2 分钟");
     try {
       const r = await post<{ plan: { questions: { id: string; question: string }[] } }>(`/api/projects/${id}/plan-preview`, {
-        module: meta.module,
-        goal: runForm.goal,
-        scope: { summary: runForm.summary, queries: runForm.queries.split("\n").filter(Boolean) },
+        module: meta.module, goal: runForm.goal,
+        scope: { summary: runForm.summary, queries: [] },
       });
       setPlan(r.plan.questions);
-    } catch (e) { setError(String(e)); } finally { setBusy(""); }
+    } catch (e) {
+      message.error(String(e instanceof Error ? e.message : e).slice(0, 200));
+    } finally { setBusy(""); }
   };
 
   const startRun = async () => {
     if (!plan) return;
-    setBusy("启动中…"); setError("");
+    setBusy("启动中…");
     try {
       await post(`/api/projects/${id}/runs`, {
         request: {
           id: `req-${Date.now().toString(36)}`,
-          module: meta.module,
-          goal: runForm.goal,
+          module: meta.module, goal: runForm.goal,
           scope: { summary: runForm.summary, queries: plan.map((q) => q.question) },
           attachments: runForm.attachments.split("\n").map((s) => s.trim()).filter(Boolean),
         },
         plan: { questions: plan.map((q) => ({ ...q, status: "open" })) },
       });
+      message.success("研究运行已启动,可在下方跟踪进度");
       setPlan(null);
       setRunForm({ ...runForm, open: false });
       await load();
-    } catch (e) { setError(String(e)); } finally { setBusy(""); }
+      runPanelRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    } catch (e) {
+      message.error(String(e instanceof Error ? e.message : e).slice(0, 200));
+    } finally { setBusy(""); }
   };
 
-  const act = async (path: string, body: unknown) => {
-    setError("");
-    try { await post(path, body); await load(); } catch (e) { setError(String(e)); }
+  const act = async (path: string, body: unknown, ok: string) => {
+    try {
+      await post(path, body);
+      if (ok) message.success(ok);
+      await load();
+    } catch (e) {
+      message.error(String(e instanceof Error ? e.message : e).slice(0, 200));
+    }
   };
 
   const viewVersion = async (v: number) => {
@@ -225,221 +278,232 @@ function ProjectView({ id, onBack }: { id: string; onBack: () => void }) {
     const ev = bundle?.evidence.find((e) => e.id === claim.evidenceIds[0]);
     if (!ev || !bundle) return;
     const snap = bundle.snapshots.find((s) => s.id === ev.snapshotId);
-    let text = "";
+    let text = "(快照不可用)";
     if (snap) {
       const res = await fetch(`/api/projects/${id}/snapshots?sid=${encodeURIComponent(snap.id)}`);
-      text = res.ok ? await res.text() : "(快照不可用)";
+      if (res.ok) text = await res.text();
     }
     setDrawer({ claim, text });
   };
 
+  const stageIndex = (stage: string) => Math.max(0, STAGE_STEPS.findIndex((s) => s.key === stage));
+
   return (
-    <div>
-      <div className="page-header">
-        <div>
-          <h1 className="page-title">{meta.goal}</h1>
-          <p className="page-desc">{meta.module === "brand" ? "品牌研究" : "行业研究"} · {meta.scope.summary};下一步:发起运行、查看证据或导出版本。</p>
+    <>
+      <header className="app-top">
+        <h1>{meta.goal}</h1>
+        <p className="page-desc">{MODULE_LABEL[meta.module]} · {meta.scope.summary};下一步:发起研究运行,或查看下方证据与版本。</p>
+        <div className="actions-row" style={{ marginTop: 10 }}>
+          <Button onClick={() => navigate("/")}>返回列表</Button>
+          <Button type="primary" disabled={activeRun !== undefined} onClick={openRunForm}>
+            {activeRun ? "运行进行中…" : "新建研究运行"}
+          </Button>
         </div>
-        <div className="btn-row">
-          <button onClick={onBack}>返回列表</button>
-          <button className="btn-primary" onClick={() => setRunForm({ open: true, ...template, attachments: "" })}>新建研究运行</button>
-        </div>
+      </header>
+
+      <div className="metrics-grid">
+        <MetricCard label="状态" value={activeRun ? "进行中" : meta.versions.length ? "已有版本" : "未运行"} note={activeRun ? `阶段:${activeRun.stage}` : undefined} />
+        <MetricCard label="版本" value={meta.versions.length} note="不可变,含差异摘要" />
+        <MetricCard label="运行次数" value={runs.length} />
+        <MetricCard label="证据快照" value={detail.snapshots.length} note={`${detail.snapshots.filter((s) => s.parseStatus === "ok").length} 个解析成功`} />
       </div>
 
-      {error && <div className="notice amber">{error}</div>}
-
       {runForm.open && (
-        <div className="card">
-          <h3>新建研究运行</h3>
-          <label>研究目标</label>
-          <input value={runForm.goal} onChange={(e) => setRunForm({ ...runForm, goal: e.target.value })} />
-          <label>范围说明</label>
-          <input value={runForm.summary} onChange={(e) => setRunForm({ ...runForm, summary: e.target.value })} />
-          <label>附件(本机文件路径,每行一个,可空)</label>
-          <textarea rows={2} value={runForm.attachments} onChange={(e) => setRunForm({ ...runForm, attachments: e.target.value })} />
+        <Section title="新建研究运行" desc="生成计划后可编辑问题清单,确认才开始执行">
+          <Input value={runForm.goal} onChange={(e) => setRunForm({ ...runForm, goal: e.target.value })} placeholder="研究目标" />
+          <Input style={{ marginTop: 8 }} value={runForm.summary} onChange={(e) => setRunForm({ ...runForm, summary: e.target.value })} placeholder="范围说明" />
+          <Input.TextArea style={{ marginTop: 8 }} rows={2} value={runForm.attachments} onChange={(e) => setRunForm({ ...runForm, attachments: e.target.value })} placeholder="附件(本机文件路径,每行一个,可空)" />
           {!plan ? (
-            <div className="btn-row" style={{ marginTop: 12 }}>
-              <button className="btn-primary" disabled={!runForm.goal || busy !== ""} onClick={() => void previewPlan()}>{busy || "生成研究计划"}</button>
-              <button onClick={() => setRunForm({ ...runForm, open: false })}>取消</button>
+            <div className="actions-row" style={{ marginTop: 12 }}>
+              <Button type="primary" loading={busy !== ""} disabled={!runForm.goal} onClick={() => void previewPlan()}>
+                {busy || "生成研究计划"}
+              </Button>
+              <Button onClick={() => setRunForm({ ...runForm, open: false })}>取消</Button>
             </div>
           ) : (
-            <div>
-              <label>研究计划(可编辑问题清单,确认后开始执行)</label>
+            <div style={{ marginTop: 12 }}>
+              <p className="sec-desc">研究计划(可编辑,确认后开始执行;请保持本页打开以跟踪进度)</p>
               {plan.map((q, i) => (
-                <input key={q.id} style={{ marginBottom: 6 }} value={q.question}
+                <Input key={q.id} className="plan-item" value={q.question}
                   onChange={(e) => setPlan(plan.map((x, j) => (j === i ? { ...x, question: e.target.value } : x)))} />
               ))}
-              <div className="btn-row" style={{ marginTop: 8 }}>
-                <button className="btn-primary" disabled={busy !== ""} onClick={() => void startRun()}>{busy || "确认计划并开始研究"}</button>
-                <button onClick={() => setPlan(null)}>重新生成</button>
+              <div className="actions-row" style={{ marginTop: 10 }}>
+                <Button type="primary" loading={busy !== ""} onClick={() => void startRun()}>{busy || "确认计划并开始研究"}</Button>
+                <Button onClick={() => void previewPlan()}>重新生成</Button>
+                <Button onClick={() => setPlan(null)}>返回上一步</Button>
               </div>
             </div>
           )}
-        </div>
+        </Section>
       )}
 
-      <div className="grid2">
-        <div>
-          <div className="card">
-            <h3>运行记录</h3>
-            {runs.length === 0 && <p className="muted">还没有运行。</p>}
+      <div ref={runPanelRef}>
+        {activeRun ? (
+          <Section title="当前运行" desc={`requestId ${activeRun.requestId} · 自动刷新中`}>
+            <Steps size="small" current={stageIndex(activeRun.stage)} items={STAGE_STEPS.map((s) => ({ title: s.title }))} style={{ margin: "6px 0 14px" }} />
+            <div className="runline">
+              <span className="num" style={{ color: "var(--muted)", fontSize: 12.5 }}>
+                搜索 {activeRun.usage.searches} · 抓取 {activeRun.usage.fetches} · 成本≈{activeRun.usage.costEstimate.toFixed(3)} · {Math.round(activeRun.usage.wallMs / 1000)}s
+              </span>
+              <Button danger onClick={() => void act(`/api/projects/${id}/runs/cancel`, { requestId: activeRun.requestId }, "已取消,已完成阶段保留")}>
+                取消(保留已完成阶段)
+              </Button>
+            </div>
+          </Section>
+        ) : (
+          <Section title="运行记录" desc="取消的运行可自检查点恢复;完成后的运行可发布为版本">
+            {runs.length === 0 && <Empty description="还没有运行。点击右上角「新建研究运行」开始" />}
             {runs.map((r) => (
-              <div className="sub" key={r.id}>
-                <div className="btn-row" style={{ justifyContent: "space-between" }}>
-                  <span><Badge map={STATUS_LABEL} value={r.status} /> <span className="meta mono">{r.requestId}</span></span>
-                  <span className="meta mono">搜索 {r.usage.searches} · 抓取 {r.usage.fetches} · 成本≈{r.usage.costEstimate.toFixed(3)} · {(r.usage.wallMs / 1000).toFixed(0)}s</span>
+              <div className="runline" key={r.id}>
+                <div>
+                  <Badge tone={STATUS[r.status]?.tone ?? "neutral"}>{STATUS[r.status]?.label ?? r.status}</Badge>{" "}
+                  <span className="num" style={{ color: "var(--muted)", fontSize: 12.5 }}>{r.requestId}</span>
+                  {r.error && <div style={{ color: "var(--red)", fontSize: 12, marginTop: 2 }}>{r.error.slice(0, 120)}</div>}
+                  <div style={{ color: "var(--soft)", fontSize: 11.5, marginTop: 2 }} className="num">
+                    搜索 {r.usage.searches} · 抓取 {r.usage.fetches} · 成本≈{r.usage.costEstimate.toFixed(3)} · {Math.round(r.usage.wallMs / 1000)}s
+                  </div>
                 </div>
-                <div className="btn-row" style={{ marginTop: 8 }}>
-                  {r.status === "running" && (
-                    <button className="btn-danger" onClick={() => void act(`/api/projects/${id}/runs/cancel`, { requestId: r.requestId })}>取消(保留已完成阶段)</button>
+                <div className="actions-row">
+                  {(r.status === "published" || r.status === "limited") && !publishedRunIds.has(r.id) && (
+                    <Button size="small" onClick={() => void act(`/api/projects/${id}/publish`, { runId: r.id }, "已发布为新版本")}>发布为版本</Button>
                   )}
                   {r.status === "cancelled" && (
-                    <button onClick={() => void act(`/api/projects/${id}/runs/resume`, { requestId: r.requestId })}>自检查点恢复</button>
-                  )}
-                  {(r.status === "published" || r.status === "limited") && !publishedRunIds.has(r.id) && (
-                    <button onClick={() => void act(`/api/projects/${id}/publish`, { runId: r.id })}>发布为版本</button>
+                    <Button size="small" onClick={() => void act(`/api/projects/${id}/runs/resume`, { requestId: r.requestId }, "已恢复运行")}>自检查点恢复</Button>
                   )}
                 </div>
               </div>
             ))}
-          </div>
+          </Section>
+        )}
+      </div>
 
-          <div className="card">
-            <h3>版本</h3>
-            {meta.versions.length === 0 && <p className="muted">尚未发布版本。</p>}
-            {meta.versions.map((v) => (
-              <div className="sub" key={v.version}>
-                <div className="btn-row" style={{ justifyContent: "space-between" }}>
-                  <strong>v{v.version}</strong>
-                  <span className="btn-row">
-                    <button onClick={() => void viewVersion(v.version)}>查看</button>
-                    <a className="btn" href={`/api/projects/${id}/versions/${v.version}/export`} download>导出成果包(zip)</a>
-                  </span>
-                </div>
-                {v.diffSummary && (
-                  <p className="meta">较上版:新增主张 {v.diffSummary.addedClaims.length} · 删除 {v.diffSummary.removedClaims.length} · 证据 {v.diffSummary.evidenceDelta >= 0 ? "+" : ""}{v.diffSummary.evidenceDelta}</p>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="card">
-          <h3>报告{bundleVersion ? ` v${bundleVersion}` : ""}</h3>
-          {!bundle && <p className="muted">发布版本后可在此阅读报告。</p>}
+      <div className="two-col" style={{ alignItems: "start" }}>
+        <Section title={`报告${bundleVersion ? ` v${bundleVersion}` : ""}`} desc="报告 + 主张核查表;点击任一主张打开证据抽屉">
+          {!bundle && <Empty description="发布版本后可在此阅读报告" />}
           {bundle && (
             <>
               {bundle.limitations.length > 0 && (
-                <div className="notice amber">有限交付:{bundle.limitations.join(";")}</div>
+                <Alert type="warning" showIcon style={{ marginBottom: 12 }}
+                  message="有限交付" description={bundle.limitations.slice(0, 4).join(";") + (bundle.limitations.length > 4 ? " …" : "")} />
               )}
               <ReportBody md={bundle.reportMd} />
-              <h3>主张与证据</h3>
-              <table>
+              <h2 style={{ margin: "16px 0 8px" }}>主张与证据</h2>
+              <table className="cmp-table">
                 <thead><tr><th>主张</th><th>类型</th><th>核查</th></tr></thead>
                 <tbody>
                   {bundle.claims.map((c) => (
-                    <tr key={c.id} style={{ cursor: "pointer" }} onClick={() => void openDrawer(c)}>
-                      <td>{c.statement}{c.calibration && <div className="meta">{c.calibration.entity} · {c.calibration.period} · {c.calibration.unit}</div>}</td>
-                      <td><Badge map={KIND_LABEL} value={c.kind} /></td>
-                      <td><Badge map={VERDICT_LABEL} value={bundle.verdicts.find((v) => v.evidenceId === c.evidenceIds[0])?.verdict ?? "snapshot-missing"} /></td>
+                    <tr key={c.id} className="claim-row" onClick={() => void openDrawer(c)}>
+                      <td>{c.statement}{c.calibration && <div style={{ color: "var(--soft)", fontSize: 11.5 }}>{c.calibration.entity} · {c.calibration.period} · {c.calibration.unit}</div>}</td>
+                      <td><Badge tone={KIND[c.kind]?.tone ?? "neutral"}>{KIND[c.kind]?.label ?? c.kind}</Badge></td>
+                      <td><Badge tone={VERDICT[verdictOf(c)]?.tone ?? "neutral"}>{VERDICT[verdictOf(c)]?.label ?? verdictOf(c)}</Badge></td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </>
           )}
+        </Section>
+
+        <div>
+          <Section title="版本" desc="发布即不可变;差异摘要对比上一版">
+            {meta.versions.length === 0 && <Empty description="尚未发布版本" />}
+            {meta.versions.slice().reverse().map((v) => (
+              <div className="version-line" key={v.version}>
+                <div>
+                  <strong>v{v.version}</strong>
+                  {v.diffSummary && (
+                    <div style={{ color: "var(--soft)", fontSize: 11.5 }} className="num">
+                      新增主张 {v.diffSummary.addedClaims.length} · 删除 {v.diffSummary.removedClaims.length} · 证据 {v.diffSummary.evidenceDelta >= 0 ? "+" : ""}{v.diffSummary.evidenceDelta}
+                    </div>
+                  )}
+                </div>
+                <div className="actions-row">
+                  <Button size="small" type={bundleVersion === v.version ? "primary" : "default"} onClick={() => void viewVersion(v.version)}>查看</Button>
+                  <a className="ant-btn ant-btn-sm" href={`/api/projects/${id}/versions/${v.version}/export`} download>导出 zip</a>
+                </div>
+              </div>
+            ))}
+          </Section>
         </div>
       </div>
 
-      {drawer && (
-        <div className="card" style={{ position: "fixed", right: 24, bottom: 24, width: 420, maxHeight: "70vh", overflow: "auto", boxShadow: "0 10px 28px rgba(23,32,42,.12)" }}>
-          <h3>证据抽屉</h3>
-          <p><Badge map={KIND_LABEL} value={drawer.claim.kind} /> {drawer.claim.statement}</p>
-          <p className="meta">快照原文(净化纯文本,来源内容不执行):</p>
-          <pre className="plain">{drawer.text}</pre>
-          <div className="btn-row"><button onClick={() => setDrawer(null)}>关闭</button></div>
-        </div>
-      )}
-      <p className="footer-note">执行完成 ≠ 证据充分:有限交付会披露限制,不会编造完整答案。</p>
-    </div>
+      <Drawer title="证据抽屉" placement="right" width={460} open={drawer !== null} onClose={() => setDrawer(null)}>
+        {drawer && (
+          <>
+            <p><Badge tone={KIND[drawer.claim.kind]?.tone ?? "neutral"}>{KIND[drawer.claim.kind]?.label ?? drawer.claim.kind}</Badge> {drawer.claim.statement}</p>
+            <div className="quote-block">引句(须在原文逐字命中):{bundle?.evidence.find((e) => e.id === drawer.claim.evidenceIds[0])?.quote}</div>
+            <p className="sec-desc">快照原文(净化纯文本,来源内容不执行):</p>
+            <pre className="snap-text">{drawer.text}</pre>
+          </>
+        )}
+      </Drawer>
+    </>
   );
 }
 
-function SettingsView() {
-  const [config, setConfig] = useState<Record<string, unknown>>({});
-  const [budget, setBudget] = useState<Record<string, number>>({});
+/* ————— 设置 ————— */
+function SettingsPage() {
   const [provider, setProvider] = useState("");
   const [modelId, setModelId] = useState("");
+  const [budget, setBudget] = useState<Record<string, number>>({});
   const [saved, setSaved] = useState(false);
   useEffect(() => {
     void api<{ config: Record<string, unknown>; budgetDefaults: Record<string, number> }>("/api/settings").then((r) => {
-      setConfig(r.config);
       setBudget(r.budgetDefaults);
-      const model = r.config.model as { provider?: string; modelId?: string } | undefined;
-      setProvider(model?.provider ?? "");
-      setModelId(model?.modelId ?? "");
+      const m = r.config.model as { provider?: string; modelId?: string } | undefined;
+      setProvider(m?.provider ?? "");
+      setModelId(m?.modelId ?? "");
     });
   }, []);
   return (
-    <div>
-      <div className="page-header">
-        <div>
-          <h1 className="page-title">设置</h1>
-          <p className="page-desc">配置模型与搜索供应商;密钥只走环境变量(如 MINIMAX_API_KEY),不经过本页面。</p>
+    <>
+      <header className="app-top">
+        <h1>设置</h1>
+        <p className="page-desc">配置模型与搜索供应商;密钥只走环境变量(由启动脚本从本机凭据注入),不经过本页面。</p>
+      </header>
+      <Section title="模型供应商(主备链路首位)" desc="如 minimax-cn / MiniMax-M2.7;备用链在服务端配置文件维护">
+        <div className="two-col">
+          <div>
+            <p className="sec-desc">provider</p>
+            <Input value={provider} onChange={(e) => { setProvider(e.target.value); setSaved(false); }} placeholder="minimax-cn" />
+          </div>
+          <div>
+            <p className="sec-desc">modelId</p>
+            <Input value={modelId} onChange={(e) => { setModelId(e.target.value); setSaved(false); }} placeholder="MiniMax-M2.7" />
+          </div>
         </div>
-      </div>
-      <div className="card">
-        <h3>模型供应商</h3>
-        <label>provider(pi-ai 内置名,如 minimax-cn / moonshotai / zai)</label>
-        <input value={provider} onChange={(e) => setProvider(e.target.value)} />
-        <label>modelId(如 MiniMax-M2.7)</label>
-        <input value={modelId} onChange={(e) => setModelId(e.target.value)} />
-        <div className="btn-row" style={{ marginTop: 12 }}>
-          <button className="btn-primary" onClick={() => {
-            void post("/api/settings", { ...config, model: { provider, modelId } }).then(() => setSaved(true));
-          }}>保存</button>
-          {saved && <span className="badge badge-green">已保存</span>}
+        <div className="actions-row" style={{ marginTop: 12 }}>
+          <Button type="primary" disabled={!provider || !modelId}
+            onClick={() => void post("/api/settings", { model: { provider, modelId } }).then(() => { setSaved(true); message.success("已保存"); })}>
+            保存
+          </Button>
+          {saved && <Badge tone="good">已保存</Badge>}
         </div>
-      </div>
-      <div className="card">
-        <h3>默认预算上限</h3>
-        <table>
+      </Section>
+      <Section title="默认预算上限" desc="每 run 可在请求级覆盖;token plan 供应商成本记 0">
+        <table className="cmp-table">
           <tbody>
             {Object.entries(budget).map(([k, v]) => (
-              <tr key={k}><td className="muted">{k}</td><td className="mono">{v}</td></tr>
+              <tr key={k}><td>{k}</td><td className="num">{v}</td></tr>
             ))}
           </tbody>
         </table>
-      </div>
-      <p className="footer-note">密钥不进入项目文件、日志与报告;配置文件仅存于本机数据目录(0600 权限)。</p>
-    </div>
+      </Section>
+    </>
   );
 }
 
 export function App() {
-  const [route, setRoute] = useState<string>(location.hash || "#/projects");
-  useEffect(() => {
-    const onHash = () => setRoute(location.hash || "#/projects");
-    addEventListener("hashchange", onHash);
-    return () => removeEventListener("hashchange", onHash);
-  }, []);
-  const projectMatch = route.match(/^#\/project\/(.+)$/);
   return (
-    <div className="app">
-      <nav className="sidebar">
-        <div className="brand">独立深度研究工作台</div>
-        <a className={`nav-item ${route.startsWith("#/project") ? "active" : ""}`} href="#/projects">研究项目</a>
-        <a className={`nav-item ${route === "#/settings" ? "active" : ""}`} href="#/settings">设置</a>
-      </nav>
-      <main className="main">
-        {projectMatch ? (
-          <ProjectView id={projectMatch[1]} onBack={() => (location.hash = "#/projects")} />
-        ) : route === "#/settings" ? (
-          <SettingsView />
-        ) : (
-          <ProjectsView onOpen={(id) => (location.hash = `#/project/${id}`)} />
-        )}
-      </main>
-    </div>
+    <HashRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<ProjectsPage />} />
+          <Route path="/project/:id" element={<ProjectPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="*" element={<ProjectsPage />} />
+        </Route>
+      </Routes>
+    </HashRouter>
   );
 }
