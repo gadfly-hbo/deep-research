@@ -2,3 +2,4 @@
 {"at":"2026-09-21T02:35:28.925Z","event":"run-finished","data":{"runId":"8347724b-42e3-465a-a00f-ac479b725d80","requestId":"req-b1","status":"limited","usage":{"searches":4,"fetches":6,"costEstimate":0.010698059999999999,"wallMs":528464}}}
 {"at":"2026-09-21T02:35:28.926Z","event":"bundle-saved","data":{"runId":"8347724b-42e3-465a-a00f-ac479b725d80","claims":80,"evidence":80}}
 {"at":"2026-09-21T02:35:29.843Z","event":"published","data":{"version":1,"runId":"8347724b-42e3-465a-a00f-ac479b725d80","configHash":"753fd65bb5294739818526fefe2874536bc2fa2937aacbeed8e288e46a526377"}}
+{"at":"2026-09-22T15:10:10.377Z","event":"archived","data":{}}

@@ -12,7 +12,7 @@
     ]
   },
   "createdAt": "2026-09-21T01:47:22.367Z",
-  "updatedAt": "2026-09-21T02:35:29.843Z",
+  "updatedAt": "2026-09-22T15:10:10.376Z",
   "versions": [
     {
       "version": 1,
@@ -113,5 +113,6 @@
         "removedLimitations": []
       }
     }
-  ]
+  ],
+  "status": "archived"
 }
