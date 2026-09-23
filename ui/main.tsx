@@ -1,15 +1,13 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { ConfigProvider } from "antd";
-import zhCN from "antd/locale/zh_CN";
 import { App } from "./App";
-import { antdTheme } from "./theme";
+import { ToastProvider } from "./state/toast";
 import "./styles.css";
 
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ConfigProvider locale={zhCN} theme={antdTheme}>
+    <ToastProvider>
       <App />
-    </ConfigProvider>
+    </ToastProvider>
   </React.StrictMode>,
 );
