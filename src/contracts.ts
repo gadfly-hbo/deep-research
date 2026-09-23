@@ -26,6 +26,14 @@ export const EvidenceSchema = z.object({
   snapshotId: z.string().min(1),
   quote: z.string(),
   locator: z.string().optional(),
+  /** 2.0 扩展(可选,旧数据缺省):证据修订号,修改摘录/口径时递增 */
+  revision: z.number().int().positive().optional(),
+  /** 2.0 扩展:口径/适用范围说明(样本、地区、单位等) */
+  scopeNote: z.string().optional(),
+  /** 2.0 扩展:摘录/数值是否与指定原文版本一致 */
+  extractionCheck: z.enum(["UNCHECKED", "VERIFIED_AGAINST_SOURCE", "EXTRACTION_ISSUE"]).optional(),
+  /** 2.0 扩展:该证据绑定的情报库来源版本 */
+  versionId: z.string().min(1).optional(),
 });
 export type Evidence = z.infer<typeof EvidenceSchema>;
 
@@ -37,6 +45,12 @@ export const ClaimSchema = z.object({
   calibration: CalibrationSchema.optional(),
   /** 置信度(发布门禁聚合):核查全过+多源+高等级信源=high;单源/弱核查=medium;降级=low */
   confidence: z.enum(["high", "medium", "low"]).optional(),
+  /** 2.0 扩展:主张修订号 */
+  revision: z.number().int().positive().optional(),
+  /** 2.0 扩展:主张支持状态,只针对指定问题/证据/范围,不是永久真理标签 */
+  supportStatus: z.enum(["SUPPORTED", "PARTIALLY_SUPPORTED", "CONTRADICTED", "UNRESOLVED"]).optional(),
+  /** 2.0 扩展:适用范围说明(对象/时期/口径) */
+  scopeNote: z.string().optional(),
 });
 export type Claim = z.infer<typeof ClaimSchema>;
 

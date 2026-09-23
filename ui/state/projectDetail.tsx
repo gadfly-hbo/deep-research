@@ -9,12 +9,22 @@ import { useProjects } from "./projects";
 import { STAGES } from "./types";
 import type { Bundle, Claim, Outline, ProjectDetail, Run } from "./types";
 
+export interface SelectedAsset {
+  sourceId: string;
+  versionId: string;
+  purpose: string;
+  applicability?: string;
+  asOf?: string;
+}
+
 export interface StartRunParams {
   goal: string;
   summary: string;
   attachments: string;
   plan: { id: string; question: string }[];
   outline: Outline;
+  /** 2.0:启动前选择的已有情报;服务端检查权限并固定版本绑定 */
+  selectedAssets?: SelectedAsset[];
 }
 
 interface ProjectCtx {
@@ -30,7 +40,7 @@ interface ProjectCtx {
   formalReady: Record<number, boolean>;
   genFormal(v: number): Promise<void>;
   busy: string;
-  startRun(p: StartRunParams): Promise<boolean>;
+  startRun(p: StartRunParams): Promise<{ ok: boolean; rejected: Array<{ sourceId: string; reason: string }> }>;
   cancelRun(r: Run): Promise<void>;
   resumeRun(r: Run): Promise<void>;
   publishRun(r: Run): Promise<void>;
@@ -152,30 +162,42 @@ export function ProjectDetailProvider({ id, children }: { id: string; children: 
     }
   }, [id, toast]);
 
-  const startRun = useCallback(async (p: StartRunParams): Promise<boolean> => {
-    try {
-      await post(`/api/projects/${id}/runs`, {
-        request: {
-          id: `req-${Date.now().toString(36)}`,
-          module: detail?.meta.module ?? "brand",
-          goal: p.goal,
-          scope: { summary: p.summary, queries: p.plan.map((q) => q.question) },
-          attachments: p.attachments.split("\n").map((s) => s.trim()).filter(Boolean),
-          outline: p.outline,
-          // 交互运行用适中预算:约 10 分钟内出结果;更深的重跑走 CLI 自定义预算
-          budget: { maxSearches: 8, maxFetches: 12 },
-        },
-        plan: { questions: p.plan.map((q) => ({ ...q, status: "open" })) },
-      });
-      toast.show("研究运行已启动,可在「采证」阶段跟踪进度");
-      await reload();
-      void projects.reload();
-      return true;
-    } catch (e) {
-      toast.show(errMsg(e));
-      return false;
-    }
-  }, [detail?.meta.module, id, projects, reload, toast]);
+  const startRun = useCallback(
+    async (p: StartRunParams): Promise<{ ok: boolean; rejected: Array<{ sourceId: string; reason: string }> }> => {
+      try {
+        const started = await post<{
+          reuse?: { bound: number; rejected: Array<{ sourceId: string; reason: string }> };
+        }>(`/api/projects/${id}/runs`, {
+          request: {
+            id: `req-${Date.now().toString(36)}`,
+            module: detail?.meta.module ?? "brand",
+            goal: p.goal,
+            scope: { summary: p.summary, queries: p.plan.map((q) => q.question) },
+            attachments: p.attachments.split("\n").map((s) => s.trim()).filter(Boolean),
+            outline: p.outline,
+            // 交互运行用适中预算:约 10 分钟内出结果;更深的重跑走 CLI 自定义预算
+            budget: { maxSearches: 8, maxFetches: 12 },
+          },
+          plan: { questions: p.plan.map((q) => ({ ...q, status: "open" })) },
+          // 2.0:复用选择在请求体顶层,服务端绑定后随 run 固定版本
+          selectedAssets: p.selectedAssets,
+        });
+        const rejected = started.reuse?.rejected ?? [];
+        toast.show(
+          rejected.length > 0
+            ? `研究运行已启动;${rejected.length} 项选择因权限/状态被拒绝(未绑定)`
+            : "研究运行已启动,可在「采证」阶段跟踪进度",
+        );
+        await reload();
+        void projects.reload();
+        return { ok: true, rejected };
+      } catch (e) {
+        toast.show(errMsg(e));
+        return { ok: false, rejected: [] };
+      }
+    },
+    [detail?.meta.module, id, projects, reload, toast],
+  );
 
   const cancelRun = useCallback(async (r: Run) => {
     try {

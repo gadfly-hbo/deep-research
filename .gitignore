@@ -20,3 +20,4 @@ testdata/*.json
 *.key
 .env
 .env.*
+!testdata/v1-bundle-sample.json

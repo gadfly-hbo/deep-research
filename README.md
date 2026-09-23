@@ -14,7 +14,7 @@ npm run build       # tsc + vite 构建 SPA 到 ui-dist/
 
 **一键启动**:双击仓库根的 `启动深度研究.command`(自动同步数据 → 起本机服务 → 打开浏览器;Ctrl+C 退出时自动回推数据)。首次运行会自动安装依赖并构建。
 
-或手动:`npm run research -- serve`,打开 http://127.0.0.1:4173 → 新建项目(品牌/行业)→ 生成并确认研究计划 → 运行 → 证据抽屉核查 → 发布版本 → 导出成果包(zip:report.md / report.html / evidence/ / manifest.json)。
+或手动:`npm run research -- serve`,打开 http://127.0.0.1:4173 → 新建项目(品牌/行业)→ 生成并确认研究计划 →(可选:选择已有情报)→ 运行 → 证据抽屉核查 → 发布版本 → 导出成果包(zip:report.md / report.html / evidence/ / manifest.json;2.0 另含 claims/evidence/sources/source_versions/asset_bindings jsonl、review_summary.json、limitations.md 与 permitted_assets/ 仅许可转交材料)。情报库入口在侧栏「外部情报库」:不建研究也可直接入库、检索、授权复用。
 
 ## 配置(live 运行需要)
 
@@ -55,18 +55,24 @@ npm run research -- project open --project <dir>
 ## 架构(模块化单体)
 
 ```
-ui/          工作台 SPA(React + Vite,Prism 设计规范)
-src/server/  本机 HTTP 服务(仅 127.0.0.1;密钥不入 API;快照仅纯文本)
-src/app/     项目生命周期:创建/运行/发布(不可变版本 + 差异摘要)/导出/模板复用
+ui/          工作台 SPA(React + Vite,Xanthil 三栏设计规范,见 DESIGN.md)
+src/server/  本机 HTTP 服务(仅 127.0.0.1;密钥不入 API;快照仅纯文本;/api/library/* 情报库路由)
+src/app/     项目生命周期:创建/运行/发布(不可变版本 + 差异摘要)/导出/模板复用/历史迁移预演
 src/core/    通用研究核心:plan→gather→analyze→draft→review→publish 状态机
-             (检查点 / 取消 / 恢复 / 预算上限 / 评审回环 / 发布门禁)
+             (检查点 / 取消 / 恢复 / 预算上限 / 评审回环 / 发布门禁 / 情报库沉淀与复用注入)
+src/library/ 外部情报库:Source/SourceVersion/Acquisition/Evidence 绑定/Entity/Review 契约
+             + 文件存储(内容寻址 + 暂存两阶段)+ 授权检索(可重建倒排)+ 复用检查/绑定/治理
 src/modules/ 研究模块配置:品牌、行业(问题框架 / 来源策略 / 报告模板 / 专项质量检查)
 src/quality/ 引用核查器、口径检查器、模块质量检查(纯函数门禁)
 src/adapters/ 工具适配层:模型(pi SDK)、搜索、抓取、解析;录制/replay 夹具
 src/stores/  本地项目存储:project.json + audit.jsonl(append-only)+ runs/ + reports/v<n>/
 ```
 
-三契约:`ResearchRequest` / `ResearchRun` / `ResearchResultBundle`(zod 校验),为后续 JuanerAI 集成预留,一期不建专属接缝。
+研究核心与情报库共用来源/版本/证据/引用:研究采证即沉淀入情报库,新研究经权限与适用性检查后固定版本复用;不通过"导出报告—再解析"互通。
+
+契约:`ResearchRequest` / `ResearchRun` / `ResearchResultBundle`(zod 校验)+ 情报库对象(Source/SourceVersion/AcquisitionRecord/AssetBinding/UsageRecord/ReviewRecord/Entity),为后续 JuanerAI 集成预留,本轮不建专属接缝。
+
+历史迁移:`POST /api/migrate {dryRun:true}` 出预演报告(三档:完整/部分/仅报告),`{dryRun:false, confirm:true}` 才登记;只读旧数据、只写情报库、不搬文件、不伪造核验。
 
 ## 横向质量与运行控制
 

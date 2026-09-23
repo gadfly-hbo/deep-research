@@ -4,7 +4,7 @@ import { createServer, type IncomingMessage, type Server, type ServerResponse } 
 import { randomUUID } from "node:crypto";
 import { join } from "node:path";
 import type { Adapters } from "../adapters/types.js";
-import { buildExportFiles, zipExport } from "../app/exportBundle.js";
+import { buildExportFilesV2, zipExport } from "../app/exportBundle.js";
 import { createProject, generateFormal, publishBundle, runOnProject } from "../app/projectService.js";
 import { ResearchRequestSchema } from "../contracts.js";
 import { DEFAULT_BUDGET } from "../core/runResearch.js";
@@ -13,6 +13,15 @@ import { getModuleConfig } from "../modules/registry.js";
 import { FsProjectStore } from "../stores/fsStore.js";
 import { defaultDataDir } from "../app/dataDir.js";
 import { dataSync } from "../app/dataSync.js";
+import { fetchAssetContent, registerAssets, type RegisterInput } from "../library/assetService.js";
+import { changeLifecycle, correctVersion, deleteAsset } from "../library/lifecycle.js";
+import { checkReuse, changeReuseScope } from "../library/reuse.js";
+import type { AssetBinding } from "../library/contracts.js";
+import { SourceSchema } from "../library/contracts.js";
+import { FsLibraryStore } from "../library/fsLibraryStore.js";
+import { bindAssets } from "../library/reuse.js";
+import { searchAssets } from "../library/searchService.js";
+import { migrateProjectsToLibrary } from "../app/migrateLibrary.js";
 
 export interface ServerDeps {
   dataDir: string;
@@ -58,6 +67,26 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
     return join(deps.dataDir, "projects", id);
   };
 
+  // 情报库(workspace 级):启动时打开并做暂存协调检查(§12.3 半写入恢复)
+  const library = FsLibraryStore.openOrCreate(join(deps.dataDir, "library"));
+  void library.recoverStaging().then((leftovers) => {
+    if (leftovers.length > 0) {
+      library.audit("staging-leftover", { count: leftovers.length, note: "上次中断残留暂存,未进可用清单" });
+    }
+  });
+
+  // PDF 解析注入(unpdf);失败返回 failed 而非抛出,让缺口如实登记(A-04)
+  const parsePdf = async (bytes: Uint8Array): Promise<{ bodyText: string; parseStatus: "ok" | "failed" }> => {
+    try {
+      const { extractText } = await import("unpdf");
+      const { text } = await extractText(bytes);
+      const bodyText = Array.isArray(text) ? text.join("\n") : String(text ?? "");
+      return { bodyText, parseStatus: bodyText.trim() ? "ok" : "failed" };
+    } catch {
+      return { bodyText: "", parseStatus: "failed" };
+    }
+  };
+
   // 启动清扫:上次进程中断遗留的 running 记录标记为 failed,可自检查点重跑
   const projectsRoot = join(deps.dataDir, "projects");
   if (existsSync(projectsRoot)) {
@@ -85,7 +114,10 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
     const url = new URL(req.url ?? "/", "http://127.0.0.1");
     const path = url.pathname;
     const method = req.method ?? "GET";
-    const body = method === "POST" ? JSON.parse((await readBody(req)) || "{}") : {};
+    const body =
+      method === "POST" || method === "PATCH" || method === "PUT"
+        ? JSON.parse((await readBody(req)) || "{}")
+        : {};
 
     if (method === "GET" && path === "/api/projects") {
       const root = join(deps.dataDir, "projects");
@@ -160,6 +192,26 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
         const controller = new AbortController();
         controllers.set(request.id ?? "", controller);
         const runId = randomUUID();
+        // 2.0 复用选择(§5.2):启动前服务端检查并固定版本绑定;越权项拒绝并回报
+        let bindReport: { bound: number; rejected: Array<{ sourceId: string; reason: string }> } = {
+          bound: 0,
+          rejected: [],
+        };
+        if (Array.isArray(body.selectedAssets) && body.selectedAssets.length > 0) {
+          const outcome = await bindAssets(library, {
+            runId,
+            projectId: id,
+            idempotencyKey: `select-${runId}`,
+            bindings: (body.selectedAssets as Array<Record<string, unknown>>).map((a) => ({
+              sourceId: String(a.sourceId),
+              versionId: String(a.versionId),
+              purpose: String(a.purpose ?? "研究复用"),
+              applicability: (a.applicability as AssetBinding["applicability"]) ?? "ELIGIBLE",
+              asOf: a.asOf ? String(a.asOf) : undefined,
+            })),
+          });
+          bindReport = { bound: outcome.bindings.length, rejected: outcome.rejected };
+        }
         // 先落一条 running 记录:启动即可见,进程中断也不至于"无痕消失"
         await FsProjectStore.open(dir).saveRun({
           id: runId,
@@ -173,6 +225,8 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
           plan: body.plan,
           signal: controller.signal,
           runId,
+          library,
+          projectId: id,
         })
           .catch(async (error) => {
             // 失败不冒充完成:落一条 failed run 记录,带错误信息
@@ -195,7 +249,7 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
               });
             }
           });
-        json(res, 200, { started: true, requestId: request.id });
+        json(res, 200, { started: true, requestId: request.id, reuse: bindReport });
         return;
       }
 
@@ -231,6 +285,8 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
           plan: body.plan,
           signal: controller.signal,
           runId: resumeRunId,
+          library,
+          projectId: id,
         })
           .catch(async (error) => {
             await FsProjectStore.open(dir).saveRun({
@@ -256,7 +312,7 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
       }
 
       if (method === "POST" && rest === "/publish") {
-        json(res, 200, await publishBundle(dir, body.runId));
+        json(res, 200, await publishBundle(dir, body.runId, library));
         return;
       }
 
@@ -318,7 +374,7 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
 
         if (method === "GET" && vRest === "/export") {
           const bundle = JSON.parse(readFileSync(bundlePath, "utf8"));
-          const files = buildExportFiles(bundle);
+          const files = await buildExportFilesV2(bundle, { library, runId: bundle.runId });
           const formalDir = join(dir, "reports", `v${v}`, "formal");
           if (existsSync(formalDir)) {
             files.push({
@@ -356,6 +412,289 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
         res.end(snapshot.bodyText);
         return;
       }
+    }
+
+    // ---- 外部情报库(U2-01):不依赖研究任务的直接入库 ----
+    if (path === "/api/library/assets" && method === "POST") {
+      const inputs: RegisterInput[] = (Array.isArray(body.items) ? body.items : [body]).map(
+        (item: Record<string, unknown>) => {
+          if (item.kind === "file" && typeof item.contentBase64 === "string") {
+            const { contentBase64, ...rest } = item;
+            return { ...rest, content: new Uint8Array(Buffer.from(contentBase64, "base64")) } as RegisterInput;
+          }
+          return item as unknown as RegisterInput;
+        },
+      );
+      const results = await registerAssets(library, inputs, { parsePdf });
+      json(res, 200, { results });
+      return;
+    }
+
+    if (path === "/api/library/assets" && method === "GET") {
+      const sources = await library.listSources();
+      const assets = await Promise.all(
+        sources.map(async (source) => {
+          const versions = await library.versionsForSource(source.sourceId);
+          const sorted = [...versions].sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+          const latestVersion = sorted[sorted.length - 1] ?? null;
+          const acqs = latestVersion ? await library.acquisitionsForVersion(latestVersion.versionId) : [];
+          // 可复用性取该版本所有取得记录中最宽松的一档,如实展示
+          const scopes = acqs.map((a) => a.reuseScope);
+          const reuseScope = scopes.includes("WORKSPACE_REUSABLE")
+            ? "WORKSPACE_REUSABLE"
+            : scopes.includes("RESTRICTED")
+              ? "RESTRICTED"
+              : "PROJECT_ONLY";
+          return { source, latestVersion, reuseScope, acquisitionCount: acqs.length };
+        }),
+      );
+      json(res, 200, { assets });
+      return;
+    }
+
+    if (path === "/api/library/bindings" && method === "GET") {
+      const runId = url.searchParams.get("runId") ?? "";
+      const bindings = await library.bindingsForRun(runId);
+      const usages = await library.usagesForRun(runId);
+      json(res, 200, { bindings, usages });
+      return;
+    }
+
+    if (path === "/api/library/search" && method === "GET") {
+      const q = url.searchParams.get("q") ?? "";
+      const projectId = url.searchParams.get("projectId") ?? undefined;
+      const docType = url.searchParams.get("docType") ?? undefined;
+      const fetchStatus = (url.searchParams.get("fetchStatus") ?? undefined) as
+        | "DISCOVERED"
+        | "SNIPPET_ONLY"
+        | "READ_PARTIAL"
+        | "READ_FULL"
+        | "UNAVAILABLE"
+        | undefined;
+      const reuseScope = (url.searchParams.get("reuseScope") ?? undefined) as
+        | "PROJECT_ONLY"
+        | "WORKSPACE_REUSABLE"
+        | "RESTRICTED"
+        | undefined;
+      const dataPeriod = url.searchParams.get("dataPeriod") ?? undefined;
+      const outcome = await searchAssets(
+        library,
+        q,
+        { docType, fetchStatus, reuseScope, dataPeriod },
+        { projectId },
+      );
+      // 选择器四组信息(§11.4):服务端给出每个命中在当前研究上下文中的适用性
+      const withApplicability = await Promise.all(
+        outcome.results.map(async (r) => {
+          const check = await checkReuse(library, {
+            runId: "selector-preview",
+            projectId: projectId ?? "",
+            sourceId: r.sourceId,
+            versionId: r.versionId,
+            purpose: "selector",
+          });
+          return { ...r, applicability: projectId ? check.applicability : null, checkNotes: projectId ? check.checkNotes : [] };
+        }),
+      );
+      json(res, 200, { ...outcome, results: withApplicability });
+      return;
+    }
+
+    if (path === "/api/library/check" && method === "GET") {
+      const sourceId = url.searchParams.get("sourceId") ?? "";
+      const versionId = url.searchParams.get("versionId") ?? "";
+      const projectId = url.searchParams.get("projectId") ?? "";
+      const check = await checkReuse(library, {
+        runId: url.searchParams.get("runId") ?? "check-preview",
+        projectId,
+        sourceId,
+        versionId,
+        purpose: url.searchParams.get("purpose") ?? "check",
+        asOf: url.searchParams.get("asOf") ?? undefined,
+      });
+      json(res, 200, check);
+      return;
+    }
+
+    if (path === "/api/library/entities") {
+      if (method === "GET") {
+        const entities = await library.listEntities();
+        const sources = await library.listSources();
+        const withCounts = entities.map((e) => ({
+          ...e,
+          assetCount: sources.filter((s) => s.entityIds.includes(e.entityId)).length,
+        }));
+        json(res, 200, { entities: withCounts });
+        return;
+      }
+      if (method === "POST") {
+        const entityId = `en-${randomUUID().slice(0, 8)}`;
+        await library.saveEntity({
+          entityId,
+          type: body.type ?? "other",
+          name: String(body.name ?? ""),
+          aliases: Array.isArray(body.aliases) ? body.aliases.map(String) : [],
+          parentEntityId: body.parentEntityId,
+          confirmStatus: body.confirmStatus ?? "CANDIDATE",
+          basis: body.basis,
+        });
+        json(res, 200, { entityId });
+        return;
+      }
+    }
+
+    const libraryLifecycleMatch = path.match(/^\/api\/library\/assets\/([^/]+)\/lifecycle$/);
+    if (libraryLifecycleMatch && method === "POST") {
+      try {
+        const outcome = await changeLifecycle(
+          library,
+          decodeURIComponent(libraryLifecycleMatch[1]),
+          body.lifecycle,
+          body.reason ? String(body.reason) : undefined,
+        );
+        json(res, 200, outcome);
+      } catch (error) {
+        json(res, 400, { error: String(error instanceof Error ? error.message : error) });
+      }
+      return;
+    }
+
+    const libraryScopeMatch = path.match(/^\/api\/library\/assets\/([^/]+)\/scope$/);
+    if (libraryScopeMatch && method === "POST") {
+      try {
+        const outcome = await changeReuseScope(library, {
+          versionId: String(body.versionId ?? ""),
+          projectId: body.projectId ? String(body.projectId) : undefined,
+          targetScope: body.targetScope,
+          basis: String(body.basis ?? ""),
+        });
+        json(res, 200, outcome);
+      } catch (error) {
+        json(res, 400, { error: String(error instanceof Error ? error.message : error) });
+      }
+      return;
+    }
+
+    const libraryCorrectionMatch = path.match(/^\/api\/library\/assets\/([^/]+)\/corrections$/);
+    if (libraryCorrectionMatch && method === "POST") {
+      try {
+        const version = await correctVersion(
+          library,
+          decodeURIComponent(libraryCorrectionMatch[1]),
+          String(body.versionId ?? ""),
+          String(body.content ?? ""),
+        );
+        json(res, 200, { version });
+      } catch (error) {
+        json(res, 400, { error: String(error instanceof Error ? error.message : error) });
+      }
+      return;
+    }
+
+    const libraryMigrateMatch = path.match(/^\/api\/migrate$/);
+    if (libraryMigrateMatch && method === "POST") {
+      const dryRun = body.dryRun !== false;
+      if (!dryRun && body.confirm !== true) {
+        json(res, 400, { error: "应用迁移需 confirm:true(先 dry-run 预演并备份)" });
+        return;
+      }
+      const report = await migrateProjectsToLibrary(join(deps.dataDir, "projects"), library, { dryRun });
+      json(res, 200, report);
+      return;
+    }
+
+    const libraryPatchMatch = path.match(/^\/api\/library\/assets\/([^/]+)$/);
+    if (libraryPatchMatch && method === "PATCH") {
+      const source = await library.getSource(decodeURIComponent(libraryPatchMatch[1]));
+      if (!source) {
+        json(res, 404, { error: `资产不存在: ${libraryPatchMatch[1]}` });
+        return;
+      }
+      // 白名单元数据更正:其余字段一律忽略,防止经 API 注入状态字段
+      const patch: Record<string, unknown> = {};
+      for (const key of ["title", "publisher", "docType", "tags"] as const) {
+        if (body[key] !== undefined) patch[key] = body[key];
+      }
+      if (Array.isArray(body.entityIds)) patch.entityIds = body.entityIds.map(String);
+      const updated = SourceSchema.parse({ ...source, ...patch });
+      await library.saveSource(updated);
+      library.audit("source-meta-corrected", { sourceId: source.sourceId, patch: Object.keys(patch) });
+      json(res, 200, { source: updated });
+      return;
+    }
+
+    if (path === "/api/library/assets/fetch" && method === "POST") {
+      try {
+        const adapters = deps.makeAdapters();
+        const out = await fetchAssetContent(library, String(body.versionId ?? ""), {
+          page: adapters.page,
+          parser: adapters.parser,
+        });
+        json(res, 200, out);
+      } catch (error) {
+        json(res, 400, { error: String(error instanceof Error ? error.message : error) });
+      }
+      return;
+    }
+
+    const libraryAssetMatch = path.match(/^\/api\/library\/assets\/([^/]+)$/);
+    if (libraryAssetMatch && method === "GET") {
+      const sourceId = decodeURIComponent(libraryAssetMatch[1]);
+      const source = await library.getSource(sourceId);
+      if (!source) {
+        json(res, 404, { error: `资产不存在: ${sourceId}` });
+        return;
+      }
+      const versions = (await library.versionsForSource(sourceId)).sort((a, b) =>
+        a.createdAt.localeCompare(b.createdAt),
+      );
+      const acquisitions = (
+        await Promise.all(versions.map((v) => library.acquisitionsForVersion(v.versionId)))
+      ).flat();
+      json(res, 200, { source, versions, acquisitions });
+      return;
+    }
+
+    if (libraryAssetMatch && method === "DELETE") {
+      const sourceId = decodeURIComponent(libraryAssetMatch[1]);
+      try {
+        const preview = url.searchParams.get("preview") === "1";
+        const outcome = await deleteAsset(library, sourceId, {
+          previewOnly: preview,
+          confirm: body.confirm === true || url.searchParams.get("confirm") === "1",
+          force: body.force === true || url.searchParams.get("force") === "1",
+        });
+        json(res, 200, outcome);
+      } catch (error) {
+        json(res, 400, { error: String(error instanceof Error ? error.message : error) });
+      }
+      return;
+    }
+
+    const libraryContentMatch = path.match(/^\/api\/library\/content\/([^/]+)$/);
+    if (libraryContentMatch && method === "GET") {
+      const version = await library.getVersion(decodeURIComponent(libraryContentMatch[1]));
+      // §9.3 原文读取检查点:带项目上下文时按授权过滤;缺省为属主本机视图
+      const ctxProjectId = url.searchParams.get("projectId");
+      if (version && ctxProjectId) {
+        const acqs = await library.acquisitionsForVersion(version.versionId);
+        const allowedRead = acqs.some(
+          (a) => a.projectId === ctxProjectId || a.reuseScope === "WORKSPACE_REUSABLE",
+        );
+        if (!allowedRead) {
+          json(res, 403, { error: "该项目无权读取此版本原文(S-01)" });
+          return;
+        }
+      }
+      const content = version?.contentRef ? await library.readContent(version.contentRef) : null;
+      if (!version || content === null) {
+        json(res, 404, { error: `原文不可得: ${libraryContentMatch[1]}(可能仅登记入口或解析失败)` });
+        return;
+      }
+      // 与项目快照路由一致:只回传纯文本,原始 HTML/字节永不下发
+      res.writeHead(200, { "content-type": "text/plain; charset=utf-8" });
+      res.end(content);
+      return;
     }
 
     if (path === "/api/settings") {

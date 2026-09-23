@@ -1,136 +1,172 @@
-# Tasks — 独立深度研究工作台第一期(tracer-bullet 切片)
+# dev-flow 2.0 任务拆解 — 外部情报库与跨研究复用
 
-来源:`.flow/prd.md`(承载 proposal 决策与 GRILL 记录 G1–G15)。无 issue tracker,拆解落地本文件;dev-flow ISSUES 自批准(理由:每片端到端可演示/可验证,依赖线性、S4/S5/S6 可并行)。
+> 规格源：`.flow/proposal.md` > `.flow/prd.md`（含 GRILL 自答 G1-G13 与代码事实 F1-F7）。
+> 自批准理由：dev-flow 规则——拆解只排序与细化 PRD，不引入冲突；冲突必升级。本拆解遵循 proposal §16 WP00-WP06 顺序与"契约版本先行"。
+> 熔断：若 IMPLEMENT 进度显示超预算（60 轮/12h），S6 迁移部分降级为后续批次（U2-B），需用户批准。
 
-- [ ] 1. 证据链 spike 与引用核查器(S1)
-- [x] 2. 全流水线脚本化运行 + 发布门禁 + 有限交付(S2)
-- [x] 3. 项目存储、版本、审计与生命周期(S3)
-- [x] 4. 品牌模块配置与 B1 live 验收跑(S4)(配置/模板/专项质量检查已完成并经夹具测试;live 验收跑待密钥后补)
-- [x] 5. 行业模块配置与 I1 live 验收跑(S5)(配置/模板/专项质量检查已完成并经夹具测试;live 验收跑待密钥后补)
-- [x] 6. 工作台 Web UI 与本地服务(S6)
-- [x] 7. 验收加固与文档(S7)(B1/I1 live 验收跑待密钥后补,其余完成)
+## 顶层清单
 
-## 1. 证据链 spike 与引用核查器(S1)✅(live spike 已跑:可验证率 0.763 / 可达率 0.80 / kill 判据触发,已升级)
+- [x] 0. WP00 只读基线核查
+- [x] 1. 资产契约扩展 + workspace 级 LibraryStore
+- [x] 2. 直接入库（register_asset + 列表/导入 UI）
+- [ ] 3. 检索筛选与资产详情（search_assets + 可重建索引）
+- [x] 4. 研究沉淀（gather 留档 + analyze 证据登记）
+- [x] 5. 复用闭环（check_reuse + bind_assets + 复用选择器）
+- [x] 6. 生命周期治理 + 历史迁移（登记级）
+- [x] 7. 成果包增量 + 发布门禁扩展 + 端到端验收
 
-### What to build
+---
 
-薄垂直切片:contracts 最小集(ResearchRequest / ResearchRun / ResearchResultBundle 的 zod 校验)+ 经 `@earendil-works/pi-ai` 的模型接入 + search/fetch/parse 适配器(live 与 mock/录制)+ 证据模型(SourceSnapshot / Evidence / Claim + 口径)+ 引用核查器(纯函数);`runResearch(request, adapters, store)` 最小路径 = gather → verify,对 10 个真实研究问题(含中文来源类型:统计公报、行业报告、电商价格页、新闻)以 live 适配器运行;CLI 命令输出 spike 报告:逐引用判定(URL 存活/引句命中/引句不符/快照缺失)、来源可达率/可解析率、每阶段 token 成本与耗时。同时验证 pi-ai 对目标供应商(MiniMax/Kimi/GLM OpenAI 兼容端点)的接通方式。
+## 0. WP00 只读基线核查
 
-### Acceptance criteria
+## What to build
 
-- [ ] 10 个问题的 live run 完成,每个 Claim 有快照级证据或显式标未验证
-- [ ] 引用核查器对真实数据输出逐引用判定,与人工抽查(≥ 20 条)一致
-- [ ] spike 报告含可验证率、来源可达率、每阶段成本;若触发 kill 判据(可验证率 < 80% 或可达率 < 60%)升级用户并停止后续切片
-- [ ] pi-ai 对目标供应商的接通结论有记录(接通 / 接通方式 / 需升级)
-- [ ] 录制夹具可生成,供后续切片测试 replay
+对现有代码与数据做只读盘点，产出 `.flow/wp00-audit.md`：①实际架构/接口/存储/解析/来源与证据字段现状；②已实现/可复用/需增强/缺失四分类清单；③U2-01…U2-10 与实际改动点映射；④历史项目原文留存统计与迁移预演方案（含备份与回滚）；⑤需冻结的参数清单（导入上限、检索方案、性能门槛）。不改任何源码与数据。
 
-### Blocked by
+## Acceptance criteria
+
+- [ ] wp00-audit.md 含四分类清单与 U2 映射表
+- [ ] 历史 6 项目的 snapshots/bundle 留存统计（量化）
+- [ ] 迁移预演方案 + 数据保护与回滚计划
+- [ ] 红队假设①③④有明确结论（落盘粒度/收口点/留存率）
+
+## Blocked by
 
 None - can start immediately
 
-## 2. 全流水线脚本化运行 + 发布门禁 + 有限交付(S2)
+---
 
-### What to build
+## 1. 资产契约扩展 + workspace 级 LibraryStore
 
-`runResearch` 完整状态机:plan → gather → analyze → draft → review → publish,阶段工人 = pi-agent-core session(阶段域 tools + prompt),阶段转移由编排器决定;回环 = 缺口补证、反例检查、受影响内容复核(review 回退只重跑受影响分支);检查点持久化、取消、恢复;预算上限(搜索/抓取/成本估算/墙钟/并行 ≤ 4)到顶 → 停止新调用 → 有限交付;发布门禁:G9 高风险阻断 + 修复复核重过、G10 阈值分级(≥ 80% 正常 / 低于有限交付);口径检查器(对象/时间/单位、冲突登记与披露)。CLI 驱动,录制夹具运行。
+## What to build
 
-### Acceptance criteria
+在 contracts 上增量扩展 2.0 对象：Source/SourceVersion（SHA-256、更正关系）/AcquisitionRecord（授权上下文）/Entity/AssetBinding（精确版本+用途+as_of+检查结果）/UsageRecord/ReviewRecord；六维状态枚举与六类时间字段（proposal §8.3/§9.1）。新建 workspace 级 FsLibraryStore（research-data/library/，与 projects/ 平级）：sources/versions/acquisitions 读写、library 级 audit.jsonl、暂存→完成两阶段提交（半写入恢复）。Evidence/Claim 沿用现有 schema 并补 revision/口径字段（向后兼容：旧数据可解析）。
 
-- [ ] 录制夹具下端到端跑通全流程,bundle 过契约校验
-- [ ] 取消保留已完成阶段;恢复自最后完成阶段续跑、不重跑已完成调用(调用键幂等生效)
-- [ ] 预算低上限 → 停止发起新调用、产出有限交付报告(限制 + 未解决问题),run 状态 = limited
-- [ ] 注入高风险问题(关键结论引句不符)阻断发布;修复并复核后重过门禁发布
-- [ ] 引句命中率 < 80% → 有限交付且逐主张标注;≥ 80% → 正常交付
-- [ ] 注入口径冲突 → 发布必须带冲突披露节
+## Acceptance criteria
 
-### Blocked by
+- [ ] 契约测试：新对象 schema 校验 + 旧 bundle/snapshot JSON 仍可解析（向后兼容测试）
+- [ ] LibraryStore 端到端：写 Source+Version+Acquisition 可读回；幂等键重试不产生重复登记
+- [ ] 半写入恢复：暂存残留不进入可用清单
+- [ ] 审计流记录写操作
+
+## Blocked by
+
+- 0（WP00 确认契约兼容策略）
+
+---
+
+## 2. 直接入库（register_asset + 列表/导入 UI）
+
+## What to build
+
+文件导入与链接登记：register_asset 服务（文件→暂存→SHA-256→精确去重→元数据候选→登记；链接→登记入口状态，不假装已读正文）；逐项状态（成功/重复/待确认/失败）；server 路由 POST /api/library/assets + GET 列表；UI 侧栏新增"情报库"入口 + 中央列表页（标题/类型/对象/时期/取得状态/可复用性/处理状态）+ 导入动作。默认 PROJECT_ONLY。上限：单文件 50MB、批量 20 项（WP02 实测冻结）。URL 导入服务端边界：禁本机/私网、重定向检查。
+
+## Acceptance criteria
+
+- [ ] 不创建研究即可导入文件并入列表（U2-01/A-02）
+- [ ] 只登记链接时状态=DISCOVERED/SNIPPET_ONLY，不显示已读全文（A-03）
+- [ ] 精确重复导入被识别为重复项（U2-07 部分/A-09 基础）
+- [ ] 批量导入逐项状态可见，无"全部完成"掩盖
+- [ ] 本机/私网 URL 被拒（S-06）
+
+## Blocked by
 
 - 1
 
-## 3. 项目存储、版本、审计与生命周期(S3)
+---
 
-### What to build
+## 3. 检索筛选与资产详情（search_assets + 可重建索引）
 
-stores:项目目录 = 元数据 JSON + audit.jsonl(append-only)+ runs/<id>/ + reports/v<n>/;app 生命周期:项目创建/保存/重开;发布生成不可变版本;补证/重新评审 = 新 run 引用旧版本 → v<n+1> + 版本差异摘要(结论/证据/限制变化);模板复用(历史项目目标与范围 → 新 request);审计日志记录配置 hash、证据 ids、报告版本、关键事件;CLI/HTTP API 最小集暴露。
+## What to build
 
-### Acceptance criteria
+可重建关键词倒排索引（中文 bigram + 英文 token，索引文件独立、状态可见、可删除重建）；search_assets：标题/发布者/别名/类型/时期/正文检索 + 筛选（品牌/行业、地区、类型、日期、取得状态、复用范围）；权限过滤在服务端（PROJECT_ONLY 资产不被其他项目搜到：列表/计数/片段均不泄露）；命中片段+来源版本+限制展示；资产详情三区（原文与定位/元数据与版本/证据与使用记录）；空库与索引故障明确区分。品牌/行业档案轻量聚合页（Entity 关联资料聚合）。
 
-- [ ] 进程重启后项目可重开,全部证据/报告/版本可见
-- [ ] 已发布版本目录不可变(同版本二次写入失败)
-- [ ] 补证/重审产生新版本,差异摘要含结论/证据/限制变化
-- [ ] audit.jsonl append-only,含配置 hash 与关键事件
-- [ ] 模板复用生成保留原目标/范围的新 request
+## Acceptance criteria
 
-### Blocked by
+- [ ] 冻结中文夹具召回实测通过（中文品牌/正文/英文别名/数字口径）（U2-05）
+- [ ] S-01：跨项目搜索五路不泄露（列表/计数/片段/原文/上下文）
+- [ ] 索引删除后可重建且状态可见；索引故障时列表访问仍可用（A-17/S-12）
+- [ ] 详情页三区展示，原文缺失可见（U2-03）
+
+## Blocked by
 
 - 2
 
-## 4. 品牌模块配置与 B1 live 验收跑(S4)
+---
 
-### What to build
+## 4. 研究沉淀（gather 留档 + analyze 证据登记）
 
-品牌 ModuleConfig(schemaVersion + 问题框架:定位/价格/渠道/竞品 + 来源策略与验证规则 + 报告模板与结构化字段:品牌档案/竞品对比表/机会-风险-假设 + 专项质量检查);B1 = 一个公开资料充足的消费电子品牌,live 端到端跑通并发布版本化报告;录制夹具回归。
+## What to build
 
-### Acceptance criteria
+runResearch 接入点：gather 阶段读取成功即调 ingest_research_source（登记 Source/SourceVersion/AcquisitionRecord，默认 PROJECT_ONLY，幂等去重）；analyze 阶段 record_evidence（绑定原文定位/口径/revision）；完成或中断的运行保留已有效取得的材料；共享登记失败明示"项目已保存、共享登记待处理"，关键证据无法持久化则阻断发布。空库研究不受影响（A-01 回归）。
 
-- [ ] B1 live run 到 publish 或 limited,报告含品牌模板全部结构化字段
-- [ ] 关键结论可展开证据(来源/引句/抓取时间);未验证内容显式标注
-- [ ] 对比表数值带口径(对象/时间/单位),冲突并列披露
-- [ ] 反例检查结果在报告中呈现
-- [ ] 录制夹具可供回归
+## Acceptance criteria
 
-### Blocked by
+- [ ] replay 跑研究后，库中出现对应 PROJECT_ONLY 资产与取得记录（U2-02/流程 C）
+- [ ] 中断运行保留已留档材料，不记为已发布（S-10）
+- [ ] 登记失败状态真实可见，不假装已沉淀（S-11）
+- [ ] A-01 回归：空库品牌/行业研究照常
 
-- 3
+## Blocked by
 
-## 5. 行业模块配置与 I1 live 验收跑(S5)
+- 1（契约）；建议 2 之后做以便复用入库路径
 
-### What to build
+---
 
-行业 ModuleConfig(边界/规模口径/产业链/竞争 → 市场口径表/行业结构/趋势-风险,四件套同品牌);I1 = 中国咖啡零售行业,live 端到端跑通并发布版本化报告;录制夹具回归。
+## 5. 复用闭环（check_reuse + bind_assets + 复用选择器）
 
-### Acceptance criteria
+## What to build
 
-- [ ] I1 live run 到 publish 或 limited,报告含市场口径表/行业结构/趋势-风险
-- [ ] 规模数值均带口径与来源;不同口径并列且解释
-- [ ] 关键结论证据可追溯,未验证标注
-- [ ] 录制夹具可供回归
+check_reuse：授权→对象/范围/时间/取得完整性/证据支持/来源独立性顺序检查，输出 ELIGIBLE/LEAD_ONLY/NEEDS_REVIEW/NOT_APPLICABLE/FORBIDDEN；bind_assets：固定版本快照（来源版本+证据修订+请求范围+配置+权限检查记录），不静默覆盖；研究 plan 阶段"选择已有情报"选择器（搜索/筛选/四组分类/确认前可移除或标仅线索）；上下文组装解析授权引用为实际片段（含截断说明与位置）；UsageRecord 记录。端到端：第一次品牌研究沉淀 → 第二次行业研究检索选择绑定 → bundle 含绑定与使用记录。
 
-### Blocked by
+## Acceptance criteria
 
-- 3
+- [ ] A-12：同一来源版本被两个运行共用，独立绑定与使用记录
+- [ ] A-18：品牌材料在行业研究保留样本边界提示（LEAD_ONLY/NEEDS_REVIEW 分类正确）
+- [ ] 版本绑定固定到精确版本，不随"最新"漂移（A-13 前半）
+- [ ] 权限不足材料不进入模型上下文（S-03 上下文路径）
+- [ ] 端到端闭环用例通过（proposal §0.3 完成定义）
 
-## 6. 工作台 Web UI 与本地服务(S6)
+## Blocked by
 
-### What to build
+- 3、4
 
-HTTP JSON API(仅 127.0.0.1)+ React/Vite SPA:项目列表;新建任务向导(模块/目标/范围/附件文本与 PDF/预算/预估);计划确认页(确认/驳回);运行进度页(阶段时间线/活动日志/取消);证据抽屉(结论 → 证据 → 快照原文,净化纯文本渲染);报告阅读与导出(MD/HTML/zip 成果包);项目详情(版本/差异/审计/补证/重审/复用模板);设置页(密钥与默认上限,0600 配置文件)。
+---
 
-### Acceptance criteria
+## 6. 生命周期治理 + 历史迁移（登记级）
 
-- [ ] 浏览器全流程:创建 → 确认 → 运行 → 看证据 → 导出,不依赖 JuanerAI
-- [ ] 服务仅监听 127.0.0.1;密钥只来自 config/env,API 不回传密钥
-- [ ] 快照页仅渲染净化纯文本(来源 HTML 脚本不执行)
-- [ ] 导出 zip 含 report.md / report.html / evidence 快照 / manifest.json
-- [ ] 进度页可取消;取消后项目详情可恢复运行
+## What to build
 
-### Blocked by
+归档/撤回/删除：撤回禁止新使用+旧引用提示+受影响清单；删除前展示被引用项目与可保留范围、确认后执行并清理索引缓存；更正版本关系（新版本可见，旧研究仍绑定旧版并提示更正）；历史迁移脚本：备份→预演（dry-run 报告）→登记级迁移（现有 snapshots/bundle 登记为 Source/Version/Acquisition，原路径保留，不搬文件）→三档处理（完整/部分/只有报告）→兼容回归。不伪造底稿：只有报告的项目登记为历史派生成果并标缺失。
 
-- 3
+## Acceptance criteria
 
-## 7. 验收加固与文档(S7)
+- [ ] A-13：更正版本入库后旧报告仍绑定旧版本并显示更正提示
+- [ ] A-14：新时期财报为新资料对象，不覆盖旧身份
+- [ ] A-16：只有报告的历史项目收录为派生成果，无伪造原文/页码
+- [ ] S-07：撤回后禁止新绑定，旧引用显示状态
+- [ ] 迁移预演报告 + 备份恢复实测；旧项目引用不失效（S-13）
 
-### What to build
+## Blocked by
 
-对照 proposal 5 条成功标准对 B1/I1 live 逐条核查并记录(含引用可验证率数字);安全默认核查(绑定地址、0600、净化渲染、外发范围);失败/恢复路径核查(阶段失败错误明确 + 检查点保留、失败不冒充完成);README(安装/配置/运行/验收复现);修复发现缺口。
+- 1；建议 5 之后（撤回影响绑定语义）
 
-### Acceptance criteria
+---
 
-- [ ] 5 条成功标准逐条结论有书面记录(含可验证率数字)
-- [ ] 安全默认全部核查通过
-- [ ] 模拟阶段失败:错误明确、检查点保留、可恢复;run 状态 ≠ published
-- [ ] README 可复现:空机器到完成一次研究 run
+## 7. 成果包增量 + 发布门禁扩展 + 端到端验收
 
-### Blocked by
+## What to build
 
-- 4, 5, 6
+export_result_bundle 增量：asset_bindings.jsonl/source_versions.jsonl/manifest.json（schema 版本、资产版本清单、删减缺失原因、文件哈希）；未含原文时明示"引用可追溯但接收方未必能访问"；禁止导出未授权原文/密钥/本地路径。发布门禁扩展：引用闭合+版本固定+口径+权限+受限事实检查。受控验收集：A-01…A-18、S-01…S-15 可自动化部分全部转测试；双模块回归；验收报告（docs/ACCEPTANCE.md 增补 2.0 章）。
+
+## Acceptance criteria
+
+- [ ] S-14：MD/HTML/包内主张、数值、来源版本一致
+- [ ] S-04：未授权原文不导出且缺失说明准确
+- [ ] 发布门禁阻断虚构引用/越权资料/版本漂移（受控注入测试）
+- [ ] 双模块（品牌/行业）回归通过，取消/恢复/导出无退化
+- [ ] 验收报告含已知限制与解析边界
+
+## Blocked by
+
+- 5、6

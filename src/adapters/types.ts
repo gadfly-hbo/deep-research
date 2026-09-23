@@ -13,6 +13,8 @@ export interface SearchProvider {
 
 export interface FetchedPage {
   url: string;
+  /** 重定向后的最终地址(若与请求地址不同);服务端据此复查 SSRF 边界(S-06) */
+  finalUrl?: string;
   status: number;
   contentType: string;
   html?: string;

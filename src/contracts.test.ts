@@ -1,5 +1,8 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
+  ClaimSchema,
+  EvidenceSchema,
   ResearchRequestSchema,
   ResearchResultBundleSchema,
   ResearchRunSchema,
@@ -105,6 +108,55 @@ describe("ResearchResultBundle 契约", () => {
         ...baseBundle,
         verdicts: [{ evidenceId: "e1", verdict: "probably-true" }],
       }),
+    ).toThrow();
+  });
+
+  it("向后兼容:2.0 扩展后真实 v1 成果包样本仍可解析", () => {
+    const sample = JSON.parse(readFileSync("testdata/v1-bundle-sample.json", "utf8"));
+    const parsed = ResearchResultBundleSchema.parse(sample);
+    expect(parsed.claims.length).toBeGreaterThan(0);
+    expect(parsed.evidence[0].snapshotId).toBeTruthy();
+  });
+});
+
+describe("Evidence/Claim 2.0 扩展(全部可选,旧数据可解析)", () => {
+  it("旧形状证据(仅 id/snapshotId/quote)仍解析,扩展字段缺省", () => {
+    const e = EvidenceSchema.parse({ id: "e1", snapshotId: "s1", quote: "q" });
+    expect(e.revision).toBeUndefined();
+    expect(e.extractionCheck).toBeUndefined();
+  });
+
+  it("证据可带修订号、口径说明、提取核验与来源版本链接", () => {
+    const e = EvidenceSchema.parse({
+      id: "e1",
+      snapshotId: "s1",
+      quote: "女性比例为 62%",
+      locator: "p.12 表3",
+      revision: 2,
+      scopeNote: "某平台关注者样本,非全部购买者",
+      extractionCheck: "VERIFIED_AGAINST_SOURCE",
+      versionId: "sv-abc123",
+    });
+    expect(e.revision).toBe(2);
+    expect(e.extractionCheck).toBe("VERIFIED_AGAINST_SOURCE");
+    expect(() =>
+      EvidenceSchema.parse({ id: "e1", snapshotId: "s1", quote: "q", extractionCheck: "TRUST_ME" }),
+    ).toThrow();
+  });
+
+  it("主张可带修订号与支持状态(四态)", () => {
+    const c = ClaimSchema.parse({
+      id: "c1",
+      statement: "该调查关注者样本中女性占比较高",
+      kind: "fact",
+      evidenceIds: ["e1"],
+      revision: 1,
+      supportStatus: "PARTIALLY_SUPPORTED",
+      scopeNote: "仅限该平台关注者样本",
+    });
+    expect(c.supportStatus).toBe("PARTIALLY_SUPPORTED");
+    expect(() =>
+      ClaimSchema.parse({ id: "c1", statement: "s", kind: "fact", evidenceIds: [], supportStatus: "TRUE" }),
     ).toThrow();
   });
 });

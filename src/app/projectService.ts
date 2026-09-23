@@ -79,6 +79,7 @@ export async function runOnProject(
 export async function publishBundle(
   dir: string,
   runId: string,
+  library?: import("../library/types.js").LibraryStore,
 ): Promise<{ version: number; diffSummary: DiffSummary }> {
   const store = FsProjectStore.open(dir);
   const bundle = await store.readBundle(runId);
@@ -86,6 +87,39 @@ export async function publishBundle(
   const meta = store.meta();
   if (meta.versions.some((v) => v.runId === runId)) {
     throw new Error(`run 已发布: ${runId}`);
+  }
+  // 2.0 发布门禁(§14.3):引用闭合到固定版本、来源未撤回、提取无致命问题、无越权绑定
+  if (library) {
+    for (const ev of bundle.evidence) {
+      if (!ev.versionId) continue;
+      const version = await library.getVersion(ev.versionId);
+      if (!version) {
+        throw new Error(`发布阻断:证据 ${ev.id} 绑定的来源版本不存在(${ev.versionId}),引用不闭合`);
+      }
+      const source = await library.getSource(version.sourceId);
+      if (source?.lifecycle === "WITHDRAWN") {
+        throw new Error(`发布阻断:证据 ${ev.id} 的来源已撤回(${source.title});移除相关主张或改用有效来源`);
+      }
+      if (ev.extractionCheck === "EXTRACTION_ISSUE") {
+        throw new Error(`发布阻断:证据 ${ev.id} 标记提取问题;修正摘录/口径或移除主张后再发布`);
+      }
+    }
+    const forbidden = (await library.bindingsForRun(runId)).find((b) => b.applicability === "FORBIDDEN");
+    if (forbidden) throw new Error(`发布阻断:运行包含越权绑定(${forbidden.sourceId})`);
+    for (const verdict of bundle.verdicts) {
+      await library.saveReview({
+        reviewId: `rr-${verdict.evidenceId.replace(/[^a-zA-Z0-9]/g, "").slice(0, 16)}`,
+        objectRef: verdict.evidenceId,
+        scope: runId,
+        checkType: "extraction",
+        result: verdict.verdict === "quote-hit" ? "pass" : "fail",
+        reason: `${verdict.verdict}${verdict.entailment ? ` / entailment=${verdict.entailment}` : ""}${
+          verdict.numeric ? ` / numeric=${verdict.numeric}` : ""
+        }`,
+        reviewedAt: new Date().toISOString(),
+        reviewer: "system:citationVerifier",
+      });
+    }
   }
   const version = meta.versions.length + 1;
   const target = join(dir, "reports", `v${version}`);

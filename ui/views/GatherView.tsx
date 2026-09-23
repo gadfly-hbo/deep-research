@@ -1,15 +1,31 @@
-/* 阶段 2 · 采证:运行进度(进行中)或运行记录(空闲);证据快照流。 */
+/* 阶段 2 · 采证:运行进度(进行中)或运行记录(空闲);证据快照流;复用资料与使用记录。 */
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Chip from "../components/Chip";
 import Empty from "../components/Empty";
+import { api } from "../state/api";
 import { useProject } from "../state/projectDetail";
 import { snapshotTitle } from "../state/derive";
 import { STATUS, STATUS_DOT, TIER_BADGE, stageTitle } from "../state/types";
 import type { Run } from "../state/types";
 
+interface ReuseRow {
+  bindings: Array<{ bindingId: string; sourceId: string; versionId: string; purpose: string; applicability: string; checkNotes: string[] }>;
+  usages: Array<{ usageId: string; step: string; contentVersionId: string }>;
+}
+
 export function GatherView() {
   const p = useProject();
   const navigate = useNavigate();
+  const focusRunId = p.activeRun?.id ?? p.detail?.runs[p.detail.runs.length - 1]?.id ?? null;
+  const [reuse, setReuse] = useState<ReuseRow | null>(null);
+
+  useEffect(() => {
+    if (!focusRunId) return;
+    void api<ReuseRow>(`/api/library/bindings?runId=${encodeURIComponent(focusRunId)}`)
+      .then(setReuse)
+      .catch(() => setReuse(null));
+  }, [focusRunId]);
 
   if (!p.detail) {
     return (
@@ -96,6 +112,27 @@ export function GatherView() {
               ))}
             </ul>
           )}
+        </div>
+      )}
+
+      {reuse && reuse.bindings.length > 0 && (
+        <div className="card">
+          <h2 className="card-h">
+            本运行复用的情报
+            <span className="card-h-note num">{reuse.bindings.length} 项 · 使用 {reuse.usages.length} 次</span>
+          </h2>
+          <ul className="filelist">
+            {reuse.bindings.map((b) => (
+              <li className="file clickable" key={b.bindingId} onClick={() => navigate(`/library/${b.sourceId}`)}>
+                <span className="file-name">{b.purpose}</span>
+                <span className="file-meta mono">{b.versionId}</span>
+                <span className={`chip ${b.applicability === "ELIGIBLE" ? "chip-ok" : b.applicability === "LEAD_ONLY" ? "chip-fork" : "chip-wait"}`}>
+                  {b.applicability === "ELIGIBLE" ? "证据候选" : b.applicability === "LEAD_ONLY" ? "仅作线索" : "需复核"}
+                </span>
+                {b.checkNotes.length > 0 && <div className="fine" style={{ marginTop: 2 }}>{b.checkNotes.join(" · ")}</div>}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
 

@@ -370,16 +370,18 @@ export function livePage(): PageFetcher {
           headers: { "user-agent": "deep-research-spike/0.1 (+local single-user research tool)" },
         });
         const contentType = response.headers.get("content-type") ?? "";
+        // 重定向后的最终地址一并回传,调用方据此复查 SSRF 边界(S-06)
+        const finalUrl = response.url && response.url !== url ? response.url : undefined;
         if (!response.ok) {
-          return { url, status: response.status, contentType, error: `HTTP ${response.status}` };
+          return { url, finalUrl, status: response.status, contentType, error: `HTTP ${response.status}` };
         }
         if (contentType.includes("pdf")) {
-          return { url, status: 200, contentType, pdf: new Uint8Array(await response.arrayBuffer()) };
+          return { url, finalUrl, status: 200, contentType, pdf: new Uint8Array(await response.arrayBuffer()) };
         }
         const body = await response.text();
         return contentType.includes("html")
-          ? { url, status: 200, contentType, html: body }
-          : { url, status: 200, contentType, text: body };
+          ? { url, finalUrl, status: 200, contentType, html: body }
+          : { url, finalUrl, status: 200, contentType, text: body };
       } catch (error) {
         return { url, status: 0, contentType: "", error: String(error) };
       }

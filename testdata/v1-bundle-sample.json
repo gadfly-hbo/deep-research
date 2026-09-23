@@ -1,0 +1,47 @@
+{
+  "runId": "8347724b-42e3-465a-a00f-ac479b725d80",
+  "version": 0,
+  "reportMd": "# 品牌研究报告：安克（Anker）在中国市场的定位与格局\n\n## 一、品牌档案\n\n### 1.1 品牌概述\n安克（Anker）是全球领先的移动充电品牌，由前谷歌工程师阳萌（Steven Yang）于2011年在深圳创立。其产品畅销全球超过146个国家和地区，连续多年入选“BrandZ中国出海品牌50强”。根据欧睿国际2021年11月基于2020年零售销售额的研究，其零售销售额中超过75%来自手机",
+  "claims": [
+    {
+      "id": "cl:q1:snap:https://beta.anker.com.cn/brands:0",
+      "statement": "Anker是全球领先的移动充电品牌。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://beta.anker.com.cn/brands:0"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev:q1:snap:https://beta.anker.com.cn/brands:0",
+      "snapshotId": "snap:https://beta.anker.com.cn/brands",
+      "quote": "Anker是全球领先的移动充电品牌*"
+    }
+  ],
+  "snapshots": [
+    {
+      "id": "snap:https://beta.anker.com.cn/brands",
+      "url": "https://beta.anker.com.cn/brands",
+      "title": "\"link\": \"\",",
+      "fetchedAt": "2026-09-21T02:27:12.839Z",
+      "bodyText": "#Live Charged 让生活充满电Anker是全球领先的移动充电品牌*，在家用、办公、车载及随行快充技术领域都处于行业领先地位。Anker以打造适用于几乎所有移动设备的顶级充电产品而享誉全球。*数据来源：欧睿国际（上海）有限公司，以2020年零售销售额为标准，基于2021年11月进行的研究。品牌被定义为移动充电品牌的标准是其零售销售额中有超过75%来自手机充电产品。手机充电产品包括充电器、无",
+      "parseStatus": "ok",
+      "contentType": "text/html"
+    }
+  ],
+  "limitations": [
+    "以下主张引用核查未通过,已降级为未验证:cl:q1:snap:https://beta.anker.com.cn/brands:1、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:0、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:1、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:2、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:3、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:4、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:6、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:7、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:8、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:9、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:10、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:11、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:12、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:13、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:14、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:15、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:16、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:17、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:18、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:19、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:20、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:21、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:22、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:23、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:24、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:25、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:26、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:27、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:28、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:29、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:30、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:31、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:32、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:33、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:34、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:35、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:36、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:37、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:38、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:39、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:40、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:41、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:42、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:43、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:44、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:45、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:46、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:47、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:48、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:49、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:50、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:51、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:52、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:54、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:55、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:56、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:57、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:58、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:59、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:60、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:61、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:62、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:63、cl:q1:snap:https://xinwen.pconline.com.cn/2181/21815620.html:64",
+    "预算上限到达,部分采证未完成"
+  ],
+  "unresolved": [
+    "Anker在中国大陆的品牌定位是什么？包括品牌价值主张、目标消费群体和品牌形象（2024-2026年）。(部分回答)",
+    "Anker在中国的品牌定位在2024-2026年间出现了哪些变化或发展趋势？(未回答)"
+  ],
+  "verdicts": [
+    {
+      "evidenceId": "ev:q1:snap:https://beta.anker.com.cn/brands:0",
+      "verdict": "quote-hit"
+    }
+  ]
+}

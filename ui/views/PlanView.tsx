@@ -3,11 +3,14 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Chip from "../components/Chip";
 import Empty from "../components/Empty";
-import { useProject } from "../state/projectDetail";
+import { useProject, type SelectedAsset } from "../state/projectDetail";
 import { errMsg, post } from "../state/api";
+import { FETCH_STATUS_LABEL, REUSE_LABEL, searchLibrary, type AssetSearchRow } from "../state/library";
 import { useToast } from "../state/toast";
 import { MODULE_LABEL, stageTitle } from "../state/types";
 import type { Outline } from "../state/types";
+
+const FETCH_LABEL = FETCH_STATUS_LABEL;
 
 interface PlanQuestion { id: string; question: string }
 
@@ -22,6 +25,10 @@ export function PlanView() {
   const [plan, setPlan] = useState<PlanQuestion[] | null>(null);
   const [outline, setOutline] = useState<Outline | null>(null);
   const [busy, setBusy] = useState("");
+  // 2.0 复用选择器:候选资产 → 启动时随请求提交,服务端固定版本绑定
+  const [reuseQuery, setReuseQuery] = useState("");
+  const [reuseHits, setReuseHits] = useState<AssetSearchRow[]>([]);
+  const [selected, setSelected] = useState<SelectedAsset[]>([]);
 
   const meta = p.detail?.meta;
 
@@ -89,18 +96,22 @@ export function PlanView() {
   const start = async () => {
     if (!plan || !outline) return;
     setBusy("启动中…");
-    const ok = await p.startRun({
+    const started = await p.startRun({
       goal: form.goal,
       summary: form.summary,
       attachments: form.attachments,
       plan,
       outline,
+      selectedAssets: selected,
     });
     setBusy("");
-    if (ok) {
+    if (started.ok) {
       setWizard(false);
       setPlan(null);
       setOutline(null);
+      setSelected([]);
+      setReuseHits([]);
+      setReuseQuery("");
       navigate(`/project/${p.id}/gather`);
     }
   };
@@ -179,6 +190,123 @@ export function PlanView() {
                 <span className="fld-label">附件(本机文件路径,文本 / PDF,每行一个,可空)</span>
                 <textarea rows={3} value={form.attachments} onChange={(e) => setForm({ ...form, attachments: e.target.value })} />
               </label>
+              <div className="fld">
+                <span className="fld-label">选择已有情报(可选;服务端校验权限并固定版本)</span>
+                <div style={{ display: "flex", gap: 8 }}>
+                  <input
+                    type="search"
+                    placeholder="在情报库中搜索…"
+                    value={reuseQuery}
+                    onChange={(e) => setReuseQuery(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key !== "Enter") return;
+                      void (async () => {
+                        if (!reuseQuery.trim()) return;
+                        try {
+                          // 带当前项目上下文:服务端按授权过滤并给适用性(S-01/§11.4)
+                          setReuseHits((await searchLibrary({ q: reuseQuery.trim(), projectId: p.id })).results);
+                        } catch (err) {
+                          toast.show(errMsg(err));
+                        }
+                      })();
+                    }}
+                  />
+                </div>
+                {reuseHits.length > 0 && (
+                  <ul className="filelist" style={{ marginTop: 6 }}>
+                    {reuseHits.map((h) => {
+                      const picked = selected.some((s) => s.sourceId === h.sourceId);
+                      const forbidden = h.applicability === "FORBIDDEN";
+                      const APPL_LABEL: Record<string, string> = {
+                        ELIGIBLE: "证据候选",
+                        LEAD_ONLY: "仅作线索",
+                        NEEDS_REVIEW: "需补证/复核",
+                        NOT_APPLICABLE: "不适用",
+                        FORBIDDEN: "权限不允许",
+                      };
+                      return (
+                        <li className="file" key={h.sourceId}>
+                          <span className="file-name">{h.title}</span>
+                          <span className="file-meta">{FETCH_LABEL[h.fetchStatus] ?? h.fetchStatus} · {REUSE_LABEL[h.reuseScope]}</span>
+                          {h.applicability && (
+                            <span className={`chip ${h.applicability === "ELIGIBLE" ? "chip-ok" : h.applicability === "FORBIDDEN" ? "chip-fail" : "chip-wait"}`}>
+                              {APPL_LABEL[h.applicability] ?? h.applicability}
+                            </span>
+                          )}
+                          {h.checkNotes && h.checkNotes.length > 0 && (
+                            <div className="fine" style={{ marginTop: 2 }}>{h.checkNotes.join(" · ")}</div>
+                          )}
+                          <button
+                            className="btn btn-sm"
+                            type="button"
+                            disabled={forbidden}
+                            title={forbidden ? "权限不允许:需资产所有者显式授权跨项目复用" : undefined}
+                            onClick={() =>
+                              setSelected(
+                                picked
+                                  ? selected.filter((s) => s.sourceId !== h.sourceId)
+                                  : [
+                                      ...selected,
+                                      {
+                                        sourceId: h.sourceId,
+                                        versionId: h.versionId,
+                                        purpose: "研究复用",
+                                        applicability: h.applicability ?? undefined,
+                                      },
+                                    ],
+                              )
+                            }
+                          >
+                            {picked ? "移除" : "加入"}
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+                {selected.length > 0 && (
+                  <ul className="filelist" style={{ marginTop: 6 }}>
+                    {selected.map((s) => (
+                      <li className="file" key={s.sourceId}>
+                        <span className="file-name">{s.purpose}</span>
+                        <span className="file-meta mono" title="绑定固定到该版本,不随情报库更正漂移">
+                          {s.versionId}
+                        </span>
+                        <span className={`chip ${s.applicability === "LEAD_ONLY" ? "chip-fork" : "chip-ok"}`}>
+                          {s.applicability === "LEAD_ONLY" ? "仅作线索" : "证据候选"}
+                        </span>
+                        <button
+                          className="btn btn-sm"
+                          type="button"
+                          title="确认前可下调为仅作线索(§11.4)"
+                          onClick={() =>
+                            setSelected(
+                              selected.map((x) =>
+                                x.sourceId === s.sourceId
+                                  ? { ...x, applicability: x.applicability === "LEAD_ONLY" ? "ELIGIBLE" : "LEAD_ONLY" }
+                                  : x,
+                              ),
+                            )
+                          }
+                        >
+                          {s.applicability === "LEAD_ONLY" ? "改回证据候选" : "标记仅作线索"}
+                        </button>
+                        <input
+                          style={{ flex: 1, minWidth: 120 }}
+                          value={s.purpose}
+                          placeholder="选择理由/用途"
+                          onChange={(e) =>
+                            setSelected(selected.map((x) => (x.sourceId === s.sourceId ? { ...x, purpose: e.target.value } : x)))
+                          }
+                        />
+                        <button className="btn btn-sm" type="button" onClick={() => setSelected(selected.filter((x) => x.sourceId !== s.sourceId))}>
+                          移除
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
               <div className="actions">
                 <button className="btn btn-primary" type="button" disabled={!form.goal || busy !== ""} onClick={() => void previewPlan()}>
                   {busy || "生成研究计划"}

@@ -21,6 +21,7 @@ import { checkNumericConsistency } from "../quality/numericVerifier.js";
 import { verifyCitations } from "../quality/citationVerifier.js";
 import { checkModuleOutput } from "../quality/moduleCheck.js";
 import { tierOfSource } from "../quality/sourceTier.js";
+import type { LibraryStore } from "../library/types.js";
 import type { Checkpoint, ResearchStore } from "../stores/types.js";
 import {
   AnalyzeOutputSchema,
@@ -47,6 +48,10 @@ export interface RunOptions {
   maxLoops?: number;
   moduleConfig?: ModuleConfig;
   runId?: string;
+  /** 2.0:共享资产沉淀目标(情报库);缺省=不沉淀,保持一期行为(A-01 空库可研究) */
+  library?: LibraryStore;
+  /** 2.0:沉淀取得记录所归属的项目 */
+  projectId?: string;
 }
 
 export interface RunResult {
@@ -163,6 +168,88 @@ export async function runResearch(
     return { run: finished, bundle: null };
   };
 
+  // --- 2.0 共享沉淀(U2-02/流程 C):读取成功即留档到情报库,失败只披露不冒充 ---
+  const snapshotVersionMap = new Map<string, string>();
+  const ingestToLibrary = async (snapshot: SourceSnapshot): Promise<void> => {
+    const lib = options.library;
+    if (!lib) return;
+    const now = new Date().toISOString();
+    try {
+      const readable = snapshot.parseStatus === "ok" && snapshot.bodyText.trim() !== "";
+      let versionId: string;
+      let sourceId: string;
+      if (readable) {
+        const staging = await lib.stageContent(snapshot.bodyText);
+        const committed = await lib.commitContent(staging);
+        const existing = await lib.findVersionByHash(committed.contentHash);
+        if (existing) {
+          // 存储层内容去重:同内容复用版本,但本 run 另记一条取得记录(授权不合并)
+          versionId = existing.versionId;
+          sourceId = existing.sourceId;
+        } else {
+          sourceId = `s-${randomUUID().slice(0, 8)}`;
+          versionId = `sv-${committed.contentHash.slice(0, 12)}`;
+          await lib.saveSource({
+            sourceId,
+            title: snapshot.title || snapshot.url,
+            url: snapshot.url,
+            docType: "other",
+            entityIds: [],
+            tags: [],
+            lifecycle: "ACTIVE",
+            createdAt: now,
+          });
+          await lib.saveVersion({
+            versionId,
+            sourceId,
+            contentRef: committed.contentRef,
+            contentHash: committed.contentHash,
+            fetchStatus: "READ_FULL",
+            parseStatus: "ok",
+            createdAt: now,
+          });
+        }
+      } else {
+        sourceId = `s-${randomUUID().slice(0, 8)}`;
+        versionId = `sv-${randomUUID().slice(0, 8)}`;
+        await lib.saveSource({
+          sourceId,
+          title: snapshot.title || snapshot.url,
+          url: snapshot.url,
+          docType: "other",
+          entityIds: [],
+          tags: [],
+          lifecycle: "ACTIVE",
+          createdAt: now,
+        });
+        await lib.saveVersion({
+          versionId,
+          sourceId,
+          fetchStatus: "READ_PARTIAL",
+          parseStatus: "failed",
+          parseIssue: "研究采证解析失败:正文不可读,仅保留取得事实",
+          createdAt: now,
+        });
+      }
+      await lib.saveAcquisition({
+        acquisitionId: `aq-${randomUUID().slice(0, 8)}`,
+        versionId,
+        projectId: options.projectId,
+        runId: options.runId,
+        acquiredAt: snapshot.fetchedAt,
+        recordedAt: now,
+        method: "research-fetch",
+        readScope: readable ? "READ_FULL" : "READ_PARTIAL",
+        reuseScope: "PROJECT_ONLY",
+        rights: {},
+      });
+      snapshotVersionMap.set(snapshot.id, versionId);
+    } catch {
+      const note = "共享登记失败:部分资料未进入情报库(项目已保存、共享登记待处理)";
+      if (!state.limitations.includes(note)) state.limitations.push(note);
+    }
+  };
+
   const gather = async (round: number, targets?: PlanQuestion[]): Promise<void> => {
     const questions = targets ?? state.questions.filter((q) => q.status === "open");
     for (let qIdx = 0; qIdx < questions.length; qIdx++) {
@@ -218,6 +305,7 @@ export async function runResearch(
               tier: tierOfSource(hit.url, moduleConfig.sourceStrategy.preferredDomains),
             };
             await store.saveSnapshot(snapshot);
+            await ingestToLibrary(snapshot);
             const extracted = await adapters.model.extractClaims(
               { snapshot },
               `${keyBase}:gather:r${round}:model:${n}`,
@@ -246,7 +334,15 @@ export async function runResearch(
             const cIdx = state.claims.findIndex((x) => x.id === claimId);
             if (cIdx >= 0) state.claims[cIdx] = claim;
             else state.claims.push(claim);
-            state.evidence.push({ id: evidenceId, snapshotId: snapshot.id, quote: c.quote });
+            state.evidence.push({
+              id: evidenceId,
+              snapshotId: snapshot.id,
+              quote: c.quote,
+              // 2.0:证据绑定情报库来源版本,提取核验待评审确认
+              versionId: snapshotVersionMap.get(snapshot.id),
+              revision: 1,
+              extractionCheck: "UNCHECKED",
+            });
             state.claimQuestions[claimId] = q.id;
             claimsForQ += 1;
           });
@@ -325,6 +421,7 @@ export async function runResearch(
         tier: "A",
       };
       await store.saveSnapshot(snapshot);
+      await ingestToLibrary(snapshot);
       state.snapshots.push(snapshot);
       const extracted = await adapters.model.extractClaims(
         { snapshot },
@@ -341,10 +438,122 @@ export async function runResearch(
           evidenceIds: [evidenceId],
           calibration: c.calibration,
         });
-        state.evidence.push({ id: evidenceId, snapshotId: snapshot.id, quote: c.quote });
+        state.evidence.push({
+          id: evidenceId,
+          snapshotId: snapshot.id,
+          quote: c.quote,
+          versionId: snapshotVersionMap.get(snapshot.id),
+          revision: 1,
+          extractionCheck: "UNCHECKED",
+        });
         state.claimQuestions[claimId] = "attachments";
       });
     }
+    // --- 2.0 复用输入(§5.2/§10.2):绑定资产的正文作为候选证据进入上下文;线索只记录不注入 ---
+    if (options.library && options.runId) {
+      const lib = options.library;
+      const bindings = await lib.bindingsForRun(options.runId);
+      for (const binding of bindings) {
+        if (cancelled()) return cancelRun();
+        const version = await lib.getVersion(binding.versionId);
+        const source = version ? await lib.getSource(version.sourceId) : null;
+        if (!version || !source) continue;
+        if (
+          binding.applicability === "LEAD_ONLY" ||
+          binding.applicability === "FORBIDDEN" ||
+          binding.applicability === "NOT_APPLICABLE"
+        ) {
+          await lib.saveUsage({
+            usageId: `u-${randomUUID().slice(0, 8)}`,
+            runId: options.runId,
+            bindingId: binding.bindingId,
+            step: "lead",
+            contentVersionId: binding.versionId,
+            usedAt: new Date().toISOString(),
+          });
+          continue;
+        }
+        // S-03/S-02:外发门禁只看本运行项目/属主直录/已显式升档到工作台复用的取得记录,
+        // 不允许受限项目借用其他项目取得记录上的外发许可(§9.3)
+        const bindAcquisitions = await lib.acquisitionsForVersion(binding.versionId);
+        const canSendExternal = bindAcquisitions.some(
+          (a) =>
+            a.rights.sendToExternalModel === true &&
+            (a.projectId === options.projectId ||
+              a.projectId === undefined ||
+              a.reuseScope === "WORKSPACE_REUSABLE"),
+        );
+        if (!canSendExternal) {
+          state.limitations.push(
+            `复用资产「${source.title}」未授权向外部模型发送正文:本次仅保留绑定与线索,未注入模型上下文`,
+          );
+          await lib.saveUsage({
+            usageId: `u-${randomUUID().slice(0, 8)}`,
+            runId: options.runId,
+            bindingId: binding.bindingId,
+            step: "blocked-external",
+            contentVersionId: binding.versionId,
+            usedAt: new Date().toISOString(),
+          });
+          continue;
+        }
+        const content = version.contentRef ? await lib.readContent(version.contentRef) : null;
+        if (!content) {
+          state.limitations.push(`复用资产正文不可读(${source.title}),已按缺口保留绑定`);
+          continue;
+        }
+        const snapshot: SourceSnapshot = {
+          id: `snap:lib:${binding.versionId}`,
+          url: source.url ?? `library://${source.sourceId}`,
+          title: source.title,
+          fetchedAt: new Date().toISOString(),
+          bodyText: content,
+          parseStatus: "ok",
+          contentType: "text/plain",
+          tier: source.docType === "research-report" ? "C" : "B",
+        };
+        if (!state.snapshots.some((s) => s.id === snapshot.id)) state.snapshots.push(snapshot);
+        await store.saveSnapshot(snapshot);
+        const extracted = await adapters.model.extractClaims(
+          { snapshot },
+          `${keyBase}:gather:reuse:${binding.bindingId}`,
+        );
+        run.usage.costEstimate += extracted.cost;
+        extracted.claims.forEach((c, ci) => {
+          const claimId = `cl:reuse:${binding.bindingId}:${ci}`;
+          const evidenceId = `ev:reuse:${binding.bindingId}:${ci}`;
+          if (state.claims.some((x) => x.id === claimId)) return;
+          state.claims.push({
+            id: claimId,
+            statement: c.statement,
+            kind: c.kind,
+            evidenceIds: [evidenceId],
+            calibration: c.calibration,
+            // 复用证据带适用范围说明,防止样本边界被抹平(A-05/A-18)
+            scopeNote: binding.checkNotes.join(";") || undefined,
+          });
+          state.evidence.push({
+            id: evidenceId,
+            snapshotId: snapshot.id,
+            quote: c.quote,
+            versionId: binding.versionId,
+            revision: binding.evidenceRevisions[evidenceId] ?? 1,
+            extractionCheck: "UNCHECKED",
+            scopeNote: binding.checkNotes.join(";") || undefined,
+          });
+          state.claimQuestions[claimId] = "reuse";
+        });
+        await lib.saveUsage({
+          usageId: `u-${randomUUID().slice(0, 8)}`,
+          runId: options.runId,
+          bindingId: binding.bindingId,
+          step: "gather",
+          contentVersionId: binding.versionId,
+          usedAt: new Date().toISOString(),
+        });
+      }
+    }
+
     await gather(0);
     if (cancelled()) return cancelRun();
     await saveCp("gather", { ...state });

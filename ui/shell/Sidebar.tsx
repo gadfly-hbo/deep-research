@@ -82,6 +82,13 @@ export function Sidebar() {
         <button className="sb-search" type="button" onClick={ui.openPalette}>
           <span aria-hidden="true">⌕</span> 搜索项目与命令 <kbd>⌘K</kbd>
         </button>
+        <button
+          className={`sb-item${location.pathname === "/library" ? " active" : ""}`}
+          type="button"
+          onClick={() => navigate("/library")}
+        >
+          <span aria-hidden="true">▣</span> 外部情报库
+        </button>
         {currentId && current ? (
           <button
             className="sb-new"

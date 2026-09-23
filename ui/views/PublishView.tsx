@@ -1,16 +1,27 @@
-/* 阶段 6 · 发布:可发布运行 → 不可变版本 → 正式报告(HTML / PDF / PPTX / zip)。 */
-import { useEffect } from "react";
+/* 阶段 6 · 发布:可发布运行 → 不可变版本 → 正式报告(HTML / PDF / PPTX / zip);展示本版本绑定的资产版本。 */
+import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Chip from "../components/Chip";
 import Empty from "../components/Empty";
+import { api } from "../state/api";
 import { useProject } from "../state/projectDetail";
 import { useToast } from "../state/toast";
+
+interface BindingRow {
+  bindingId: string;
+  sourceId: string;
+  versionId: string;
+  purpose: string;
+  applicability: string;
+  checkNotes: string[];
+}
 
 export function PublishView() {
   const p = useProject();
   const navigate = useNavigate();
   const toast = useToast();
   const [params] = useSearchParams();
+  const [versionBindings, setVersionBindings] = useState<BindingRow[]>([]);
 
   // 侧栏版本入口:/project/:id/publish?v=N
   const requested = Number(params.get("v"));
@@ -21,6 +32,18 @@ export function PublishView() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requested, versions.length, p.bundleVersion]);
+
+  // 本查看版本对应运行的资产绑定(引用固定到版本,§8.4)
+  const viewedRunId = versions.find((v) => v.version === p.bundleVersion)?.runId ?? null;
+  useEffect(() => {
+    if (!viewedRunId) {
+      setVersionBindings([]);
+      return;
+    }
+    void api<{ bindings: BindingRow[] }>(`/api/library/bindings?runId=${encodeURIComponent(viewedRunId)}`)
+      .then((r) => setVersionBindings(r.bindings))
+      .catch(() => setVersionBindings([]));
+  }, [viewedRunId]);
 
   if (!p.detail) {
     return (
@@ -70,6 +93,29 @@ export function PublishView() {
           </ul>
         </div>
       )}
+
+      <div className="card">
+        <h2 className="card-h">
+          本版本实际使用的资产版本
+          <span className="card-h-note">引用指向固定版本,不随情报库后续更正漂移</span>
+        </h2>
+        {versionBindings.length === 0 ? (
+          <p className="empty">该版本未绑定情报库资产(全部证据来自本次采证或附件)。</p>
+        ) : (
+          <ul className="filelist" style={{ marginBottom: 0 }}>
+            {versionBindings.map((b) => (
+              <li className="file clickable" key={b.bindingId} onClick={() => navigate(`/library/${b.sourceId}`)}>
+                <span className="file-name">{b.purpose}</span>
+                <span className="file-meta mono">{b.versionId}</span>
+                <span className={`chip ${b.applicability === "ELIGIBLE" ? "chip-ok" : b.applicability === "LEAD_ONLY" ? "chip-fork" : "chip-wait"}`}>
+                  {b.applicability === "ELIGIBLE" ? "证据候选" : b.applicability === "LEAD_ONLY" ? "仅作线索" : "需复核"}
+                </span>
+                {b.checkNotes.length > 0 && <div className="fine" style={{ marginTop: 2 }}>{b.checkNotes.join(" · ")}</div>}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
       <div className="card">
         <h2 className="card-h">

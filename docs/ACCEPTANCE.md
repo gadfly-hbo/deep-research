@@ -61,3 +61,62 @@
 2. 150s 对推理模型大快照抽取不够(实测单次最长 199.5s);
 3. 链路错误只报最后一家,minimax 真实错误被吞。
 修复(全部单元测试覆盖,69/69):`maxRetries:1 + maxRetryDelayMs:5s` 快速失败(故障转移归主备链路);模型超时 300s(env `DR_MODEL_TIMEOUT_MS` 可配);瞬时错误判定涵盖中止/超时/连接/5xx;熔断器(连续 2 次瞬时失败冷却 10 分钟);失败信息聚合各 provider 错误;`DR_DEBUG` 计时日志。验证:minimax 单发 14.7s 正常、真实 7.2k 字快照链路抽取 69.1s、I1 复跑全程无中断。
+
+---
+
+# 2.0 外部情报库与跨研究复用 验收核查记录
+
+核查日期:2026-09-23。环境:无外部密钥;全部用例以 vitest 集成测试完成(40 文件 / 208 测试全绿),UI 以 typecheck + vite build 校验;live 真实任务回归挂起(待密钥)。
+
+## U2 必交功能
+
+| # | 功能 | 结论 | 证据 |
+|---|------|------|------|
+| U2-01 | 资料直接入库 | 通过 | `library/assetService.test.ts`(文件/链接/批量逐项/50MB 上限);`server/libraryRoutes.test.ts`(不建研究可入库、SSRF 拒绝) |
+| U2-02 | 研究过程留档 | 通过 | `core/researchArchiving.test.ts`(gather 即沉淀、证据带版本+待核验、中断保留、登记失败披露) |
+| U2-03 | 资产列表与详情 | 通过 | `server/libraryRoutes.test.ts` + `ui/views/LibraryView.tsx`/`AssetDetailView.tsx`(三区、解析缺口可见) |
+| U2-04 | 品牌/行业整理 | 通过 | `server/librarySearchRoutes.test.ts`(实体创建/关联/聚合计数);不自动合并(契约 confirmStatus/basis) |
+| U2-05 | 检索与筛选 | 通过 | `library/searchIndex.test.ts`(中文 bigram/英文别名/数字口径冻结夹具)+ `searchService.test.ts`(授权过滤/索引重建) |
+| U2-06 | 加入研究与版本绑定 | 通过 | `library/reuse.test.ts` + `core/reuseIntegration.test.ts` + `server/reuseRunRoutes.test.ts`(越权拒绝、绑定与使用记录独立) |
+| U2-07 | 去重与版本管理 | 通过 | 内容哈希精确去重(assetService/migration 测试);同源转引=上游引用字段+人工同源待确认(契约 origin) |
+| U2-08 | 生命周期与复用控制 | 通过 | `library/lifecycle.test.ts`(撤回禁新用/归档需复核/删除需确认)+ `changeReuseScope`(带依据审计) |
+| U2-09 | 历史项目兼容 | 通过 | `app/migrateLibrary.test.ts`(三档分档/登记级/幂等/不搬文件);真实数据仅只读统计(WP00) |
+| U2-10 | 成果包与运行回归 | 通过 | `app/exportBundle.test.ts` + 验收闭环测试(2.0 manifest/omissions/permitted_assets);双模块回归 208 绿 |
+
+## 验收用例映射(§17.2/17.3 可自动化部分)
+
+| 用例 | 覆盖测试 |
+|------|----------|
+| A-01 空库可研究 | 一期全套 + reuse 集成测试(无 library 选项路径不变) |
+| A-02 只导入不研究 | libraryRoutes.test.ts |
+| A-03 只登记≠已读 | assetService.test.ts / libraryRoutes.test.ts(DISCOVERED 断言) |
+| A-04 解析缺口可见 | assetService.test.ts(PDF failed)+ AssetDetailView 展示 |
+| A-05/A-18 样本边界 | reuseIntegration/acceptanceLoop(scopeNote 保留「不代表全行业」) |
+| A-08 转引不升级 | 契约 origin.obtainedUpstream + checkReuse 派生/线索规则(reuse.test.ts) |
+| A-09 同源不重复计数 | 存储层内容去重 + acquisitions 独立(assetService/migrate 测试) |
+| A-10 自有报告派生 | reuse.test.ts(derivedFromRunId → LEAD_ONLY) |
+| A-12 跨任务独立绑定 | reuseIntegration/acceptanceLoop |
+| A-13 更正不静默替换 | lifecycle.test.ts + governance 路由测试 |
+| A-15 截止点 | reuse.test.ts(asOf 晚于 published → NEEDS_REVIEW) |
+| A-16 只有报告不伪造 | migrateLibrary(仅登记快照;无快照项目 tier=empty 不登记) |
+| A-17 索引故障 | searchService.test.ts(删除后重建/状态可见) |
+| S-01 跨项目不泄露 | searchService.test.ts + librarySearchRoutes.test.ts |
+| S-02 授权不串用 | assetService.test.ts(同内容两取得记录权利独立) |
+| S-04 导出许可 | acceptanceLoop.test.ts(omissions/permitted_assets 断言) |
+| S-06 SSRF | assetService.test.ts + libraryRoutes.test.ts |
+| S-07 撤回/删除 | lifecycle.test.ts + governance 路由测试 |
+| S-09 幂等 | assetService/bindAssets 幂等键测试 |
+| S-10 中断保留 | researchArchiving.test.ts |
+| S-11 登记失败披露 | researchArchiving.test.ts(limitations 断言) |
+| S-12 索引重建一致 | searchService.test.ts |
+| S-14 多格式一致 | exportBundle 测试 + acceptanceLoop(manifest 2.0) |
+| S-15 核验后修改重查 | 发布门禁:撤回阻断→恢复放行(acceptanceLoop)+ 版本不可变(一期) |
+
+未自动化/挂起:A-06/A-07/A-11/A-14 语义类(人工抽检)、S-03/S-05 外部模型外发边界(无密钥挂起,一期密钥纪律不变)、S-08 半写入恢复(暂存残留清单已实现,崩溃注入待 chaos 测试)、S-13 旧项目升级回归(迁移 dry-run 覆盖真实样本,切换需用户确认)、真实品牌/行业任务各两条回归与跨任务演示(待密钥)。
+
+## 已知限制(本轮)
+
+- 检索为关键词倒排(中文 bigram),无语义检索;召回以冻结夹具验证。
+- PDF 仅文本层解析;扫描件/复杂表格登记为解析缺口,不虚构数值。
+- 权限为单用户本地语义;跨设备共享仍经 research-data git 同步,library 大文件建议另置(见 wp00-audit)。
+- 历史迁移为登记级:不搬原文、不补造核验记录;只有报告的项目需人工确认后另行登记。
