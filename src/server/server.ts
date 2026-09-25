@@ -11,8 +11,6 @@ import { DEFAULT_BUDGET } from "../core/runResearch.js";
 import { OutlineOutputSchema, PlanOutputSchema } from "../core/stages.js";
 import { getModuleConfig } from "../modules/registry.js";
 import { FsProjectStore } from "../stores/fsStore.js";
-import { defaultDataDir } from "../app/dataDir.js";
-import { dataSync } from "../app/dataSync.js";
 import { fetchAssetContent, registerAssets, type RegisterInput } from "../library/assetService.js";
 import { changeLifecycle, correctVersion, deleteAsset } from "../library/lifecycle.js";
 import { checkReuse, changeReuseScope } from "../library/reuse.js";
@@ -242,12 +240,6 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
           })
           .finally(() => {
             controllers.delete(request.id ?? "");
-            // 数据寄居仓库内时,run 结束即同步到远端(双机共享);失败只提示不阻断
-            if (deps.dataDir === defaultDataDir()) {
-              void Promise.resolve(dataSync()).then((r) => {
-                if (!r.ok) console.error(`[data-sync] ${r.action}: ${r.detail}`);
-              });
-            }
           });
         json(res, 200, { started: true, requestId: request.id, reuse: bindReport });
         return;
@@ -301,11 +293,6 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
           })
           .finally(() => {
             controllers.delete(request.id ?? "");
-            if (deps.dataDir === defaultDataDir()) {
-              void Promise.resolve(dataSync()).then((r) => {
-                if (!r.ok) console.error(`[data-sync] ${r.action}: ${r.detail}`);
-              });
-            }
           });
         json(res, 200, { resumed: true, requestId: request.id });
         return;

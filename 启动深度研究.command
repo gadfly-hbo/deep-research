@@ -1,6 +1,7 @@
 #!/bin/bash
 # 一键启动深度研究工作台(双端通用:macmini / MacBook)
-# 流程:同步研究数据 → 起本机服务(密钥自动从本机凭据注入)→ 打开浏览器;退出时回推数据。
+# 流程:起本机服务(密钥自动从本机凭据注入)→ 打开浏览器。
+# 双机同步:研究数据随仓库走 git——变动端 git-commit-push 到 GitHub,另一端手动触发 git-pull-sync 拉取(拉取前先停本服务)。
 set -e
 cd "$(dirname "$0")"
 
@@ -14,14 +15,8 @@ if [ ! -f ui-dist/index.html ]; then
   npm run build
 fi
 
-echo "[同步] 拉取双端研究数据…"
-npm run research --silent -- data-sync || echo "[同步] 跳过(无变更或无网络)"
-
 cleanup() {
   kill "$SERVER_PID" 2>/dev/null || true
-  echo ""
-  echo "[同步] 回推本机研究数据…"
-  npm run research --silent -- data-sync || echo "[同步] 回推跳过"
 }
 trap cleanup EXIT
 
