@@ -1,4 +1,4 @@
-/* 左侧栏:品牌块 / ⌘K 搜索 / 新建入口 / 项目树(展开列版本) / 当前项目最近运行 / 底部设置与边界声明。 */
+/* 左侧栏:⌘K 搜索 / 新建入口 / 项目树(展开列版本) / 当前项目最近运行 / 底部设置与边界声明;品牌区在顶部 TopBar。 */
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Chip from "../components/Chip";
@@ -70,14 +70,6 @@ export function Sidebar() {
 
   return (
     <nav className="sidebar" aria-label="项目与运行导航">
-      <div className="sb-brand">
-        <div className="mark" aria-hidden="true">深</div>
-        <div>
-          <strong>独立深度研究</strong>
-          <small>品牌 × 行业研究工作台</small>
-        </div>
-      </div>
-
       <div className="sb-top">
         <button className="sb-search" type="button" onClick={ui.openPalette}>
           <span aria-hidden="true">⌕</span> 搜索项目与命令 <kbd>⌘K</kbd>
@@ -170,7 +162,6 @@ export function Sidebar() {
       )}
 
       <div className="sb-foot">
-        <span className="pill pill-offline" title="仅在本机运行(127.0.0.1),不连接 JuanerAI">● 本机服务 · 127.0.0.1</span>
         <button
           className={`sb-item${location.pathname === "/settings" ? " active" : ""}`}
           type="button"

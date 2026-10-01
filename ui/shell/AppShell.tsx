@@ -1,7 +1,8 @@
-/* 应用外壳:三栏窗口(侧栏 + Outlet)+ 底部状态栏 + 命令面板;
+/* 应用外壳:顶部品牌栏 + 三栏窗口(侧栏 + Outlet)+ 底部状态栏 + 命令面板;
    项目路由下用 ProjectDetailProvider 包裹,三栏共享同一份详情数据。 */
 import { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
+import { TopBar } from "./TopBar";
 import { Sidebar } from "./Sidebar";
 import { StatusBar } from "./StatusBar";
 import { Palette } from "./Palette";
@@ -41,6 +42,7 @@ export function AppShell() {
       >
         跳到主工作区
       </a>
+      <TopBar />
       <div className={appCls}>
         <Sidebar />
         <button
