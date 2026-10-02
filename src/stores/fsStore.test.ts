@@ -84,4 +84,14 @@ describe("FsProjectStore", () => {
     const reopened = FsProjectStore.open(dir);
     expect(await reopened.findRunByRequestId("nope")).toBeUndefined();
   });
+
+  it("同一 requestId 多条 run 记录时按 mtime 取最新(恢复不误选旧记录)", async () => {
+    const dir = tmp();
+    const store = FsProjectStore.create(dir, { module: "brand", goal: "g", scope: { summary: "s", queries: [] } });
+    await store.saveRun({ ...run, id: "a-run" });
+    await new Promise((r) => setTimeout(r, 10));
+    await store.saveRun({ ...run, id: "b-run", status: "cancelled" });
+    const found = await FsProjectStore.open(dir).findRunByRequestId("req-1");
+    expect(found?.id).toBe("b-run");
+  });
 });

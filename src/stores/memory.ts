@@ -29,6 +29,7 @@ export function createMemoryStore(): MemoryStore {
     },
     checkpoints: async (runId) => checkpoints.filter((c) => c.runId === runId),
     findRunByRequestId: async (requestId) => runs.find((r) => r.requestId === requestId),
+    readBundle: async (runId) => bundles.find((b) => b.runId === runId) ?? null,
     runs: () => [...runs],
     bundles: () => [...bundles],
     snapshots: () => [...snapshots],

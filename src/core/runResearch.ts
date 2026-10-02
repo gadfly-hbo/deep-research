@@ -7,6 +7,7 @@ import {
   type Budget,
   type Claim,
   type Evidence,
+  type Intervention,
   type ResearchRequest,
   type ResearchResultBundle,
   type ResearchRun,
@@ -52,6 +53,8 @@ export interface RunOptions {
   library?: LibraryStore;
   /** 2.0:沉淀取得记录所归属的项目 */
   projectId?: string;
+  /** 2.1:执行中干预指令源(非阻塞拉取,取走即消费);server 层接落盘队列,测试注入可控序列。 */
+  pollInstructions?: () => Intervention[] | Promise<Intervention[]>;
 }
 
 export interface RunResult {
@@ -64,6 +67,7 @@ const QUESTION_STATUS_LABEL: Record<PlanQuestion["status"], string> = {
   answered: "已回答",
   partially: "部分回答",
   unanswered: "未回答",
+  skipped: "已跳过",
 };
 
 interface RunState {
@@ -137,6 +141,29 @@ export async function runResearch(
   const completedStages = new Set(priorCheckpoints.map((c) => c.stage));
 
   const state = emptyState();
+
+  // --- 2.1 增量追问:加载基准成果包(固定快照引用,复用而不重采) ---
+  const incrementalOf = request.incrementalOf;
+  const baseBundle = incrementalOf ? await store.readBundle(incrementalOf.runId) : null;
+  if (incrementalOf && !baseBundle) {
+    state.limitations.push(`增量基准成果包缺失(${incrementalOf.runId}),本次未复用基准证据,按全量研究执行`);
+  }
+  const baseSnapshotUrls = new Set<string>(baseBundle?.snapshots.map((s) => s.url) ?? []);
+  if (incrementalOf) run.derivedFromRunId = incrementalOf.runId;
+  // 2.1:增量 bundle 元数据(两处组装路径共用;延迟求值,newQuestions 以组装时点为准)
+  const incrementalBundleFields = () =>
+    incrementalOf && baseBundle
+      ? {
+          derivedFromRunId: incrementalOf.runId,
+          reuseSummary: {
+            baseRunId: incrementalOf.runId,
+            reusedSnapshots: baseBundle.snapshots.length,
+            reusedEvidence: baseBundle.evidence.length,
+            reusedClaims: baseBundle.claims.length,
+            newQuestions: state.questions.length,
+          },
+        }
+      : {};
   for (const cp of priorCheckpoints) {
     if (cp.stage === "plan") {
       state.questions = (cp.data as PlanOutput).questions;
@@ -157,16 +184,35 @@ export async function runResearch(
   };
   const persistRun = async (stage?: ResearchRun["stage"]): Promise<void> => {
     if (stage) run.stage = stage;
+    syncProgress();
     await store.saveRun(ResearchRunSchema.parse(run));
+  };
+  // 2.1:采证进度摘要(当前问题 + 计数),随每次落盘刷新
+  let currentQuestion: PlanQuestion | undefined;
+  const syncProgress = (): void => {
+    const qs = state.questions;
+    const count = (status: PlanQuestion["status"]) => qs.filter((q) => q.status === status).length;
+    run.progress = {
+      currentQuestionId: currentQuestion?.id,
+      currentQuestionText: currentQuestion?.question,
+      answered: count("answered") + count("partially"),
+      open: count("open") + count("unanswered"),
+      skipped: count("skipped"),
+      total: qs.length,
+    };
   };
 
   const cancelRun = async (): Promise<RunResult> => {
     run.status = "cancelled";
     run.usage.wallMs = Date.now() - started;
+    syncProgress();
     const finished = ResearchRunSchema.parse(run);
     await store.saveRun(finished);
     return { run: finished, bundle: null };
   };
+
+  // 恢复瞬间即落 running:服务端 resume 不再预落记录,可见性由这里兜底
+  if (resuming) await persistRun();
 
   // --- 2.0 共享沉淀(U2-02/流程 C):读取成功即留档到情报库,失败只披露不冒充 ---
   const snapshotVersionMap = new Map<string, string>();
@@ -252,9 +298,16 @@ export async function runResearch(
 
   const gather = async (round: number, targets?: PlanQuestion[]): Promise<void> => {
     const questions = targets ?? state.questions.filter((q) => q.status === "open");
+    activeGatherTargets = questions;
+    try {
     for (let qIdx = 0; qIdx < questions.length; qIdx++) {
       const q = questions[qIdx];
+      // 2.1:被用户跳过的问题(含指令指向的后续问题)不再采证,状态不被覆盖
+      if (q.status === "skipped") continue;
+      currentQuestion = q;
       if (cancelled()) return;
+      // 2.1:问题间隙消费干预指令(跳过当前问题则直接进下一问)
+      if (await consumeInstructions()) continue;
       if (run.usage.searches >= budget.maxSearches || overBudget()) {
         state.capped = true;
         if (q.status === "open") q.status = "unanswered";
@@ -268,11 +321,17 @@ export async function runResearch(
       state.evidence = state.evidence.filter((e) => !e.id.startsWith(`ev:${q.id}:`));
       for (const cid of staleClaimIds) delete state.claimQuestions[cid];
 
-      const hits = await adapters.search.search(
-        q.question,
+      const query = directionNotes.length
+        ? `${q.question} ${directionNotes.map((n) => `(${n})`).join(" ")}`
+        : q.question;
+      const hitsAll = await adapters.search.search(
+        query,
         `${keyBase}:gather:r${round}:search:${q.id}`,
       );
       run.usage.searches += 1;
+      // 2.1 增量:基准已有快照的 URL 直接复用旧证据,不重抓不重抽
+      const hits = hitsAll.filter((h) => !baseSnapshotUrls.has(h.url));
+      const reusedBaseHits = hitsAll.length - hits.length;
       let fetchedAny = false;
       let claimsForQ = 0;
       // 抓取配额按剩余问题均分,避免首个问题独占预算导致其余问题颗粒无收
@@ -356,7 +415,17 @@ export async function runResearch(
           : fetchedAny
             ? "partially"
             : "unanswered";
+      // 2.1 增量:检索命中全部为基准已采信源(未重复采证)的问题如实披露
+      // (入 limitations 而非 unresolved——主路径组装时会重写 unresolved)
+      if (q.status === "unanswered" && reusedBaseHits > 0 && hits.length === 0) {
+        const note = `问题「${q.question}」的检索命中均为基准研究已采信源,本次未重复采证;答案可能存在于延续证据中`;
+        if (!state.limitations.includes(note)) state.limitations.push(note);
+      }
       await persistRun();
+    }
+    } finally {
+      activeGatherTargets = null;
+      currentQuestion = undefined;
     }
   };
 
@@ -392,6 +461,162 @@ export async function runResearch(
     const planCp = priorCheckpoints.find((c) => c.stage === "plan");
     if (planCp) state.questions = (planCp.data as PlanOutput).questions;
   }
+
+  // --- 2.1 增量注入:基准证据/主张/快照原样并入(固定引用),限制沿用并披露采录时点 ---
+  if (baseBundle) {
+    const lastFetchedAt = baseBundle.snapshots.reduce((m, s) => (s.fetchedAt > m ? s.fetchedAt : m), "");
+    for (const s of baseBundle.snapshots) {
+      if (!state.snapshots.some((x) => x.id === s.id)) state.snapshots.push(s);
+    }
+    for (const e of baseBundle.evidence) {
+      if (!state.evidence.some((x) => x.id === e.id)) state.evidence.push(e);
+    }
+    for (const c of baseBundle.claims) {
+      if (!state.claims.some((x) => x.id === c.id)) {
+        state.claims.push(c);
+        state.claimQuestions[c.id] = "base";
+      }
+    }
+    for (const l of baseBundle.limitations) {
+      const note = `基准研究限制沿用:${l}`;
+      if (!state.limitations.includes(note)) state.limitations.push(note);
+    }
+    const asOfNote = `延续证据采录于 ${lastFetchedAt || "未知时点"} 之前,时间口径未重新核验`;
+    if (!state.limitations.includes(asOfNote)) state.limitations.push(asOfNote);
+  }
+
+  // 2.1:增量研究报告标注(头部注记 + 基准主张复用标记)
+  const incrementalNote = (): string[] =>
+    incrementalOf && baseBundle
+      ? [
+          `> 增量研究:基于 ${incrementalOf.runId} 追问扩展;复用快照 ${baseBundle.snapshots.length} / 证据 ${baseBundle.evidence.length} / 主张 ${baseBundle.claims.length},本次新问 ${state.questions.length}`,
+        ]
+      : [];
+  const claimMark = (claim: Claim): string =>
+    state.claimQuestions[claim.id] === "base" ? "|基准复用" : "";
+
+  // --- 2.1 执行中干预:问题间隙消费指令,不打断进行中的调用 ---
+  const directionNotes: string[] = [];
+  let activeGatherTargets: PlanQuestion[] | null = null;
+  let addQuestionCounter = 0;
+
+  const attachExtracted = (
+    q: PlanQuestion,
+    snapshot: SourceSnapshot,
+    extracted: { claims: Array<{ statement: string; kind: Claim["kind"]; quote: string; calibration?: Claim["calibration"] }>; cost: number },
+  ): void => {
+    run.usage.costEstimate += extracted.cost;
+    if (!state.snapshots.some((s) => s.id === snapshot.id)) state.snapshots.push(snapshot);
+    extracted.claims.forEach((c, ci) => {
+      const claimId = `cl:${q.id}:${snapshot.id}:ins${ci}`;
+      const evidenceId = `ev:${q.id}:${snapshot.id}:ins${ci}`;
+      state.claims.push({ id: claimId, statement: c.statement, kind: c.kind, evidenceIds: [evidenceId], calibration: c.calibration });
+      state.evidence.push({
+        id: evidenceId,
+        snapshotId: snapshot.id,
+        quote: c.quote,
+        versionId: snapshotVersionMap.get(snapshot.id),
+        revision: 1,
+        extractionCheck: "UNCHECKED",
+      });
+      state.claimQuestions[claimId] = q.id;
+    });
+  };
+
+  /** 应用一条指令;返回 true 表示当前问题被跳过(调用方应 continue)。 */
+  const applyInstruction = async (pending: Intervention): Promise<boolean> => {
+    const ins = pending.instruction;
+    const finish = (effect: "applied" | "invalid" | "failed", detail?: string): false => {
+      pending.consumedAt = new Date().toISOString();
+      pending.effect = effect;
+      if (detail) pending.detail = detail;
+      (run.interventions ??= []).push(pending);
+      return false;
+    };
+    if (ins.type === "skip-question") {
+      const target = ins.questionId ? state.questions.find((q) => q.id === ins.questionId) : currentQuestion;
+      if (!target) return finish("invalid", "找不到目标问题");
+      if (target.status === "answered" || target.status === "partially") {
+        return finish("invalid", `问题 ${target.id} 已回答(${target.status}),不可跳过`);
+      }
+      target.status = "skipped";
+      const skipNote = `问题被用户跳过:${target.question}`;
+      if (!state.unresolved.includes(skipNote)) state.unresolved.push(skipNote);
+      const skippedCurrent = target === currentQuestion;
+      finish("applied", `问题 ${target.id} 已跳过`);
+      return skippedCurrent;
+    }
+    if (ins.type === "add-questions") {
+      ins.questions.forEach((text) => {
+        addQuestionCounter += 1;
+        const q: PlanQuestion = { id: `q-ins-${addQuestionCounter}`, question: text, status: "open" };
+        state.questions.push(q);
+        activeGatherTargets?.push(q);
+      });
+      return finish("applied", `新增 ${ins.questions.length} 个问题`);
+    }
+    if (ins.type === "refine-direction") {
+      directionNotes.push(ins.note);
+      return finish("applied", "方向附注已注入剩余问题的搜索");
+    }
+    // add-source:挂到当前问题(或最相关 open 问题),失败不中断
+    const host = currentQuestion ?? state.questions.find((q) => q.status === "open");
+    if (!host) return finish("invalid", "没有可挂接的开放问题");
+    try {
+      let snapshot: SourceSnapshot;
+      if (ins.url) {
+        // 2.1:同 URL 已有快照直接复用,避免覆盖项目级快照正文导致旧证据引文漂移
+        const existing = state.snapshots.find((s) => s.url === ins.url);
+        if (existing) {
+          snapshot = existing;
+        } else {
+          const page = await adapters.page.fetch(ins.url, `${keyBase}:instruct:fetch:${pending.id}`);
+          if (page.status !== 200) throw new Error(`HTTP ${page.status}`);
+          const doc = await adapters.parser.parse(page, `${keyBase}:instruct:parse:${pending.id}`);
+          snapshot = {
+            id: `snap:${ins.url}`,
+            url: ins.url,
+            title: ins.title ?? ins.url,
+            fetchedAt: new Date().toISOString(),
+            bodyText: doc.bodyText,
+            parseStatus: doc.parseStatus,
+            contentType: page.contentType,
+          };
+        }
+      } else {
+        snapshot = {
+          id: `snap:user-text:${pending.id}`,
+          url: `user-text://${pending.id}`,
+          title: ins.title ?? "用户补充材料",
+          fetchedAt: new Date().toISOString(),
+          bodyText: ins.text ?? "",
+          parseStatus: "ok",
+          contentType: "text/plain",
+        };
+      }
+      await store.saveSnapshot(snapshot);
+      await ingestToLibrary(snapshot);
+      const extracted = await adapters.model.extractClaims({ snapshot }, `${keyBase}:instruct:model:${pending.id}`);
+      attachExtracted(host, snapshot, extracted);
+      return finish("applied", `补充信源已入证据链(${snapshot.url}),挂接问题 ${host.id}`);
+    } catch (error) {
+      const note = `补充信源取得失败(${ins.url ?? "文本"}):${error instanceof Error ? error.message : String(error)}`;
+      if (!state.limitations.includes(note)) state.limitations.push(note);
+      return finish("failed", note);
+    }
+  };
+
+  const consumeInstructions = async (): Promise<boolean> => {
+    if (!options.pollInstructions) return false;
+    let skippedCurrent = false;
+    // 每个消费点拉取一次;pollInstructions 应一次返回全部新指令(队列 drain 语义)
+    const batch = await options.pollInstructions();
+    for (const pending of batch) {
+      if (await applyInstruction(pending)) skippedCurrent = true;
+    }
+    if (batch.length > 0) await persistRun();
+    return skippedCurrent;
+  };
 
   // --- gather(附件先入证据链,再按问题采证)
   if (!completedStages.has("gather")) {
@@ -561,19 +786,25 @@ export async function runResearch(
       const verdicts = verifyCitations(state.evidence, state.snapshots);
       run.stage = "publish";
       run.status = state.capped ? "limited" : "published";
-      const limitations = state.capped
-        ? [
-            `预算上限到达(搜索 ${run.usage.searches}/${budget.maxSearches},抓取 ${run.usage.fetches}/${budget.maxFetches});未覆盖部分不作结论`,
-          ]
-        : [];
+      const limitations = [
+        ...(state.capped
+          ? [
+              `预算上限到达(搜索 ${run.usage.searches}/${budget.maxSearches},抓取 ${run.usage.fetches}/${budget.maxFetches});未覆盖部分不作结论`,
+            ]
+          : []),
+        ...state.limitations,
+      ];
+      const incrementalNoteLines = incrementalNote();
       const reportMd = [
         `# ${request.goal}`,
         "",
+        ...incrementalNoteLines,
+        ...(incrementalNoteLines.length ? [""] : []),
         `范围:${request.scope.summary}`,
         "",
         "## 主张与证据判定",
         ...state.claims.map(
-          (claim, i) => `- [${claim.kind} / ${verdicts[i]?.verdict ?? "snapshot-missing"}] ${claim.statement}`,
+          (claim, i) => `- [${claim.kind}${claimMark(claim)} / ${verdicts[i]?.verdict ?? "snapshot-missing"}] ${claim.statement}`,
         ),
         "",
         ...(limitations.length ? ["## 限制", ...limitations.map((l) => `- ${l}`), ""] : []),
@@ -586,8 +817,9 @@ export async function runResearch(
         evidence: state.evidence,
         snapshots: state.snapshots,
         limitations,
-        unresolved: [],
+        unresolved: state.unresolved,
         verdicts,
+        ...incrementalBundleFields(),
       });
       run.usage.wallMs = Date.now() - started;
       const finished = ResearchRunSchema.parse(run);
@@ -701,7 +933,8 @@ export async function runResearch(
         for (const issue of highs) {
           if (issue.fix === "regather" && issue.targetQuestionId) {
             const q = state.questions.find((x) => x.id === issue.targetQuestionId);
-            if (q) {
+            // 2.1:用户显式跳过的问题不被评审修复复活
+            if (q && q.status !== "skipped") {
               q.status = "open";
               await gather(10 + loopsUsed, [q]);
               fixedAny = true;
@@ -859,12 +1092,13 @@ export async function runResearch(
 
   const baseReportMd = [
     state.draftMd ?? `# ${request.goal}\n\n(草稿缺失:${reasons.join(";") || "采证不足"})`,
+    ...(incrementalOf && baseBundle ? ["", ...incrementalNote()] : []),
     "",
     ...(conflicts.length ? ["## 口径冲突披露", ...conflicts.map(conflictLine), ""] : []),
     "## 主张状态与引用判定",
     ...state.claims.map(
       (claim) =>
-        `- [${claim.kind}${claim.confidence ? `|置信度:${claim.confidence}` : ""} / ${claim.evidenceIds.map(evLabel).join(",")}] ${claim.statement}`,
+        `- [${claim.kind}${claimMark(claim)}${claim.confidence ? `|置信度:${claim.confidence}` : ""} / ${claim.evidenceIds.map(evLabel).join(",")}] ${claim.statement}`,
     ),
     "",
     ...(state.unresolved.length
@@ -909,6 +1143,7 @@ export async function runResearch(
     unresolved: state.unresolved,
     verdicts,
     ...(request.outline ? { outline: request.outline } : {}),
+    ...incrementalBundleFields(),
   });
   run.usage.wallMs = Date.now() - started;
   const finished = ResearchRunSchema.parse(run);

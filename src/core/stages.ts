@@ -8,7 +8,7 @@ export const PlanQuestionSchema = z.object({
   id: z.string().min(1),
   question: z.string().min(1),
   method: z.string().optional(),
-  status: z.enum(["open", "answered", "partially", "unanswered"]).default("open"),
+  status: z.enum(["open", "answered", "partially", "unanswered", "skipped"]).default("open"),
 });
 export type PlanQuestion = z.infer<typeof PlanQuestionSchema>;
 

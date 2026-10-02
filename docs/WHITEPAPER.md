@@ -3,6 +3,8 @@
 > 版本：2.0 · 编制：2026-09-23 · 提交：`0a6b9f4`
 > 产品：独立深度研究工作台 / Deep Research Workbench
 > 文档性质：产品方案 + 技术运维 + 用户操作的全景手册
+>
+> **2.1 增量（2026-10-02）**：新增「追问扩展」（已完成 run 作基准发起增量研究：基准证据/主张/快照固定引用复用、同 URL 不重抓、双确认增量流程、发布差异与正式报告增量注记）与「执行中干预」（四类指令 `POST /runs/instruct` 入队落盘、问题间隙消费、干预历史落 run、跨取消恢复续消费）；修复 resume 静默重跑；run 记录新增 progress/interventions/derivedFromRunId。详见 `docs/PRODUCT-OVERVIEW.md` §2.1 与 `docs/DEEP-RESEARCH-SURVEY.md`。
 
 ---
 

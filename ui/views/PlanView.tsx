@@ -29,13 +29,21 @@ export function PlanView() {
   const [reuseQuery, setReuseQuery] = useState("");
   const [reuseHits, setReuseHits] = useState<AssetSearchRow[]>([]);
   const [selected, setSelected] = useState<SelectedAsset[]>([]);
+  // 2.1 增量追问:基准 run + 延续摘要
+  const [baseRun, setBaseRun] = useState<{ runId: string; requestId: string } | null>(null);
+  const [baseSummary, setBaseSummary] = useState<{
+    runId: string; answeredQuestions: number; evidence: number; snapshots: number; claims: number;
+  } | null>(null);
 
   const meta = p.detail?.meta;
+  const finishedRuns = (p.detail?.runs ?? []).filter((r) => r.status === "published" || r.status === "limited");
 
   const openWizard = () => {
     if (!meta) return;
     setPlan(null);
     setOutline(null);
+    setBaseRun(null);
+    setBaseSummary(null);
     setForm({ goal: meta.goal, summary: meta.scope.summary, attachments: "" });
     setWizard(true);
   };
@@ -50,6 +58,25 @@ export function PlanView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params, meta]);
 
+  // ?followup=<runId>(运行记录「追问」入口):打开向导并预选基准 run
+  useEffect(() => {
+    const fu = params.get("followup");
+    if (fu && meta && p.detail) {
+      params.delete("followup");
+      setParams(params, { replace: true });
+      const target = p.detail.runs.find((r) => r.id === fu && (r.status === "published" || r.status === "limited"));
+      if (target) {
+        setPlan(null);
+        setOutline(null);
+        setBaseRun({ runId: target.id, requestId: target.requestId });
+        setBaseSummary(null);
+        setForm({ goal: `追问:${meta.goal}`, summary: meta.scope.summary, attachments: "" });
+        setWizard(true);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params, meta, p.detail]);
+
   if (!p.detail || !meta) {
     return (
       <div className="view">
@@ -61,12 +88,17 @@ export function PlanView() {
   const previewPlan = async () => {
     setBusy("生成计划中…通常 1-2 分钟");
     try {
-      const r = await post<{ plan: { questions: PlanQuestion[] } }>(`/api/projects/${p.id}/plan-preview`, {
+      const r = await post<{
+        plan: { questions: PlanQuestion[] };
+        base?: { runId: string; answeredQuestions: number; evidence: number; snapshots: number; claims: number };
+      }>(`/api/projects/${p.id}/plan-preview`, {
         module: meta.module,
         goal: form.goal,
         scope: { summary: form.summary, queries: [] },
+        ...(baseRun ? { incrementalOf: baseRun } : {}),
       });
       setPlan(r.plan.questions);
+      setBaseSummary(r.base ?? null);
       setOutline(null);
     } catch (e) {
       toast.show(errMsg(e));
@@ -84,6 +116,7 @@ export function PlanView() {
         goal: form.goal,
         scope: { summary: form.summary, queries: plan.map((q) => q.question) },
         questions: plan.map((q) => ({ id: q.id, question: q.question })),
+        ...(baseRun ? { incrementalOf: baseRun } : {}),
       });
       setOutline(r.outline);
     } catch (e) {
@@ -103,6 +136,7 @@ export function PlanView() {
       plan,
       outline,
       selectedAssets: selected,
+      incrementalOf: baseRun ?? undefined,
     });
     setBusy("");
     if (started.ok) {
@@ -190,6 +224,30 @@ export function PlanView() {
                 <span className="fld-label">附件(本机文件路径,文本 / PDF,每行一个,可空)</span>
                 <textarea rows={3} value={form.attachments} onChange={(e) => setForm({ ...form, attachments: e.target.value })} />
               </label>
+              <div className="fld">
+                <span className="fld-label">基于已完成研究追问(可选;延续其证据与主张,只为新问题采证)</span>
+                <select
+                  value={baseRun?.runId ?? ""}
+                  onChange={(e) => {
+                    const target = finishedRuns.find((r) => r.id === e.target.value);
+                    setBaseRun(target ? { runId: target.id, requestId: target.requestId } : null);
+                    setBaseSummary(null);
+                  }}
+                >
+                  <option value="">— 全新研究(不追问) —</option>
+                  {finishedRuns.map((r) => (
+                    <option key={r.id} value={r.id}>
+                      {r.requestId} · {r.status === "published" ? "完整交付" : "有限交付"}
+                      {r.derivedFromRunId ? " · 增量" : ""}
+                    </option>
+                  ))}
+                </select>
+                {baseRun && (
+                  <p className="fine" style={{ margin: 0 }}>
+                    将延续基准研究的已核实证据(同 URL 不重复抓取,数据截止默认刷新到今天,采录时点在报告中披露)。
+                  </p>
+                )}
+              </div>
               <div className="fld">
                 <span className="fld-label">选择已有情报(可选;服务端校验权限并固定版本)</span>
                 <div style={{ display: "flex", gap: 8 }}>
@@ -319,6 +377,13 @@ export function PlanView() {
           {plan && !outline && (
             <>
               <p className="fine">可编辑问题清单;确认后才生成报告框架。请保持本页打开以跟踪进度。</p>
+              {baseSummary && (
+                <p className="fine" style={{ margin: 0 }}>
+                  将延续基准 <span className="mono">{baseSummary.runId.slice(0, 10)}…</span>
+                  :已答问题 {baseSummary.answeredQuestions} · 证据 {baseSummary.evidence} · 快照 {baseSummary.snapshots} · 主张 {baseSummary.claims}
+                </p>
+              )}
+              {baseRun && !baseSummary && <p className="fine" style={{ margin: 0 }}>增量模式:以上问题只应包含追问的新问题。</p>}
               {plan.map((q, i) => (
                 <label className="fld plan-item" key={q.id}>
                   <span className="fld-label">问题 {i + 1}</span>

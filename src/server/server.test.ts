@@ -37,11 +37,13 @@ const fakeAdapters = (slow = false): Adapters => ({
     runStage: async (stage) =>
       stage === "plan"
         ? { output: { questions: [{ id: "q1", question: "市场规模" }] }, cost: 0.01 }
-        : stage === "analyze"
-          ? { output: { findings: [], gaps: [] }, cost: 0.01 }
-          : stage === "draft"
-            ? { output: { reportMd: "# 行业研究\n\n## 市场口径表\nx\n## 行业结构\ny\n## 趋势与风险\nz" }, cost: 0.01 }
-            : { output: { issues: [], counterexampleChecked: true }, cost: 0.01 },
+        : stage === "outline"
+          ? { output: { title: "增量研究报告", sections: [{ id: "s1", title: "市场规模", bullets: [] }] }, cost: 0.01 }
+          : stage === "analyze"
+            ? { output: { findings: [], gaps: [] }, cost: 0.01 }
+            : stage === "draft"
+              ? { output: { reportMd: "# 行业研究\n\n## 市场口径表\nx\n## 行业结构\ny\n## 趋势与风险\nz" }, cost: 0.01 }
+              : { output: { issues: [], counterexampleChecked: true }, cost: 0.01 },
   },
 });
 
@@ -241,9 +243,244 @@ describe("本地 HTTP 服务", () => {
     }
     expect(status).toBe("published");
   }, 20_000);
+
+  it("恢复沿原 runId 不产生第二条记录(不静默全量重跑)", async () => {
+    const created = await post("/api/projects", { module: "industry", goal: "恢复单记录", scope: { summary: "s", queries: [] } });
+    const projectId = (await created.json()).id as string;
+    const runReq = { id: "req-resume-one", module: "industry", goal: "恢复单记录", scope: { summary: "s", queries: [] } };
+    await post(`/api/projects/${projectId}/runs`, {
+      request: runReq,
+      plan: { questions: [{ id: "q1", question: "市场规模", status: "open" }] },
+    });
+    await new Promise((r) => setTimeout(r, 80));
+    await post(`/api/projects/${projectId}/runs/cancel`, { requestId: "req-resume-one" });
+    let before: any;
+    for (let i = 0; i < 60; i++) {
+      const detail = await api(`/api/projects/${projectId}`);
+      before = (await detail.json()).runs.find((r: any) => r.requestId === "req-resume-one");
+      if (before?.status === "cancelled") break;
+      await new Promise((r) => setTimeout(r, 50));
+    }
+    expect(before?.status).toBe("cancelled");
+
+    const resumed = await post(`/api/projects/${projectId}/runs/resume`, {
+      requestId: "req-resume-one",
+      plan: { questions: [{ id: "q1", question: "市场规模", status: "open" }] },
+    });
+    expect(resumed.status).toBe(200);
+
+    let runs: any[] = [];
+    for (let i = 0; i < 80; i++) {
+      const detail = await api(`/api/projects/${projectId}`);
+      runs = (await detail.json()).runs.filter((r: any) => r.requestId === "req-resume-one");
+      if (runs.length > 0 && ["published", "limited"].includes(runs[0]?.status)) break;
+      await new Promise((r) => setTimeout(r, 50));
+    }
+    expect(runs).toHaveLength(1);
+    expect(runs[0]?.id).toBe(before.id);
+  }, 20_000);
+
+describe("增量预览(2.1 追问扩展)", () => {
+  it("已完成 run 可作基准:计划/框架预览返回 base 摘要;无 incrementalOf 行为不变", async () => {
+    await srv.close();
+    srv = await startServer({ dataDir, makeAdapters: () => fakeAdapters() });
+    base = `http://127.0.0.1:${srv.port}`;
+    const created = await post("/api/projects", { module: "industry", goal: "增量基准", scope: { summary: "s", queries: [] } });
+    const projectId = (await created.json()).id as string;
+    await post(`/api/projects/${projectId}/runs`, {
+      request: { id: "req-inc-1", module: "industry", goal: "增量基准", scope: { summary: "s", queries: [] } },
+      plan: { questions: [{ id: "q1", question: "市场规模", status: "open" }] },
+    });
+    let baseRun: any;
+    for (let i = 0; i < 80; i++) {
+      const detail = await api(`/api/projects/${projectId}`);
+      baseRun = (await detail.json()).runs.find((r: any) => r.requestId === "req-inc-1");
+      if (["published", "limited"].includes(baseRun?.status)) break;
+      await new Promise((r) => setTimeout(r, 50));
+    }
+    expect(["published", "limited"]).toContain(baseRun?.status);
+
+    const planRes = await post(`/api/projects/${projectId}/plan-preview`, {
+      goal: "追问近况",
+      scope: { summary: "s", queries: [] },
+      module: "industry",
+      incrementalOf: { runId: baseRun.id, requestId: "req-inc-1" },
+    });
+    expect(planRes.status).toBe(200);
+    const planBody = await planRes.json();
+    expect(planBody.base).toMatchObject({
+      runId: baseRun.id,
+      answeredQuestions: expect.any(Number),
+      evidence: expect.any(Number),
+      snapshots: expect.any(Number),
+      claims: expect.any(Number),
+    });
+    expect(planBody.base.answeredQuestions).toBeGreaterThanOrEqual(1);
+    expect(planBody.base.evidence).toBeGreaterThanOrEqual(1);
+
+    const outlineRes = await post(`/api/projects/${projectId}/outline-preview`, {
+      goal: "追问近况",
+      scope: { summary: "s", queries: [] },
+      questions: ["近一个季度变化"],
+      module: "industry",
+      incrementalOf: { runId: baseRun.id, requestId: "req-inc-1" },
+    });
+    expect(outlineRes.status).toBe(200);
+    const outlineBody = await outlineRes.json();
+    expect(outlineBody.base?.runId).toBe(baseRun.id);
+    expect(outlineBody.outline.sections.length).toBeGreaterThanOrEqual(1);
+
+    const plainRes = await post(`/api/projects/${projectId}/plan-preview`, {
+      goal: "普通预览", scope: { summary: "s", queries: [] }, module: "industry",
+    });
+    expect(plainRes.status).toBe(200);
+    expect((await plainRes.json()).base).toBeUndefined();
+  }, 20_000);
+
+  it("不存在/未完成的基准被拒(4xx)", async () => {
+    const created = await post("/api/projects", { module: "industry", goal: "非法基准", scope: { summary: "s", queries: [] } });
+    const projectId = (await created.json()).id as string;
+    // 不存在
+    const missing = await post(`/api/projects/${projectId}/plan-preview`, {
+      goal: "g", scope: { summary: "s", queries: [] }, module: "industry",
+      incrementalOf: { runId: "run-nope", requestId: "req-nope" },
+    });
+    expect([400, 404]).toContain(missing.status);
+    // 已取消(未完成)的 run 作基准被拒——直接落一条 cancelled 记录(确定性,无时序依赖)
+    const dir = join(dataDir, "projects", projectId);
+    await FsProjectStore.open(dir).saveRun({
+      id: "run-cancelled-base", requestId: "req-cancelled-base", stage: "gather", status: "cancelled",
+      checkpoints: [], usage: { searches: 1, fetches: 1, costEstimate: 0, wallMs: 100 },
+    });
+    const res = await post(`/api/projects/${projectId}/plan-preview`, {
+      goal: "g", scope: { summary: "s", queries: [] }, module: "industry",
+      incrementalOf: { runId: "run-cancelled-base", requestId: "req-cancelled-base" },
+    });
+    expect(res.status).toBe(409);
+    // 同一校验覆盖运行启动端点:对未完成基准直接发起增量 run 被拒,不产生新 run
+    const started = await post(`/api/projects/${projectId}/runs`, {
+      request: {
+        id: "req-start-bad-base", module: "industry", goal: "非法基准", scope: { summary: "s", queries: [] },
+        incrementalOf: { runId: "run-cancelled-base", requestId: "req-cancelled-base" },
+      },
+      plan: { questions: [{ id: "q1", question: "x", status: "open" }] },
+    });
+    expect(started.status).toBe(409);
+  }, 20_000);
+
+  it("2.1 执行中干预:instruct 入队落盘、间隙消费、干预历史落 run;非 running 409/非法 400", async () => {
+    await srv.close();
+    srv = await startServer({ dataDir, makeAdapters: () => fakeAdapters(true) });
+    base = `http://127.0.0.1:${srv.port}`;
+    const created = await post("/api/projects", { module: "industry", goal: "干预端到端", scope: { summary: "s", queries: [] } });
+    const projectId = (await created.json()).id as string;
+    const runReq = { id: "req-ins-e2e", module: "industry", goal: "干预端到端", scope: { summary: "s", queries: [] } };
+    await post(`/api/projects/${projectId}/runs`, {
+      request: runReq,
+      plan: {
+        questions: [
+          { id: "q1", question: "市场规模", status: "open" },
+          { id: "q2", question: "门店数量", status: "open" },
+        ],
+      },
+    });
+    await new Promise((r) => setTimeout(r, 120));
+    const skipRes = await post(`/api/projects/${projectId}/runs/instruct`, {
+      requestId: "req-ins-e2e",
+      instruction: { type: "skip-question", questionId: "q2" },
+    });
+    expect(skipRes.status).toBe(200);
+    expect((await skipRes.json()).queued).toBe(true);
+    const addRes = await post(`/api/projects/${projectId}/runs/instruct`, {
+      requestId: "req-ins-e2e",
+      instruction: { type: "add-questions", questions: ["竞争格局"] },
+    });
+    expect(addRes.status).toBe(200);
+    const badRes = await post(`/api/projects/${projectId}/runs/instruct`, {
+      requestId: "req-ins-e2e",
+      instruction: { type: "add-questions", questions: [] },
+    });
+    expect(badRes.status).toBe(400);
+
+    let run: any;
+    for (let i = 0; i < 120; i++) {
+      const detail = await api(`/api/projects/${projectId}`);
+      run = (await detail.json()).runs.find((r: any) => r.requestId === "req-ins-e2e");
+      if (["published", "limited"].includes(run?.status)) break;
+      await new Promise((r) => setTimeout(r, 50));
+    }
+    expect(["published", "limited"]).toContain(run?.status);
+    expect(run?.interventions).toHaveLength(2);
+    expect(run?.interventions?.map((i: any) => i.effect)).toEqual(["applied", "applied"]);
+    expect(run?.progress?.skipped).toBe(1);
+    // 队列已清空(pending 文件被 drain 重写)
+    const store = FsProjectStore.open(join(dataDir, "projects", projectId));
+    expect(await store.readPendingInstructions(run.id)).toEqual([]);
+    // 已完成的 run 不可再干预
+    const after = await post(`/api/projects/${projectId}/runs/instruct`, {
+      requestId: "req-ins-e2e",
+      instruction: { type: "skip-question" },
+    });
+    expect(after.status).toBe(409);
+  }, 30_000);
+
+  it("2.1 干预落盘跨取消恢复:pending 指令在 resume 后继续被消费", async () => {
+    await srv.close();
+    srv = await startServer({ dataDir, makeAdapters: () => fakeAdapters(true) });
+    base = `http://127.0.0.1:${srv.port}`;
+    const created = await post("/api/projects", { module: "industry", goal: "干预恢复", scope: { summary: "s", queries: [] } });
+    const projectId = (await created.json()).id as string;
+    await post(`/api/projects/${projectId}/runs`, {
+      request: { id: "req-ins-resume", module: "industry", goal: "干预恢复", scope: { summary: "s", queries: [] } },
+      plan: {
+        questions: [
+          { id: "q1", question: "市场规模", status: "open" },
+          { id: "q2", question: "门店数量", status: "open" },
+        ],
+      },
+    });
+    await new Promise((r) => setTimeout(r, 100));
+    const insRes = await post(`/api/projects/${projectId}/runs/instruct`, {
+      requestId: "req-ins-resume",
+      instruction: { type: "add-questions", questions: ["竞争格局"] },
+    });
+    expect(insRes.status).toBe(200);
+    await post(`/api/projects/${projectId}/runs/cancel`, { requestId: "req-ins-resume" });
+    let before: any;
+    for (let i = 0; i < 60; i++) {
+      const detail = await api(`/api/projects/${projectId}`);
+      before = (await detail.json()).runs.find((r: any) => r.requestId === "req-ins-resume");
+      if (before?.status === "cancelled") break;
+      await new Promise((r) => setTimeout(r, 50));
+    }
+    expect(before?.status).toBe("cancelled");
+
+    await post(`/api/projects/${projectId}/runs/resume`, {
+      requestId: "req-ins-resume",
+      plan: {
+        questions: [
+          { id: "q1", question: "市场规模", status: "open" },
+          { id: "q2", question: "门店数量", status: "open" },
+        ],
+      },
+    });
+    let run: any;
+    for (let i = 0; i < 120; i++) {
+      const detail = await api(`/api/projects/${projectId}`);
+      run = (await detail.json()).runs.find((r: any) => r.requestId === "req-ins-resume");
+      if (["published", "limited"].includes(run?.status)) break;
+      await new Promise((r) => setTimeout(r, 50));
+    }
+    expect(["published", "limited"]).toContain(run?.status);
+    expect(run?.interventions?.some((i: any) => i.instruction.type === "add-questions" && i.effect === "applied")).toBe(true);
+    expect(run?.usage.searches).toBeGreaterThanOrEqual(2);
+  }, 30_000);
+});
 });
 
-describe("settings 配置合并", () => {  it("POST 只覆盖提及的键:search 链路保留;链式 model 只换链首", async () => {
+
+describe("settings 配置合并", () => {
+  it("POST 只覆盖提及的键:search 链路保留;链式 model 只换链首", async () => {
     const dataDir = mkdtempSync(join(tmpdir(), "dr-srv-cfg-"));
     const { writeFileSync, readFileSync } = await import("node:fs");
     writeFileSync(

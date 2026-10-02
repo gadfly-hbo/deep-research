@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import type { Adapters } from "../adapters/types.js";
 import { ResearchRequestSchema } from "../contracts.js";
-import { createProject, generateFormal, publishBundle, runOnProject, templateRequest } from "./projectService.js";
+import { createProject, diffBundles, generateFormal, publishBundle, runOnProject, templateRequest } from "./projectService.js";
 import type { StageName } from "../core/stages.js";
 
 const tmp = () => mkdtempSync(join(tmpdir(), "dr-svc-"));
@@ -177,5 +177,41 @@ describe("报告框架与正式报告", () => {
     const result = await generateFormal(dir, 1, brokenModel);
     expect(result.summarySource).toBe("fallback");
     expect(existsSync(join(dir, "reports", "v1", "formal", "report.pptx"))).toBe(true);
+  });
+});
+
+describe("diffBundles(2.1 增量差异摘要)", () => {
+  const bundleOf = (extra: Record<string, unknown>) =>
+    ({
+      runId: "run-2",
+      version: 0,
+      reportMd: "# 报告",
+      claims: [
+        { id: "c1", statement: "基准主张", kind: "fact", evidenceIds: ["e1"] },
+        { id: "c2", statement: "新增主张", kind: "fact", evidenceIds: ["e2"] },
+      ],
+      evidence: [
+        { id: "e1", snapshotId: "s1", quote: "q1" },
+        { id: "e2", snapshotId: "s2", quote: "q2" },
+      ],
+      snapshots: [],
+      limitations: [],
+      unresolved: [],
+      verdicts: [],
+      ...extra,
+    }) as never;
+
+  it("增量版本注明基准 run 与复用计数;非增量版本无该字段", () => {
+    const prev = bundleOf({ runId: "run-1", claims: [{ id: "c1", statement: "基准主张", kind: "fact", evidenceIds: ["e1"] }] });
+    const next = bundleOf({
+      derivedFromRunId: "run-base",
+      reuseSummary: { baseRunId: "run-base", reusedSnapshots: 2, reusedEvidence: 5, reusedClaims: 4, newQuestions: 1 },
+    });
+    const d = diffBundles(prev as never, next as never);
+    expect(d.incremental).toMatchObject({ baseRunId: "run-base", newQuestions: 1, reusedSnapshots: 2 });
+    expect(d.incremental?.addedClaims).toBe(d.addedClaims.length);
+    expect(d.addedClaims).toEqual(["新增主张"]);
+    const plain = diffBundles(null, bundleOf({}) as never);
+    expect(plain.incremental).toBeUndefined();
   });
 });

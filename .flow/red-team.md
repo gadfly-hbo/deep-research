@@ -1,55 +1,61 @@
-# Red-Team: 深度研究工作台 2.0 — 外部情报库与跨研究复用（增量升级）
+# Red-Team: 工作台 2.1 落地 P0「追问扩展」+「执行中干预」
 
-红队对象：`.flow/proposal.md`（用户提供的目标方案全文）。校准性事实：2 分钟仓库浏览（非 WP00 正式核查）——`src/contracts.ts` 已有 `SourceSnapshot`/`Evidence`/`Claim`/`ResearchResultBundle` 的 zod schema；`research-data/projects/` 下 6 个真实项目，各含 `requests/runs/reports`；`package.json` 有 test/typecheck/build 门禁。
+> 评审对象：.flow/proposal.md（2026-10-02）· 模式：strategy-red-team 单模型
+> 结论先行：**verdict = go**。无 kill criterion 已被满足；两大风险可在 PRD/GRILL 阶段用代码探索与既有数据低成本消解。
 
-### Top Kill-Assumptions (ranked)
+## Top Kill-Assumptions (ranked)
 
-1. **Claim：** v1 的"研究核心"可增量扩展——来源/证据对象已存在且可复用，2.0 不需要重建采证流水线。
-   - **Steelman：** contracts.ts 已有 SourceSnapshot/Evidence/Claim/ResearchResultBundle 的 zod schema；一期 seam 确认 `runResearch` 是唯一执行入口，适配器边界清晰。
-   - **Fails if：** SourceSnapshot/Evidence 只在运行内存中短暂存在、不落盘，或落盘粒度不足（只有报告 markdown + 摘要 JSON），则"来源版本 + 证据定位"要重写 pipeline 持久化层，每个 stage 都动，"增量"名存实亡。
-   - **Evidence to get this week：** WP00 只读核查——`research-data/projects/*/runs/` 实际落盘了什么、contracts schema 字段粒度、fsStore 写路径。
-   - **Kill criterion：** 若现有运行产物中没有可机读的来源快照 + 证据定位，且补齐需改动 >50% 的 pipeline stage → 收缩本轮到 U2-01/02/03/05（入库+留档+列表+检索），版本绑定与复用降级为后续，升级方案范围需用户重批。
-   - **Cheapest test：** WP00 半天只读盘点（方案本身已列为第一工作包）。
+### 1. 「复用旧证据」对追问有真实复用率（价值假设——最高优先测试）
 
-2. **Claim：** 跨研究复用价值闭环会真实发生（资料先积累 → 研究可复用 → 新证据再沉淀）。
-   - **Steelman：** 用户已确认方向（附录 B2）；同一用户的品牌/行业研究对象有交集；方案只要求"人工选择复用"，不赌自动推荐。
-   - **Fails if：** 真实研究任务对象/口径高度一次性，旧材料几乎过不了 check_reuse 的适用性检查，情报库沦为只写不读的归档。
-   - **Evidence to get this week：** 盘点现有 6 个项目的来源 URL/标题重叠度；用冻结数据模拟"第二次研究检索第一次的资产"。
-   - **Kill criterion：** 历史项目间来源重叠为零且主题互不相关 → 复用价值未被证明。但方向是 proposal 已确认决策，kill 的含义是降级自动化预期、保留最小闭环，不是取消。
-   - **Cheapest test：** WP00 一个统计脚本。
+- **Claim:** P0-1 基于已完成 run 的证据发起增量研究，"已有证据按版本绑定复用、只采缺口"能省下大头预算与时长。
+- **Steelman:** 2.0 已建复用底稿（Source/SourceVersion/AssetBinding/UsageRecord），研究过程留档（U2-02）让 run 证据天然具备资产身份；Gemini/Kimi 已验证该形态是行业标配。
+- **Fails if:** 追问的问题大多落在原计划问题之外或需要**更新时点**的数据（"最近一个季度怎样了"），导致旧证据可用率低、增量 run 实际仍重搜大半内容——"扩展"名存实亡，只省了报告装配时间。
+- **Evidence to get this week:** 纯本地可测——分析 `research-data/projects/` 现有项目（Anker×2、森马×2 等同主体多 run 项目）里：①两次 run 的研究问题重叠度；②旧 run 快照中被新 run 重新抓取的同 URL 比例。上次 flow S0 已测得"Anker×2/森马×2 同主体项目 74 个来源 URL 共享数为 0"——这对 P0-1 是**反向信号**：历史行为里没有复用发生（当时也无复用机制，不能完全归因，但说明"同主体≠同问题"）。
+- **Kill criterion:** 若分析显示同项目追问场景中可复用证据（版本仍适用、时点不晚于 as_of）占新增信息需求 <30%，P0-1 应降范围为"报告上下文延续 + 证据可引用"而非"自动复用省预算"。
+- **Cheapest test:** 写一次性脚本比对现有项目 runs 的 questions 与 snapshots.json 的 URL 集合（半小时内）；PRD 前完成，直接决定 P0-1 的产品形态。
 
-3. **Claim：** 权限/复用范围可在服务端多阶段强制执行而不泄露（S-01…S-04）。
-   - **Steelman：** v1 是 127.0.0.1 本地 server + SPA，读写经 server 路由，理论上存在收口点。
-   - **Fails if：** 模型上下文组装 / 导出路径没有统一 choke point，权限检查只能补丁式散点加装，必然漏（搜索计数、摘要、日志、错误消息都可能泄露受限内容）。
-   - **Evidence to get this week：** WP00 核查 server 路由清单与 runResearch 上下文组装入口数量。
-   - **Kill criterion：** 若不存在单一收口点 → 诚实降级：权限标志落库，只在"外发（外部模型/导出）"路径强制，库内检索可见性本轮不承诺，写入已知限制。不允许假装已强制。
-   - **Cheapest test：** 读 `src/server/` 与 `src/core/runResearch.ts` 的组装入口。
+### 2. 「问题间隙消费指令」在体验上算"实时干预"（体验真实性）
 
-4. **Claim：** 历史项目能按三类路径兼容迁移且不伪造底稿。
-   - **Steelman：** 方案禁止回填虚构来源，"只有报告"仅登记为派生成果——原则正确。
-   - **Fails if：** 现有项目大多只有报告而无原文快照 → 迁移后绝大多数资产是"底稿缺失"级，复用价值几乎完全面向未来；若预期"旧研究立刻可复用"，期望落空。
-   - **Evidence to get this week：** WP00 统计各项目 runs/ 内原文快照文件留存率。
-   - **Kill criterion：** 原文留存率极低 → 迁移收缩为登记级（registry-only），明示复用价值前瞻化。这是期望校准，不是取消理由。
-   - **Cheapest test：** 一个 find/统计脚本。
+- **Claim:** P0-2 在采证问题间隙消费指令队列即可满足"执行中干预"。
+- **Steelman:** 采证逐问推进、每问后 run 记录落盘，架构上间隙是天然的；不打断进行中的调用是稳妥设计。
+- **Fails if:** 单问耗时过长（搜索+抓取+抽取串联，live 实测单次抽取最长 199.5s），典型间隙达 3-8 分钟且草稿/评审阶段整段无间隙——用户提交"跳过当前问题"后要干等当前问题跑完，甚至指令在 run 结束后才被消费；"实时修正方向"沦为"下一阶段修正"。
+- **Evidence to get this week:** 读 `src/core/runResearch.ts` 采证循环结构 + 现有 run 记录的每问耗时分布（runs/*/run.json 有阶段时间戳）。
+- **Kill criterion:** 若 P50 问题耗时 >5 分钟或草稿/评审阶段平均 >8 分钟无消费点，PRD 必须把"指令已提交、预计消费点"做成显式 UI 状态，并把"跳过当前问题"升级为可中断当前问题的预检（abort 信号位），否则 P0-2 改标"阶段边界干预"并在交付说明中如实降级。
+- **Cheapest test:** 代码阅读 + 既有 run.json 时序数据统计，无需跑新实验。
 
-5. **Claim：** U2-01~U2-10 + 33 个验收用例（A-01…A-18、S-01…S-15）能在一个 dev-flow 预算（60 轮 / 12h）内诚实交付。
-   - **Steelman：** 一期一个 flow 交付了 57 测试 + server + UI；2.0 是增量。
-   - **Fails if：** 权限+版本+去重+迁移+三个新页面（列表/详情/选择器）的诚实实现超预算，被迫在质量门禁上放水。
-   - **Evidence to get this week：** ISSUES 拆解时的真实切片估算与依赖图。
-   - **Kill criterion：** 拆解估算超预算 → 拆 U2-A（入库+留档+版本绑定+检索复用闭环）与 U2-B（迁移+高级治理），本轮先交 U2-A，向用户明示。
-   - **Cheapest test：** ISSUES 阶段切片计数。
+### 3. 跨 run 证据复用的技术基础已齐备（地基假设）
 
-### What's Well-Reasoned
+- **Claim:** D2 说复用必须走 2.0 版本绑定底稿，不造第二套。
+- **Steelman:** 上次 flow GRILL 的 F1 已确认契约层持久化了 SourceSnapshot/Evidence/Claim；snapshots.json 是**项目级**字典，跨 run 引用无物理障碍。
+- **Fails if:** run 证据 → 情报库资产的身份映射只在"研究归档"（S4）路径建立，而归档未跑过的历史 run / 采证中途取消的 run 证据无资产身份，增量研究无从绑定。
+- **Kill criterion:** 若"增量绑定"必须依赖一个尚未自动化的人工归档步骤，P0-1 范围须包含"run 证据资产身份的自动确保"（或明确仅支持已归档 run）。
+- **Cheapest test:** 读 `src/library/` 入库与绑定路径 + `src/app/projectService` 归档触发点，确认 run 完成时证据是否自动落库（U2-02 语义核实）。
 
-- 不伪造、不越权、版本冻结、转引不升级为已读原文——经得起攻击的正确原则；方案 1.1 自我声明未核查现状，没有过度宣称。
-- 报告 = 派生成果、不作为自身证明；同源不算独立证据——直击 AI 研究产品最常见的自我强化失败模式。
-- WP00 先核查再动手、迁移先备份预演——顺序正确；红队四个最贵假设恰好都被 WP00 廉价覆盖。
-- 优先级排序（不伪造不越权 > 引用版本可靠 > 闭环可用 > 体验 > 自动化）与第 19 章风险表一致。
+### 4. P0-1 + P0-2 可在同一 flow 预算内交付（scope 假设）
 
-### What I Couldn't Assess
+- **Claim:** 两条 P0 同期落地。
+- **Steelman:** 两条都触碰运行生命周期，共享对 contracts/checkpoints/server/UI 的理解，同期做有协同。
+- **Fails if:** 两条各自都是中等偏大的改动（P0-1 动报告装配与版本演进，P0-2 动编排循环与取消语义），叠加后超出单 flow 预算，被迫半途收窄。
+- **Kill criterion:** ISSUES 阶段若切片数 >8 或预估触面 >6 个文件/层，应与用户确认是否砍成"P0-1 先行、P0-2 后续 flow"（escalation，因 D1 已定两条都做）。
+- **Cheapest test:** 拆解时点自然暴露，无额外成本。
 
-- 现有代码真实状态（WP00 的职责；本报告只做了 2 分钟校准性浏览）。
-- 真实数据量、模型供应商行为、性能门槛（方案附录 A 已列为冻结参数）。
-- 用户对"本轮必须交付 vs 可降级"的容忍度——若 WP00/ISSUES 暴露范围超限，需用户定夺。
+### 5. 权限与门禁模型对增量复用天然兼容（合规假设）
 
-**Verdict: go。** 没有任何 kill criterion 已被满足；最该先测的四件事就是方案自己规定的 WP00。
+- **Claim:** D9 说 S-03 外发门禁、as_of、六维状态对增量研究同样生效。
+- **Steelman:** 同项目内 run 证据的取得记录属当前项目，外发门禁第 1 条即放行；as_of 沿用原 run 截止点则时间检查不触发。
+- **Fails if:** 增量 run 允许刷新 as_of（开放问题 7），旧证据全部落入"发布时间晚于 as_of → NEEDS_REVIEW"的重新检查路径，复用体验被审批流淹没。
+- **Kill criterion:** 若 as_of 刷新不可避免（追问常带"更新到今天"），PRD 须明确"旧证据重检仅限时间口径检查"的窄化规则，否则 P0-1 交互设计不成立。
+- **Cheapest test:** PRD 阶段决策，无实验成本。
+
+## What's Well-Reasoned
+
+- **P0 选择有依据**：两条分别对应行业已验证的最大缺口（会话延续与执行干预），且都基于已实证的机制出处，不是臆想功能。
+- **D2/D6/D9 的架构不变式清单质量高**：明确排除"平行造第二套复用"和"绕过权限门禁"两条最容易犯的捷径，后续阶段有清晰的合规锚点。
+- **D4 不采纳清单**提前关闭了与 2.0 白皮书冲突的方向，避免 scope 漂移。
+- **范围聚焦 P0**（D1）与用户显式确认一致，决策链干净。
+
+## What I Couldn't Assess
+
+- 用户实际追问行为的频率与形态（单用户产品，无行为日志可查；假设 #1 的历史数据只能近似）。
+- UI 侧（App.tsx 单文件规模未知）承载两个新交互的改动量——需 IMPLEMENT 前摸底。
+- MIMO 备用链在指令注入后的会话组装是否有坑（增量 run 的上下文组装长度显著增大，备用模型慢的问题可能放大）。

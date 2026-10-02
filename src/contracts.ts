@@ -105,8 +105,69 @@ export const ResearchRequestSchema = z.object({
   /** 用户确认的报告框架;草稿与正式报告都按此结构组织。 */
   outline: ReportOutlineSchema.optional(),
   configVersion: z.string().optional(),
+  /** 2.1 扩展:增量追问的基准运行(追问扩展而非重跑)。 */
+  incrementalOf: z
+    .object({
+      runId: z.string().min(1),
+      requestId: z.string().min(1),
+    })
+    .optional(),
 });
 export type ResearchRequest = z.infer<typeof ResearchRequestSchema>;
+
+/** 2.1 扩展:执行中干预指令(在采证问题间隙消费,不打断进行中的调用)。 */
+export const RunInstructionSchema = z
+  .discriminatedUnion("type", [
+    z.object({
+      type: z.literal("skip-question"),
+      /** 缺省为当前正在采证的问题。 */
+      questionId: z.string().min(1).optional(),
+    }),
+    z.object({
+      type: z.literal("add-questions"),
+      questions: z.array(z.string().min(1)).min(1).max(6),
+    }),
+    z.object({
+      type: z.literal("refine-direction"),
+      note: z.string().min(1).max(500),
+    }),
+    z.object({
+      type: z.literal("add-source"),
+      url: z.string().url().optional(),
+      text: z.string().min(1).optional(),
+      title: z.string().optional(),
+    }),
+  ])
+  .refine((v) => v.type !== "add-source" || v.url !== undefined || v.text !== undefined, {
+    message: "add-source 需提供 url 或 text",
+  });
+export type RunInstruction = z.infer<typeof RunInstructionSchema>;
+
+/** 2.1 扩展:干预的入队与消费记录(消费后追加进 run 记录)。 */
+export const InterventionSchema = z.object({
+  id: z.string().min(1),
+  /** 指令提交时间(ISO)。 */
+  submittedAt: z.string().min(1),
+  instruction: RunInstructionSchema,
+  /** 消费时间(ISO);仍在队列中未消费时缺省。 */
+  consumedAt: z.string().min(1).optional(),
+  /** applied 生效 / invalid 不适用(如跳过已答问题) / failed 尝试后失败。 */
+  effect: z.enum(["applied", "invalid", "failed"]).optional(),
+  /** 效果/失败/无效原因说明。 */
+  detail: z.string().optional(),
+});
+export type Intervention = z.infer<typeof InterventionSchema>;
+
+/** 2.1 扩展:采证进度摘要(供 UI 展示当前问题与计数,随每问推进更新)。 */
+export const RunProgressSchema = z.object({
+  currentQuestionId: z.string().min(1).optional(),
+  currentQuestionText: z.string().optional(),
+  answered: z.number().int().nonnegative(),
+  open: z.number().int().nonnegative(),
+  skipped: z.number().int().nonnegative(),
+  total: z.number().int().nonnegative(),
+});
+export type RunProgress = z.infer<typeof RunProgressSchema>;
 
 export const ResearchRunSchema = z.object({
   id: z.string().min(1),
@@ -121,8 +182,24 @@ export const ResearchRunSchema = z.object({
     wallMs: z.number().nonnegative(),
   }),
   error: z.string().optional(),
+  /** 2.1 扩展:增量研究的基准 run。 */
+  derivedFromRunId: z.string().min(1).optional(),
+  /** 2.1 扩展:执行中干预历史(消费后追加)。 */
+  interventions: z.array(InterventionSchema).optional(),
+  /** 2.1 扩展:采证进度摘要。 */
+  progress: RunProgressSchema.optional(),
 });
 export type ResearchRun = z.infer<typeof ResearchRunSchema>;
+
+/** 2.1 扩展:增量研究的复用明细。 */
+export const ReuseSummarySchema = z.object({
+  baseRunId: z.string().min(1),
+  reusedSnapshots: z.number().int().nonnegative(),
+  reusedEvidence: z.number().int().nonnegative(),
+  reusedClaims: z.number().int().nonnegative(),
+  newQuestions: z.number().int().nonnegative(),
+});
+export type ReuseSummary = z.infer<typeof ReuseSummarySchema>;
 
 export const ResearchResultBundleSchema = z.object({
   runId: z.string().min(1),
@@ -138,5 +215,9 @@ export const ResearchResultBundleSchema = z.object({
   auditSummary: z.string().optional(),
   /** 本次运行采用的报告框架(用户确认稿);旧版本可能缺省。 */
   outline: ReportOutlineSchema.optional(),
+  /** 2.1 扩展:增量研究的基准 run。 */
+  derivedFromRunId: z.string().min(1).optional(),
+  /** 2.1 扩展:增量复用明细。 */
+  reuseSummary: ReuseSummarySchema.optional(),
 });
 export type ResearchResultBundle = z.infer<typeof ResearchResultBundleSchema>;

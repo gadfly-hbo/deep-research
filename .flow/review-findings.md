@@ -1,45 +1,44 @@
-# REVIEW 双轴审查记录（fixed point = 5cee876）
+# Review Findings — 2.1 增量升级（cycle 1, 2026-10-02）
 
-日期：2026-09-23。Standards 与 Spec 两轴并行子代理审查，未合并排序。
+裁决：**FAIL（REQUEST_CHANGES）** · 审查范围 git diff 041856f -- src/ ui/（19 文件 +1337/-71）· VERIFY 复跑属实（exit 0, 238/238, build OK）
 
-## Standards 轴
+## Blockers（本轮修复）
 
-硬违规：
-1. `testdata/v1-bundle-sample.json` 被 `.gitignore`（`testdata/*.json`）忽略 → 新克隆 `npm test` 必红。【blocking，已修：gitignore 豁免】
-2. `AssetDetailView` 用不存在的 `.pre-box` 类 + 12.5px 内联字号，偏离 DESIGN.md（快照原文应 `.snap-text`、正文 13px）。【blocking，已修】
-3. README 架构/导出包/CLI 未同步 library 模块与 2.0 成果包。【blocking（文档标准），已修】
+1. **skip-question 指向后续 open 问题时失效**（runResearch.ts gather 循环无 skipped 检查，:407 无条件覆盖状态；复现：skip(q3) 后 q3 照常搜索且 interventions 谎报 applied）→ 修：循环头跳过 skipped；补行为测试。
+2. **增量 URL 去重缺"直接引用旧快照"**（全命中时新问题颗粒无收且无披露；复现实证）→ 修（最小）：全命中问题在 unresolved 披露"答案可能存在于延续信源"；完整挂接待后续迭代（涉及多问题-证据关联模型）。
+3. **POST /runs 不校验 incrementalOf 基准**（进行中 run 可作基准启动，得到全量研究但 derivedFromRunId 语义污染）→ 修：start 端点复用 resolveIncrementalBase 校验。
 
-判断项（记录不行动）：ingest 登记逻辑三处相似（runResearch/migrate/assetService）；Gather/Publish 绑定列表 JSX 与接口重复；reuseScope 取档逻辑两处；入口未用 zod parse（server 强转）；searchService/migrateLibrary 依赖具体类仅为 dir；`allowed()` 死参数；migrate ID 拼接晦涩；`FETCH_LABEL` 无意义别名；server.ts 路由链继续变长；AssetDetailView 未用 api helper。
+## 顺带修复（低成本 correctness/诚实性）
 
-## Spec 轴
+4. "延续证据采录于…"limitation 无去重（resume N 次重复 N 条）。
+5. add-source 快照 id `snap:${url}` 未唯一化，会覆盖项目级快照同 id 旧内容（与 URL 去重的初衷相悖）。
+6. server.test "进行中基准被拒" if(stillRunning) 弱断言（可能静默跳过）。
+7. stripKeys 两语句挤行（编辑事故）；incrementalNote() 同表达式调用两次。
 
-缺失/部分（blocking，已修）：
-1. S-03：模型上下文组装不查 `rights.sendToExternalModel`（死字段）→ runResearch 注入处加门禁，未授权不调外部模型并披露。
-2. §5.2/§11.4：check_reuse 无路由、选择器无四组分类、rejected 不回报、PlanView 搜索不传 projectId（S-01 泄露面）→ 加 check 路由、搜索结果带适用性、PlanView 传 projectId 并分组展示、启动回报 rejected。
-3. change_reuse_scope 无路由/UI → 加路由 + 详情页动作（带依据）。
-4. U2-09 第三档（只有报告→派生成果登记）与 derivedFromRunId 写入路径缺失 → migrateLibrary 增加 report-only 档登记。
-5. A-08：origin.obtainedUpstream 死字段 → checkReuse 转引未取上游 → NEEDS_REVIEW。
-6. 批量 20 上限未强制；链接无 URL 去重；UI 无幂等键 → 均已补。
+## Non-blocking（记录不动，后续迭代候选）
 
-实现错误（blocking，已修）：
-1. reuse.ts 对无 projectId 的取得记录全放行，违反 G6/S-02 且与检索过滤矛盾 → 收紧为「同项目或 WORKSPACE_REUSABLE」；fetchAssetContent 继承登记上下文的 projectId/rights。
-2. 内容去重返回他人 acquisitionId 且不新建取得记录（§8.1/S-02）→ 去重时按上下文新建自己的取得记录。
-3. 更正版本无取得记录导致检索消失 + 索引签名不含版本（indexState 谎报）→ 检索权限回落到同源任一版本；索引签名含版本数与最新时间。
-4. S-06 重定向/体积未查 → FetchedPage.finalUrl + 取得后复核 + 50MB 体积上限。
-5. A-05/A-18 样本边界仅测试手工注入 → checkReuse 对 consumer-profile 服务端生成样本边界提示。
+- refine-direction 未注入抽取提示（PRD:57 措辞 vs 实现只有搜索 query）。
+- as_of "沿用原截止点"选项未实现（UI 固定文案）。
+- instruct 对非 gather 阶段回执语义（UI 已挡，API 回执不诚实）。
+- plan-preview 超 6 问静默截断无披露；基准 outline 缺失降级无披露字段。
+- resume 坏指令静默丢弃无审计；drainFor 与 instruct 写文件的交错窗口。
+- **S-03 澄清（UNVERIFIED 项）**：add-source 为用户主动提交材料，语义等同附件路径（attachments 亦不经 S-03——S-03 约束的是情报库复用资产的外发）；PRD"过 S-03 外发门禁"措辞按此解释，实现不改。
 
-非 blocking：content 路由为属主本地读取（单用户语义，ACCEPTANCE 已声明）；tasks.md 勾选与 ACCEPTANCE 表述已对齐。
+## 覆盖确认
+审查员复跑了 VERIFY 命令并与记录比对一致；两个独立复现实验（skip 后续问题、增量全命中）；WHITEPAPER §5.4 S-03 定义比对。未覆盖：UI 视觉走查（待用户人工验收）、真机双端同步下 pending 文件行为。
 
 ---
 
-## REVIEW cycle2（修复后复核）与 cycle2 修复
+# Review Findings — cycle 2（2026-10-02 复审）
 
-Standards 轴：第一轮三项硬违规确认已修；无新硬违规。新 smell（判断项，记录）：server /runs 与 /runs/resume 启动块重复；reuseScope 取档逻辑 server/searchService 两处；assetService 空操作分支（已删）；APPLICABILITY 双表（已派生化？保留记录）；AssetDetailView 裸 fetch（保留记录）。
+裁决：**FAIL**。5/7 修复确认；2 个残余 blocker（均 tsx 实跑复现）：
+1. 全命中披露写 state.unresolved，被 publish 主路径（runResearch.ts:1063 questions.filter 重写）冲掉；快捷路径测试绕开了重写。→ 修：披露改推 state.limitations（两路径均存活）。
+2. review regather（runResearch.ts:935）无条件 q.status="open"，可复活用户 skipped 问题，干预史与事实相反。→ 修：加 skipped 守卫。
+建议项：重复 skip 的 unresolved 无去重；server 测试标题"不触发模型调用"与断言不符；add-source 跨 run URL 复用边界（留后续）。
 
-Spec 轴 blocking（cycle2，已修）：
-1. SSRF IPv6 绕过：`[::1]`/`[::ffff:127.0.0.1]`/十六进制映射形式未被拒 → assertPublicUrl 增加括号剥离、IPv6 回环/ULA/链路本地/映射(点分+十六进制)判定；测试含 `[::ffff:7f00:1]`。
-2. S-03 门禁跨项目串用：rights 判定未限定取得记录上下文 → 限定为本运行项目/属主直录/已显式升档 WORKSPACE_REUSABLE 的取得记录；新增 S-02 串用测试。
-3. 选择器四组缺「选择理由/实际版本/标记仅作线索」→ PlanView 已选列表展示 versionId、purpose 可编辑、证据候选↔仅作线索切换。
-4. migrateLibrary 头注释陈旧 → 已更新为三档说明。
+---
 
-回归：219 测试绿、typecheck 净、build OK。
+# Review Findings — cycle 3（2026-10-02 终审）
+
+裁决：**PASS（APPROVE）**。两项 cycle-2 修复核验属实（limitations 主路径只追加不重写、regather 守卫+主路径行为测试、发布门禁数据流不受新 limitation 影响）；门禁复跑 exit 0 / 241/241 / build OK。
+Non-blocking 建议（记录）：全命中披露补主路径断言（当前靠结构保证）；regather 拦截时可补评审关切披露。

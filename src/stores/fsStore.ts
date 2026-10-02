@@ -4,6 +4,7 @@ import {
   mkdirSync,
   readFileSync,
   readdirSync,
+  statSync,
   writeFileSync,
 } from "node:fs";
 import { join } from "node:path";
@@ -123,14 +124,30 @@ export class FsProjectStore implements ResearchStore {
     return this.readJson<Checkpoint[]>(join("runs", runId, "checkpoints.json"), []);
   }
 
+  /** 2.1:运行中干预指令的待消费队列落盘(服务重启/恢复后不丢)。 */
+  async savePendingInstructions(runId: string, list: unknown[]): Promise<void> {
+    mkdirSync(join(this.dir, "runs", runId), { recursive: true });
+    this.writeJson(join("runs", runId, "pending-instructions.json"), list);
+  }
+
+  async readPendingInstructions(runId: string): Promise<unknown[]> {
+    return this.readJson<unknown[]>(join("runs", runId, "pending-instructions.json"), []);
+  }
+
   async findRunByRequestId(requestId: string): Promise<ResearchRun | undefined> {
     const runsDir = join(this.dir, "runs");
     if (!existsSync(runsDir)) return undefined;
+    // 同一 requestId 可能存在多条记录(历史 resume/失败重发):按 run.json 修改时间取最新,
+    // 恢复语义依赖拿到最近一次的记录,目录序会静默选中旧记录
+    let best: { run: ResearchRun; mtimeMs: number } | undefined;
     for (const runId of readdirSync(runsDir)) {
-      const run = this.readJson<ResearchRun | null>(join("runs", runId, "run.json"), null);
-      if (run?.requestId === requestId) return run;
+      const rel = join("runs", runId, "run.json");
+      const run = this.readJson<ResearchRun | null>(rel, null);
+      if (run?.requestId !== requestId) continue;
+      const mtimeMs = statSync(join(this.dir, rel)).mtimeMs;
+      if (!best || mtimeMs >= best.mtimeMs) best = { run, mtimeMs };
     }
-    return undefined;
+    return best?.run;
   }
 
   async readBundle(runId: string): Promise<ResearchResultBundle | null> {

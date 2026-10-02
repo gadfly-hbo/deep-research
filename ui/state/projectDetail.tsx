@@ -7,7 +7,7 @@ import { useToast } from "./toast";
 import { useUI } from "./ui";
 import { useProjects } from "./projects";
 import { STAGES } from "./types";
-import type { Bundle, Claim, Outline, ProjectDetail, Run } from "./types";
+import type { Bundle, Claim, Outline, ProjectDetail, Run, RunInstructionUI } from "./types";
 
 export interface SelectedAsset {
   sourceId: string;
@@ -25,6 +25,8 @@ export interface StartRunParams {
   outline: Outline;
   /** 2.0:启动前选择的已有情报;服务端检查权限并固定版本绑定 */
   selectedAssets?: SelectedAsset[];
+  /** 2.1:增量追问的基准运行(延续其证据与主张,只为新问题采证) */
+  incrementalOf?: { runId: string; requestId: string };
 }
 
 interface ProjectCtx {
@@ -41,6 +43,8 @@ interface ProjectCtx {
   genFormal(v: number): Promise<void>;
   busy: string;
   startRun(p: StartRunParams): Promise<{ ok: boolean; rejected: Array<{ sourceId: string; reason: string }> }>;
+  /** 2.1:向运行中的 run 提交干预指令(问题间隙生效) */
+  instruct(instruction: RunInstructionUI): Promise<void>;
   cancelRun(r: Run): Promise<void>;
   resumeRun(r: Run): Promise<void>;
   publishRun(r: Run): Promise<void>;
@@ -175,6 +179,7 @@ export function ProjectDetailProvider({ id, children }: { id: string; children: 
             scope: { summary: p.summary, queries: p.plan.map((q) => q.question) },
             attachments: p.attachments.split("\n").map((s) => s.trim()).filter(Boolean),
             outline: p.outline,
+            incrementalOf: p.incrementalOf,
             // 交互运行用适中预算:约 10 分钟内出结果;更深的重跑走 CLI 自定义预算
             budget: { maxSearches: 8, maxFetches: 12 },
           },
@@ -198,6 +203,24 @@ export function ProjectDetailProvider({ id, children }: { id: string; children: 
     },
     [detail?.meta.module, id, projects, reload, toast],
   );
+
+  const instruct = useCallback(async (instruction: RunInstructionUI): Promise<void> => {
+    const running = detail?.runs.find((r) => r.status === "running");
+    if (!running) {
+      toast.show("没有正在运行的 run");
+      return;
+    }
+    try {
+      const r = await post<{ queued: boolean; pending: number; note?: string }>(`/api/projects/${id}/runs/instruct`, {
+        requestId: running.requestId,
+        instruction,
+      });
+      toast.show(r.queued ? `指令已入队(待消费 ${r.pending})· ${r.note ?? "将在当前问题完成后生效"}` : "指令未入队");
+      await reload();
+    } catch (e) {
+      toast.show(errMsg(e));
+    }
+  }, [detail, id, reload, toast]);
 
   const cancelRun = useCallback(async (r: Run) => {
     try {
@@ -276,7 +299,7 @@ export function ProjectDetailProvider({ id, children }: { id: string; children: 
         id, detail, loadFailed, activeRun, progress,
         bundle, bundleVersion, selectVersion,
         formalReady, genFormal, busy,
-        startRun, cancelRun, resumeRun, publishRun,
+        startRun, instruct, cancelRun, resumeRun, publishRun,
         selectedClaim, snapshotText, openClaim,
         reload,
       }}

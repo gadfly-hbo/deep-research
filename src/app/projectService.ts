@@ -15,28 +15,34 @@ export interface DiffSummary {
   evidenceDelta: number;
   addedLimitations: string[];
   removedLimitations: string[];
+  /** 2.1:增量发布注记(该版本为增量研究成果时存在)。 */
+  incremental?: { baseRunId: string; newQuestions: number; reusedSnapshots: number; addedClaims: number };
 }
 
 export function diffBundles(prev: ResearchResultBundle | null, next: ResearchResultBundle): DiffSummary {
-  if (!prev) {
-    return {
-      addedClaims: next.claims.map((c) => c.statement),
-      removedClaims: [],
-      evidenceDelta: next.evidence.length,
-      addedLimitations: next.limitations,
-      removedLimitations: [],
-    };
-  }
-  const prevStatements = new Set(prev.claims.map((c) => c.statement));
+  const prevStatements = new Set(prev?.claims.map((c) => c.statement) ?? []);
   const nextStatements = new Set(next.claims.map((c) => c.statement));
-  const prevLimitations = new Set(prev.limitations);
+  const prevLimitations = new Set(prev?.limitations ?? []);
   const nextLimitations = new Set(next.limitations);
+  const addedClaims = next.claims.filter((c) => !prevStatements.has(c.statement)).map((c) => c.statement);
+  const incremental =
+    next.derivedFromRunId && next.reuseSummary
+      ? {
+          baseRunId: next.derivedFromRunId,
+          newQuestions: next.reuseSummary.newQuestions,
+          reusedSnapshots: next.reuseSummary.reusedSnapshots,
+          addedClaims: addedClaims.length,
+        }
+      : undefined;
   return {
-    addedClaims: next.claims.filter((c) => !prevStatements.has(c.statement)).map((c) => c.statement),
-    removedClaims: prev.claims.filter((c) => !nextStatements.has(c.statement)).map((c) => c.statement),
-    evidenceDelta: next.evidence.length - prev.evidence.length,
+    addedClaims,
+    removedClaims:
+      prev?.claims.filter((c) => !nextStatements.has(c.statement)).map((c) => c.statement) ?? [],
+    evidenceDelta: next.evidence.length - (prev?.evidence.length ?? 0),
     addedLimitations: next.limitations.filter((l) => !prevLimitations.has(l)),
-    removedLimitations: prev.limitations.filter((l) => !nextLimitations.has(l)),
+    removedLimitations:
+      prev?.limitations.filter((l) => !nextLimitations.has(l)) ?? [],
+    ...(incremental ? { incremental } : {}),
   };
 }
 

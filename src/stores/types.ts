@@ -15,4 +15,6 @@ export interface ResearchStore {
   saveCheckpoint(checkpoint: Checkpoint): Promise<void>;
   checkpoints(runId: string): Promise<Checkpoint[]>;
   findRunByRequestId(requestId: string): Promise<ResearchRun | undefined>;
+  /** 2.1:读回指定 run 的成果包(增量追问的基准复用);不存在返回 null。 */
+  readBundle(runId: string): Promise<ResearchResultBundle | null>;
 }

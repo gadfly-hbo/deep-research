@@ -19,6 +19,30 @@ export interface ProjectMeta {
   versions: VersionEntry[];
   status?: "active" | "archived";
 }
+export interface RunProgress {
+  currentQuestionId?: string;
+  currentQuestionText?: string;
+  answered: number;
+  open: number;
+  skipped: number;
+  total: number;
+}
+
+export type RunInstructionUI =
+  | { type: "skip-question"; questionId?: string }
+  | { type: "add-questions"; questions: string[] }
+  | { type: "refine-direction"; note: string }
+  | { type: "add-source"; url?: string; text?: string; title?: string };
+
+export interface InterventionUI {
+  id: string;
+  submittedAt: string;
+  instruction: RunInstructionUI;
+  consumedAt?: string;
+  effect?: "applied" | "invalid" | "failed";
+  detail?: string;
+}
+
 export interface Run {
   id: string;
   requestId: string;
@@ -26,6 +50,9 @@ export interface Run {
   status: "running" | "cancelled" | "failed" | "published" | "limited";
   usage: { searches: number; fetches: number; costEstimate: number; wallMs: number };
   error?: string;
+  derivedFromRunId?: string;
+  progress?: RunProgress;
+  interventions?: InterventionUI[];
 }
 export interface Snapshot { id: string; url: string; title: string; fetchedAt: string; parseStatus: string; tier?: "A" | "B" | "C" }
 export interface Claim {

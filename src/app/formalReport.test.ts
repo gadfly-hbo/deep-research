@@ -93,3 +93,23 @@ describe("formalReport(产物)", () => {
     expect(bytes.length).toBeGreaterThan(2000);
   });
 });
+
+describe("buildFormal(2.1 增量元信息)", () => {
+  it("增量 bundle 渲染自 baseRunId 的增量条目;普通 bundle 无该字段", async () => {
+    const { assembleFormalReport } = await import("./formalReport.js");
+    const { ResearchResultBundleSchema } = await import("../contracts.js");
+    const base = ResearchResultBundleSchema.parse({
+      runId: "run-inc", version: 1, reportMd: "# 报告\n\n## 市场\n正文",
+      claims: [], evidence: [], snapshots: [], limitations: [], unresolved: [], verdicts: [],
+    });
+    const plain = assembleFormalReport(base, { moduleLabel: "行业研究", goal: "g" });
+    expect(plain.incremental).toBeUndefined();
+    const inc = ResearchResultBundleSchema.parse({
+      ...base,
+      derivedFromRunId: "run-base",
+      reuseSummary: { baseRunId: "run-base", reusedSnapshots: 3, reusedEvidence: 7, reusedClaims: 5, newQuestions: 2 },
+    });
+    const doc = assembleFormalReport(inc, { moduleLabel: "行业研究", goal: "g" });
+    expect(doc.incremental).toEqual({ baseRunId: "run-base", newQuestions: 2, reusedSnapshots: 3 });
+  });
+});

@@ -3,10 +3,11 @@ import { chmodSync } from "node:fs";
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from "node:http";
 import { randomUUID } from "node:crypto";
 import { join } from "node:path";
+import { z } from "zod";
 import type { Adapters } from "../adapters/types.js";
 import { buildExportFilesV2, zipExport } from "../app/exportBundle.js";
 import { createProject, generateFormal, publishBundle, runOnProject } from "../app/projectService.js";
-import { ResearchRequestSchema } from "../contracts.js";
+import { ResearchRequestSchema, InterventionSchema, RunInstructionSchema, type Intervention } from "../contracts.js";
 import { DEFAULT_BUDGET } from "../core/runResearch.js";
 import { OutlineOutputSchema, PlanOutputSchema } from "../core/stages.js";
 import { getModuleConfig } from "../modules/registry.js";
@@ -46,6 +47,63 @@ const json = (res: ServerResponse, status: number, body: unknown): void => {
   res.end(JSON.stringify(body));
 };
 
+const IncrementalRefSchema = z.object({ runId: z.string().min(1), requestId: z.string().min(1) });
+
+/** 2.1 追问扩展:解析并校验增量基准——本项目内已完成(published/limited)的 run 及其成果包。 */
+const resolveIncrementalBase = async (
+  store: FsProjectStore,
+  raw: unknown,
+): Promise<
+  | { error: string; status: number }
+  | {
+      base: {
+        runId: string;
+        summary: Record<string, unknown>;
+        answeredQuestions: string[];
+        outline: unknown;
+      };
+    }
+> => {
+  const ref = IncrementalRefSchema.safeParse(raw);
+  if (!ref.success) return { status: 400, error: "incrementalOf 需含 runId 与 requestId" };
+  const run = (await store.listRuns()).find((r) => r.id === ref.data.runId && r.requestId === ref.data.requestId);
+  if (!run) return { status: 404, error: `基准 run 不属于本项目: ${ref.data.runId}` };
+  if (run.status !== "published" && run.status !== "limited") {
+    return {
+      status: 409,
+      error: `基准 run 未完成(${run.status});只有已完成(published/limited)的运行可作为增量基准`,
+    };
+  }
+  const bundle = await store.readBundle(ref.data.runId);
+  if (!bundle) return { status: 404, error: `基准成果包缺失: ${ref.data.runId}` };
+  const cps = await store.checkpoints(ref.data.runId);
+  const gatherCp = cps.find((c) => c.stage === "gather");
+  const planCp = cps.find((c) => c.stage === "plan");
+  const questions =
+    (gatherCp?.data as { questions?: Array<{ question: string; status: string }> } | undefined)?.questions ??
+    (planCp?.data as { questions?: Array<{ question: string; status: string }> } | undefined)?.questions ??
+    [];
+  const answeredQuestions = questions
+    .filter((q) => q.status === "answered" || q.status === "partially")
+    .map((q) => q.question);
+  const lastFetchedAt = bundle.snapshots.reduce((m, s) => (s.fetchedAt > m ? s.fetchedAt : m), "");
+  return {
+    base: {
+      runId: ref.data.runId,
+      summary: {
+        runId: ref.data.runId,
+        answeredQuestions: answeredQuestions.length,
+        evidence: bundle.evidence.length,
+        snapshots: bundle.snapshots.length,
+        claims: bundle.claims.length,
+        lastFetchedAt,
+      },
+      answeredQuestions,
+      outline: bundle.outline ?? null,
+    },
+  };
+};
+
 const stripKeys = (value: unknown): unknown => {
   if (Array.isArray(value)) return value.map(stripKeys);
   if (typeof value === "object" && value !== null) {
@@ -58,7 +116,27 @@ const stripKeys = (value: unknown): unknown => {
 
 export async function startServer(deps: ServerDeps, port = 0): Promise<RunningServer> {
   const controllers = new Map<string, AbortController>();
+  // 2.1 执行中干预:per-run 待消费指令队列(内存 + pending-instructions.json 落盘)
+  const instructionQueues = new Map<string, Intervention[]>();
   const configPath = join(deps.dataDir, "config.json");
+
+  const getQueue = (runId: string): Intervention[] => {
+    let q = instructionQueues.get(runId);
+    if (!q) {
+      q = [];
+      instructionQueues.set(runId, q);
+    }
+    return q;
+  };
+  const drainFor =
+    (runId: string, dir: string): (() => Promise<Intervention[]>) =>
+    async () => {
+      const q = instructionQueues.get(runId);
+      if (!q || q.length === 0) return [];
+      const drained = q.splice(0);
+      await FsProjectStore.open(dir).savePendingInstructions(runId, []);
+      return drained;
+    };
 
   const projectDir = (id: string): string => {
     if (!PROJECT_ID.test(id)) throw new Error(`非法项目 id: ${id}`);
@@ -156,19 +234,53 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
 
       if (method === "POST" && rest === "/plan-preview") {
         const cfg = getModuleConfig(body.module ?? store().meta().module);
+        // 2.1 增量追问:基准必须是本项目已完成的 run,预览只为新问题生成计划
+        let base: { runId: string; summary: Record<string, unknown>; answeredQuestions: string[] } | undefined;
+        if (body.incrementalOf !== undefined) {
+          const resolved = await resolveIncrementalBase(store(), body.incrementalOf);
+          if ("error" in resolved) {
+            json(res, resolved.status, { error: resolved.error });
+            return;
+          }
+          base = resolved.base;
+        }
         const result = await deps
           .makeAdapters()
           .model.runStage(
             "plan",
-            { goal: body.goal, scope: body.scope, questionFramework: cfg.questionFramework },
+            {
+              goal: body.goal,
+              scope: body.scope,
+              questionFramework: cfg.questionFramework,
+              ...(base
+                ? {
+                    incremental: {
+                      answeredQuestions: base.answeredQuestions,
+                      newQuestionBudget: 6,
+                      note: "只为追问生成新问题,不重复基准研究已回答的问题",
+                    },
+                  }
+                : {}),
+            },
             `plan-preview:${id}:${Date.now()}`,
           );
-        json(res, 200, { plan: PlanOutputSchema.parse(result.output), cost: result.cost });
+        const plan = PlanOutputSchema.parse(result.output);
+        if (base && plan.questions.length > 6) plan.questions = plan.questions.slice(0, 6);
+        json(res, 200, { plan, cost: result.cost, ...(base ? { base: base.summary } : {}) });
         return;
       }
 
       if (method === "POST" && rest === "/outline-preview") {
         const cfg = getModuleConfig(body.module ?? store().meta().module);
+        let base: { runId: string; summary: Record<string, unknown>; answeredQuestions: string[]; outline: unknown } | undefined;
+        if (body.incrementalOf !== undefined) {
+          const resolved = await resolveIncrementalBase(store(), body.incrementalOf);
+          if ("error" in resolved) {
+            json(res, resolved.status, { error: resolved.error });
+            return;
+          }
+          base = resolved.base;
+        }
         const result = await deps
           .makeAdapters()
           .model.runStage(
@@ -178,15 +290,32 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
               scope: body.scope,
               questions: Array.isArray(body.questions) ? body.questions : [],
               reportTemplate: cfg.reportTemplate,
+              ...(base
+                ? {
+                    incremental: {
+                      baseOutline: base.outline ?? null,
+                      answeredQuestions: base.answeredQuestions,
+                      note: "基于基准研究框架生成增量框架:保留原有章节,标注新问题章节的插入位置",
+                    },
+                  }
+                : {}),
             },
             `outline-preview:${id}:${Date.now()}`,
           );
-        json(res, 200, { outline: OutlineOutputSchema.parse(result.output), cost: result.cost });
+        json(res, 200, { outline: OutlineOutputSchema.parse(result.output), cost: result.cost, ...(base ? { base: base.summary } : {}) });
         return;
       }
 
       if (method === "POST" && rest === "/runs") {
         const request = ResearchRequestSchema.parse(body.request);
+        // 2.1:增量基准与预览端点同一校验——本项目已完成的 run 才可作为基准
+        if (request.incrementalOf) {
+          const resolved = await resolveIncrementalBase(store(), request.incrementalOf);
+          if ("error" in resolved) {
+            json(res, resolved.status, { error: resolved.error });
+            return;
+          }
+        }
         const controller = new AbortController();
         controllers.set(request.id ?? "", controller);
         const runId = randomUUID();
@@ -225,6 +354,7 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
           runId,
           library,
           projectId: id,
+          pollInstructions: drainFor(runId, dir),
         })
           .catch(async (error) => {
             // 失败不冒充完成:落一条 failed run 记录,带错误信息
@@ -256,45 +386,81 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
         return;
       }
 
+      if (method === "POST" && rest === "/runs/instruct") {
+        // 2.1 执行中干预:入队并在采证问题间隙被消费;队列随 run 目录落盘
+        const run = await store().findRunByRequestId(String(body.requestId ?? ""));
+        if (!run || run.status !== "running") {
+          json(res, 409, { error: `没有正在运行的 run: ${body.requestId}` });
+          return;
+        }
+        const parsed = RunInstructionSchema.safeParse(body.instruction);
+        if (!parsed.success) {
+          json(res, 400, { error: "干预指令不合法", issues: parsed.error.issues.map((i) => i.message) });
+          return;
+        }
+        const queue = getQueue(run.id);
+        if (queue.length >= 20) {
+          json(res, 409, { error: "指令队列已满(20),请等待当前问题完成" });
+          return;
+        }
+        const record: Intervention = {
+          id: `ins:${randomUUID().slice(0, 8)}`,
+          submittedAt: new Date().toISOString(),
+          instruction: parsed.data,
+        };
+        queue.push(record);
+        await store().savePendingInstructions(run.id, queue);
+        json(res, 200, {
+          queued: true,
+          instructionId: record.id,
+          pending: queue.length,
+          note: "已入队,将在当前问题完成后生效",
+        });
+        return;
+      }
+
       if (method === "POST" && rest === "/runs/resume") {
         const request = await store().readRequest(body.requestId);
         if (!request) {
           json(res, 404, { error: `找不到请求: ${body.requestId}` });
           return;
         }
+        // 恢复必须命中已取消的原 run:不预落新记录(会与 findRunByRequestId 竞争导致静默全量重跑),
+        // 沿用原 runId,由编排器在恢复瞬间把原记录置回 running(启动即可见)
+        const prior = request.id ? await store().findRunByRequestId(request.id) : undefined;
+        if (!prior || prior.status !== "cancelled") {
+          json(res, 409, { error: `没有可恢复的已取消运行: ${body.requestId}` });
+          return;
+        }
         const controller = new AbortController();
         controllers.set(request.id ?? "", controller);
-        const resumeRunId = randomUUID();
-        await FsProjectStore.open(dir).saveRun({
-          id: resumeRunId,
-          requestId: request.id ?? resumeRunId,
-          stage: "plan",
-          status: "running",
-          checkpoints: [],
-          usage: { searches: 0, fetches: 0, costEstimate: 0, wallMs: 0 },
-        });
+        // 恢复未消费的干预指令(取消/中断前入队的继续有效)
+        for (const raw of await store().readPendingInstructions(prior.id)) {
+          const check = InterventionSchema.safeParse(raw);
+          if (check.success) getQueue(prior.id).push(check.data);
+        }
         void runOnProject(dir, request, deps.makeAdapters(), {
           plan: body.plan,
           signal: controller.signal,
-          runId: resumeRunId,
           library,
           projectId: id,
+          pollInstructions: drainFor(prior.id, dir),
         })
           .catch(async (error) => {
-            await FsProjectStore.open(dir).saveRun({
-              id: resumeRunId,
-              requestId: request.id ?? resumeRunId,
-              stage: "gather",
-              status: "failed",
-              checkpoints: [],
-              usage: { searches: 0, fetches: 0, costEstimate: 0, wallMs: 0 },
-              error: String(error instanceof Error ? error.message : error),
-            });
+            // 失败不冒充完成:更新原 run 记录为 failed,带错误信息
+            const current = request.id ? await store().findRunByRequestId(request.id) : undefined;
+            if (current) {
+              await FsProjectStore.open(dir).saveRun({
+                ...current,
+                status: "failed",
+                error: String(error instanceof Error ? error.message : error),
+              });
+            }
           })
           .finally(() => {
             controllers.delete(request.id ?? "");
           });
-        json(res, 200, { resumed: true, requestId: request.id });
+        json(res, 200, { resumed: true, requestId: request.id, runId: prior.id });
         return;
       }
 

@@ -9,6 +9,13 @@ import { snapshotTitle } from "../state/derive";
 import { STATUS, STATUS_DOT, TIER_BADGE, stageTitle } from "../state/types";
 import type { Run } from "../state/types";
 
+const INS_TYPE_LABEL: Record<string, string> = {
+  "skip-question": "跳过问题",
+  "add-questions": "新增问题",
+  "refine-direction": "方向附注",
+  "add-source": "补充信源",
+};
+
 interface ReuseRow {
   bindings: Array<{ bindingId: string; sourceId: string; versionId: string; purpose: string; applicability: string; checkNotes: string[] }>;
   usages: Array<{ usageId: string; step: string; contentVersionId: string }>;
@@ -19,6 +26,10 @@ export function GatherView() {
   const navigate = useNavigate();
   const focusRunId = p.activeRun?.id ?? p.detail?.runs[p.detail.runs.length - 1]?.id ?? null;
   const [reuse, setReuse] = useState<ReuseRow | null>(null);
+  // 2.1 执行中干预表单
+  const [newQ, setNewQ] = useState("");
+  const [note, setNote] = useState("");
+  const [src, setSrc] = useState("");
 
   useEffect(() => {
     if (!focusRunId) return;
@@ -43,6 +54,9 @@ export function GatherView() {
     <div className="actions">
       {r.status === "cancelled" && (
         <button className="btn btn-sm" type="button" onClick={() => void p.resumeRun(r)}>自检查点恢复</button>
+      )}
+      {(r.status === "published" || r.status === "limited") && (
+        <button className="btn btn-sm" type="button" disabled={p.activeRun !== null} title={p.activeRun ? "有运行进行中,完成后可追问" : "基于此研究发起增量追问"} onClick={() => navigate(`/project/${p.id}/plan?followup=${r.id}`)}>追问</button>
       )}
       {(r.status === "published" || r.status === "limited") && !publishedRunIds.has(r.id) && (
         <button className="btn btn-primary btn-sm" type="button" onClick={() => void p.publishRun(r)}>发布为版本</button>
@@ -77,6 +91,72 @@ export function GatherView() {
               <div><dt>成本估算</dt><dd className="num">≈{run.usage.costEstimate.toFixed(3)}</dd></div>
               <div><dt>已用时</dt><dd className="num">{Math.round(run.usage.wallMs / 1000)}s</dd></div>
             </dl>
+            {run.progress && run.progress.total > 0 && (
+              <p className="fine" style={{ margin: 0 }}>
+                当前问题:{run.progress.currentQuestionText ?? "(阶段间)"} · 已答 {run.progress.answered}/{run.progress.total}
+                {run.progress.skipped > 0 ? ` · 已跳过 ${run.progress.skipped}` : ""}
+              </p>
+            )}
+            {run.stage === "gather" && (
+              <div className="fld" style={{ marginTop: 8 }}>
+                <span className="fld-label">执行中干预(不打断进行中的调用,在当前问题完成后生效)</span>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+                  <button className="btn btn-sm" type="button" onClick={() => void p.instruct({ type: "skip-question" })}>
+                    跳过当前问题
+                  </button>
+                  <input
+                    style={{ flex: 1, minWidth: 150 }}
+                    placeholder="新增问题(回车提交)"
+                    value={newQ}
+                    onChange={(e) => setNewQ(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && newQ.trim()) {
+                        void p.instruct({ type: "add-questions", questions: [newQ.trim()] });
+                        setNewQ("");
+                      }
+                    }}
+                  />
+                  <input
+                    style={{ flex: 1, minWidth: 150 }}
+                    placeholder="方向附注(如:重点看国内,回车提交)"
+                    value={note}
+                    onChange={(e) => setNote(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && note.trim()) {
+                        void p.instruct({ type: "refine-direction", note: note.trim() });
+                        setNote("");
+                      }
+                    }}
+                  />
+                  <input
+                    style={{ flex: 1, minWidth: 150 }}
+                    placeholder="补充信源 URL 或文本(回车提交)"
+                    value={src}
+                    onChange={(e) => setSrc(e.target.value)}
+                    onKeyDown={(e) => {
+                      const v = src.trim();
+                      if (e.key === "Enter" && v) {
+                        void p.instruct(/^https?:\/\//.test(v) ? { type: "add-source", url: v } : { type: "add-source", text: v });
+                        setSrc("");
+                      }
+                    }}
+                  />
+                </div>
+                {run.interventions && run.interventions.length > 0 && (
+                  <ul className="filelist" style={{ marginTop: 6 }}>
+                    {run.interventions.map((i) => (
+                      <li className="file" key={i.id}>
+                        <span className="file-name">{INS_TYPE_LABEL[i.instruction.type] ?? i.instruction.type}</span>
+                        <span className={`chip ${i.effect === "applied" ? "chip-ok" : i.effect === "failed" ? "chip-fail" : "chip-wait"}`}>
+                          {i.effect === "applied" ? "已生效" : i.effect === "failed" ? "失败" : "不适用"}
+                        </span>
+                        {i.detail && <span className="file-meta">{i.detail}</span>}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
             <p className="fine mono">requestId {run.requestId} · 自动刷新(2.5s)</p>
             <div className="actions">
               <button className="btn btn-danger" type="button" onClick={() => void p.cancelRun(run)}>
@@ -104,6 +184,7 @@ export function GatherView() {
                 <li className="file" key={r.id}>
                   <span className={`dot ${STATUS_DOT[r.status] ?? "dot-idle"}`} aria-hidden="true" />
                   <span className="file-name mono">{r.requestId}</span>
+                  {r.derivedFromRunId && <Chip tone="fork">增量</Chip>}
                   <Chip tone={STATUS[r.status]?.tone ?? "wait"}>{STATUS[r.status]?.label ?? r.status}</Chip>
                   <span className="file-meta num">{usageLine(r)}</span>
                   {runActions(r)}

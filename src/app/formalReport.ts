@@ -31,6 +31,8 @@ export interface FormalReport {
   version: number;
   generatedAt: string;
   delivery: "full" | "limited";
+  /** 2.1:增量研究元信息(基于基准 run 追问扩展时存在)。 */
+  incremental?: { baseRunId: string; newQuestions: number; reusedSnapshots: number };
   stats: { claims: number; verified: number; unverified: number; inference: number; sources: number; tierA: number; tierB: number; tierC: number };
   executiveSummary: string[];
   sections: FormalSection[];
@@ -157,6 +159,15 @@ export function assembleFormalReport(
     version: bundle.version,
     generatedAt: meta.generatedAt ?? new Date().toISOString(),
     delivery: bundle.limitations.length > 0 ? "limited" : "full",
+    ...(bundle.derivedFromRunId && bundle.reuseSummary
+      ? {
+          incremental: {
+            baseRunId: bundle.derivedFromRunId,
+            newQuestions: bundle.reuseSummary.newQuestions,
+            reusedSnapshots: bundle.reuseSummary.reusedSnapshots,
+          },
+        }
+      : {}),
     stats,
     executiveSummary: formal.executiveSummary,
     sections,
@@ -271,6 +282,7 @@ export function renderFormalHtml(r: FormalReport): string {
       <span>版本 <b>v${r.version}</b></span>
       <span>日期 <b>${dateStr}</b></span>
       <span>交付 <b><span class="badge ${limited ? "limited" : "full"}">${limited ? "有限交付" : "完整交付"}</span></b></span>
+      ${r.incremental ? `<span>增量 <b>自 ${escapeHtml(r.incremental.baseRunId)}</b>(新问 ${r.incremental.newQuestions} · 复用快照 ${r.incremental.reusedSnapshots})</span>` : ""}
       <span>主张 <b>${r.stats.claims}</b>(已核查 ${r.stats.verified} · 推断 ${r.stats.inference} · 未验证 ${r.stats.unverified})</span>
       <span>来源 <b>${r.stats.sources}</b>(A级 ${r.stats.tierA} · B级 ${r.stats.tierB} · C级 ${r.stats.tierC})</span>
     </div>

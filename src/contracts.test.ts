@@ -6,7 +6,9 @@ import {
   ResearchRequestSchema,
   ResearchResultBundleSchema,
   ResearchRunSchema,
+  RunInstructionSchema,
 } from "./contracts.js";
+import { PlanQuestionSchema } from "./core/stages.js";
 
 describe("ResearchRequest 契约", () => {
   it("接受最小合法请求(品牌模块 + 目标 + 范围与种子问题)", () => {
@@ -158,5 +160,97 @@ describe("Evidence/Claim 2.0 扩展(全部可选,旧数据可解析)", () => {
     expect(() =>
       ClaimSchema.parse({ id: "c1", statement: "s", kind: "fact", evidenceIds: [], supportStatus: "TRUE" }),
     ).toThrow();
+  });
+});
+
+describe("2.1 扩展:增量研究与执行中干预(全部可选,旧数据可解析)", () => {
+  const baseRun = {
+    id: "run-1",
+    requestId: "req-1",
+    stage: "gather",
+    status: "running",
+    checkpoints: [],
+    usage: { searches: 1, fetches: 2, costEstimate: 0.02, wallMs: 1500 },
+  };
+
+  it("运行记录可带增量基准、进度摘要与干预历史", () => {
+    const run = ResearchRunSchema.parse({
+      ...baseRun,
+      derivedFromRunId: "run-base",
+      progress: { currentQuestionId: "q2", currentQuestionText: "门店数量", answered: 1, open: 2, skipped: 1, total: 4 },
+      interventions: [
+        {
+          id: "ins-1",
+          submittedAt: "2026-10-02T00:00:00.000Z",
+          instruction: { type: "skip-question", questionId: "q3" },
+          consumedAt: "2026-10-02T00:01:00.000Z",
+          effect: "applied",
+          detail: "问题 q3 已跳过",
+        },
+      ],
+    });
+    expect(run.derivedFromRunId).toBe("run-base");
+    expect(run.progress?.total).toBe(4);
+    expect(run.interventions).toHaveLength(1);
+    expect(() =>
+      ResearchRunSchema.parse({ ...baseRun, progress: { answered: -1, open: 0, skipped: 0, total: 0 } }),
+    ).toThrow();
+    expect(() =>
+      ResearchRunSchema.parse({
+        ...baseRun,
+        interventions: [{ id: "ins-1", submittedAt: "t", instruction: { type: "nope" }, effect: "applied" }],
+      }),
+    ).toThrow();
+  });
+
+  it("请求可携带增量基准(incrementalOf),缺字段被拒", () => {
+    const parsed = ResearchRequestSchema.parse({
+      module: "brand",
+      goal: "g",
+      scope: { summary: "s", queries: [] },
+      incrementalOf: { runId: "run-base", requestId: "req-base" },
+    });
+    expect(parsed.incrementalOf?.runId).toBe("run-base");
+    expect(() =>
+      ResearchRequestSchema.parse({
+        module: "brand",
+        goal: "g",
+        scope: { summary: "s", queries: [] },
+        incrementalOf: { runId: "x" },
+      }),
+    ).toThrow();
+  });
+
+  it("成果包可带增量来源与复用明细(v1 真实样本 + 2.1 字段仍解析)", () => {
+    const sample = JSON.parse(readFileSync("testdata/v1-bundle-sample.json", "utf8"));
+    const parsed = ResearchResultBundleSchema.parse({
+      ...sample,
+      derivedFromRunId: "run-base",
+      reuseSummary: { baseRunId: "run-base", reusedSnapshots: 3, reusedEvidence: 10, reusedClaims: 8, newQuestions: 2 },
+    });
+    expect(parsed.reuseSummary?.reusedEvidence).toBe(10);
+    expect(parsed.derivedFromRunId).toBe("run-base");
+  });
+
+  it("问题状态支持 skipped(执行中跳过)", () => {
+    expect(PlanQuestionSchema.parse({ id: "q1", question: "x", status: "skipped" }).status).toBe("skipped");
+  });
+
+  it("干预指令四类:合法形状通过,越界取值被拒", () => {
+    expect(RunInstructionSchema.safeParse({ type: "skip-question" }).success).toBe(true);
+    expect(RunInstructionSchema.safeParse({ type: "skip-question", questionId: "q2" }).success).toBe(true);
+    expect(RunInstructionSchema.safeParse({ type: "add-questions", questions: ["新问题一"] }).success).toBe(true);
+    expect(
+      RunInstructionSchema.safeParse({ type: "add-questions", questions: Array.from({ length: 7 }, (_, i) => `q${i}`) })
+        .success,
+    ).toBe(false);
+    expect(RunInstructionSchema.safeParse({ type: "add-questions", questions: [] }).success).toBe(false);
+    expect(RunInstructionSchema.safeParse({ type: "refine-direction", note: "重点看国内市场" }).success).toBe(true);
+    expect(RunInstructionSchema.safeParse({ type: "refine-direction", note: "x".repeat(501) }).success).toBe(false);
+    expect(RunInstructionSchema.safeParse({ type: "add-source", url: "https://a/1", title: "A" }).success).toBe(true);
+    expect(RunInstructionSchema.safeParse({ type: "add-source", text: "补充材料" }).success).toBe(true);
+    expect(RunInstructionSchema.safeParse({ type: "add-source" }).success).toBe(false);
+    expect(RunInstructionSchema.safeParse({ type: "add-source", url: "not-a-url" }).success).toBe(false);
+    expect(RunInstructionSchema.safeParse({ type: "pause-run" }).success).toBe(false);
   });
 });
