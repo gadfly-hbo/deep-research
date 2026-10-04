@@ -222,6 +222,76 @@ describe("runResearch 全流水线(plan → gather → analyze → draft → rev
     expect(bundle!.claims.find((c) => c.id.startsWith("cl:q1:"))!.kind).toBe("fact");
   });
 
+  it("重写输出双重编码:解包后作为草稿,不再把 JSON 文本当报告", async () => {
+    const inner = "# 重写后的报告\n\n## 市场口径表\n规模 1200 亿元。\n\n## 行业结构\n产业链上游为咖啡豆贸易,行业边界包括现磨与即饮,竞争格局集中度提升。\n\n## 趋势与风险\n趋势。";
+    const { run, bundle } = await runResearch(
+      baseRequest(),
+      fakes({
+        searchResults: searchAB,
+        bodies: { [A]: bodyA, [B]: bodyB },
+        extract: (url) =>
+          url === A
+            ? { claims: [
+                { statement: "市场规模约 1200 亿元(2025)", kind: "fact", quote: "市场规模约 1,200 亿元", calibration: { entity: "中国咖啡市场", period: "2025", unit: "亿元", value: 1200 } },
+                { statement: "行业边界包括现磨与即饮", kind: "fact", quote: "行业边界包括现磨与即饮" },
+              ], cost: 0.01 }
+            : { claims: [
+                { statement: "门店约 12 万家(2025)", kind: "fact", quote: "门店约 12 万家", calibration: { entity: "中国现磨咖啡门店数", period: "2025", unit: "万家", value: 12 } },
+                { statement: "产业链上游为咖啡豆贸易", kind: "fact", quote: "产业链上游为咖啡豆贸易" },
+                { statement: "竞争格局集中度提升", kind: "fact", quote: "竞争格局集中度提升" },
+              ], cost: 0.01 },
+        stage: (stage, call) => {
+          if (stage === "draft" && call === 1) {
+            // 复刻 2026-10-04 线上案例:模型把报告双重编码塞进 reportMd
+            return { output: { reportMd: JSON.stringify({ report: inner }) }, cost: 0.01 };
+          }
+          if (stage === "review" && call === 0) {
+            return { output: { issues: [{ severity: "high", kind: "other", detail: "表达需重写", fix: "rephrase" }], counterexampleChecked: true }, cost: 0.01 };
+          }
+          return cleanStages(stage);
+        },
+      }),
+      createMemoryStore(),
+      twoQuestions,
+    );
+    expect(run.status).toBe("published");
+    expect(bundle!.reportMd).toContain("# 重写后的报告");
+    expect(bundle!.reportMd).not.toContain('{"report"');
+  });
+
+  it("重写输出不可解析:保留原草稿并披露,run 不因硬 parse 失败", async () => {
+    const { run, bundle } = await runResearch(
+      baseRequest(),
+      fakes({
+        searchResults: searchAB,
+        bodies: { [A]: bodyA, [B]: bodyB },
+        extract: (url) =>
+          url === A
+            ? { claims: [
+                { statement: "市场规模约 1200 亿元(2025)", kind: "fact", quote: "市场规模约 1,200 亿元", calibration: { entity: "中国咖啡市场", period: "2025", unit: "亿元", value: 1200 } },
+                { statement: "行业边界包括现磨与即饮", kind: "fact", quote: "行业边界包括现磨与即饮" },
+              ], cost: 0.01 }
+            : { claims: [
+                { statement: "门店约 12 万家(2025)", kind: "fact", quote: "门店约 12 万家", calibration: { entity: "中国现磨咖啡门店数", period: "2025", unit: "万家", value: 12 } },
+                { statement: "产业链上游为咖啡豆贸易", kind: "fact", quote: "产业链上游为咖啡豆贸易" },
+                { statement: "竞争格局集中度提升", kind: "fact", quote: "竞争格局集中度提升" },
+              ], cost: 0.01 },
+        stage: (stage, call) => {
+          if (stage === "draft" && call === 1) return { output: 12345, cost: 0.01 };
+          if (stage === "review" && call === 0) {
+            return { output: { issues: [{ severity: "high", kind: "other", detail: "表达需重写", fix: "rephrase" }], counterexampleChecked: true }, cost: 0.01 };
+          }
+          return cleanStages(stage);
+        },
+      }),
+      createMemoryStore(),
+      twoQuestions,
+    );
+    expect(run.status).toBe("published");
+    expect(bundle!.reportMd).toContain("# 中国咖啡行业研究");
+    expect(bundle!.limitations.join("\n")).toContain("评审重写输出不合格,保留原草稿");
+  });
+
   it("不可修复:回环耗尽后有限交付,失败关键结论降级为未验证", async () => {
     const { run, bundle } = await runResearch(
       baseRequest(),

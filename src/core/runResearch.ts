@@ -31,6 +31,7 @@ import {
   PlanOutputSchema,
   PolishOutputSchema,
   ReviewOutputSchema,
+  coerceDraftOutput,
   type AnalyzeOutput,
   type PlanOutput,
   type PlanQuestion,
@@ -910,7 +911,7 @@ export async function runResearch(
       run.usage.costEstimate += res.cost;
       const draft = safeParse(
         DraftOutputSchema,
-        res.output,
+        coerceDraftOutput(res.output),
         () => ({ reportMd: `# ${request.goal}\n\n(草稿生成失败,以下为证据清单摘要)` }),
         "草稿输出不合格,已降级为证据摘要草稿",
         state,
@@ -941,7 +942,7 @@ export async function runResearch(
       run.usage.costEstimate += res.cost;
       const polished = safeParse(
         PolishOutputSchema,
-        res.output,
+        coerceDraftOutput(res.output),
         () => ({ reportMd: state.draftMd! }),
         "润色输出不合格,沿用草稿原文",
         state,
@@ -1011,7 +1012,15 @@ export async function runResearch(
               `${keyBase}:draft:fix${loopsUsed}`,
             );
             run.usage.costEstimate += d.cost;
-            state.draftMd = DraftOutputSchema.parse(d.output).reportMd;
+            // 不用硬 parse:一次不合格的重写输出不该炸掉整个 run;失败保留原草稿并披露
+            const rewritten = safeParse(
+              DraftOutputSchema,
+              coerceDraftOutput(d.output),
+              () => ({ reportMd: state.draftMd! }),
+              "评审重写输出不合格,保留原草稿",
+              state,
+            );
+            state.draftMd = rewritten.reportMd;
             fixedAny = true;
           } else if (issue.fix === "disclose") {
             state.limitations.push(issue.detail);
