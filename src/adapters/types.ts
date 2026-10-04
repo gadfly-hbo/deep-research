@@ -30,6 +30,8 @@ export interface PageFetcher {
 export interface ParsedDoc {
   bodyText: string;
   parseStatus: "ok" | "failed";
+  /** 网页自身标题(<title>/og:title/Readability);PDF 与纯文本源无此项 */
+  title?: string;
 }
 
 export interface DocParser {

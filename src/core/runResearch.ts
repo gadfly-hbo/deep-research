@@ -373,7 +373,8 @@ export async function runResearch(
             const snapshot: SourceSnapshot = {
               id: `snap:${hit.url}`,
               url: hit.url,
-              title: hit.title,
+              // 网页自身标题最准(搜索接口的 title 偶发缺省/碎片);两者皆缺时展示层回退 URL
+              title: doc.title || hit.title || hit.url,
               fetchedAt: new Date().toISOString(),
               bodyText: doc.bodyText,
               parseStatus: doc.parseStatus,

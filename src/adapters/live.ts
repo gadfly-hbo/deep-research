@@ -407,6 +407,28 @@ export function livePage(): PageFetcher {
   };
 }
 
+/** 清理候选标题:去空白折叠;过短或 JSON 碎片形态视为无效。 */
+export function cleanPageTitle(raw: string | null | undefined): string | undefined {
+  const t = (raw ?? "").replace(/\s+/g, " ").trim();
+  if (t.length < 4 || t.length > 300) return undefined;
+  if (/^[{\[]/.test(t)) return undefined; // JSON 形态碎片(如 {"link": ""})不是标题
+  if (/\ufffd/.test(t)) return undefined; // 编码误码
+  // 乱码守卫:GBK 等误码会产生大量超出 CJK/ASCII/常用标点的字符
+  const garbage = [...t].filter((c) => {
+    const cp = c.codePointAt(0) ?? 0;
+    return (
+      cp > 0x2fff &&
+      !(cp >= 0x4e00 && cp <= 0x9fff) &&
+      !(cp >= 0x3400 && cp <= 0x4dbf) &&
+      !(cp >= 0x3000 && cp <= 0x303f) &&
+      !(cp >= 0xff00 && cp <= 0xffef)
+    );
+  }).length;
+  if (garbage / t.length > 0.3) return undefined;
+  if (/^(document|untitled|无标题)$/i.test(t)) return undefined; // 占位标题
+  return t;
+}
+
 export function liveParser(): DocParser {
   return {
     parse: async (page, _callKey) => {
@@ -423,9 +445,13 @@ export function liveParser(): DocParser {
           return { bodyText: "", parseStatus: "failed" };
         }
         const { document } = parseHTML(page.html);
+        // 标题在 Readability 消费 document 前取:og:title(站方摘要)> <title> 标签;Readability 自己的推导作补充
+        const ogTitle = cleanPageTitle(document.querySelector('meta[property="og:title"]')?.getAttribute("content"));
+        const tagTitle = cleanPageTitle(document.querySelector("title")?.textContent);
         const article = new Readability(document).parse();
         const bodyText = article?.textContent ?? document.body?.textContent ?? "";
-        return { bodyText, parseStatus: bodyText.trim() ? "ok" : "failed" };
+        const title = cleanPageTitle(article?.title) ?? ogTitle ?? tagTitle;
+        return { bodyText, parseStatus: bodyText.trim() ? "ok" : "failed", title };
       } catch {
         return { bodyText: "", parseStatus: "failed" };
       }
