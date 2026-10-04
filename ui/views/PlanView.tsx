@@ -7,8 +7,8 @@ import { useProject, type SelectedAsset } from "../state/projectDetail";
 import { errMsg, post } from "../state/api";
 import { FETCH_STATUS_LABEL, REUSE_LABEL, searchLibrary, type AssetSearchRow } from "../state/library";
 import { useToast } from "../state/toast";
-import { MODULE_LABEL, stageTitle } from "../state/types";
-import type { Outline } from "../state/types";
+import { BUDGET_TIER_META, MODULE_LABEL, stageTitle } from "../state/types";
+import type { BudgetTier, Outline } from "../state/types";
 
 const FETCH_LABEL = FETCH_STATUS_LABEL;
 
@@ -21,7 +21,7 @@ export function PlanView() {
   const [params, setParams] = useSearchParams();
 
   const [wizard, setWizard] = useState(false);
-  const [form, setForm] = useState({ goal: "", summary: "", attachments: "" });
+  const [form, setForm] = useState({ goal: "", summary: "", attachments: "", budgetTier: "medium" as BudgetTier });
   const [plan, setPlan] = useState<PlanQuestion[] | null>(null);
   const [outline, setOutline] = useState<Outline | null>(null);
   const [busy, setBusy] = useState("");
@@ -44,7 +44,7 @@ export function PlanView() {
     setOutline(null);
     setBaseRun(null);
     setBaseSummary(null);
-    setForm({ goal: meta.goal, summary: meta.scope.summary, attachments: "" });
+    setForm({ goal: meta.goal, summary: meta.scope.summary, attachments: "", budgetTier: "medium" });
     setWizard(true);
   };
 
@@ -70,7 +70,7 @@ export function PlanView() {
         setOutline(null);
         setBaseRun({ runId: target.id, requestId: target.requestId });
         setBaseSummary(null);
-        setForm({ goal: `追问:${meta.goal}`, summary: meta.scope.summary, attachments: "" });
+        setForm({ goal: `追问:${meta.goal}`, summary: meta.scope.summary, attachments: "", budgetTier: "medium" });
         setWizard(true);
       }
     }
@@ -137,6 +137,7 @@ export function PlanView() {
       outline,
       selectedAssets: selected,
       incrementalOf: baseRun ?? undefined,
+      budgetTier: form.budgetTier,
     });
     setBusy("");
     if (started.ok) {
@@ -224,6 +225,24 @@ export function PlanView() {
                 <span className="fld-label">附件(本机文件路径,文本 / PDF,每行一个,可空)</span>
                 <textarea rows={3} value={form.attachments} onChange={(e) => setForm({ ...form, attachments: e.target.value })} />
               </label>
+              <div className="fld">
+                <span className="fld-label">预算档位(决定资料量与耗时;不够可在采证页重跑升档)</span>
+                <div style={{ display: "flex", gap: 8 }}>
+                  {BUDGET_TIER_META.map((t) => (
+                    <button
+                      key={t.id}
+                      type="button"
+                      className={`btn btn-sm ${form.budgetTier === t.id ? "btn-primary" : ""}`}
+                      onClick={() => setForm({ ...form, budgetTier: t.id })}
+                    >
+                      {t.label}
+                    </button>
+                  ))}
+                </div>
+                <p className="fine" style={{ margin: 0 }}>
+                  {BUDGET_TIER_META.find((t) => t.id === form.budgetTier)?.hint}
+                </p>
+              </div>
               <div className="fld">
                 <span className="fld-label">基于已完成研究追问(可选;延续其证据与主张,只为新问题采证)</span>
                 <select

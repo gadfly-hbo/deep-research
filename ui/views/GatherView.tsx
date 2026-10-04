@@ -6,8 +6,8 @@ import Empty from "../components/Empty";
 import { api } from "../state/api";
 import { useProject } from "../state/projectDetail";
 import { snapshotTitle } from "../state/derive";
-import { STATUS, STATUS_DOT, TIER_BADGE, stageTitle } from "../state/types";
-import type { Run } from "../state/types";
+import { STATUS, STATUS_DOT, TIER_BADGE, stageTitle, BUDGET_TIER_META } from "../state/types";
+import type { BudgetTier, Run } from "../state/types";
 
 const INS_TYPE_LABEL: Record<string, string> = {
   "skip-question": "跳过问题",
@@ -19,6 +19,34 @@ const INS_TYPE_LABEL: Record<string, string> = {
 interface ReuseRow {
   bindings: Array<{ bindingId: string; sourceId: string; versionId: string; purpose: string; applicability: string; checkNotes: string[] }>;
   usages: Array<{ usageId: string; step: string; contentVersionId: string }>;
+}
+
+/* 行内重跑控件:选预算档位后重跑;独立 state,多行记录互不影响 */
+function RerunControls({ disabled, onRerun }: { disabled: boolean; onRerun: (tier: BudgetTier) => void }) {
+  const [tier, setTier] = useState<BudgetTier>("medium");
+  return (
+    <>
+      <select
+        value={tier}
+        disabled={disabled}
+        title="重跑预算档位"
+        onChange={(e) => setTier(e.target.value as BudgetTier)}
+      >
+        {BUDGET_TIER_META.map((t) => (
+          <option key={t.id} value={t.id}>{t.label}</option>
+        ))}
+      </select>
+      <button
+        className="btn btn-sm"
+        type="button"
+        disabled={disabled}
+        title="沿用本运行已确认的问题清单,按所选预算档位重新采证(不重新规划)"
+        onClick={() => onRerun(tier)}
+      >
+        重跑
+      </button>
+    </>
+  );
 }
 
 export function GatherView() {
@@ -57,6 +85,9 @@ export function GatherView() {
       )}
       {(r.status === "published" || r.status === "limited") && (
         <button className="btn btn-sm" type="button" disabled={p.activeRun !== null} title={p.activeRun ? "有运行进行中,完成后可追问" : "基于此研究发起增量追问"} onClick={() => navigate(`/project/${p.id}/plan?followup=${r.id}`)}>追问</button>
+      )}
+      {(r.status === "published" || r.status === "limited") && (
+        <RerunControls disabled={p.activeRun !== null} onRerun={(tier) => void p.rerunRun(r.requestId, tier)} />
       )}
       {(r.status === "published" || r.status === "limited") && !publishedRunIds.has(r.id) && (
         <button className="btn btn-primary btn-sm" type="button" onClick={() => void p.publishRun(r)}>发布为版本</button>

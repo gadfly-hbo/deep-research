@@ -102,6 +102,8 @@ export const ResearchRequestSchema = z.object({
   }),
   attachments: z.array(z.string()).default([]),
   budget: BudgetSchema.partial().optional(),
+  /** 交互预算档位(低/中/高);与 budget 同时给出时显式 budget 优先。 */
+  budgetTier: z.enum(["low", "medium", "high"]).optional(),
   /** 用户确认的报告框架;草稿与正式报告都按此结构组织。 */
   outline: ReportOutlineSchema.optional(),
   configVersion: z.string().optional(),

@@ -15,6 +15,7 @@ import {
 } from "../contracts.js";
 import { getModuleConfig } from "../modules/registry.js";
 import type { ModuleConfig } from "../modules/types.js";
+import { tierBudget } from "./budgetTiers.js";
 import { checkCalibration, type CalibrationConflict } from "../quality/calibrationChecker.js";
 import { checkEntailment } from "../quality/entailment.js";
 import { checkMultiSource, mergeCrossSourceClaims } from "../quality/multiSource.js";
@@ -43,6 +44,15 @@ export const DEFAULT_BUDGET: Budget = {
   maxWallMs: 90 * 60_000,
   maxParallel: 4,
 };
+
+/** 预算解析:显式 request.budget > 预算档位 > 流水线默认。 */
+export function resolveBudget(request: Pick<ResearchRequest, "budget" | "budgetTier">): Budget {
+  return {
+    ...DEFAULT_BUDGET,
+    ...(request.budgetTier ? tierBudget(request.budgetTier) : {}),
+    ...request.budget,
+  };
+}
 
 export interface RunOptions {
   plan?: PlanOutput;
@@ -123,7 +133,7 @@ export async function runResearch(
   options: RunOptions = {},
 ): Promise<RunResult> {
   const started = Date.now();
-  const budget: Budget = { ...DEFAULT_BUDGET, ...request.budget };
+  const budget: Budget = resolveBudget(request);
   const moduleConfig = options.moduleConfig ?? getModuleConfig(request.module);
   const keyBase = request.id ?? randomUUID();
   const prior = request.id ? await store.findRunByRequestId(request.id) : undefined;

@@ -166,6 +166,54 @@ describe("本地 HTTP 服务", () => {
     expect(failed?.error).toContain("搜索服务不可用");
   });
 
+  it("重跑:读原请求换档位预算,生成新请求 ID;原运行进行中则拒绝", async () => {
+    // 前序用例把服务换成了失败型适配器,这里恢复正常 fake 再测
+    await srv.close();
+    srv = await startServer({ dataDir, makeAdapters: () => fakeAdapters() });
+    base = `http://127.0.0.1:${srv.port}`;
+    const created = await post("/api/projects", {
+      module: "industry", goal: "预算档位重跑", scope: { summary: "s", queries: ["市场规模"] },
+    });
+    const projectId = (await created.json()).id as string;
+    const store = FsProjectStore.open(join(dataDir, "projects", projectId));
+    await store.saveRequest({
+      id: "req-orig", module: "industry", goal: "预算档位重跑",
+      scope: { summary: "s", queries: ["市场规模"] }, attachments: [],
+      budget: { maxSearches: 8, maxFetches: 12 },
+    });
+    await store.saveRun({
+      id: "run-orig", requestId: "req-orig", stage: "gather", status: "running",
+      checkpoints: [], usage: { searches: 0, fetches: 0, costEstimate: 0, wallMs: 0 },
+    });
+
+    // 原运行进行中:重跑被拒绝
+    const busy = await post(`/api/projects/${projectId}/runs/rerun`, { requestId: "req-orig", budgetTier: "high" });
+    expect(busy.status).toBe(409);
+
+    // 原运行结束后重跑:成功启动,新请求落盘带档位、不带旧 budget
+    const orig = await store.findRunByRequestId("req-orig");
+    await store.saveRun({ ...orig!, status: "published" });
+    const rer = await post(`/api/projects/${projectId}/runs/rerun`, { requestId: "req-orig", budgetTier: "high" });
+    const rerJson = await rer.json();
+    expect(rerJson.started).toBe(true);
+    expect(rerJson.requestId).not.toBe("req-orig");
+
+    let rerun: any;
+    for (let i = 0; i < 100; i++) {
+      const runs = (await (await api(`/api/projects/${projectId}`)).json()).runs;
+      rerun = runs.find((r: any) => r.requestId === rerJson.requestId);
+      if (rerun && rerun.status !== "running") break;
+      await new Promise((r) => setTimeout(r, 50));
+    }
+    expect(["published", "limited"]).toContain(rerun?.status);
+
+    const saved = await store.readRequest(rerJson.requestId);
+    expect(saved?.budgetTier).toBe("high");
+    expect(saved?.budget).toBeUndefined();
+    expect(saved?.scope.queries).toEqual(["市场规模"]);
+    expect(saved?.goal).toBe("预算档位重跑");
+  });
+
   it("启动即落运行记录:POST runs 后立即可见(不等待轮询),进程中断也不无痕消失", async () => {
     await srv.close();
     srv = await startServer({ dataDir, makeAdapters: () => fakeAdapters(true) });

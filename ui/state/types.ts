@@ -105,6 +105,15 @@ export const STATUS_DOT: Record<string, string> = {
   limited: "dot-warn",
 };
 
+/** 预算档位:数值解析在服务端(src/core/budgetTiers.ts),此处只承载展示文案 */
+export type BudgetTier = "low" | "medium" | "high";
+
+export const BUDGET_TIER_META: Array<{ id: BudgetTier; label: string; hint: string }> = [
+  { id: "low", label: "低·快速", hint: "8 搜索 / 12 抓取 · 约 3-8 分钟" },
+  { id: "medium", label: "中·标准", hint: "40 搜索 / 80 抓取 · 约 10-30 分钟" },
+  { id: "high", label: "高·深度", hint: "100 搜索 / 300 抓取 · 约 30-90 分钟" },
+];
+
 export const KIND: Record<string, { label: string; tone: Tone }> = {
   fact: { label: "事实", tone: "agg" },
   inference: { label: "推断", tone: "insuf" },

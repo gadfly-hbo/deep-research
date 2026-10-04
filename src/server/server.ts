@@ -7,9 +7,15 @@ import { z } from "zod";
 import type { Adapters } from "../adapters/types.js";
 import { buildExportFilesV2, zipExport } from "../app/exportBundle.js";
 import { createProject, generateFormal, publishBundle, runOnProject } from "../app/projectService.js";
-import { ResearchRequestSchema, InterventionSchema, RunInstructionSchema, type Intervention } from "../contracts.js";
+import {
+  ResearchRequestSchema,
+  InterventionSchema,
+  RunInstructionSchema,
+  type Intervention,
+  type ResearchRequest,
+} from "../contracts.js";
 import { DEFAULT_BUDGET } from "../core/runResearch.js";
-import { OutlineOutputSchema, PlanOutputSchema } from "../core/stages.js";
+import { OutlineOutputSchema, PlanOutputSchema, type PlanOutput } from "../core/stages.js";
 import { getModuleConfig } from "../modules/registry.js";
 import { FsProjectStore } from "../stores/fsStore.js";
 import { fetchAssetContent, registerAssets, type RegisterInput } from "../library/assetService.js";
@@ -306,16 +312,16 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
         return;
       }
 
-      if (method === "POST" && rest === "/runs") {
-        const request = ResearchRequestSchema.parse(body.request);
-        // 2.1:增量基准与预览端点同一校验——本项目已完成的 run 才可作为基准
-        if (request.incrementalOf) {
-          const resolved = await resolveIncrementalBase(store(), request.incrementalOf);
-          if ("error" in resolved) {
-            json(res, resolved.status, { error: resolved.error });
-            return;
-          }
-        }
+      // 运行启动核心:落 running 记录并挂载后台流水线;/runs 与 /runs/rerun 共用
+      const launchRun = async (
+        request: ResearchRequest,
+        plan: PlanOutput | undefined,
+        selectedAssets?: unknown,
+      ): Promise<{
+        runId: string;
+        requestId: string;
+        reuse: { bound: number; rejected: Array<{ sourceId: string; reason: string }> };
+      }> => {
         const controller = new AbortController();
         controllers.set(request.id ?? "", controller);
         const runId = randomUUID();
@@ -324,12 +330,12 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
           bound: 0,
           rejected: [],
         };
-        if (Array.isArray(body.selectedAssets) && body.selectedAssets.length > 0) {
+        if (Array.isArray(selectedAssets) && selectedAssets.length > 0) {
           const outcome = await bindAssets(library, {
             runId,
             projectId: id,
             idempotencyKey: `select-${runId}`,
-            bindings: (body.selectedAssets as Array<Record<string, unknown>>).map((a) => ({
+            bindings: (selectedAssets as Array<Record<string, unknown>>).map((a) => ({
               sourceId: String(a.sourceId),
               versionId: String(a.versionId),
               purpose: String(a.purpose ?? "研究复用"),
@@ -349,7 +355,7 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
           usage: { searches: 0, fetches: 0, costEstimate: 0, wallMs: 0 },
         });
         void runOnProject(dir, request, deps.makeAdapters(), {
-          plan: body.plan,
+          plan,
           signal: controller.signal,
           runId,
           library,
@@ -371,7 +377,55 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
           .finally(() => {
             controllers.delete(request.id ?? "");
           });
-        json(res, 200, { started: true, requestId: request.id, reuse: bindReport });
+        return { runId, requestId: request.id ?? "", reuse: bindReport };
+      };
+
+      if (method === "POST" && rest === "/runs") {
+        const request = ResearchRequestSchema.parse(body.request);
+        // 2.1:增量基准与预览端点同一校验——本项目已完成的 run 才可作为基准
+        if (request.incrementalOf) {
+          const resolved = await resolveIncrementalBase(store(), request.incrementalOf);
+          if ("error" in resolved) {
+            json(res, resolved.status, { error: resolved.error });
+            return;
+          }
+        }
+        const started = await launchRun(request, body.plan, body.selectedAssets);
+        json(res, 200, { started: true, requestId: started.requestId, reuse: started.reuse });
+        return;
+      }
+
+      // 重跑:读原研究请求,换预算档位与全新请求 ID;沿用原已确认问题清单,不重新规划
+      if (method === "POST" && rest === "/runs/rerun") {
+        const original = await store().readRequest(String(body.requestId ?? ""));
+        if (!original) {
+          json(res, 404, { error: `原始请求不存在(${String(body.requestId ?? "")}),无法重跑` });
+          return;
+        }
+        const priorRun = await store().findRunByRequestId(String(body.requestId ?? ""));
+        if (priorRun?.status === "running") {
+          json(res, 409, { error: "该请求的运行仍在进行中,结束后才能重跑" });
+          return;
+        }
+        const tier = z.enum(["low", "medium", "high"]).default("medium").parse(body.budgetTier);
+        const request = ResearchRequestSchema.parse({
+          ...original,
+          id: `req-${Date.now().toString(36)}`,
+          budgetTier: tier,
+          budget: undefined,
+        });
+        if (request.incrementalOf) {
+          const resolved = await resolveIncrementalBase(store(), request.incrementalOf);
+          if ("error" in resolved) {
+            json(res, resolved.status, { error: resolved.error });
+            return;
+          }
+        }
+        const plan: PlanOutput = {
+          questions: request.scope.queries.map((q, i) => ({ id: `q${i + 1}`, question: q, status: "open" })),
+        };
+        const started = await launchRun(request, plan);
+        json(res, 200, { started: true, requestId: started.requestId, reuse: started.reuse });
         return;
       }
 

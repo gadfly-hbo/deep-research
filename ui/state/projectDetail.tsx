@@ -6,8 +6,8 @@ import { api, errMsg, post } from "./api";
 import { useToast } from "./toast";
 import { useUI } from "./ui";
 import { useProjects } from "./projects";
-import { STAGES } from "./types";
-import type { Bundle, Claim, Outline, ProjectDetail, Run, RunInstructionUI } from "./types";
+import { STAGES, BUDGET_TIER_META } from "./types";
+import type { Bundle, BudgetTier, Claim, Outline, ProjectDetail, Run, RunInstructionUI } from "./types";
 
 export interface SelectedAsset {
   sourceId: string;
@@ -27,6 +27,8 @@ export interface StartRunParams {
   selectedAssets?: SelectedAsset[];
   /** 2.1:增量追问的基准运行(延续其证据与主张,只为新问题采证) */
   incrementalOf?: { runId: string; requestId: string };
+  /** 预算档位;缺省中档(服务端解析为具体搜索/抓取上限) */
+  budgetTier?: BudgetTier;
 }
 
 interface ProjectCtx {
@@ -48,6 +50,8 @@ interface ProjectCtx {
   cancelRun(r: Run): Promise<void>;
   resumeRun(r: Run): Promise<void>;
   publishRun(r: Run): Promise<void>;
+  /** 按新预算档位重跑既有请求(沿用原问题清单,生成新 run) */
+  rerunRun(requestId: string, tier: BudgetTier): Promise<void>;
   selectedClaim: Claim | null;
   snapshotText: string | null;
   openClaim(c: Claim | null): void;
@@ -180,8 +184,7 @@ export function ProjectDetailProvider({ id, children }: { id: string; children: 
             attachments: p.attachments.split("\n").map((s) => s.trim()).filter(Boolean),
             outline: p.outline,
             incrementalOf: p.incrementalOf,
-            // 交互运行用适中预算:约 10 分钟内出结果;更深的重跑走 CLI 自定义预算
-            budget: { maxSearches: 8, maxFetches: 12 },
+            budgetTier: p.budgetTier ?? "medium",
           },
           plan: { questions: p.plan.map((q) => ({ ...q, status: "open" })) },
           // 2.0:复用选择在请求体顶层,服务端绑定后随 run 固定版本
@@ -254,6 +257,18 @@ export function ProjectDetailProvider({ id, children }: { id: string; children: 
     }
   }, [id, projects, reload, toast]);
 
+  const rerunRun = useCallback(async (requestId: string, tier: BudgetTier) => {
+    const meta = BUDGET_TIER_META.find((t) => t.id === tier);
+    try {
+      await post(`/api/projects/${id}/runs/rerun`, { requestId, budgetTier: tier });
+      toast.show(`重跑已启动(预算${meta?.label ?? tier}),可在「采证」阶段跟踪进度`);
+      await reload();
+      void projects.reload();
+    } catch (e) {
+      toast.show(errMsg(e));
+    }
+  }, [id, reload, toast]);
+
   const openClaim = useCallback((c: Claim | null) => {
     setSelectedClaim(c);
     setSnapshotText(null);
@@ -299,7 +314,7 @@ export function ProjectDetailProvider({ id, children }: { id: string; children: 
         id, detail, loadFailed, activeRun, progress,
         bundle, bundleVersion, selectVersion,
         formalReady, genFormal, busy,
-        startRun, instruct, cancelRun, resumeRun, publishRun,
+        startRun, instruct, cancelRun, resumeRun, publishRun, rerunRun,
         selectedClaim, snapshotText, openClaim,
         reload,
       }}
