@@ -1,15 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { fileURLToPath } from "node:url";
 import { join } from "node:path";
-import { mcpWebSearch } from "./mcpSearch.js";
+import { mcpWebSearch, parseSearchResults } from "./mcpSearch.js";
 
 const fixture = join(
   fileURLToPath(new URL(".", import.meta.url)),
   "../../scripts/fixtures/fake-mcp-search.mjs",
 );
 
-describe("mcpWebSearch(MiniMax MCP web_search,stdio JSON-RPC)", () => {
-  it("经 MCP 协议拿到结构化搜索结果", async () => {
+describe("mcpWebSearch(MiniMax MCP web_search,stdio JSON-RPC)", () => {  it("经 MCP 协议拿到结构化搜索结果", async () => {
     const search = mcpWebSearch({
       command: process.execPath,
       args: [fixture],
@@ -42,4 +41,36 @@ describe("mcpWebSearch(MiniMax MCP web_search,stdio JSON-RPC)", () => {
     const search = mcpWebSearch({ command: "/nonexistent/binary", args: [], env: {}, timeoutMs: 5_000 });
     await expect(search.search("q", "t:0")).rejects.toThrow(/mcp|spawn|启动/i);
   }, 10_000);
+});
+
+describe("parseSearchResults(结果文本解析)", () => {
+  it("MiniMax organic 包装键(2026-10-04 实测格式):整段解析出真实标题", () => {
+    const text = JSON.stringify(
+      { organic: [{ title: "真实标题", link: "https://a.example/1", snippet: "摘要", date: "2026/09/01" }], base_resp: {} },
+      null,
+      2,
+    );
+    expect(parseSearchResults(text)).toEqual([
+      { url: "https://a.example/1", title: "真实标题", snippet: "摘要" },
+    ]);
+  });
+
+  it("results/data 包装键保持兼容", () => {
+    expect(parseSearchResults(JSON.stringify({ results: [{ url: "https://a.example/2", title: "T" }] }))[0].title).toBe("T");
+    expect(parseSearchResults(JSON.stringify({ data: [{ link: "https://a.example/3", name: "N" }] }))[0].title).toBe("N");
+  });
+
+  it("整段 JSON 被前缀污染:顶层对象块扫描仍取到记录", () => {
+    const good = JSON.stringify({ organic: [{ title: "块扫描命中", link: "https://a.example/4", snippet: "" }] }, null, 2);
+    const hits = parseSearchResults("data: " + good);
+    expect(hits).toHaveLength(1);
+    expect(hits[0].title).toBe("块扫描命中");
+  });
+
+  it("纯文本按行兜底:JSON 碎片行不作标题(置空,展示回退用 URL)", () => {
+    const hits = parseSearchResults('  "link": "https://a.example/5",\n');
+    expect(hits).toHaveLength(1);
+    expect(hits[0].url).toBe("https://a.example/5");
+    expect(hits[0].title).toBe("");
+  });
 });

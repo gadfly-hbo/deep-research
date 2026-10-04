@@ -19,7 +19,7 @@ interface JsonRpcResponse {
   error?: { code: number; message: string };
 }
 
-/** 从 web_search 结果文本提取命中:优先按 JSON 数组解析,否则退化到 URL 逐行提取。 */
+/** 从 web_search 结果文本提取命中:JSON 整段解析(已知/未知包装键)→ 顶层对象块扫描 → URL 逐行兜底。 */
 export function parseSearchResults(text: string): SearchHit[] {
   const hits: SearchHit[] = [];
   const push = (url: string, title: string, snippet: string) => {
@@ -27,34 +27,93 @@ export function parseSearchResults(text: string): SearchHit[] {
     if (hits.some((h) => h.url === url)) return;
     hits.push({ url, title, snippet });
   };
-  try {
-    const parsed: unknown = JSON.parse(text);
-    const arr = Array.isArray(parsed)
-      ? parsed
-      : typeof parsed === "object" && parsed !== null
-        ? ((parsed as Record<string, unknown>).results ?? (parsed as Record<string, unknown>).data ?? [])
-        : [];
-    if (Array.isArray(arr)) {
-      for (const item of arr) {
-        if (typeof item !== "object" || item === null) continue;
-        const rec = item as Record<string, unknown>;
-        push(
-          String(rec.url ?? rec.link ?? ""),
-          String(rec.title ?? rec.name ?? ""),
-          String(rec.snippet ?? rec.content ?? rec.description ?? ""),
-        );
-      }
-    }
-  } catch {
-    // 非 JSON:按行提取 URL
+  for (const rec of extractRecords(text)) {
+    push(
+      String(rec.url ?? rec.link ?? ""),
+      String(rec.title ?? rec.name ?? "").trim(),
+      String(rec.snippet ?? rec.content ?? rec.description ?? ""),
+    );
   }
   if (hits.length === 0) {
+    // 兜底:按行提取 URL;剔除 URL 后只剩 JSON 碎片(如 `"link": "",`)的行不当标题,置空回退用 URL
     for (const line of text.split("\n")) {
       const m = line.match(/https?:\/\/[^\s)\]>"']+/);
-      if (m) push(m[0], line.replace(m[0], "").trim().slice(0, 120), "");
+      if (!m) continue;
+      const rest = line.replace(m[0], "").trim().slice(0, 120);
+      push(m[0], /^[\s"{}[\],:]+$/.test(rest) || rest.includes('":') ? "" : rest, "");
     }
   }
   return hits;
+}
+
+const isRecord = (x: unknown): x is Record<string, unknown> =>
+  x !== null && typeof x === "object" && ("url" in (x as object) || "link" in (x as object));
+
+/** 从解析出的 JSON 里取搜索记录数组:已知包装键优先,否则扫任意"对象数组"字段(MiniMax 用 organic)。 */
+function recordsFrom(parsed: unknown): Record<string, unknown>[] {
+  if (Array.isArray(parsed)) return parsed.filter(isRecord);
+  if (parsed === null || typeof parsed !== "object") return [];
+  const o = parsed as Record<string, unknown>;
+  for (const key of ["results", "data", "organic"]) {
+    if (Array.isArray(o[key])) {
+      const recs = (o[key] as unknown[]).filter(isRecord);
+      if (recs.length > 0) return recs;
+    }
+  }
+  for (const v of Object.values(o)) {
+    if (Array.isArray(v)) {
+      const recs = (v as unknown[]).filter(isRecord);
+      if (recs.length > 0) return recs;
+    }
+  }
+  return [];
+}
+
+/** 整段 JSON 被日志前缀/截断污染时:括号配平扫描顶层 {...} 块逐个解析(字符串感知)。 */
+function topLevelJsonBlocks(text: string): string[] {
+  const blocks: string[] = [];
+  let depth = 0;
+  let start = -1;
+  let inStr = false;
+  let esc = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (inStr) {
+      if (esc) esc = false;
+      else if (ch === "\\") esc = true;
+      else if (ch === '"') inStr = false;
+      continue;
+    }
+    if (ch === '"') inStr = true;
+    else if (ch === "{") {
+      if (depth === 0) start = i;
+      depth++;
+    } else if (ch === "}") {
+      depth--;
+      if (depth === 0 && start >= 0) {
+        blocks.push(text.slice(start, i + 1));
+        start = -1;
+      }
+      if (depth < 0) depth = 0;
+    }
+  }
+  return blocks;
+}
+
+function extractRecords(text: string): Record<string, unknown>[] {
+  try {
+    return recordsFrom(JSON.parse(text));
+  } catch {
+    const out: Record<string, unknown>[] = [];
+    for (const block of topLevelJsonBlocks(text)) {
+      try {
+        out.push(...recordsFrom(JSON.parse(block)));
+      } catch {
+        /* 单块解析失败忽略,继续下一块 */
+      }
+    }
+    return out;
+  }
 }
 
 export function mcpWebSearch(cfg: McpSearchConfig): McpSearchProvider {

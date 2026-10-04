@@ -244,6 +244,7 @@ export function LibraryView() {
         ) : assets.length === 0 ? (
           <p className="empty">情报库为空。空库不阻断研究;也可以先导入文件或登记链接开始积累。</p>
         ) : (
+          <div className="tbl-scroll">
           <table className="tbl">
             <thead>
               <tr>
@@ -267,9 +268,9 @@ export function LibraryView() {
                   >
                     <td>
                       <strong>{a.source.title}</strong>
-                      {a.source.url && <div className="sb-meta mono" style={{ fontSize: 11 }}>{a.source.url}</div>}
+                      {a.source.url && <div className="sb-meta mono cell-clip" style={{ fontSize: 11 }} title={a.source.url}>{a.source.url}</div>}
                     </td>
-                    <td>{DOC_TYPE_LABEL[a.source.docType] ?? a.source.docType}</td>
+                    <td className="nw">{DOC_TYPE_LABEL[a.source.docType] ?? a.source.docType}</td>
                     <td>{a.latestVersion?.dataPeriod ?? "—"}</td>
                     <td><span className={`chip ${fc.cls}`}>{fc.label}</span></td>
                     <td>
@@ -284,12 +285,13 @@ export function LibraryView() {
                       )}
                     </td>
                     <td><span className={`chip ${REUSE_CHIP[a.reuseScope]}`}>{REUSE_LABEL[a.reuseScope]}</span></td>
-                    <td className="sb-meta">{new Date(a.source.createdAt).toLocaleDateString("zh-CN")}</td>
+                    <td className="sb-meta nw">{new Date(a.source.createdAt).toLocaleDateString("zh-CN")}</td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
+          </div>
         )}
       </section>
       </div>

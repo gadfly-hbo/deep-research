@@ -391,6 +391,10 @@ button.chip-tool:hover { border-color: var(--accent); color: var(--accent-strong
 .tbl tr.clickable { cursor: pointer; }
 .tbl tr.clickable:hover td { background: var(--surface-2); }
 .tbl tr.selected td { background: var(--accent-soft); }
+/* 宽表防溢出:容器横向滚动,长 URL 单元格截断省略(hover 看全貌用原生 title) */
+.tbl-scroll { overflow-x: auto; }
+.cell-clip { max-width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nw { white-space: nowrap; }
 
 .preview { margin-top: 8px; }
 
