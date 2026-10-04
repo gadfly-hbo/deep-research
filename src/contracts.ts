@@ -112,6 +112,8 @@ export const ResearchRequestSchema = z.object({
       requestId: z.string().min(1),
     })
     .optional(),
+  /** 报告丰满度:草稿后是否跑 polish 润色 pass(缺省=true;false 可降级省成本)。 */
+  polish: z.boolean().optional(),
 });
 export type ResearchRequest = z.infer<typeof ResearchRequestSchema>;
 

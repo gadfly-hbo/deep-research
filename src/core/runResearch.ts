@@ -28,11 +28,13 @@ import {
   AnalyzeOutputSchema,
   DraftOutputSchema,
   PlanOutputSchema,
+  PolishOutputSchema,
   ReviewOutputSchema,
   type AnalyzeOutput,
   type PlanOutput,
   type PlanQuestion,
 } from "./stages.js";
+import { buildQuestionEvidencePacks } from "./evidencePacks.js";
 
 export const DEFAULT_BUDGET: Budget = {
   maxSearches: 80,
@@ -172,6 +174,10 @@ export async function runResearch(
     } else if (cp.stage === "analyze") {
       state.findings = (cp.data as AnalyzeOutput).findings;
     } else if (cp.stage === "draft") {
+      state.draftMd = (cp.data as { reportMd: string }).reportMd;
+    } else if (cp.stage === "polish" && request.polish !== false) {
+      // 润色是草稿的子环节:恢复时以润色稿为准(polish checkpoint 后于 draft 落盘);
+      // 用户显式关润色则忽略 polish checkpoint,回退草稿原文
       state.draftMd = (cp.data as { reportMd: string }).reportMd;
     }
   }
@@ -861,6 +867,16 @@ export async function runResearch(
     }
   }
 
+  // 报告丰满度:writer 素材包(引句上下文窗口)。纯函数现算,regather 后快照集已变,不缓存。
+  const evidencePacks = () =>
+    buildQuestionEvidencePacks({
+      questions: state.questions,
+      claims: state.claims,
+      evidence: state.evidence,
+      snapshots: state.snapshots,
+      claimQuestions: state.claimQuestions,
+    });
+
   // --- draft
   if (!completedStages.has("draft")) {
     if (cancelled()) return cancelRun();
@@ -875,6 +891,7 @@ export async function runResearch(
           scope: request.scope,
           findings: state.findings,
           claims: state.claims,
+          evidencePacks: evidencePacks(),
           reportTemplate: moduleConfig.reportTemplate,
           ...(request.outline ? { outline: request.outline } : {}),
         },
@@ -890,6 +907,37 @@ export async function runResearch(
       );
       state.draftMd = draft.reportMd;
       await saveCp("draft", { reportMd: state.draftMd });
+    }
+  }
+
+  // --- polish(润色/扩写:只丰富表达与结构,严禁新增无证据事实;run 选项可关)
+  if (request.polish !== false && state.draftMd && !state.capped && !completedStages.has("polish")) {
+    if (cancelled()) return cancelRun();
+    await persistRun("draft");
+    if (overBudget()) {
+      state.capped = true;
+    } else {
+      const res = await adapters.model.runStage(
+        "polish",
+        {
+          goal: request.goal,
+          draftMd: state.draftMd,
+          findings: state.findings,
+          claims: state.claims,
+          evidencePacks: evidencePacks(),
+        },
+        `${keyBase}:polish:0`,
+      );
+      run.usage.costEstimate += res.cost;
+      const polished = safeParse(
+        PolishOutputSchema,
+        res.output,
+        () => ({ reportMd: state.draftMd! }),
+        "润色输出不合格,沿用草稿原文",
+        state,
+      );
+      state.draftMd = polished.reportMd;
+      await saveCp("polish", { reportMd: state.draftMd });
     }
   }
 
@@ -947,6 +995,7 @@ export async function runResearch(
                 scope: request.scope,
                 findings: state.findings,
                 claims: state.claims,
+                evidencePacks: evidencePacks(),
                 ...(request.outline ? { outline: request.outline } : {}),
               },
               `${keyBase}:draft:fix${loopsUsed}`,

@@ -92,8 +92,26 @@ const STAGE_PROMPTS: Record<StageName, string> = {
   outline:
     '你是报告框架设计师。只输出 JSON:{"title":string,"subtitle"?:string,"sections":[{"id":string,"title":string,"purpose"?:string,"bullets":string[]}]}。基于研究目标与已确认的问题清单设计报告章节结构,id 用 s1、s2…,每节给 2-4 条内容要点(bullets),章节须覆盖全部研究问题,不要输出其他文字。',
   analyze: '你是证据分析器。只输出 JSON:{"findings":[{"questionId":string,"summary":string,"claimIds":string[]}],"gaps":[{"questionId":string,"reason":string}]}。基于已登记主张作答,不新增主张。',
-  draft:
-    '你是研究报告撰写器。只输出 JSON:{"reportMd":string}。中文 Markdown。若输入含 outline,报告标题用 outline.title,逐节按 outline.sections 的标题与要点撰写(每节用 ## 标题,证据不足的节如实说明);只陈述有证据支持的内容,推断须标注。',
+  draft: [
+    '你是研究报告撰写器。只输出 JSON:{"reportMd":string}。中文 Markdown。',
+    '写作规约(按优先级从高到低):',
+    '1. 反编造(最高优先级):只陈述输入主张与素材中有证据支撑的内容,推断须显式标注;证据不足的节如实写明"现有证据不足以展开"并描述缺口,禁止为凑篇幅编造数据、来源或引文。',
+    '2. 报告结构:# 标题 → ## 执行摘要(3-5 条决策者视角结论,带关键数字)→ 逐节正文 → ## 启示与建议(逐条对应正文发现,标注推断属性)→ ## 口径与局限披露。',
+    '3. 章节展开:每节 ≥300 字且不得空泛套话;含数值主张的节必须用 Markdown 表格呈现数据矩阵(列含对象/数值/口径时间/来源),无数值主张的节用结构化要点展开并说明原因。',
+    '4. 素材利用:充分使用输入 evidencePacks 中的原文摘录(引句带上下文),转述时保留口径细节;数据点尽量回溯到来源快照。',
+    '5. 若输入含 outline,标题用 outline.title,逐节按 outline.sections 的标题与要点展开,章节须覆盖全部研究问题。',
+    '6. 输出前自检:执行摘要、每节表格或缺项说明、建议章、披露章齐全,数值均带口径;不齐先自行补齐再输出。除 JSON 外不要输出任何其他文字。',
+  ].join('\n'),
+  polish: [
+    '你是报告润色编辑。只输出 JSON:{"reportMd":string}。中文 Markdown。',
+    '任务:对输入的草稿 reportMd 做润色与结构补全,使其丰满、连贯、可读,接近专业研究报告成稿。',
+    '硬性边界(违反即失败):',
+    '1. 严禁新增任何输入中无证据支撑的事实、数字、来源或引文;不得改动任何数值、口径与推断属性标注。',
+    '2. 只丰富表达方式与结构:补全执行摘要、把段落中的并列数据改为表格矩阵、补建议章与披露章、理顺段间逻辑与过渡。',
+    '3. 证据不足的节必须保留"现有证据不足以展开"式披露,不得润色掉缺口说明。',
+    '4. 输入 evidencePacks 提供原文语境,可把概括性表述具体化,但仍受输入主张约束。',
+    '5. 输出完整报告全文(不是修改说明),除 JSON 外不要输出任何其他文字。',
+  ].join('\n'),
   review: '你是研究评审器。只输出 JSON:{"issues":[{"severity":"high"|"low","kind":"citation"|"caliber"|"gap"|"counterexample"|"other","detail":string,"targetClaimId"?:string,"targetQuestionId"?:string,"fix":"regather"|"rephrase"|"disclose"}],"counterexampleChecked":boolean}。检查引用核查与口径冲突输入,对关键结论做反例检查。',
   formal:
     '你是报告定稿编辑。只输出 JSON:{"executiveSummary":string[],"sectionHighlights":[{"sectionId":string,"bullets":string[]}]}。executiveSummary 给 3-5 条决策者视角的结论要点;sectionHighlights 按输入 sections 的 sectionId 逐节提炼 2-4 条要点。只允许重组草稿已有内容与主张,严禁新增任何事实或数字。',
@@ -305,8 +323,8 @@ export function piAiModel(configs: LiveModelConfig | LiveModelConfig[]): ModelPr
       throw new Error(`模型调用失败(${cfg.provider}/${cfg.modelId}): ${failedReason}`);
     }
     debugCall(cfg.provider, cfg.modelId, `stage:${stage}`, stageStartedAt, `ok text=${text.length}`);
-    // draft 是长 Markdown,模型常不守 JSON 包装;用鲁棒解析,不合格时由编排器护栏降级
-    const output = stage === "draft" ? draftFromText(text) : parseJsonLoose(text);
+    // draft/polish 是长 Markdown,模型常不守 JSON 包装;用鲁棒解析,不合格时由编排器护栏降级
+    const output = stage === "draft" || stage === "polish" ? draftFromText(text) : parseJsonLoose(text);
     return { output, cost };
   }
 

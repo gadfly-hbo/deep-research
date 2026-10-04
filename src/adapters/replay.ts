@@ -26,7 +26,15 @@ interface StageResponse {
   cost: number;
 }
 
-export function replayAdapters(recording: Recording): Adapters {
+export interface ReplayOptions {
+  /**
+   * 兼容 polish 阶段引入之前的旧录制(PRD D4):缺失 polish 调用时降级为
+   * "沿用草稿原文"(等价于跳过润色)。缺省 false——新测试夹具缺 polish 响应仍应暴露缺口。
+   */
+  stalePolishFallback?: boolean;
+}
+
+export function replayAdapters(recording: Recording, options: ReplayOptions = {}): Adapters {
   const byKey = new Map<string, RecordedCall>(recording.map((c) => [c.key, c]));
   const lookup = <T>(kind: RecordedCall["kind"], callKey: string): T => {
     const call = byKey.get(callKey);
@@ -47,7 +55,17 @@ export function replayAdapters(recording: Recording): Adapters {
     },
     model: {
       extractClaims: async (_input, callKey) => lookup<ModelResponse>("model", callKey),
-      runStage: async (_stage, _input, callKey) => lookup<StageResponse>("stage", callKey),
+      runStage: async (stage, input, callKey) => {
+        try {
+          return lookup<StageResponse>("stage", callKey);
+        } catch (error) {
+          if (options.stalePolishFallback && stage === "polish") {
+            const draftMd = (input as { draftMd?: string }).draftMd ?? "";
+            return { output: { reportMd: draftMd }, cost: 0 };
+          }
+          throw error;
+        }
+      },
     },
   };
 }

@@ -99,7 +99,7 @@ async function spike(flags: Record<string, string>): Promise<void> {
   const recorded: RecordedCall[] = [];
   if (flags.replay) {
     const fixture = JSON.parse(readFileSync(flags.replay, "utf8")) as Fixture;
-    adapters = replayAdapters(fixture.recording);
+    adapters = replayAdapters(fixture.recording, { stalePolishFallback: true });
   } else {
     const config = loadConfig();
     if (!config.model || !config.search) {
@@ -166,7 +166,7 @@ async function spike(flags: Record<string, string>): Promise<void> {
 function buildAdapters(flags: Record<string, string>, recorded: RecordedCall[]): Adapters {
   if (flags.replay) {
     const fixture = JSON.parse(readFileSync(flags.replay, "utf8")) as Fixture;
-    return replayAdapters(fixture.recording);
+    return replayAdapters(fixture.recording, { stalePolishFallback: true });
   }
   const config = loadConfig();
   if (!config.model || !config.search) {

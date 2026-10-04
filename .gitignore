@@ -21,3 +21,6 @@ testdata/*.json
 .env
 .env.*
 !testdata/v1-bundle-sample.json
+
+# dev-flow 归档中的本机状态(与 .flow/state.json 同口径,机器各自维护)
+.flow/archive/**/state.json

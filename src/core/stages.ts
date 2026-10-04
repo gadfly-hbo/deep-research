@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { ReportOutlineSchema } from "../contracts.js";
 
-export const StageNameSchema = z.enum(["plan", "outline", "analyze", "draft", "review", "formal"]);
+export const StageNameSchema = z.enum(["plan", "outline", "analyze", "draft", "polish", "review", "formal"]);
 export type StageName = z.infer<typeof StageNameSchema>;
 
 export const PlanQuestionSchema = z.object({
@@ -47,6 +47,12 @@ export const DraftOutputSchema = z.object({
   reportMd: z.string().min(1),
 });
 export type DraftOutput = z.infer<typeof DraftOutputSchema>;
+
+/** 润色/扩写:只丰富表达与结构,严禁新增无证据支撑的事实与数字。 */
+export const PolishOutputSchema = z.object({
+  reportMd: z.string().min(1),
+});
+export type PolishOutput = z.infer<typeof PolishOutputSchema>;
 
 export const ReviewIssueSchema = z.object({
   severity: z.enum(["high", "low"]),

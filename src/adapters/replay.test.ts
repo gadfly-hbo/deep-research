@@ -61,3 +61,27 @@ describe("replayAdapters", () => {
     );
   });
 });
+
+describe("replayAdapters 旧录制兼容(PRD D4)", () => {
+  const polishKey = "run-1:polish:0";
+
+  it("stalePolishFallback=true:缺失 polish 调用降级为沿用草稿原文", async () => {
+    const adapters = replayAdapters(recording, { stalePolishFallback: true });
+    const result = await adapters.model.runStage("polish", { draftMd: "# 草稿" }, polishKey);
+    expect(result).toEqual({ output: { reportMd: "# 草稿" }, cost: 0 });
+  });
+
+  it("缺省(严格):缺失 polish 调用仍暴露夹具缺口", async () => {
+    const adapters = replayAdapters(recording);
+    await expect(adapters.model.runStage("polish", { draftMd: "# 草稿" }, polishKey)).rejects.toThrow(
+      /录制夹具缺少调用/,
+    );
+  });
+
+  it("fallback 只作用于 polish:其他 stage 缺失照常抛错", async () => {
+    const adapters = replayAdapters(recording, { stalePolishFallback: true });
+    await expect(adapters.model.runStage("draft", {}, "missing-key")).rejects.toThrow(
+      /录制夹具缺少调用/,
+    );
+  });
+});
