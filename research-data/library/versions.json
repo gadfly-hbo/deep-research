@@ -95,5 +95,559 @@
     "fetchStatus": "READ_FULL",
     "parseStatus": "ok",
     "createdAt": "2026-10-04T06:41:13.999Z"
+  },
+  "sv-8a1b9c5cb4d9": {
+    "versionId": "sv-8a1b9c5cb4d9",
+    "sourceId": "s-24e8f3e2",
+    "contentRef": "files/8a1b9c5cb4d9fd06ccad8ba99697b287f2d23c8d0f755e9f4c9eacc6c252b950",
+    "contentHash": "8a1b9c5cb4d9fd06ccad8ba99697b287f2d23c8d0f755e9f4c9eacc6c252b950",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:47:43.725Z"
+  },
+  "sv-6fa001579ed2": {
+    "versionId": "sv-6fa001579ed2",
+    "sourceId": "s-74e5228a",
+    "contentRef": "files/6fa001579ed2efb7b7dce103752228cdff52d662e8b622af4e1a0a1053e57acd",
+    "contentHash": "6fa001579ed2efb7b7dce103752228cdff52d662e8b622af4e1a0a1053e57acd",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:47:44.168Z"
+  },
+  "sv-17b2bcdc91db": {
+    "versionId": "sv-17b2bcdc91db",
+    "sourceId": "s-35a14d31",
+    "contentRef": "files/17b2bcdc91db5a8e9ef092e373518235d6701af4f087a30e28836caf5a13b4e8",
+    "contentHash": "17b2bcdc91db5a8e9ef092e373518235d6701af4f087a30e28836caf5a13b4e8",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:47:44.223Z"
+  },
+  "sv-a34d3a20071e": {
+    "versionId": "sv-a34d3a20071e",
+    "sourceId": "s-c62efb70",
+    "contentRef": "files/a34d3a20071e1b18c3f6fd429878f37ed5c09de46e8e345e3c5f3937906b8ee8",
+    "contentHash": "a34d3a20071e1b18c3f6fd429878f37ed5c09de46e8e345e3c5f3937906b8ee8",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:48:16.706Z"
+  },
+  "sv-eebd5848a19e": {
+    "versionId": "sv-eebd5848a19e",
+    "sourceId": "s-2b9e7cd2",
+    "contentRef": "files/eebd5848a19ebffb5f6c60094d1255896292dc707e89e421ee7a4e0c03f8ff1e",
+    "contentHash": "eebd5848a19ebffb5f6c60094d1255896292dc707e89e421ee7a4e0c03f8ff1e",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:48:16.875Z"
+  },
+  "sv-981abb20": {
+    "versionId": "sv-981abb20",
+    "sourceId": "s-48041304",
+    "fetchStatus": "READ_PARTIAL",
+    "parseStatus": "failed",
+    "parseIssue": "研究采证解析失败:正文不可读,仅保留取得事实",
+    "createdAt": "2026-10-04T07:48:17.217Z"
+  },
+  "sv-7e7f7b3534c3": {
+    "versionId": "sv-7e7f7b3534c3",
+    "sourceId": "s-501efa86",
+    "contentRef": "files/7e7f7b3534c35d6cb125fe5f1614bd005f7c6acfef8ee9609177f3c78435b458",
+    "contentHash": "7e7f7b3534c35d6cb125fe5f1614bd005f7c6acfef8ee9609177f3c78435b458",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:48:30.733Z"
+  },
+  "sv-0772306c6717": {
+    "versionId": "sv-0772306c6717",
+    "sourceId": "s-b10f22ca",
+    "contentRef": "files/0772306c671734947cff888f505db60b09bd98a101a57fc0f8f63764f4c743f7",
+    "contentHash": "0772306c671734947cff888f505db60b09bd98a101a57fc0f8f63764f4c743f7",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:48:30.761Z"
+  },
+  "sv-b6c35ba1": {
+    "versionId": "sv-b6c35ba1",
+    "sourceId": "s-a8adfb76",
+    "fetchStatus": "READ_PARTIAL",
+    "parseStatus": "failed",
+    "parseIssue": "研究采证解析失败:正文不可读,仅保留取得事实",
+    "createdAt": "2026-10-04T07:48:46.392Z"
+  },
+  "sv-b889be61e91d": {
+    "versionId": "sv-b889be61e91d",
+    "sourceId": "s-63e826ad",
+    "contentRef": "files/b889be61e91d8f51bc460739099901ae8b63a7b398286a04f634143d1fca8748",
+    "contentHash": "b889be61e91d8f51bc460739099901ae8b63a7b398286a04f634143d1fca8748",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:48:46.441Z"
+  },
+  "sv-f6dee1452811": {
+    "versionId": "sv-f6dee1452811",
+    "sourceId": "s-11c0b01a",
+    "contentRef": "files/f6dee1452811b6ee77f41dda9e4cdbbda95493ca4e075f41af2c0d2205149c24",
+    "contentHash": "f6dee1452811b6ee77f41dda9e4cdbbda95493ca4e075f41af2c0d2205149c24",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:48:46.807Z"
+  },
+  "sv-a408a99e136f": {
+    "versionId": "sv-a408a99e136f",
+    "sourceId": "s-970c309a",
+    "contentRef": "files/a408a99e136fd986177a75a973f9ebd51db12da28edeff5a08a90a4300178a1e",
+    "contentHash": "a408a99e136fd986177a75a973f9ebd51db12da28edeff5a08a90a4300178a1e",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:49:03.763Z"
+  },
+  "sv-7bf21298d165": {
+    "versionId": "sv-7bf21298d165",
+    "sourceId": "s-6234a0f1",
+    "contentRef": "files/7bf21298d1653841d4b0d976ae5b594656bd4db76f8437a566b068c17c1df408",
+    "contentHash": "7bf21298d1653841d4b0d976ae5b594656bd4db76f8437a566b068c17c1df408",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:49:03.816Z"
+  },
+  "sv-3ad600eb03b9": {
+    "versionId": "sv-3ad600eb03b9",
+    "sourceId": "s-9cf6d65b",
+    "contentRef": "files/3ad600eb03b9c7fe3ebba17666fb71fd61e5fb19255ad3a3a139f8658440f953",
+    "contentHash": "3ad600eb03b9c7fe3ebba17666fb71fd61e5fb19255ad3a3a139f8658440f953",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:49:03.834Z"
+  },
+  "sv-72d0ea7c3d73": {
+    "versionId": "sv-72d0ea7c3d73",
+    "sourceId": "s-86055430",
+    "contentRef": "files/72d0ea7c3d7338fc3d151fc90e44c9236ceca1bdc12cccffb74037b31b344ae8",
+    "contentHash": "72d0ea7c3d7338fc3d151fc90e44c9236ceca1bdc12cccffb74037b31b344ae8",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:49:04.772Z"
+  },
+  "sv-4539a2d6": {
+    "versionId": "sv-4539a2d6",
+    "sourceId": "s-9c315c5e",
+    "fetchStatus": "READ_PARTIAL",
+    "parseStatus": "failed",
+    "parseIssue": "研究采证解析失败:正文不可读,仅保留取得事实",
+    "createdAt": "2026-10-04T07:49:32.411Z"
+  },
+  "sv-f9f0b02a5b3e": {
+    "versionId": "sv-f9f0b02a5b3e",
+    "sourceId": "s-b9cc3f33",
+    "contentRef": "files/f9f0b02a5b3e8141b56e0b9d484338c0be37d19c9e6d92f23c3b01dbc68f241e",
+    "contentHash": "f9f0b02a5b3e8141b56e0b9d484338c0be37d19c9e6d92f23c3b01dbc68f241e",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:49:33.532Z"
+  },
+  "sv-a6c79334d9be": {
+    "versionId": "sv-a6c79334d9be",
+    "sourceId": "s-f78afeed",
+    "contentRef": "files/a6c79334d9be03dbbc76df1bda0e4536a582a13dfc078ea21daa84156c684ffb",
+    "contentHash": "a6c79334d9be03dbbc76df1bda0e4536a582a13dfc078ea21daa84156c684ffb",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:49:50.873Z"
+  },
+  "sv-3663279a20a5": {
+    "versionId": "sv-3663279a20a5",
+    "sourceId": "s-f6977127",
+    "contentRef": "files/3663279a20a5c191e904cc5040eebddbb8812f7d17c97608c60a55477600f3fb",
+    "contentHash": "3663279a20a5c191e904cc5040eebddbb8812f7d17c97608c60a55477600f3fb",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:49:50.941Z"
+  },
+  "sv-ad391ee556d7": {
+    "versionId": "sv-ad391ee556d7",
+    "sourceId": "s-5ac781f1",
+    "contentRef": "files/ad391ee556d7e4bfca06d38d243e45e2ff7bf5583eac2faf225f51c686dc8e0e",
+    "contentHash": "ad391ee556d7e4bfca06d38d243e45e2ff7bf5583eac2faf225f51c686dc8e0e",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:49:50.991Z"
+  },
+  "sv-57f14fd89e20": {
+    "versionId": "sv-57f14fd89e20",
+    "sourceId": "s-ed4558e3",
+    "contentRef": "files/57f14fd89e20713288e157ee5d74f0fb452a05025e7e8f753c6e94bc6d99a0bc",
+    "contentHash": "57f14fd89e20713288e157ee5d74f0fb452a05025e7e8f753c6e94bc6d99a0bc",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:49:51.850Z"
+  },
+  "sv-fcac8d8b": {
+    "versionId": "sv-fcac8d8b",
+    "sourceId": "s-e1facd4e",
+    "fetchStatus": "READ_PARTIAL",
+    "parseStatus": "failed",
+    "parseIssue": "研究采证解析失败:正文不可读,仅保留取得事实",
+    "createdAt": "2026-10-04T07:50:15.098Z"
+  },
+  "sv-9d71e3c3c2a3": {
+    "versionId": "sv-9d71e3c3c2a3",
+    "sourceId": "s-c8e373a4",
+    "contentRef": "files/9d71e3c3c2a3585e03ab3a897ad9461655aa7afe11f7443a902ddb0531df47e6",
+    "contentHash": "9d71e3c3c2a3585e03ab3a897ad9461655aa7afe11f7443a902ddb0531df47e6",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:50:15.592Z"
+  },
+  "sv-818ed83494e5": {
+    "versionId": "sv-818ed83494e5",
+    "sourceId": "s-9e65044c",
+    "contentRef": "files/818ed83494e52ad5b564f3d357b881a83d807fa72eaea3767c2095474ff1087d",
+    "contentHash": "818ed83494e52ad5b564f3d357b881a83d807fa72eaea3767c2095474ff1087d",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:50:16.039Z"
+  },
+  "sv-cdc141b27eb8": {
+    "versionId": "sv-cdc141b27eb8",
+    "sourceId": "s-a1c7600e",
+    "contentRef": "files/cdc141b27eb8b16245f1fd4b20a386b4a260aeb1776c8118c1104f21e6c2b778",
+    "contentHash": "cdc141b27eb8b16245f1fd4b20a386b4a260aeb1776c8118c1104f21e6c2b778",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:50:52.372Z"
+  },
+  "sv-0e6085bb": {
+    "versionId": "sv-0e6085bb",
+    "sourceId": "s-2e1a0749",
+    "fetchStatus": "READ_PARTIAL",
+    "parseStatus": "failed",
+    "parseIssue": "研究采证解析失败:正文不可读,仅保留取得事实",
+    "createdAt": "2026-10-04T07:50:52.566Z"
+  },
+  "sv-f5fafa7ebd06": {
+    "versionId": "sv-f5fafa7ebd06",
+    "sourceId": "s-cef6d8b2",
+    "contentRef": "files/f5fafa7ebd06a4398649d54d8ccbbe97b8f5c0e6770738b196fd7f7baf39f1ab",
+    "contentHash": "f5fafa7ebd06a4398649d54d8ccbbe97b8f5c0e6770738b196fd7f7baf39f1ab",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:51:26.242Z"
+  },
+  "sv-4cbaac957c02": {
+    "versionId": "sv-4cbaac957c02",
+    "sourceId": "s-3072a0c1",
+    "contentRef": "files/4cbaac957c027118f89a4e62e834ce912833ad3f8ca13606fd77e1570e25dd1e",
+    "contentHash": "4cbaac957c027118f89a4e62e834ce912833ad3f8ca13606fd77e1570e25dd1e",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:51:26.272Z"
+  },
+  "sv-0ca6fe45e5ce": {
+    "versionId": "sv-0ca6fe45e5ce",
+    "sourceId": "s-177da31f",
+    "contentRef": "files/0ca6fe45e5ce546d6e989def1e7de89415bf3033b4cc135d5f31435668420e79",
+    "contentHash": "0ca6fe45e5ce546d6e989def1e7de89415bf3033b4cc135d5f31435668420e79",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:51:26.900Z"
+  },
+  "sv-d198afe38e29": {
+    "versionId": "sv-d198afe38e29",
+    "sourceId": "s-c170b309",
+    "contentRef": "files/d198afe38e296cb0af16fa42788c4802d18181cec4ca16d281a24c62b16c14eb",
+    "contentHash": "d198afe38e296cb0af16fa42788c4802d18181cec4ca16d281a24c62b16c14eb",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:51:48.351Z"
+  },
+  "sv-0339558d": {
+    "versionId": "sv-0339558d",
+    "sourceId": "s-4d9aa214",
+    "fetchStatus": "READ_PARTIAL",
+    "parseStatus": "failed",
+    "parseIssue": "研究采证解析失败:正文不可读,仅保留取得事实",
+    "createdAt": "2026-10-04T07:51:48.498Z"
+  },
+  "sv-dbdfc736fe34": {
+    "versionId": "sv-dbdfc736fe34",
+    "sourceId": "s-f7729fdd",
+    "contentRef": "files/dbdfc736fe343e7063f9d53818e8161e807df6f6763acaf1eff85d6d932ea8dd",
+    "contentHash": "dbdfc736fe343e7063f9d53818e8161e807df6f6763acaf1eff85d6d932ea8dd",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:51:48.521Z"
+  },
+  "sv-48aa3c2a757b": {
+    "versionId": "sv-48aa3c2a757b",
+    "sourceId": "s-61540600",
+    "contentRef": "files/48aa3c2a757bf202c490d38a19639bd8923ab3a7dc8f0d7158a850832892b300",
+    "contentHash": "48aa3c2a757bf202c490d38a19639bd8923ab3a7dc8f0d7158a850832892b300",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:51:48.707Z"
+  },
+  "sv-07ce1067": {
+    "versionId": "sv-07ce1067",
+    "sourceId": "s-83568c67",
+    "fetchStatus": "READ_PARTIAL",
+    "parseStatus": "failed",
+    "parseIssue": "研究采证解析失败:正文不可读,仅保留取得事实",
+    "createdAt": "2026-10-04T07:52:06.932Z"
+  },
+  "sv-b37c62cc": {
+    "versionId": "sv-b37c62cc",
+    "sourceId": "s-cba406ee",
+    "fetchStatus": "READ_PARTIAL",
+    "parseStatus": "failed",
+    "parseIssue": "研究采证解析失败:正文不可读,仅保留取得事实",
+    "createdAt": "2026-10-04T07:52:25.283Z"
+  },
+  "sv-1ad15aad": {
+    "versionId": "sv-1ad15aad",
+    "sourceId": "s-f849a785",
+    "fetchStatus": "READ_PARTIAL",
+    "parseStatus": "failed",
+    "parseIssue": "研究采证解析失败:正文不可读,仅保留取得事实",
+    "createdAt": "2026-10-04T07:52:26.110Z"
+  },
+  "sv-57c774fc9d2e": {
+    "versionId": "sv-57c774fc9d2e",
+    "sourceId": "s-95649f16",
+    "contentRef": "files/57c774fc9d2e7c317952ac25fe6ae330ea5f831b97adbb5b89cc61bea4f15c6c",
+    "contentHash": "57c774fc9d2e7c317952ac25fe6ae330ea5f831b97adbb5b89cc61bea4f15c6c",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:53:00.922Z"
+  },
+  "sv-4937f28bb959": {
+    "versionId": "sv-4937f28bb959",
+    "sourceId": "s-014e4f3a",
+    "contentRef": "files/4937f28bb95953c3551a453278d451de4a3eaa9363fca872c744aff66a44ae60",
+    "contentHash": "4937f28bb95953c3551a453278d451de4a3eaa9363fca872c744aff66a44ae60",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:53:01.272Z"
+  },
+  "sv-c87bbaa3fd95": {
+    "versionId": "sv-c87bbaa3fd95",
+    "sourceId": "s-2117f963",
+    "contentRef": "files/c87bbaa3fd954cb2163800b9ab19086a0fb6784e95e68230d0928108bd35e68e",
+    "contentHash": "c87bbaa3fd954cb2163800b9ab19086a0fb6784e95e68230d0928108bd35e68e",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:53:01.806Z"
+  },
+  "sv-2fd80ccb86c7": {
+    "versionId": "sv-2fd80ccb86c7",
+    "sourceId": "s-a57c6817",
+    "contentRef": "files/2fd80ccb86c78049076421e339bbfdfff6293f3deb76c1c08704644af9a06efd",
+    "contentHash": "2fd80ccb86c78049076421e339bbfdfff6293f3deb76c1c08704644af9a06efd",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:53:42.623Z"
+  },
+  "sv-0fe0b7b84bfa": {
+    "versionId": "sv-0fe0b7b84bfa",
+    "sourceId": "s-98757b73",
+    "contentRef": "files/0fe0b7b84bfac1563b6929422f19b72701231ac393341ab9c52034b613c27def",
+    "contentHash": "0fe0b7b84bfac1563b6929422f19b72701231ac393341ab9c52034b613c27def",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:54:04.753Z"
+  },
+  "sv-68e30e5fefd1": {
+    "versionId": "sv-68e30e5fefd1",
+    "sourceId": "s-aee5d51c",
+    "contentRef": "files/68e30e5fefd11275fc33756adf9c2a80f15efe239e467482504c69707d9aeb0d",
+    "contentHash": "68e30e5fefd11275fc33756adf9c2a80f15efe239e467482504c69707d9aeb0d",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:54:04.810Z"
+  },
+  "sv-8daeba3b9c42": {
+    "versionId": "sv-8daeba3b9c42",
+    "sourceId": "s-1e33f7d2",
+    "contentRef": "files/8daeba3b9c42be3f0be6bee72912bf9f0b2b5e150cde31a0cf5aabbce23d5a90",
+    "contentHash": "8daeba3b9c42be3f0be6bee72912bf9f0b2b5e150cde31a0cf5aabbce23d5a90",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:54:04.861Z"
+  },
+  "sv-5511254c": {
+    "versionId": "sv-5511254c",
+    "sourceId": "s-0508c9de",
+    "fetchStatus": "READ_PARTIAL",
+    "parseStatus": "failed",
+    "parseIssue": "研究采证解析失败:正文不可读,仅保留取得事实",
+    "createdAt": "2026-10-04T07:54:05.243Z"
+  },
+  "sv-172b02e7": {
+    "versionId": "sv-172b02e7",
+    "sourceId": "s-36beb8da",
+    "fetchStatus": "READ_PARTIAL",
+    "parseStatus": "failed",
+    "parseIssue": "研究采证解析失败:正文不可读,仅保留取得事实",
+    "createdAt": "2026-10-04T07:54:26.687Z"
+  },
+  "sv-399496d920ff": {
+    "versionId": "sv-399496d920ff",
+    "sourceId": "s-20679581",
+    "contentRef": "files/399496d920fff90b7bece5ba6d46c582a7f93b0e2bc54db0ce6f2bf4992ac525",
+    "contentHash": "399496d920fff90b7bece5ba6d46c582a7f93b0e2bc54db0ce6f2bf4992ac525",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:54:27.007Z"
+  },
+  "sv-b670613fbac9": {
+    "versionId": "sv-b670613fbac9",
+    "sourceId": "s-a4f19ba5",
+    "contentRef": "files/b670613fbac92bedaa8a38f9ce02e80c50cc4618a3acf0b331462d3f82deaf7d",
+    "contentHash": "b670613fbac92bedaa8a38f9ce02e80c50cc4618a3acf0b331462d3f82deaf7d",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:54:27.028Z"
+  },
+  "sv-1059875f": {
+    "versionId": "sv-1059875f",
+    "sourceId": "s-11454c6f",
+    "fetchStatus": "READ_PARTIAL",
+    "parseStatus": "failed",
+    "parseIssue": "研究采证解析失败:正文不可读,仅保留取得事实",
+    "createdAt": "2026-10-04T07:54:43.172Z"
+  },
+  "sv-e1b7f3914889": {
+    "versionId": "sv-e1b7f3914889",
+    "sourceId": "s-c2b20413",
+    "contentRef": "files/e1b7f3914889074ed26b0306fe456ade05f445dafb8dc2ed45bef2c69246cf7b",
+    "contentHash": "e1b7f3914889074ed26b0306fe456ade05f445dafb8dc2ed45bef2c69246cf7b",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:54:43.604Z"
+  },
+  "sv-b4044dd67436": {
+    "versionId": "sv-b4044dd67436",
+    "sourceId": "s-84a57b40",
+    "contentRef": "files/b4044dd674368ce78a4972812346c00aaa171126a4a6e1c11333a5c2625575ec",
+    "contentHash": "b4044dd674368ce78a4972812346c00aaa171126a4a6e1c11333a5c2625575ec",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:54:59.705Z"
+  },
+  "sv-79eddb306c03": {
+    "versionId": "sv-79eddb306c03",
+    "sourceId": "s-4d7e6b96",
+    "contentRef": "files/79eddb306c03cec8a20b4d8add412427f70db8a075b0c0fdb668068334a94ea5",
+    "contentHash": "79eddb306c03cec8a20b4d8add412427f70db8a075b0c0fdb668068334a94ea5",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:55:00.392Z"
+  },
+  "sv-cf80644c805e": {
+    "versionId": "sv-cf80644c805e",
+    "sourceId": "s-92aee0e9",
+    "contentRef": "files/cf80644c805e69070f8ea7f0b3f5d05097458f6355a09a98def9390a809bf59c",
+    "contentHash": "cf80644c805e69070f8ea7f0b3f5d05097458f6355a09a98def9390a809bf59c",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:55:16.736Z"
+  },
+  "sv-ed2ac007ada1": {
+    "versionId": "sv-ed2ac007ada1",
+    "sourceId": "s-f657edaf",
+    "contentRef": "files/ed2ac007ada1a641dac7e8c3497ec70f2944643f25dd21713e8a4f55b6141f00",
+    "contentHash": "ed2ac007ada1a641dac7e8c3497ec70f2944643f25dd21713e8a4f55b6141f00",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:55:16.826Z"
+  },
+  "sv-b065a56850ae": {
+    "versionId": "sv-b065a56850ae",
+    "sourceId": "s-df0abe0e",
+    "contentRef": "files/b065a56850ae43169da7d5aed35f1a28f0df7a28155c99702974c3ca29aaf53b",
+    "contentHash": "b065a56850ae43169da7d5aed35f1a28f0df7a28155c99702974c3ca29aaf53b",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:55:17.023Z"
+  },
+  "sv-01f082f70016": {
+    "versionId": "sv-01f082f70016",
+    "sourceId": "s-6539500c",
+    "contentRef": "files/01f082f7001662aa3f08d10e0a058291c1c425b827f8c690b796ff8db34eb096",
+    "contentHash": "01f082f7001662aa3f08d10e0a058291c1c425b827f8c690b796ff8db34eb096",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:55:17.051Z"
+  },
+  "sv-08a0580bca2a": {
+    "versionId": "sv-08a0580bca2a",
+    "sourceId": "s-5ba61cde",
+    "contentRef": "files/08a0580bca2a940698f36f350a16395910150d432aa190fe10b986de33b090fa",
+    "contentHash": "08a0580bca2a940698f36f350a16395910150d432aa190fe10b986de33b090fa",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:55:38.499Z"
+  },
+  "sv-8c95a3b27dac": {
+    "versionId": "sv-8c95a3b27dac",
+    "sourceId": "s-1a0c0b9b",
+    "contentRef": "files/8c95a3b27dacdee1a4fef356c9c4f0073f57fc8b9d2e24a2b2d00b025e643a4b",
+    "contentHash": "8c95a3b27dacdee1a4fef356c9c4f0073f57fc8b9d2e24a2b2d00b025e643a4b",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:55:38.541Z"
+  },
+  "sv-736558bb9c86": {
+    "versionId": "sv-736558bb9c86",
+    "sourceId": "s-11344bc8",
+    "contentRef": "files/736558bb9c865a67bd82b7c23c4389e0f9d4c208a011f5967a8f2d7db9cf15b6",
+    "contentHash": "736558bb9c865a67bd82b7c23c4389e0f9d4c208a011f5967a8f2d7db9cf15b6",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:56:04.452Z"
+  },
+  "sv-4aea6768": {
+    "versionId": "sv-4aea6768",
+    "sourceId": "s-f31910b2",
+    "fetchStatus": "READ_PARTIAL",
+    "parseStatus": "failed",
+    "parseIssue": "研究采证解析失败:正文不可读,仅保留取得事实",
+    "createdAt": "2026-10-04T07:56:04.575Z"
+  },
+  "sv-8a817fb4c068": {
+    "versionId": "sv-8a817fb4c068",
+    "sourceId": "s-a39fc580",
+    "contentRef": "files/8a817fb4c068a7da313dc4b9c92cd16c9535133bef4f2108562073ccdf333dd8",
+    "contentHash": "8a817fb4c068a7da313dc4b9c92cd16c9535133bef4f2108562073ccdf333dd8",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:56:21.652Z"
+  },
+  "sv-3e63c5ae5be1": {
+    "versionId": "sv-3e63c5ae5be1",
+    "sourceId": "s-ae388618",
+    "contentRef": "files/3e63c5ae5be137aaaa0476c3c5f3f5fe814dddd8b169b5ef02417ffc9d6af23a",
+    "contentHash": "3e63c5ae5be137aaaa0476c3c5f3f5fe814dddd8b169b5ef02417ffc9d6af23a",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:56:21.917Z"
+  },
+  "sv-b5f1e49224ed": {
+    "versionId": "sv-b5f1e49224ed",
+    "sourceId": "s-ad50ada7",
+    "contentRef": "files/b5f1e49224edb1bc24514421f79abc47874eab7c347a5f0e8fdc4211babbc948",
+    "contentHash": "b5f1e49224edb1bc24514421f79abc47874eab7c347a5f0e8fdc4211babbc948",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:56:21.950Z"
+  },
+  "sv-c6a14fe8cda8": {
+    "versionId": "sv-c6a14fe8cda8",
+    "sourceId": "s-ed519a16",
+    "contentRef": "files/c6a14fe8cda8ce811dca2f900714252846d2423298850268b16b79ccbd8ba84f",
+    "contentHash": "c6a14fe8cda8ce811dca2f900714252846d2423298850268b16b79ccbd8ba84f",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-04T07:56:36.105Z"
   }
 }

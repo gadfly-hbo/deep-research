@@ -1,0 +1,422 @@
+{
+  "rr-evq1snaphttpszyr": {
+    "reviewId": "rr-evq1snaphttpszyr",
+    "objectRef": "ev:q1:snap:https://zyrm.zyjjw.cn/xiaofei/202607/157453.html:28",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "fail",
+    "reason": "quote-mismatch / entailment=na / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.701Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq1snaphttpsfin": {
+    "reviewId": "rr-evq1snaphttpsfin",
+    "objectRef": "ev:q1:snap:https://finance.sina.cn/2025-01-10/detail-ineentrv2230347.d.html:11",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=fail / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.711Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq1snaphttpswww": {
+    "reviewId": "rr-evq1snaphttpswww",
+    "objectRef": "ev:q1:snap:https://www.news.cn/fashion/20250408/ffa3b855744c41728c8b52b7c15614dc/c.html:21",
+    "scope": "253a193b-4350-4e39-bd12-9ee3597e42e6",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=weak / numeric=na",
+    "reviewedAt": "2026-10-04T08:13:20.743Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq1snaphttpsbai": {
+    "reviewId": "rr-evq1snaphttpsbai",
+    "objectRef": "ev:q1:snap:https://baike.com/wikiid/3973578097561747729:4",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.704Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq1snaphttpsnew": {
+    "reviewId": "rr-evq1snaphttpsnew",
+    "objectRef": "ev:q1:snap:https://news.cfw.cn/v388488-1.htm:10",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.708Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq1snaphttpscul": {
+    "reviewId": "rr-evq1snaphttpscul",
+    "objectRef": "ev:q1:snap:https://culture.ynet.com/2024/12/23/3848688t467.html:9",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.709Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq2snaphttpsnew": {
+    "reviewId": "rr-evq2snaphttpsnew",
+    "objectRef": "ev:q2:snap:https://news.cfw.cn/v394258-1.htm:26",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.714Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq2snaphttpsbai": {
+    "reviewId": "rr-evq2snaphttpsbai",
+    "objectRef": "ev:q2:snap:https://baike.com/wikiid/3973578097561747729:4",
+    "scope": "253a193b-4350-4e39-bd12-9ee3597e42e6",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:13:20.744Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq2snaphttpsfin": {
+    "reviewId": "rr-evq2snaphttpsfin",
+    "objectRef": "ev:q2:snap:https://finance.sina.com.cn/stock/wbstock/2025-08-22/doc-infmwmtx3388003.shtml:12",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.724Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq2snaphttpwwwc": {
+    "reviewId": "rr-evq2snaphttpwwwc",
+    "objectRef": "ev:q2:snap:http://www.chaoliunews.com/wangdian/nvzhuangpinpai/17881.html:10",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.720Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq2snaphttpswww": {
+    "reviewId": "rr-evq2snaphttpswww",
+    "objectRef": "ev:q2:snap:https://www.moomoo.com/hans/news/post/61437655?data_ticket=1790143317968508:28",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "fail",
+    "reason": "quote-mismatch / entailment=na / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.735Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq2snaphttpsmon": {
+    "reviewId": "rr-evq2snaphttpsmon",
+    "objectRef": "ev:q2:snap:https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=002563&id=11326243:19",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "fail",
+    "reason": "quote-mismatch / entailment=na / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.730Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq3snaphttpscjs": {
+    "reviewId": "rr-evq3snaphttpscjs",
+    "objectRef": "ev:q3:snap:https://cj.sina.com.cn/articles/view/2311077472/89c03e6002002ioci:7",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.736Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq3snaphttpwwwz": {
+    "reviewId": "rr-evq3snaphttpwwwz",
+    "objectRef": "ev:q3:snap:http://www.zqrb.cn/gscy/ggkx/2026-04-17/A1776426539673.html:7",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.737Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq3snaphttpsexp": {
+    "reviewId": "rr-evq3snaphttpsexp",
+    "objectRef": "ev:q3:snap:https://expo.cfw.cn/news/383517.html:21",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.743Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq3snaphttpssoh": {
+    "reviewId": "rr-evq3snaphttpssoh",
+    "objectRef": "ev:q3:snap:https://so.html5.qq.com/page/real/search_news?docid=70000021_6836a6466e762952:12",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.746Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq3snaphttpsmon": {
+    "reviewId": "rr-evq3snaphttpsmon",
+    "objectRef": "ev:q3:snap:https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=002563&id=12040779:37",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "fail",
+    "reason": "quote-mismatch / entailment=na / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.755Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq4snaphttpsnew": {
+    "reviewId": "rr-evq4snaphttpsnew",
+    "objectRef": "ev:q4:snap:https://news.qq.com/rain/a/20260727A06WH100:19",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "fail",
+    "reason": "quote-mismatch / entailment=na / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.761Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq4snaphttpsmso": {
+    "reviewId": "rr-evq4snaphttpsmso",
+    "objectRef": "ev:q4:snap:https://m.sohu.com/a/953962835_250147:24",
+    "scope": "253a193b-4350-4e39-bd12-9ee3597e42e6",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:13:20.748Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq4snaphttpsfin": {
+    "reviewId": "rr-evq4snaphttpsfin",
+    "objectRef": "ev:q4:snap:https://finance.sina.com.cn/cj/2026-03-31/doc-inhswpmw5707041.shtml:14",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.766Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq4snaphttpsiif": {
+    "reviewId": "rr-evq4snaphttpsiif",
+    "objectRef": "ev:q4:snap:https://i.ifeng.com/c/8gPK7QrPQBU:19",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=fail / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.769Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq4snaphttpswww": {
+    "reviewId": "rr-evq4snaphttpswww",
+    "objectRef": "ev:q4:snap:https://www.top168.com/news/show-611871.html:20",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.773Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq4snaphttpssoh": {
+    "reviewId": "rr-evq4snaphttpssoh",
+    "objectRef": "ev:q4:snap:https://so.html5.qq.com/page/real/search_news?docid=70000021_3416a67362d52352:12",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=weak / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.775Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq4snaphttpsm16": {
+    "reviewId": "rr-evq4snaphttpsm16",
+    "objectRef": "ev:q4:snap:https://m.163.com/dy/article/K066PCDN05198R91.html:21",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.779Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq5snaphttpszyr": {
+    "reviewId": "rr-evq5snaphttpszyr",
+    "objectRef": "ev:q5:snap:https://zyrm.zyjjw.cn/xiaofei/202607/157453.html:32",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "fail",
+    "reason": "quote-mismatch / entailment=na / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.784Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq5snaphttpsfin": {
+    "reviewId": "rr-evq5snaphttpsfin",
+    "objectRef": "ev:q5:snap:https://finance.sina.com.cn/tech/roll/2025-09-22/doc-infrkftf4606127.shtml:12",
+    "scope": "253a193b-4350-4e39-bd12-9ee3597e42e6",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:13:20.750Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq5snaphttpsnew": {
+    "reviewId": "rr-evq5snaphttpsnew",
+    "objectRef": "ev:q5:snap:https://news.cfw.cn/v387378-1.htm:11",
+    "scope": "253a193b-4350-4e39-bd12-9ee3597e42e6",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:13:20.752Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq5snaphttpsmdi": {
+    "reviewId": "rr-evq5snaphttpsmdi",
+    "objectRef": "ev:q5:snap:https://m.digitaling.com/projects/346436.html:11",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.793Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq6snaphttpsfin": {
+    "reviewId": "rr-evq6snaphttpsfin",
+    "objectRef": "ev:q6:snap:https://finance.sina.com.cn/stock/relnews/cn/2025-04-01/doc-inerscvq0230776.shtml:34",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.809Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq6snaphttpssoh": {
+    "reviewId": "rr-evq6snaphttpssoh",
+    "objectRef": "ev:q6:snap:https://so.html5.qq.com/page/real/search_news?docid=70000021_84568aec33281052:19",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.813Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq6snaphttpssto": {
+    "reviewId": "rr-evq6snaphttpssto",
+    "objectRef": "ev:q6:snap:https://stock.finance.sina.com.cn/stock/go.php/vReport_Show/kind/search/rptid/830791403212/index.phtml:42",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=fail / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.820Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq6snaphttpsnew": {
+    "reviewId": "rr-evq6snaphttpsnew",
+    "objectRef": "ev:q6:snap:https://news.qq.com/rain/a/20250408A05HTW00:32",
+    "scope": "253a193b-4350-4e39-bd12-9ee3597e42e6",
+    "checkType": "extraction",
+    "result": "fail",
+    "reason": "quote-mismatch / entailment=na / numeric=na",
+    "reviewedAt": "2026-10-04T08:13:20.758Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq7snaphttpswww": {
+    "reviewId": "rr-evq7snaphttpswww",
+    "objectRef": "ev:q7:snap:https://www.news.cn/fashion/20250408/ffa3b855744c41728c8b52b7c15614dc/c.html:20",
+    "scope": "253a193b-4350-4e39-bd12-9ee3597e42e6",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:13:20.761Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq7snaphttpsits": {
+    "reviewId": "rr-evq7snaphttpsits",
+    "objectRef": "ev:q7:snap:https://it.sohu.com/a/1054311986_393779:11",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=fail / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.841Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq7snaphttpsfin": {
+    "reviewId": "rr-evq7snaphttpsfin",
+    "objectRef": "ev:q7:snap:https://finance.sina.com.cn/stock/relnews/cn/2025-04-03/doc-inerxarq5426287.shtml:19",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=weak / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.852Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq7snaphttpsvip": {
+    "reviewId": "rr-evq7snaphttpsvip",
+    "objectRef": "ev:q7:snap:https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12040760:18",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "fail",
+    "reason": "quote-mismatch / entailment=na / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.848Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq8snaphttpsbai": {
+    "reviewId": "rr-evq8snaphttpsbai",
+    "objectRef": "ev:q8:snap:https://baike.com/wikiid/3973578097561747729:5",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.853Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq8snaphttpsfin": {
+    "reviewId": "rr-evq8snaphttpsfin",
+    "objectRef": "ev:q8:snap:https://finance.sina.com.cn/stock/relnews/cn/2025-04-03/doc-inerwfmr8575461.shtml:22",
+    "scope": "253a193b-4350-4e39-bd12-9ee3597e42e6",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:13:20.765Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq8snaphttpswww": {
+    "reviewId": "rr-evq8snaphttpswww",
+    "objectRef": "ev:q8:snap:https://www.xinhuanet.com/fashion/20250408/ffa3b855744c41728c8b52b7c15614dc/c.html:20",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=weak / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.862Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq8snaphttpscsc": {
+    "reviewId": "rr-evq8snaphttpscsc",
+    "objectRef": "ev:q8:snap:https://cs.com.cn/ssgs/gsxw/202404/t20240401_6398866.html:9",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.866Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq8snaphttps3gc": {
+    "reviewId": "rr-evq8snaphttps3gc",
+    "objectRef": "ev:q8:snap:https://3g.china.com/act/finance/13004691/20260727/49635521.html:22",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=fail / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.870Z",
+    "reviewer": "system:citationVerifier"
+  },
+  "rr-evq8snaphttpsm16": {
+    "reviewId": "rr-evq8snaphttpsm16",
+    "objectRef": "ev:q8:snap:https://m.163.com/dy/article/K066PCDN05198R91.html:13",
+    "scope": "406ee09a-f876-4947-9a62-00a94cb4a182",
+    "checkType": "extraction",
+    "result": "pass",
+    "reason": "quote-hit / entailment=strong / numeric=na",
+    "reviewedAt": "2026-10-04T08:12:57.872Z",
+    "reviewer": "system:citationVerifier"
+  }
+}

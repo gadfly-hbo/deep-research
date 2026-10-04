@@ -1,0 +1,13 @@
+
+				{{announDetailData.InfoTitle}}
+				
+					{{announDetailData.Media}}|{{announDetailData.InfoPublDate}}
+				
+				
+				
+					
+          {{cont}}
+					
+					新华财经声明：本文内容仅供参考，不构成投资建议。投资者据此操作，风险自担。
+				
+			

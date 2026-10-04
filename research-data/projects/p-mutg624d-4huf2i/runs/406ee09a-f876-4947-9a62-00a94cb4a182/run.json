@@ -1,0 +1,19 @@
+{
+  "id": "406ee09a-f876-4947-9a62-00a94cb4a182",
+  "requestId": "req-mutiqbry",
+  "stage": "publish",
+  "status": "limited",
+  "checkpoints": [],
+  "usage": {
+    "searches": 8,
+    "fetches": 80,
+    "costEstimate": 0.54839982,
+    "wallMs": 1383923
+  },
+  "progress": {
+    "answered": 8,
+    "open": 0,
+    "skipped": 0,
+    "total": 8
+  }
+}
