@@ -1,0 +1,19 @@
+{
+  "id": "253a193b-4350-4e39-bd12-9ee3597e42e6",
+  "requestId": "req-mutganzq",
+  "stage": "publish",
+  "status": "limited",
+  "checkpoints": [],
+  "usage": {
+    "searches": 8,
+    "fetches": 12,
+    "costEstimate": 0.051989339999999995,
+    "wallMs": 201179
+  },
+  "progress": {
+    "answered": 8,
+    "open": 0,
+    "skipped": 0,
+    "total": 8
+  }
+}
