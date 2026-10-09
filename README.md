@@ -24,7 +24,7 @@ npm run build       # tsc + vite 构建 SPA 到 ui-dist/
 {
   "model": [
     { "provider": "minimax-cn", "modelId": "MiniMax-M2.7" },
-    { "provider": "xiaomi-token-plan-cn", "modelId": "mimo-v2.5-pro", "api": "openai-completions", "baseUrl": "https://token-plan-cn.xiaomimimo.com/v1" }
+    { "provider": "xiaomi-token-plan-cn", "modelId": "mimo-v2.6-flash", "api": "openai-completions", "baseUrl": "https://token-plan-cn.xiaomimimo.com/v1" }
   ],
   "search": [ { "type": "minimax-mcp" }, { "type": "xiaomi-websearch" } ]
 }

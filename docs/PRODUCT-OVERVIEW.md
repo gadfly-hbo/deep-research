@@ -154,7 +154,7 @@
 minimax-cn / MiniMax-M2.7   ←—— 首选
    │ 429/402/quota/5xx/超时/连接重置…
    ▼ (瞬时故障判定 isTransientProviderError)
-xiaomi-token-plan-cn / mimo-v2.5-pro  ←—— 备用顶上
+xiaomi-token-plan-cn / mimo-v2.6-flash  ←—— 备用顶上
    │ 连续 2 次瞬时失败
    ▼
 熔断:冷却 10 分钟,期间直接走备用,不空耗重试
