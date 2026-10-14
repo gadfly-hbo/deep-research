@@ -14,7 +14,7 @@
 - [x] 6. 抽取 #3 快照构造 → snapshotFrom.ts — 证据:typecheck 绿;npm test 302/302 绿(+2 snapshotFrom 单测,含 now 注入);5 处构造全部改走 snapshotFrom(tier 缺省两处逐位保留);金样本 diff 空
 - [x] 7. 抽取 #6 预算判定 → budgetTracker.ts — 证据:typecheck 绿;npm test 307/307 绿(+5 边界值单测:恰满/差一/超一、Math.max(1,…) 下钳、>= 语义);6 处判定点全部改走 tracker,capped 置位与计数器写留编排器原位;金样本 diff 空
 - [x] 8. 抽取 #2 采证装配 → attachExtraction.ts(两函数)— 证据:typecheck 绿;npm test 311/311 绿(+4 单测:id 形状/替换/去重/scopeNote/revision);四条路径全部改走两函数,cost 累加与快照 push 语义留调用点;金样本 diff 空;runResearch.ts 1035→959 行
-- [ ] 9. 抽取 #4 阶段样板 → runStageSafe.ts(仅 analyze+draft 子集)
+- [x] 9. 抽取 #4 阶段样板 → runStageSafe.ts(仅 analyze+draft 子集)— 证据:typecheck 绿;npm test 315/315 绿(+4 单测:顺序/降级披露/coerce/异步 apply);plan/polish/rephrase 逐位内联保留;G1 saveRun 序列金样断言仍绿(persistRun 时机零漂移)
 
 ---
 
@@ -174,10 +174,10 @@ None - can start immediately
 
 ### Acceptance criteria
 
-- [ ] analyze/draft 两段改走 runStageSafe;plan/polish/rephrase 逐位内联保留(尤其 polish 的 persistRun("draft"))
-- [ ] runStageSafe 单测(含 safeParse 失败降级路径)
-- [ ] saveRun stage 序列金样断言仍绿(persistRun 时机零漂移)
-- [ ] 金样本 diff 为空;`npm test` + `npm run typecheck` 全绿
+- [x] analyze/draft 两段改走 runStageSafe;plan/polish/rephrase 逐位内联保留(尤其 polish 的 persistRun("draft"))
+- [x] runStageSafe 单测(含 safeParse 失败降级路径)
+- [x] saveRun stage 序列金样断言仍绿(persistRun 时机零漂移)
+- [x] 金样本 diff 为空;`npm test` + `npm run typecheck` 全绿
 
 ### Blocked by
 

@@ -38,6 +38,7 @@ import { addLimitation } from "./limitations.js";
 import { snapshotFrom } from "./snapshotFrom.js";
 import { BudgetTracker } from "./budgetTracker.js";
 import { attachExtraction, attachGatherExtraction } from "./attachExtraction.js";
+import { runStageSafe } from "./runStageSafe.js";
 import { buildQuestionEvidencePacks } from "./evidencePacks.js";
 
 export const DEFAULT_BUDGET: Budget = {
@@ -723,20 +724,24 @@ export async function runResearch(
     if (tracker.overBudget()) {
       state.capped = true;
     } else {
-      const res = await adapters.model.runStage(
-        "analyze",
-        { goal: request.goal, questions: state.questions, claims: state.claims },
-        `${keyBase}:analyze:0`,
-      );
-      run.usage.costEstimate += res.cost;
-      const analyze = safeParse(
-        AnalyzeOutputSchema,
-        res.output,
-        () => ({ findings: [], gaps: [] }),
-        "分析输出不合格,发现清单置空",
+      const analyze = await runStageSafe({
+        call: () =>
+          adapters.model.runStage(
+            "analyze",
+            { goal: request.goal, questions: state.questions, claims: state.claims },
+            `${keyBase}:analyze:0`,
+          ),
+        schema: AnalyzeOutputSchema,
+        fallback: () => ({ findings: [], gaps: [] }),
+        limitation: "分析输出不合格,发现清单置空",
         state,
-      );
-      state.findings = analyze.findings;
+        onCost: (c) => {
+          run.usage.costEstimate += c;
+        },
+        apply: (a) => {
+          state.findings = a.findings;
+        },
+      });
       const gapQuestions = analyze.gaps
         .map((g) => state.questions.find((q) => q.id === g.questionId))
         .filter((q): q is PlanQuestion => q !== undefined && q.status !== "answered");
@@ -765,28 +770,33 @@ export async function runResearch(
     if (tracker.overBudget()) {
       state.capped = true;
     } else {
-      const res = await adapters.model.runStage(
-        "draft",
-        {
-          goal: request.goal,
-          scope: request.scope,
-          findings: state.findings,
-          claims: state.claims,
-          evidencePacks: evidencePacks(),
-          reportTemplate: moduleConfig.reportTemplate,
-          ...(request.outline ? { outline: request.outline } : {}),
-        },
-        `${keyBase}:draft:0`,
-      );
-      run.usage.costEstimate += res.cost;
-      const draft = safeParse(
-        DraftOutputSchema,
-        coerceDraftOutput(res.output),
-        () => ({ reportMd: `# ${request.goal}\n\n(草稿生成失败,以下为证据清单摘要)` }),
-        "草稿输出不合格,已降级为证据摘要草稿",
+      const draft = await runStageSafe({
+        call: () =>
+          adapters.model.runStage(
+            "draft",
+            {
+              goal: request.goal,
+              scope: request.scope,
+              findings: state.findings,
+              claims: state.claims,
+              evidencePacks: evidencePacks(),
+              reportTemplate: moduleConfig.reportTemplate,
+              ...(request.outline ? { outline: request.outline } : {}),
+            },
+            `${keyBase}:draft:0`,
+          ),
+        schema: DraftOutputSchema,
+        coerce: coerceDraftOutput,
+        fallback: () => ({ reportMd: `# ${request.goal}\n\n(草稿生成失败,以下为证据清单摘要)` }),
+        limitation: "草稿输出不合格,已降级为证据摘要草稿",
         state,
-      );
-      state.draftMd = draft.reportMd;
+        onCost: (c) => {
+          run.usage.costEstimate += c;
+        },
+        apply: (d) => {
+          state.draftMd = d.reportMd;
+        },
+      });
       await saveCp("draft", { reportMd: state.draftMd });
     }
   }
