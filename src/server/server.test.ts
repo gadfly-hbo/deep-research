@@ -142,6 +142,42 @@ describe("本地 HTTP 服务", () => {
     expect(saved.status).toBe(200);
   });
 
+  it("P0-2:详情剥离 bodyText;快照端点单文件读且路径穿越一律 404", async () => {
+    const created = await post("/api/projects", {
+      module: "industry",
+      goal: "g",
+      scope: { summary: "s", queries: [] },
+    });
+    const pid = (await created.json()).id as string;
+    const store = FsProjectStore.open(join(dataDir, "projects", pid));
+    await store.saveSnapshot({
+      id: "snap:https://a/1",
+      url: "https://a/1",
+      title: "t",
+      fetchedAt: "2026-01-01T00:00:00.000Z",
+      bodyText: "正文内容",
+      parseStatus: "ok",
+      contentType: "text/html",
+    });
+
+    const detail = await api(`/api/projects/${pid}`);
+    const body = (await detail.json()) as { snapshots: Array<Record<string, unknown>> };
+    expect(body.snapshots).toHaveLength(1);
+    expect(body.snapshots[0]).toMatchObject({ id: "snap:https://a/1", title: "t", url: "https://a/1" });
+    expect("bodyText" in body.snapshots[0]).toBe(false);
+
+    const ok = await fetch(`${base}/api/projects/${pid}/snapshots?sid=${encodeURIComponent("snap:https://a/1")}`);
+    expect(ok.status).toBe(200);
+    expect(await ok.text()).toBe("正文内容");
+
+    // KA3:原始/编码/双重编码的路径穿越串一律 404,永不拼路径
+    const traversal = ["../../project.json", "..%2F..%2Fproject.json", "%252e%252e%252fproject.json", "snap:nope"];
+    for (const bad of traversal) {
+      const r = await fetch(`${base}/api/projects/${pid}/snapshots?sid=${encodeURIComponent(bad)}`);
+      expect(r.status).toBe(404);
+    }
+  });
+
   it("阶段失败可见:适配器抛错时 run 落为 failed 并带错误信息(失败不冒充完成)", async () => {
     await srv.close();
     const failing: Adapters = {

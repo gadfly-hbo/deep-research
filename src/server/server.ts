@@ -233,7 +233,8 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
         json(res, 200, {
           meta: s.meta(),
           runs: await s.listRuns(),
-          snapshots: await s.listSnapshots(),
+          // P0-2:列表型响应剥离 bodyText(UI 从未消费;正文按需走 /snapshots?sid=)
+          snapshots: (await s.listSnapshots()).map(({ bodyText: _omit, ...rest }) => rest),
         });
         return;
       }
@@ -609,7 +610,8 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
 
       if (method === "GET" && rest === "/snapshots") {
         const sid = url.searchParams.get("sid") ?? "";
-        const snapshot = (await store().listSnapshots()).find((s) => s.id === sid);
+        // P0-2:单文件读(哈希→精确文件名,原始 sid 永不拼路径)
+        const snapshot = await store().readSnapshot(sid);
         if (!snapshot) {
           json(res, 404, { error: `快照不存在: ${sid}` });
           return;

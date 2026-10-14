@@ -3,7 +3,7 @@
 - [x] 1. 写侧量化基线 — 证据:scripts/measure-snapshot-writes.mts 可运行,旧实现三夹具快照写字节 g1=1180/g2=1852/g3=2061(total 38667/27549/46641):scripts/measure-snapshot-writes.mts(golden replay + 临时目录 FsProjectStore 字节计数),旧实现基线入档
 - [x] 2. 快照布局改造 — 证据:typecheck 绿;npm test 322/322 绿(+7 fsStore 测试:KA2 保序/迁移幂等/迁移失败回退/自愈重建/崩溃窗口 orphan/碰撞 fail-loud/readSnapshot 穿越串 null):FsProjectStore 一文件一快照 + index.json + open() 幂等迁移 + 自愈/碰撞校验,fsStore 测试更新
 - [x] 3. migrateLibrary 改走共享只读 helper — 证据:typecheck 绿;npm test 322/322 绿;docs 三处同步;git check-ignore 验证 .bak 豁免生效 + docs 三处同步 + .gitignore 加 .bak
-- [ ] 4. server 端点:详情剥离 bodyText + /snapshots?sid= 改走 readSnapshot + 路径穿越 404 测试
+- [x] 4. server 端点 — 证据:npm test 323/323 绿(+1 端点测试);typecheck 含 ui 子工程绿(UI 零改动验证);剥离/readSnapshot/穿越 404 全覆盖详情剥离 bodyText + /snapshots?sid= 改走 readSnapshot + 路径穿越 404 测试
 - [ ] 5. 量化收尾:写侧改造后对比 + 读侧离线重算,数字入 handoff
 
 ---
@@ -38,10 +38,10 @@ KA1 + R1.7b + R1.9b:共享只读 helper(新目录权威→回退旧文件,顺序
 
 D3:`GET /api/projects/:id` 的 snapshots 剥离 bodyText(其余字段不变);`/snapshots?sid=` 改走 `readSnapshot(sid)` 单文件读,响应不变(text/plain 正文);KA3 路径穿越测试。
 
-- [ ] 端点测试:详情响应 snapshots 无 bodyText 键、其余字段完整
-- [ ] `sid=../../project.json` 及双重编码变体 404;正常 sid 正文不变
-- [ ] UI 零改动验证:`npm run typecheck`(含 ui 子工程)绿
-- [ ] `npm test` 全绿
+- [x] 端点测试:详情响应 snapshots 无 bodyText 键、其余字段完整
+- [x] `sid=../../project.json` 及双重编码变体 404;正常 sid 正文不变
+- [x] UI 零改动验证:`npm run typecheck`(含 ui 子工程)绿
+- [x] `npm test` 全绿
 
 ## T5 量化收尾(KA4;Blocked by:T2+T4;User stories:1/2)
 
