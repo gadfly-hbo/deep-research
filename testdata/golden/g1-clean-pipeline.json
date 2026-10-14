@@ -1,0 +1,220 @@
+{
+  "calls": [
+    {
+      "key": "req-golden-1:plan:0",
+      "kind": "stage",
+      "response": {
+        "output": {
+          "questions": [
+            {
+              "id": "q1",
+              "question": "咖啡市场规模与口径",
+              "status": "open"
+            }
+          ]
+        },
+        "cost": 0.01
+      }
+    },
+    {
+      "key": "req-golden-1:gather:r0:search:q1",
+      "kind": "search",
+      "response": {
+        "hits": [
+          {
+            "url": "https://gov.cn/a",
+            "title": "官方统计",
+            "snippet": ""
+          },
+          {
+            "url": "https://iresearch.com.cn/r",
+            "title": "行业报告",
+            "snippet": ""
+          }
+        ]
+      }
+    },
+    {
+      "key": "req-golden-1:gather:r0:fetch:q1:0",
+      "kind": "fetch",
+      "response": {
+        "page": {
+          "url": "https://gov.cn/a",
+          "status": 200,
+          "contentType": "text/html",
+          "html": "<p>x</p>"
+        }
+      }
+    },
+    {
+      "key": "req-golden-1:gather:r0:fetch:q1:1",
+      "kind": "fetch",
+      "response": {
+        "page": {
+          "url": "https://iresearch.com.cn/r",
+          "status": 200,
+          "contentType": "text/html",
+          "html": "<p>x</p>"
+        }
+      }
+    },
+    {
+      "key": "req-golden-1:gather:r0:parse:q1:0",
+      "kind": "parse",
+      "response": {
+        "doc": {
+          "bodyText": "中国咖啡市场规模约 1,200 亿元(2025 年)。现磨咖啡门店数持续增长。行业边界与定义清晰。",
+          "parseStatus": "ok"
+        }
+      }
+    },
+    {
+      "key": "req-golden-1:gather:r0:parse:q1:1",
+      "kind": "parse",
+      "response": {
+        "doc": {
+          "bodyText": "中国咖啡市场规模约 1,200 亿元(2025 年)。产业链上下游链条完整。竞争格局分散。",
+          "parseStatus": "ok"
+        }
+      }
+    },
+    {
+      "key": "req-golden-1:gather:r0:model:q1:0",
+      "kind": "model",
+      "response": {
+        "claims": [
+          {
+            "statement": "中国咖啡市场规模约 1,200 亿元(2025 年)",
+            "kind": "fact",
+            "quote": "中国咖啡市场规模约 1,200 亿元(2025 年)",
+            "calibration": {
+              "entity": "中国咖啡市场",
+              "period": "2025",
+              "unit": "亿元",
+              "value": 1200
+            }
+          },
+          {
+            "statement": "现磨咖啡门店数持续增长",
+            "kind": "fact",
+            "quote": "现磨咖啡门店数持续增长"
+          },
+          {
+            "statement": "行业边界与定义清晰",
+            "kind": "fact",
+            "quote": "行业边界与定义清晰"
+          }
+        ],
+        "cost": 0.01
+      }
+    },
+    {
+      "key": "req-golden-1:gather:r0:model:q1:1",
+      "kind": "model",
+      "response": {
+        "claims": [
+          {
+            "statement": "中国咖啡市场规模约 1,200 亿元(2025 年)",
+            "kind": "fact",
+            "quote": "中国咖啡市场规模约 1,200 亿元(2025 年)",
+            "calibration": {
+              "entity": "中国咖啡市场",
+              "period": "2025",
+              "unit": "亿元",
+              "value": 1200
+            }
+          },
+          {
+            "statement": "产业链上下游链条完整",
+            "kind": "fact",
+            "quote": "产业链上下游链条完整"
+          },
+          {
+            "statement": "竞争格局分散",
+            "kind": "fact",
+            "quote": "竞争格局分散"
+          }
+        ],
+        "cost": 0.01
+      }
+    },
+    {
+      "key": "req-golden-1:analyze:0",
+      "kind": "stage",
+      "response": {
+        "output": {
+          "findings": [
+            {
+              "questionId": "q1",
+              "summary": "规模明确",
+              "claimIds": []
+            }
+          ],
+          "gaps": []
+        },
+        "cost": 0.01
+      }
+    },
+    {
+      "key": "req-golden-1:draft:0",
+      "kind": "stage",
+      "response": {
+        "output": {
+          "reportMd": "# 报告\n\n## 市场口径表\n\n口径内容\n\n## 行业结构\n\n结构内容\n\n## 趋势与风险\n\n趋势内容"
+        },
+        "cost": 0.01
+      }
+    },
+    {
+      "key": "req-golden-1:polish:0",
+      "kind": "stage",
+      "response": {
+        "output": {
+          "reportMd": "# 报告\n\n## 市场口径表\n\n口径内容\n\n## 行业结构\n\n结构内容\n\n## 趋势与风险\n\n趋势内容\n\n(润色)"
+        },
+        "cost": 0.01
+      }
+    },
+    {
+      "key": "req-golden-1:review:0",
+      "kind": "stage",
+      "response": {
+        "output": {
+          "issues": [],
+          "counterexampleChecked": true
+        },
+        "cost": 0.01
+      }
+    }
+  ],
+  "saveRuns": [
+    {
+      "stage": "gather",
+      "status": "running"
+    },
+    {
+      "stage": "gather",
+      "status": "running"
+    },
+    {
+      "stage": "analyze",
+      "status": "running"
+    },
+    {
+      "stage": "draft",
+      "status": "running"
+    },
+    {
+      "stage": "draft",
+      "status": "running"
+    },
+    {
+      "stage": "review",
+      "status": "running"
+    },
+    {
+      "stage": "publish",
+      "status": "published"
+    }
+  ]
+}

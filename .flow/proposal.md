@@ -1,43 +1,40 @@
-# 提案:报告丰满度三重改进(draft 要求 / writer 素材 / 润色环节)
+# 提案:P0-1 分解 runResearch —— 外部接口不变,只建内部接缝(纯重构)
 
-> 来源:2026-10-04 用户诊断"deep-research 输出报告丰满程度不如 flow-center 商圈研究、Kimi、Gemini",确认三条改进打包实施。
+> 来源:2026-10-14 重构审查(基于 codebase-memory 图谱:圈复杂度/扇入/边界 + 六个核心文件通读),
+> 用户以 `/dev-flow P0-1` 选定本提案为范围。同一审查中的 P0-2(快照存储/轮询负载)、P1-3(server.ts 拆分)、
+> P1-4(UI)均不在本次范围,不得顺手做。
 
-## 问题诊断(已核实,证据见对话)
+## 背景证据(已核实)
 
-deep-research 报告不丰满不是"没用 LLM 润色"单一原因,而是三层都薄:
+- `src/core/runResearch.ts` 共 1222 行,`runResearch` 单函数体约 1090 行(130→1222),图谱圈复杂度 320、transitive_loop_depth 7,为全仓库最大热点。
+- `state`/`run`/`currentQuestion`/`directionNotes`/`activeGatherTargets`/`snapshotVersionMap`/`addQuestionCounter` 全是共享可变闭包,函数内部没有任何可独立测试的接缝——想测发布门禁或采证配额,只能整条流水线跑 replay 夹具。
+- 外接缝本身是深的、刻意设计(README:「缝合点:runResearch(request, adapters, store) 唯一执行入口」),`src/adapters/types.ts` 4 个小接口 + 3 个真实适配器(live/recording/replay),**两者都不动**。
 
-1. **写作要求薄**:draft prompt(STAGE_PROMPTS.draft, src/adapters/live.ts)只有一句"逐节按 outline.sections 撰写、只陈述有证据支持的内容",无长度要求、无每节深度下限、无表格/执行摘要/建议章等结构强制、无自检清单。对照 flow-center 商圈 write 节点有 8 条硬指标(三段式不得省略、≥3 画像×7 维表格禁止段落替代、策略必须可量化、每章证据密度、13 行表每行≥30 字、格式自检清单)+ 326 行 report-template.md 注入。另 outline 阶段每节仅 2-4 条 bullets,写作计划本身薄;模块 reportTemplate 只有 sections 标题列表,无逐节内容指导。
-2. **写作素材薄**:draft 阶段输入仅 `{goal, scope, findings, claims, reportTemplate, outline}`(runResearch.ts draft 段),findings 是每问题一句话 summary,claims 是 ≤80 字引句的主张;**快照正文从不进 writer 上下文**。Kimi/Gemini 写手通读原文成文,deep-research 写手只能从二手摘要扩写,丰满度天花板低。
-3. **成文机会只有一次**:draft 是唯一产出正文的环节;review 回环只允许 regather/rephrase/disclose,rephrase 输入仍是同样的蒸馏摘要;formal 阶段 prompt 明确"只允许重组草稿已有内容,严禁新增任何事实"。无扩写/润色 pass。draft 解析失败时 safeParse 兜底为"证据清单摘要"(实例:research-data/projects/p-muaman1a-ypfqtl/reports/v1/report.md 开头明写"草稿生成失败")。
+## 六项抽取(本次全部实施)
 
-## 三条改进(用户已拍板 1+2+3 全做)
+| # | 抽取物 | 现状证据 | 目标 |
+|---|--------|---------|------|
+| 1 | 发布门禁 → `src/quality/publishGate.ts` 纯函数 | `runResearch.ts:1040-1196` 约 156 行纯计算(verdicts 蕴涵/数值复算、降级、多源交叉、信源分级、置信度聚合、reasons),与既有 quality 检查器同构 | 成为与 `citationVerifier.test.ts` 同风格的纯函数单测对象 |
+| 2 | 采证装配统一 → `attachExtraction` | "extractClaims 结果 → claim+evidence 入 state"出现 4 次:`:401`(gather)、`:521`(attachExtracted)、`:669`(附件)、`:765`(复用绑定),仅 id 前缀/scopeNote/去重细节略异;attachExtracted 已抽出却只服务指令路径 | 收敛为一个函数 |
+| 3 | 快照构造统一 → `snapshotFrom` | SourceSnapshot 字面量构造 4 处:`:373`、`:594`、`:655`、`:748` | 一个构造器 |
+| 4 | 阶段执行样板收敛 → `runStageSafe` | plan/analyze/draft/polish + review 内 rephrase 五段同骨架(cancelled → persistRun → overBudget? → runStage → cost += → safeParse → saveCp):`:460`、`:857`、`:899`、`:932`、`:1003` | 一个 helper |
+| 5 | `addLimitation()` | `if (!state.limitations.includes(x)) push(x)` 约 10 处 | 一行 helper |
+| 6 | 预算追踪 → `BudgetTracker` | searches/fetches/wall/cost 检查内联散布 6 处(`:197`、`:328`、`:356`、`:361`、`:367` 等),gather 圈复杂度 58 | 配额判定集中一处 |
 
-### 改进 1:draft prompt 丰满度硬要求
-对齐 flow-center 做法,draft 阶段 prompt 增加:每节最低篇幅/深度要求、表格化数据矩阵、执行摘要、结尾建议章、输出前自检要求。不改"只陈述有证据支持的内容、推断须标注"的克制基调(可信度是本项目核心卖点,丰满度不能靠编造换)。
+## 硬约束(不得违反)
 
-### 改进 2:writer 输入 diet 升级
-把采证快照正文(切块/截断)随 findings/claims 一并喂给 draft 阶段,让写手看到原始素材而非只有蒸馏摘要。需设计:快照选择(按 claim 关联/按问题分组)、切块与截断策略、上下文预算控制。
+1. **外部接口不变**:`runResearch(request, adapters, store, options)` 签名与语义、导出集合(`runResearch`/`resolveBudget`/`DEFAULT_BUDGET`/`RunOptions`/`RunResult`)不变。
+2. **行为不变(纯重构)**:适配器调用序列与 callKey 生成(如 `${keyBase}:gather:r${round}:search:${q.id}`)、checkpoint 数据形状、run 状态机、bundle/限制/披露文案语义全部等价。replay 夹具测试原样通过是核心证据。
+3. **不动** `src/contracts.ts`、`src/adapters/types.ts`,不改模块配置、质量判定规则。
+4. 每个抽出的内部接缝补与 `citationVerifier.test.ts` 同风格的纯函数单测(新逻辑可测;被搬走的逻辑靠现有回放测试保回归)。
 
-### 改进 3:增加扩写/润色 pass
-定稿前有丰富正文的机会;同时考虑放宽 rephrase 修复路径的输入(与改进 2 的素材打通)。注意与现有"formal 只重组不新增事实"原则的边界:润色/扩写必须仍受证据约束,不得引入无证据的新事实(即"表达方式丰富"而非"内容无中生有")。
+## 验证
 
-## 硬约束(来自项目既定原则,不可被本流程推翻)
+`npm test`(vitest,replay 夹具)+ `npm run typecheck` 全绿;预期编排器收敛到约 400-500 行纯顺序逻辑。
 
-- **可信度工程优先**:只陈述有证据支持的内容、推断须标注、宁可披露不可编造——这是 WHITEPAPER/PLAN-COMPARE 记录的核心定位,丰满度提升不得以放松证据约束为代价。
-- **真实性核查四步**(引用核查/语义蕴涵/数值复算/多源交叉)与 ABC 信源分级是发布门禁,任何润色 pass 的产出仍须过同一门禁。
-- **编排器唯一入口**:改动落在 runResearch.ts 六阶段状态机与 adapters 边界内,不引入新编排架构。
-- **模型链路不变**:MiniMax 主 + MIMO 备、pi SDK 进程内接入,不换模型不换供应商。
-- **草稿/正式两阶段原则不变**:流水线产出=草稿,确认后才生成正式报告(pptx/html/pdf)。
+## 待决问题(留给红队/GRILL)
 
-## 开放问题(留给 GRILL)
-
-- 快照正文的切块/截断预算(每问题多少 token、总量封顶)
-- 扩写/润色 pass 放在 review 回环内还是 draft 之后新增 stage(StageName 是否扩枚举,涉及 contracts)
-- draft prompt 硬指标的具体尺度(每节字数下限的合理值)
-- 润色 pass 的输入是否含快照正文、其产出如何再过发布门禁
-
-## 不做
-
-- 不引入 flow-center 式声明式 DAG 工作流(架构路线不变)
-- 不换写作模型、不接新供应商
-- 不放宽"formal 不新增事实"(改进 3 的润色发生在 formal 之前的草稿阶段)
+- publishGate 落 `src/quality/`(与其他检查器同层)还是 `src/core/`(与编排器同层)?
+- attachExtraction / BudgetTracker / runStageSafe 的参数形状与放置文件(新文件 vs 留在 runResearch.ts 顶部)。
+- gather 内部(loop、per-question 配额、并行窗口)是否也抽,还是只做六项的最小集合?
+- 检查点恢复路径(checkpoint data shape 引用 RunState 字段)在移动 RunState 定义时如何保持兼容。

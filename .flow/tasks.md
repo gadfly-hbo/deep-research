@@ -1,58 +1,184 @@
-# 任务拆解:报告丰满度三重改进
+# Tasks:P0-1 分解 runResearch(内部接缝抽取)
 
-- [x] 1. 证据素材包纯函数 `buildQuestionEvidencePacks` + 单测
-- [x] 2. draft 丰满版 prompt + evidencePacks 注入 draft/rephrase 输入
-- [x] 3. polish 润色 pass(StageName/prompt/编排/选项/兜底)+ 集成测试
+> 源:`.flow/prd.md`(含 GRILL 决议 R1.1-R1.9、R2.1-R2.3)。无 issue tracker,落盘本文件。
+> 切片口径:验证网(T1/T2)先行,其后每片=一个抽取物 + 单测 + 编排器接线 + 全量回归绿。
+> 依赖:T1/T2 阻塞一切重构;T3 阻塞 T4-T9;其余按序。每片完成即本地 commit(R2.2)。
 
-## 1. 证据素材包纯函数
+## 检查清单
 
-## Parent
-.flow/prd.md D2
+- [x] 1. 金样本测试:record/replay 双层(callKey 有序序列 + saveRun 序列) — 证据:npm test 286/286 绿(基线 283+新增 3);金样本 testdata/golden/{g1-clean-pipeline,g2-repair-loop,g3-intervention}.json;G1 saveRun 序列逐位命中人工推导期望值
+- [ ] 2. v1 checkpoint 恢复夹具测试(键集合白名单 + capped→limited 锁定)
+- [ ] 3. 迁移 runState.ts(RunState / emptyState / safeParse)
+- [ ] 4. 抽取 #5 addLimitation → limitations.ts
+- [ ] 5. 抽取 #1 发布门禁 → quality/publishGate.ts
+- [ ] 6. 抽取 #3 快照构造 → snapshotFrom.ts
+- [ ] 7. 抽取 #6 预算判定 → budgetTracker.ts
+- [ ] 8. 抽取 #2 采证装配 → attachExtraction.ts(两函数)
+- [ ] 9. 抽取 #4 阶段样板 → runStageSafe.ts(仅 analyze+draft 子集)
 
-## What to build
-core 层纯函数 `buildQuestionEvidencePacks(questions, claims, snapshots, budget)`,按问题分组产出引句上下文窗口素材包:从 claim.id 解析来源快照 URL 与问题 id,在快照 bodyText 中定位 claim.quote 并截取前后窗口,同快照去重合并,三级预算封顶(单快照/单问题/总量),quote 未命中退化为快照开头截断段并标注。新建 `src/core/evidencePacks.test.ts` 覆盖:窗口截取、去重合并、三级封顶、未命中退化、id 解析。
+---
 
-## Acceptance criteria
-- [x] 给定合成 questions/claims/snapshots,产出按 questionId 分组的 notes(url/title/excerpt)
-- [x] 同快照多窗口重叠时合并为一个 excerpt
-- [x] 单快照/单问题/总量三级封顶生效,超限按引用次数优先保留
-- [x] quote 在 bodyText 中未命中时退化为开头截断段且带"未逐字命中"标注
-- [x] vitest 全绿
+## 1. 金样本测试:record/replay 双层
 
-## Blocked by
+### What to build
+
+建立行为不变的可证伪基线:recordingAdapters 包 fake 适配器跑完整 `runResearch`,把 `[{kind, key}]` 有序适配器调用序列与 saveRun `{stage,status}` 序列固化为金样本;replayAdapters 回放同一金样本再跑一遍,断言两侧 run.status / bundle claims id 序 / verdicts / limitations 有序数组 / reportMd 一致(时间戳字段归一化)。三份金样本(R1.1):G1 干净全流程(单问题两来源、带 calibration 的 claims)、G2 修复回环(analyze gap 补采 + review regather + rephrase)、G3 干预最小集(add-source 文本 + add-questions)。金样本 JSON 落 `testdata/golden/`。
+
+### Acceptance criteria
+
+- [ ] 三份金样本入库,`[{kind,key}]` 有序序列 `toEqual` 全等
+- [ ] record 与 replay 两轮产物(归一化后)一致;replay 缺 key 抛错路径不被触发
+- [ ] saveRun `{stage,status}` 有序序列断言:G1 = gather → gather×每问 → analyze → draft → draft(polish) → review → publish
+- [ ] 末次 progress 计数四元组(answered/open/skipped/total)入断言
+- [ ] `npm test` 全绿(基线 283 + 新增)
+
+### Blocked by
+
 None - can start immediately
 
-## 2. draft 丰满版 prompt + evidencePacks 注入
+---
 
-## Parent
-.flow/prd.md D1 + D2
+## 2. v1 checkpoint 恢复夹具测试
 
-## What to build
-重写 `STAGE_PROMPTS.draft`(执行摘要/每节 ≥300 字+数据矩阵表格/启示与建议章/口径与局限披露/反编造条款最高优先级/输出前自检,输出契约 JSON {"reportMd"} 不变);编排器 draft 段与 review 回环 rephrase 路径的 runStage 输入增 `evidencePacks`(调用任务 1 纯函数现算);liveDraft 测试风格扩展解析回归用例。
+### What to build
 
-## Acceptance criteria
-- [x] draft prompt 含执行摘要、每节深度、表格矩阵、建议章、披露章、反编造、自检七要素
-- [x] draft/rephrase 的 stage 输入含 evidencePacks 字段, replay 录制文件无该字段时按空数组兼容
-- [x] 输出契约与解析路径不变(报告仍 JSON reportMd)
-- [x] vitest 全绿
+锁定 RunState 序列化形状与恢复语义(R1.2):用当前代码合成 capped 场景(budget.maxFetches=1 跑完 gather 后取消),手工冻结 plan+gather 两条 checkpoint 为 `testdata/v1-checkpoints.json`,配套 cancelled run 对象内嵌测试;memory store 种入后以同 request.id 重跑(fake 给干净输出)。
 
-## Blocked by
-- 任务 1
+### Acceptance criteria
 
-## 3. polish 润色 pass
+- [ ] 恢复后 `run.status === "limited"`(capped 不反转为 published)
+- [ ] 恢复轮 0 次 search 调用(gather checkpoint 命中跳过)
+- [ ] gather checkpoint data 键集合与 RunState 11 键白名单 `Object.keys().sort()` 逐一 `toEqual`
+- [ ] 夹具 `capped: true`;`npm test` 全绿
 
-## Parent
-.flow/prd.md D3 + D4
+### Blocked by
 
-## What to build
-`StageNameSchema` 增 `"polish"`,`PolishOutputSchema={reportMd}`,`STAGE_PROMPTS.polish`(只丰富表达与结构,严禁新增无证据事实/数字);编排器在 draft 后、review 前插入 polish 段(checkpoint `${keyBase}:polish:0`,safeParse 兜底=沿用 draft 原文并记 limitation);`ResearchRequest` 增 `polish?: boolean` 默认 true,`polish:false` 跳过;增量追问路径同注入素材包;replay 集成测试断言 polish 被调用/输入含素材包/关闭时跳过。
+None - can start immediately
 
-## Acceptance criteria
-- [x] polish 阶段在 draft 与 review 之间执行,产物作为 review 的草稿输入
-- [x] polish 解析失败降级为 draft 原文 + limitations 记录
-- [x] polish:false 时整段跳过且 checkpoint 语义正确(恢复不重跑)
-- [x] polish 成本计入 usage,受预算熔断约束
-- [x] vitest 全绿
+---
 
-## Blocked by
-- 任务 2
+## 3. 迁移 runState.ts
+
+### What to build
+
+把 `RunState` 类型、`emptyState`、`safeParse` 从 runResearch.ts 移到 `src/core/runState.ts` 并 export(供编排器与后续 helper 共享);runResearch.ts 改 import,导出集合保持五个不变(R1.8)。
+
+### Acceptance criteria
+
+- [ ] runResearch.ts 导出集合 = {runResearch, resolveBudget, DEFAULT_BUDGET, RunOptions, RunResult} 不变
+- [ ] T1 金样本 diff 为空;T2 键集合断言仍绿
+- [ ] `npm test` + `npm run typecheck` 全绿
+
+### Blocked by
+
+1, 2
+
+---
+
+## 4. 抽取 #5 addLimitation → limitations.ts
+
+### What to build
+
+`src/core/limitations.ts` 提供 `addLimitation(list, note)`(去重 push);只替换 runResearch.ts 中带 `if (!includes)` 守卫的站点;4 处有意无条件 push(复用资产披露、disclose 指令等)保持原样(R1.4 边界、红队次要失败模式)。
+
+### Acceptance criteria
+
+- [ ] 带守卫站点全部改走 addLimitation;无条件 push 逐位保留
+- [ ] limitations.ts 单测:去重/保序/原样返回
+- [ ] 金样本 diff 为空;`npm test` + `npm run typecheck` 全绿
+
+### Blocked by
+
+3
+
+---
+
+## 5. 抽取 #1 发布门禁 → quality/publishGate.ts
+
+### What to build
+
+把 `runResearch.ts:1040-1196` 的发布门禁抽为纯函数 `evaluatePublishGate(input): output`(签名按 R1.3:含 moduleCheck 门内化、reportMd 门内完整组装、incremental 计数纯化、不深拷贝、编排器 5 行机械写回)。`stopAfter:"gather"` 早退路径逐位保留不碰。
+
+### Acceptance criteria
+
+- [ ] publishGate.test.ts 按 citationVerifier.test.ts 风格断言完整输出快照,limitationsToAppend 有序 `toEqual`(禁 includes);覆盖降级/蕴涵/数值/多源/单源/仅C级/置信度/moduleCheck 分支
+- [ ] 编排器写回 = claims/limitations/unresolved/status 机械赋值
+- [ ] 早退路径 reportMd 组装零 diff
+- [ ] 金样本 diff 为空;`npm test` + `npm run typecheck` 全绿
+
+### Blocked by
+
+3
+
+---
+
+## 6. 抽取 #3 快照构造 → snapshotFrom.ts
+
+### What to build
+
+`snapshotFrom({id,url,title,bodyText,parseStatus,contentType,tier?,now?})` 集中 5 处 SourceSnapshot 字面量(gather/指令URL/user-text/附件/复用);id/title/tier 推导留调用点;fetchedAt 进函数,`now?` 注入点缺省取当前时(R1.5)。
+
+### Acceptance criteria
+
+- [ ] 5 处构造全部改走 snapshotFrom,tier 缺省语义(tier 为 undefined 的两处)逐位保留
+- [ ] snapshotFrom 单测(含 now 注入)
+- [ ] 金样本 diff 为空;`npm test` + `npm run typecheck` 全绿
+
+### Blocked by
+
+3
+
+---
+
+## 7. 抽取 #6 预算判定 → budgetTracker.ts
+
+### What to build
+
+`BudgetTracker` 无所有权判定器(R1.6):`overBudget()/canSearch()/fetchQuota(remaining)/fetchRoom(perQuestion,fetchedForQ)/shouldCapOnTake(takeLen)` 逐位复刻现判定点;usage 读访问器 + `now` 注入;计数器写与 `state.capped=true` 写留编排器原位;`{...state}` checkpoint 形状零 diff。
+
+### Acceptance criteria
+
+- [ ] budgetTracker 单测:假钟 + 伪造 usage 序列,五方法边界值(恰满/差一/超一;fetchQuota 的 Math.max(1,…) 下钳;shouldCapOnTake 的 >=)
+- [ ] T2 键集合断言仍绿(capped 未挪位)
+- [ ] 金样本 diff 为空;`npm test` + `npm run typecheck` 全绿
+
+### Blocked by
+
+3
+
+---
+
+## 8. 抽取 #2 采证装配 → attachExtraction.ts(两函数)
+
+### What to build
+
+按 R1.4(kill criterion 已触发,7 分歧维度):`attachGatherExtraction`(findIndex 替换语义)+ `attachExtraction(state, snapshot, extracted, scope)`,scope 判别联合 `{kind:"question",qid,infix:""|"ins"} | {kind:"attachments"} | {kind:"reuse",bindingId,versionId,revisions,scopeNote}`。cost 累加、搜索前清旧、saveSnapshot/ingest 均留调用点;id 前缀逐位保留。
+
+### Acceptance criteria
+
+- [ ] 四条路径(gather/指令/附件/复用)全部改走两函数;gather snapshot 替换语义与 reuse scopeNote/revision/去重逐位保留
+- [ ] 两函数单测:id 形状、替换/push/去重、claimQuestions 值、scopeNote/revision
+- [ ] 金样本 diff 为空;`npm test` + `npm run typecheck` 全绿
+
+### Blocked by
+
+3
+
+---
+
+## 9. 抽取 #4 阶段样板 → runStageSafe.ts(仅 analyze+draft 子集)
+
+### What to build
+
+按 R1.7(kill criterion 已触发,差异 ≥7 维):helper 仅覆盖 analyze+draft 真同构子集,配置项 `{stage, callKey, parseSpec:{schema,coerce?,fallback,limitation}, apply}`;plan/polish/rephrase 保持内联;五段对照表落 runStageSafe.ts 头注释作评审 checklist。
+
+### Acceptance criteria
+
+- [ ] analyze/draft 两段改走 runStageSafe;plan/polish/rephrase 逐位内联保留(尤其 polish 的 persistRun("draft"))
+- [ ] runStageSafe 单测(含 safeParse 失败降级路径)
+- [ ] saveRun stage 序列金样断言仍绿(persistRun 时机零漂移)
+- [ ] 金样本 diff 为空;`npm test` + `npm run typecheck` 全绿
+
+### Blocked by
+
+3

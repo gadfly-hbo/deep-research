@@ -1,107 +1,87 @@
-# PRD: 报告丰满度三重改进(draft 硬要求 + writer 素材 + 润色 pass)
+# PRD:P0-1 分解 runResearch —— 内部接缝抽取(行为不变)
 
-> 提案源:`.flow/proposal.md`(2026-10-04);红队:`.flow/red-team.md`(verdict: go)。
+> 提案源:`.flow/proposal.md`(2026-10-14);红队:`.flow/red-team.md`(verdict: go,附动工前置条件)。
 > 无 issue tracker(docs/agents/issue-tracker.md 不存在),落盘本文件。
 
 ## Problem Statement
 
-用户视角:工作台产出的研究报告在丰满度上明显不如 flow-center 商圈研究工作流、Kimi 与 Gemini 的深研报告——章节单薄、缺少数据矩阵表格、没有执行摘要与建议章,个别 run 甚至只剩"证据清单摘要"(draft 失败兜底)。报告的"敢用"已经做到,但"能直接读"还差一档。
+维护者视角:`runResearch` 是一个约 1090 行的单函数体(文件 1222 行,图谱圈复杂度 320),采证、干预指令、预算判定、阶段样板、发布门禁全部挤在共享可变闭包(`state`/`run`/`currentQuestion`/`directionNotes` 等)里。后果:改任何一处都要在全函数上下文里推理;发布门禁这类纯计算无法脱离整条流水线单独测试;新人定位逻辑靠全文搜索。
 
 ## Solution
 
-在不放松可信度约束(只写有证据的内容、推断须标注、宁可披露不可编造)的前提下,从三层补齐:
-
-1. **写作要求层**:draft 阶段 prompt 从一句话升级为带硬指标的写作规约(每节深度下限、表格化数据矩阵、执行摘要、结尾建议章、反编造条款、输出前自检),对齐 flow-center 商圈 write 节点已验证的做法。
-2. **写作素材层**:draft/rephrase 的 writer 输入从"蒸馏摘要(findings+短引句)"升级为"摘要 + 按问题组织的证据素材包"——每个主张从其来源快照正文中提取引句上下文窗口,让写手看到原始素材的关键语境。
-3. **成文环节层**:draft 之后、review 之前新增一次 polish(润色/扩写)LLM 调用:只丰富表达与结构,严禁新增无证据的事实与数字;review 的 rephrase 修复路径与 draft 吃同一素材包。
+保留唯一执行入口 `runResearch(request, adapters, store, options)` 这个深外接缝不动,在实现内部建接缝:把发布门禁抽成纯函数、把重复 4-5 次的采证装配/快照构造/阶段样板收敛成内部 helper、把预算判定集中到 BudgetTracker、给 limitations 去重一个显式 helper。**先补验证网再动工**(红队前置条件):当前 `npm test` 没有任何测试用 recording/replay 适配器跑 `runResearch`,fake 适配器不读 callKey——重构前先用金样本测试把"行为不变"变成可证伪的断言。
 
 ## User Stories
 
-1. As a 研究用户, I want 每份报告开头有执行摘要(3-5 条决策者视角结论), so that 我不用通读全文就能拿到要点。
-2. As a 研究用户, I want 数值密集的章节以表格矩阵呈现而非段落罗列, so that 口径对比一目了然。
-3. As a 研究用户, I want 报告末尾有基于证据的启示与建议章, so that 研究结论能落到行动。
-4. As a 研究用户, I want 每个章节有实质深度(而非三两句话), so that 报告读起来像研究报告而不是摘要合集。
-5. As a 研究用户, I want 写手的论述能回溯到原始来源的语境, so that 转述不失真、细节更足。
-6. As a 研究用户, I want 报告经一轮润色后文字连贯、结构完整, so that 接近 Kimi/Gemini 深研报告的阅读体验。
-7. As a 研究用户, I want 以上全部提升不以编造为代价(每条论断可回溯证据), so that 我仍然敢把报告用于决策。
-8. As a 研究用户, I want 证据不足的章节如实说明而非硬凑篇幅, so that 丰满度要求不会诱导注水。
-9. As a 运维者(用户自己), I want 素材注入与润色 pass 的成本增量受预算封顶保护, so that 单 run 成本不失控。
-10. As a 维护者, I want 素材包构建是纯函数、可单测, so that 切块/截断/预算逻辑可回归。
-11. As a 维护者, I want 润色 pass 可由 run 选项关闭, so that 成本敏感场景可降级。
-12. As a 维护者, I want 录制/回放适配器能覆盖新阶段, so that 无 LLM 的测试链路不失效。
-13. As a 维护者, I want draft 失败的兜底路径仍然可用(证据清单摘要), so that 新 prompt 更复杂后单点故障不致空手。
+1. 作为维护者,我想单独单测发布门禁的判定输出(降级、置信度、limitations 有序数组),不必驱动整条流水线,以便快速迭代质量规则。
+2. 作为维护者,我想修改降级/多源/信源分级规则时只动一个文件,而不是在编排器里找 156 行内联逻辑。
+3. 作为维护者,我想新增一种采证来源时只调用一个采证装配函数,而不是复制第四份 claim+evidence 组装块。
+4. 作为维护者,我想用金样本测试证明重构前后适配器调用序列(callKey)、run 落盘序列(persistRun 时机)、bundle 内容逐位一致。
+5. 作为维护者,我想旧版本落盘的 checkpoint(v1 形状)恢复行为被测试锁住,RunState 字段调整不会静默反转 `limited`→`published`。
+6. 作为维护者,我想预算判定(搜索/抓取/成本/墙钟/逐问题配额)集中一处,调阈值只改一个模块。
+7. 作为维护者,我想 limitations 的"去重 push"与"有意重复 push"语义显式区分,不被全局 helper 误统一。
+8. 作为评审者,我想六项抽取按序分任务推进、每步有独立验证证据,失败可归因到单项。
 
 ## Implementation Decisions
 
-### D1. draft prompt 重写(live.ts `STAGE_PROMPTS.draft`)
-
-新 prompt 要点(全部保留并强化原有克制条款):
-
-- 报告结构强制:`# 标题` → `## 执行摘要`(3-5 条要点)→ 逐节正文 → `## 启示与建议`(基于证据,推断须标注) → `## 口径与局限披露`(已有 limitations 机制对接)。
-- 每节深度:每节 ≥300 中文字且至少包含一个数据矩阵表格(当该节有关联数值主张时;无数值主张的节以结构化要点替代并说明原因)。
-- 数值必须带来源标记(沿用现有标注体系),推断须标注;**证据不足的节如实说明"现有证据不足以展开",禁止为凑篇幅编造**——反编造条款与深度要求同列,优先级最高。
-- 输出前自检清单(口径声明/摘要/每节表格或说明/建议章/披露章齐全)。
-- 输出契约不变:仍是 JSON `{"reportMd": string}`(解析与回放链路不动)。
-
-### D2. 证据素材包(新增纯函数 `buildQuestionEvidencePacks`)
-
-- 位置:core 层(编排器侧,非适配器),输入 `(questions, claims, snapshots, budget)`,输出按问题分组的素材包数组。
-- 构造规则:claim.id 内嵌来源快照 URL(`cl:{qid}:snap:{url}:{n}` 形态),据此定位快照;在 `bodyText` 中找 claim.quote,截取**引句上下文窗口**(前后各 N 字,默认 ±400,可调);同一快照去重合并(重叠窗口取并集);按问题聚合。
-- 预算控制:单快照截断上限(默认 4000 字)、单问题上限(默认 8000 字)、总量上限(默认 40000 字);超限时按主张引用次数优先保留。实测快照正文总量 33k–157k 字/run,全量注入不可行,选择性注入是硬约束。
-- 无 quote 命中(quote-mismatch 类主张)退化为该快照开头截断段,仍标注"未逐字命中"。
-- 产出物形态:每问题 `{questionId, question, notes: [{snapshotUrl, title, excerpt}]}`,随 draft/rephrase/polish 的 runStage 输入传入(新字段名 `evidencePacks`)。录制/回放适配器对该字段透明序列化,无需改动其语义。
-
-### D3. polish 润色 pass(新增 StageName `"polish"`)
-
-- `StageNameSchema` 增 `"polish"`,对应 `PolishOutputSchema = { reportMd }`;`STAGE_PROMPTS.polish` 明确:只允许重组、扩写表达、补全结构(摘要/表格/建议章),**严禁新增无输入证据支撑的事实与数字**;每个保留论断的标注体系不变。
-- 编排位置(与 GRILL 已决 #1 同步):流程为 draft → polish → review;polish 只在 draft 完成且未 capped 时执行一次,checkpoint key `${keyBase}:polish:0`,输出作为 review 的草稿输入;review 回环中的 rephrase 修复吃素材包但不二次润色。
-- 检查点语义:polish 是独立 checkpoint,取消/恢复与既有阶段同规则;`safeParse` 兜底=沿用 draft 原文(而非证据摘要)。
-- 成本控制:polish 的 usage 计入 `run.usage.costEstimate`,受既有预算熔断约束;run 选项 `polish: false` 可关(默认开)。
-- 增量追问(incremental)与 rephrase 路径同样注入素材包,保证修复后质量不回退。
-
-### D4. 兜底与兼容
-
-- draft 解析失败的既有兜底(证据清单摘要)保留;polish 解析失败降级为 draft 原文并在 limitations 记录"润色未完成"。
-- `ResearchRequest`/contracts 增可选字段 `polish?: boolean`(默认 true),旧数据无该字段按 true 处理。
-- 现有 replay 录制文件不含 evidencePacks 时按空数组处理(向后兼容)。
-
-### D5. 横切不变式
-
-- 发布门禁(引用核查/语义蕴涵/数值复算/多源交叉/信源分级)顺序与强度不变;polish 产出与其他草稿走同一门禁。
-- 编排器唯一入口、六阶段状态机命名(plan/gather/analyze/draft/review/publish)不变;polish 是 draft 的子环节,不新增 run.stage。
-- 模型链路、搜索链路、模块 registry、formal"只重组不新增事实"原则均不变。
+- **0. 验证基线先行(红队前置条件,先于一切重构)**:
+  - 金样本测试:recordingAdapters 包 fake 模型/搜索/抓取跑完整 runResearch 全流程,断言适配器调用 kind+callKey 的有序序列(金样本 JSON 入库提交);同时断言 saveRun 调用的 stage 序列(persistRun 时机,锁住 UI 进度粒度)。
+  - v1 checkpoint 恢复夹具:固化一份当前形状的 checkpoints.json(模拟旧版落盘),断言恢复后 run 语义等价(尤其 `capped`→`limited` 不反转)。
+- **1. 发布门禁 → `src/quality/publishGate.ts` 纯函数**(与既有检查器同层同风格):输入为 state 的只读快照 + moduleConfig;输出变更后的 claims(含 kind/confidence 突变)、verdicts、新增 limitations(有序)、unresolved、reasons 与报告段落素材。编排器负责把输出写回 state,突变顺序保持现状:mergeCrossSourceClaims → 降级 → 置信度 → unresolved。**边界:`stopAfter:"gather"` 早退路径的报告组装(现 `:816-829`)不在本次范围,逐位保留。**
+- **2. 采证装配 → `attachExtraction`**:统一 gather/指令补充/附件/复用绑定四条路径。必须保留的真实语义分歧:gather 的 snapshot 是 findIndex 替换更新(重采刷新 title/fetchedAt),其余 push-only;reuse 的 claim scopeNote、evidence revision/versionId 直连绑定、claim 级去重;gather 在搜索前清该问题旧主张证据。id 前缀方案(`:ci`/`:ins${ci}`/`attachments:`/`reuse:`)逐位保留(进 bundle 与披露文案)。**kill criterion(红队):统一函数若需 >3 个策略开关,拆为两个(gather 用 / 其余共用),不追求单一收敛。**
+- **3. 快照构造 → `snapshotFrom`**:共 5 处(红队更正:含 `:605` user-text 路径,proposal 漏计)。保留各处 tier/title 回退语义(网页标题优先于搜索 title;附件视为 A 级一手来源;复用按 docType 分 B/C;user-text 无 tier)。
+- **4. 阶段样板 → `runStageSafe`(附 kill criterion)**:动工前先列五段对照表(persistRun 时机/plan 段无 persistRun、polish 刻意 persistRun("draft")/saveCp 的 stage+data 形状/fallback/coercion/限制文案)。helper 须逐位复现;**若需 >4 个配置项,降级为只抽真同构子集或放弃本项**(红队 kill criterion;这是"行为不变"硬约束的直接推论)。
+- **5. `addLimitation()` 只用于带去重守卫的站点**:约 4 处无条件 push(复用资产逐条披露、disclose 指令原文)是有意重复,**保持不变**。
+- **6. 预算判定 → `BudgetTracker`**:集中 searches/fetches/cost/wall 判定与逐问题配额计算;**`capped` 字段留在 RunState,`{...state}` checkpoint 序列化形状零 diff**(对 v1 夹具);helper 只包判定,不挪字段。
+- **抽取顺序(红队建议,失败可归因):#5 → #1 → #3 → #6 → #2 → #4**,每项独立验证后推进。
+- **不导出新增公共 API**:内部接缝留在 `src/core/`(helper 可同文件置顶或新文件),`publishGate` 例外(落 `src/quality/`,与被它聚合的五个检查器同层)。
+- **不宣称行数目标**:"收敛到 400-500 行"仅作参考,不是验收标准;验收=金样本 diff 为空 + 新纯函数单测就位 + 既有测试全绿。
 
 ## Testing Decisions
 
-- **好测试的标准**:只测外部行为(给定快照+主张+预算 → 素材包的选取/截断/封顶;给定 LLM 文本 → 解析产物;回放链路 → 阶段输入包含素材包),不测内部实现细节。
-- **测试模块**:
-  - `buildQuestionEvidencePacks` 纯函数:新建 `src/core/evidencePacks.test.ts`(先例:`src/contracts.test.ts`、`src/modules/modules.test.ts` 的纯单测风格);覆盖:窗口截取、快照去重合并、三级预算封顶、quote 未命中退化、claim→快照 URL 解析。
-  - draft/polish prompt 与解析:`src/adapters/liveDraft.test.ts` 已测 draftFromText/parseJsonLoose 路径,扩展 polish 解析用例;prompt 文本变更以快照断言防回归(若项目现有风格无 prompt 快照断言,则以行为断言替代:解析、字段存在性)。
-  - 编排器级:replay 适配器驱动 `runResearch` 的集成测试(先例:`src/adapters/replay.test.ts`),断言 polish 阶段被调用、evidencePacks 出现在 draft 输入、polish:false 时跳过。
-- **接缝**:最高缝=core 纯函数单测(素材包)+ replay 集成(编排);不新造 LLM 打桩以外的接缝。
+- 好测试=只断言外部可观察行为:适配器调用序列、saveRun/saveCheckpoint 序列与数据形状、bundle 关键字段、纯函数的完整输出(含 limitations **有序**数组,禁用 `includes` 弱断言)。
+- 被测模块:新增 `src/quality/publishGate.ts` 及抽出的内部 helper(各配纯函数单测);`runResearch` 整体经金样本测试回归;既有 `runResearch.test.ts`/`pipeline.test.ts` 等全部原样通过。
+- Prior art:`src/quality/citationVerifier.test.ts`(纯函数快照断言)、`src/core/pipeline.test.ts:150-185`(恢复测试)、`src/adapters/replay.test.ts`(夹具回放)。
 
 ## Out of Scope
 
-- 不换写作模型、不接新供应商(模型链路是项目硬约束)。
-- 不引入 flow-center 式声明式 DAG 工作流(架构路线不变)。
-- 不改 outline 阶段的问题/要点规划逻辑(每节 2-4 bullets 的写作计划本次不动;若试点后仍薄再立单项)。
-- 不做正式报告(pptx/html/pdf)侧的模板增强(草稿丰满后 formal 自然受益,不单独改)。
-- 不定义"丰满度指标"的产品化度量卡(红队 K1/K2 的验证以试点人工比对进行,不进本期代码)。
-- 中文报告以外的多语言输出。
+P0-2(快照存储写放大/轮询负载)、P1-3(server.ts 路由拆分)、P1-4(UI)、`src/contracts.ts`、`src/adapters/types.ts`、模块配置与质量判定规则、任何行为变更(含 limitations 文案、披露顺序、run 状态机时机)。
 
 ## Further Notes
 
-- **红队 K1(硬指标诱发编造)对策已内建于 D1/D3**:反编造条款列最高优先级 + 发布门禁不变 + 试点验收时人工比对 unverified 主张数。若试点发现编造率上升,回滚方向是降低篇幅下限、保留表格与结构要求。
-- **红队 K3 素材成本**:实测快照总量 33k–157k 字/run;D2 三级预算(4k/8k/40k 字)注入增量约 ≤4 万字/run,成本增幅默认目标 ≤50%,PRD diff 门请用户确认该阈值与预算默认值。
-- **红队 K4 润色收益**:polish 默认开但可关(D3),试点后若收益 <10% 可在后续版本降级为默认关。
-- 试点验收(流程外、交付后由用户执行):同一研究目标跑改动前后两 run,对比节均字数、表格数、unverified 主张数;预期节均字数提升 ≥30% 且无编造回潮。
+- 红线:callKey 是 recording/replay 的唯一查找键(`src/adapters/recording.ts:8`);checkpoint 是 `research-data/` 下的存量真实数据,按字段名恢复。
+- `polish` 阶段刻意 `persistRun("draft")`(润色是草稿子环节,run.stage 从不为 polish),任何样板收敛不得"修正"这一点。
+
+## PRD diff gate(vs proposal.md,auto 模式记录)
+
+以下为本 PRD 相对 proposal.md 的全部增改点(无删除用户决策项;均系红队证据驱动的护栏与勘误,且服从 proposal 硬约束 2「行为不变」):
+
+1. **[新增]** 验证基线三测试(金样本 callKey/saveRun 序列、v1 checkpoint 恢复夹具)——红队前置条件,把 proposal 硬约束 2 从声明变成可证伪断言。
+2. **[新增]** 六项抽取顺序 #5→#1→#3→#6→#2→#4 与逐项独立验证——红队建议,降低归因难度。
+3. **[勘误]** 快照构造为 5 处(proposal 写 4 处,漏 `:605` user-text);`addLimitation` 不适用 4 处有意无条件 push(proposal "约 10 处"为不完全统计)——红队代码核实。
+4. **[护栏]** #4 runStageSafe 附 kill criterion(>4 配置项则降级/放弃)、#2 attachExtraction 附 kill criterion(>3 策略开关则拆两个)——红队设定,是 proposal 硬约束 2 的执行机制,不改变六项承诺范围:能逐位复现则全做。
+5. **[澄清]** "收敛到 400-500 行"降为参考指标,移出验收标准——红队指出其无验证口径。
 
 ---
 
-## GRILL 已决问题(2026-04 自问自答,记录留痕)
+## GRILL 决议
 
-1. **polish 与 review 回环顺序**:draft → polish → review(回环内 rephrase 不再二次润色)。理由:rephrase 是局部修复,二次润色使回环成本翻倍;修复输入已含素材包,质量不回退。
-2. **rephrase 修复路径的 stage 名**:继续用 `draft`(丰满版 prompt 即修复规格),输入加 evidencePacks,checkpoint key 沿用 `draft:fix{n}` 先例;不新增 redraft 阶段。
-3. **evidencePacks 不喂 analyze/review**:analyze 只产出每问题一句 summary,review 检查论断一致性,给长素材成本大于收益;二者输入维持现状。
-4. **素材包构建时机**:纯函数零缓存——每次 draft/rephrase/polish 调用前从当前 state 重建(regather 后快照集已变,缓存有失效风险;重建成本可忽略)。
-5. **40k 字素材的上下文风险**:输入约 4–6 万 token,若试点出现超时/截断,IMPLEMENT 期降总量上限(先 40k→24k),不阻塞本期。
+### 第 1 轮(盲审,explore 子代理;9 packages,全部按推荐采纳)
+
+- **R1.1 金样本形状**:三份金样本落 `testdata/golden/`——G1 干净全流程(固定 request.id/runId)、G2 修复回环(gap 补采 `gather:r1` + review regather `gather:r10` + rephrase `draft:fix0`)、G3 干预最小集(add-source 文本 + add-questions)。双层断言:(a) recordingAdapters 包 fake 录制 `[{kind,key}]` 有序序列与金样本 `toEqual` 全等;(b) replayAdapters 回放同一金样本,断言 run.status、bundle claims id 序、verdicts、limitations **有序数组**、reportMd 与录制轮一致,比较前归一化 fetchedAt/wallMs/completedAt。saveRun 序列断言 `{stage,status}` 有序 + 末次 progress 计数四元组;干净全流程期望 stage 序列:gather → gather×每问 → analyze → draft → draft(polish 段刻意) → review → publish。附件与 library 复用不进金样本(既有 attachments/reuseIntegration 测试已覆盖)。fake 保真度:parser 返回可命中/不命中引句的 bodyText,extractClaims 返回带 calibration 的 claims,驱动 verifyCitations 两态与跨源合并。
+- **R1.2 v1 checkpoint 夹具**:不拷真实存量数据(228K 真实网页正文,臃肿且有第三方内容);用当前代码合成 capped 场景(budget.maxFetches=1 跑完 gather 后取消),手工冻结 plan+gather 两条 checkpoint 为 `testdata/v1-checkpoints.json`,配套 cancelled run 对象内嵌测试。断言三点:(a) 恢复后 `run.status==="limited"`(capped 不反转);(b) 恢复轮 0 次 search 调用;(c) gather checkpoint data 键集合与当前 RunState 11 键白名单逐一相等(`Object.keys().sort()` 对手写常量 `toEqual`)——把字段静默 drift 变成红灯。
+- **R1.3 publishGate 签名**:落 `src/quality/publishGate.ts`。输入 `{claims, evidence, snapshots, questions, claimQuestions, draftMd, capped, counterexampleChecked, limitations, goal, moduleConfig, incremental?{baseRunId,reusedSnapshots,reusedEvidence,reusedClaims}}`;输出 `{claims, verdicts, limitationsToAppend(有序), unresolved, reasons, reportMd, status}`。moduleCheck 进门内(reasons 单产地);reportMd 门内拼完整成品,`incrementalNote`/`claimMark` 闭包纯化为 incremental 计数与 claimQuestions 查表;不深拷贝(注释声明调用方不得复用输入 claims;单测内 structuredClone 夹具);`stopAfter:"gather"` 早退路径不碰。编排器写回=5 行机械赋值,bundle 组装留编排器(依赖 request.outline 与 incrementalBundleFields)。
+- **R1.4 attachExtraction → 触发 kill criterion,拆两个**:核实分歧维度 7 个(snapshot 替换 vs push×3 形态、claim id 方案、claim 替换/push/去重、scopeNote、versionId/revision 来源、claimQuestions 值、ingest 与否),远超 >3 阈值。拆为 `attachGatherExtraction`(gather 专用:findIndex 替换语义)+ `attachExtraction(state, snapshot, extracted, scope)`,scope 为判别联合 `{kind:"question",qid,infix:""|"ins"} | {kind:"attachments"} | {kind:"reuse",bindingId,versionId,revisions,scopeNote}`(1 个开关)。cost 累加留调用点(不耦合计费与装配);gather 搜索前清旧 claims(:334-339)留循环原位(语义是补采重置);saveSnapshot/ingest 不进函数(复用路径不 ingest 是真实分歧)。
+- **R1.5 snapshotFrom**:只做字面量集中——`snapshotFrom({id,url,title,bodyText,parseStatus,contentType,tier?,now?})`;id/title/tier 推导留调用点(tierOfSource 依赖 moduleConfig、docType 判定依赖 source,非"构造"本身);`fetchedAt` 五处同一表达式进函数,`now?: string` 注入点供单测确定化(缺省取当前时,行为不变)。
+- **R1.6 BudgetTracker**:无所有权判定器——不持计数器、不持 capped;`usage` 以读访问器注入(`() => run.usage`),`now: () => number = Date.now` 可注入假钟;方法 `overBudget()/canSearch()/fetchQuota(remaining)/fetchRoom(perQuestion,fetchedForQ)/shouldCapOnTake(takeLen)` 逐位复刻现判定点;`state.capped=true` 写留编排器原点位。单测伪造 usage 序列+假钟打边界值(恰满/差一/超一,尤其 fetchQuota 的 Math.max(1,…) 下钳与 shouldCapOnTake 的 >=)。
+- **R1.7 runStageSafe → 触发 kill criterion,只抽 analyze+draft 子集**:五段对照表(行号全核实)显示差异 ≥7 维(plan 无 persistRun;polish 刻意 persistRun("draft")+四重门控;rephrase 无 cancelled/persistRun/overBudget/saveCp 任何一件),超 >4 阈值。helper 4 个配置项 `{stage, callKey, parseSpec:{schema,coerce?,fallback,limitation}, apply}`;plan/polish/rephrase 保持内联(其"异常"是行为语义载体)。五段对照表落 runStageSafe.ts 头注释作评审 checklist。
+- **R1.8 文件布局(全部新文件,同目录配测试)**:`src/core/runState.ts`(RunState+emptyState+safeParse,三者被编排器与各 helper 共享)、`src/core/limitations.ts`、`src/quality/publishGate.ts`、`src/core/snapshotFrom.ts`、`src/core/budgetTracker.ts`、`src/core/attachExtraction.ts`、`src/core/runStageSafe.ts`,各配 `*.test.ts`。runResearch.ts 改为 import,**导出集合保持五个不变,新文件可 export 但不得从 runResearch.ts re-export**("同文件置顶"选项与硬约束 1/4 冲突,删除)。
+- **R1.9 gather 内部不再分解 + 验收口径钉死**:gather 循环骨架(取消/指令消费/状态机/finally 清场)是编排语义本体,#2/#6 已吃掉其中可抽部分,不再进一步分解(proposal 待决问题 3 结案)。验收四条:(a) `npm test` 全绿(含金样本 diff 空、record/replay 一致、v1 恢复、新纯函数单测);(b) `npm run typecheck` 全绿(含 ui tsconfig,防新文件类型错误漏网);(c) 无 lint 门槛(工具链不存在,不新增);(d) 逐项独立验证=每项抽取后重跑 (a)+(b)。基线:283 用例全绿(2026-10-14 子代理实测)。
+
+### 第 2 轮(主会话自审;3 packages,全部按推荐采纳)
+
+- **R2.1 取消/早退传播纪律**:闭包内 `if (cancelled()) return cancelRun()` 共 8 处;抽出的 helper 一律**不感知取消**——helper 返回结果,`cancelled()` 检查与 `cancelRun()` 早退只留在 runResearch 编排器原点位(gather 循环体保持内联,天然满足)。单测不构造取消场景给纯函数。
+- **R2.2 提交节奏**:每个任务(Tn)完成即本地 commit(不 push),归因到单项(红队缓解);SHIP 阶段一次性 push(review_base 为流程前 HEAD,diff 口径不受影响)。
+- **R2.3 任务完成证据口径**:勾选任务必须附证据行——该任务 `npm test`/`npm run typecheck` 的输出摘要(用例数/exit code);金样本类任务附金样本文件路径。
+
+第 2 轮后无新增开放问题,GRILL 收敛(2/2 轮)。
