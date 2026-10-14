@@ -36,6 +36,7 @@ import {
   type PlanOutput,
   type PlanQuestion,
 } from "./stages.js";
+import { emptyState, safeParse, type RunState } from "./runState.js";
 import { buildQuestionEvidencePacks } from "./evidencePacks.js";
 
 export const DEFAULT_BUDGET: Budget = {
@@ -82,50 +83,6 @@ const QUESTION_STATUS_LABEL: Record<PlanQuestion["status"], string> = {
   unanswered: "未回答",
   skipped: "已跳过",
 };
-
-interface RunState {
-  questions: PlanQuestion[];
-  snapshots: SourceSnapshot[];
-  evidence: Evidence[];
-  claims: Claim[];
-  claimQuestions: Record<string, string>;
-  findings: AnalyzeOutput["findings"];
-  draftMd: string | null;
-  limitations: string[];
-  unresolved: string[];
-  counterexampleChecked: boolean;
-  capped: boolean;
-}
-
-/** 阶段输出护栏:模型输出不合格时降级为缺省值并披露限制,而不是击杀整条 run(失败不冒充完成)。 */
-function safeParse<T>(
-  schema: { parse: (v: unknown) => T },
-  output: unknown,
-  fallback: () => T,
-  limitation: string,
-  state: RunState,
-): T {
-  try {
-    return schema.parse(output);
-  } catch {
-    if (!state.limitations.includes(limitation)) state.limitations.push(limitation);
-    return fallback();
-  }
-}
-
-const emptyState = (): RunState => ({
-  questions: [],
-  snapshots: [],
-  evidence: [],
-  claims: [],
-  claimQuestions: {},
-  findings: [],
-  draftMd: null,
-  limitations: [],
-  unresolved: [],
-  counterexampleChecked: false,
-  capped: false,
-});
 
 export async function runResearch(
   request: ResearchRequest,
