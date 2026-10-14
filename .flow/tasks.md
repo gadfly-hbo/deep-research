@@ -13,7 +13,7 @@
 - [x] 5. 抽取 #1 发布门禁 → quality/publishGate.ts — 证据:typecheck 绿;npm test 300/300 绿(+10 publishGate 单测,limitationsToAppend 有序 toEqual);金样本 diff 空;编排器写回=机械赋值;早退路径零 diff;runResearch.ts 1222→1035 行
 - [x] 6. 抽取 #3 快照构造 → snapshotFrom.ts — 证据:typecheck 绿;npm test 302/302 绿(+2 snapshotFrom 单测,含 now 注入);5 处构造全部改走 snapshotFrom(tier 缺省两处逐位保留);金样本 diff 空
 - [x] 7. 抽取 #6 预算判定 → budgetTracker.ts — 证据:typecheck 绿;npm test 307/307 绿(+5 边界值单测:恰满/差一/超一、Math.max(1,…) 下钳、>= 语义);6 处判定点全部改走 tracker,capped 置位与计数器写留编排器原位;金样本 diff 空
-- [ ] 8. 抽取 #2 采证装配 → attachExtraction.ts(两函数)
+- [x] 8. 抽取 #2 采证装配 → attachExtraction.ts(两函数)— 证据:typecheck 绿;npm test 311/311 绿(+4 单测:id 形状/替换/去重/scopeNote/revision);四条路径全部改走两函数,cost 累加与快照 push 语义留调用点;金样本 diff 空;runResearch.ts 1035→959 行
 - [ ] 9. 抽取 #4 阶段样板 → runStageSafe.ts(仅 analyze+draft 子集)
 
 ---
@@ -156,9 +156,9 @@ None - can start immediately
 
 ### Acceptance criteria
 
-- [ ] 四条路径(gather/指令/附件/复用)全部改走两函数;gather snapshot 替换语义与 reuse scopeNote/revision/去重逐位保留
-- [ ] 两函数单测:id 形状、替换/push/去重、claimQuestions 值、scopeNote/revision
-- [ ] 金样本 diff 为空;`npm test` + `npm run typecheck` 全绿
+- [x] 四条路径(gather/指令/附件/复用)全部改走两函数;gather snapshot 替换语义与 reuse scopeNote/revision/去重逐位保留
+- [x] 两函数单测:id 形状、替换/push/去重、claimQuestions 值、scopeNote/revision
+- [x] 金样本 diff 为空;`npm test` + `npm run typecheck` 全绿
 
 ### Blocked by
 

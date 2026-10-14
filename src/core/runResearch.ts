@@ -37,6 +37,7 @@ import { emptyState, safeParse, type RunState } from "./runState.js";
 import { addLimitation } from "./limitations.js";
 import { snapshotFrom } from "./snapshotFrom.js";
 import { BudgetTracker } from "./budgetTracker.js";
+import { attachExtraction, attachGatherExtraction } from "./attachExtraction.js";
 import { buildQuestionEvidencePacks } from "./evidencePacks.js";
 
 export const DEFAULT_BUDGET: Budget = {
@@ -341,34 +342,8 @@ export async function runResearch(
         for (const { snapshot, extracted } of produced) {
           fetchedAny = true;
           run.usage.costEstimate += extracted.cost;
-          const sIdx = state.snapshots.findIndex((s) => s.id === snapshot.id);
-          if (sIdx >= 0) state.snapshots[sIdx] = snapshot;
-          else state.snapshots.push(snapshot);
-          extracted.claims.forEach((c, ci) => {
-            const claimId = `cl:${q.id}:${snapshot.id}:${ci}`;
-            const evidenceId = `ev:${q.id}:${snapshot.id}:${ci}`;
-            const claim: Claim = {
-              id: claimId,
-              statement: c.statement,
-              kind: c.kind,
-              evidenceIds: [evidenceId],
-              calibration: c.calibration,
-            };
-            const cIdx = state.claims.findIndex((x) => x.id === claimId);
-            if (cIdx >= 0) state.claims[cIdx] = claim;
-            else state.claims.push(claim);
-            state.evidence.push({
-              id: evidenceId,
-              snapshotId: snapshot.id,
-              quote: c.quote,
-              // 2.0:证据绑定情报库来源版本,提取核验待评审确认
-              versionId: snapshotVersionMap.get(snapshot.id),
-              revision: 1,
-              extractionCheck: "UNCHECKED",
-            });
-            state.claimQuestions[claimId] = q.id;
-            claimsForQ += 1;
-          });
+          // 2.0:证据绑定情报库来源版本,提取核验待评审确认
+          claimsForQ += attachGatherExtraction(state, snapshot, extracted, q.id, snapshotVersionMap.get(snapshot.id));
         }
       }
       q.status =
@@ -464,29 +439,6 @@ export async function runResearch(
   let activeGatherTargets: PlanQuestion[] | null = null;
   let addQuestionCounter = 0;
 
-  const attachExtracted = (
-    q: PlanQuestion,
-    snapshot: SourceSnapshot,
-    extracted: { claims: Array<{ statement: string; kind: Claim["kind"]; quote: string; calibration?: Claim["calibration"] }>; cost: number },
-  ): void => {
-    run.usage.costEstimate += extracted.cost;
-    if (!state.snapshots.some((s) => s.id === snapshot.id)) state.snapshots.push(snapshot);
-    extracted.claims.forEach((c, ci) => {
-      const claimId = `cl:${q.id}:${snapshot.id}:ins${ci}`;
-      const evidenceId = `ev:${q.id}:${snapshot.id}:ins${ci}`;
-      state.claims.push({ id: claimId, statement: c.statement, kind: c.kind, evidenceIds: [evidenceId], calibration: c.calibration });
-      state.evidence.push({
-        id: evidenceId,
-        snapshotId: snapshot.id,
-        quote: c.quote,
-        versionId: snapshotVersionMap.get(snapshot.id),
-        revision: 1,
-        extractionCheck: "UNCHECKED",
-      });
-      state.claimQuestions[claimId] = q.id;
-    });
-  };
-
   /** 应用一条指令;返回 true 表示当前问题被跳过(调用方应 continue)。 */
   const applyInstruction = async (pending: Intervention): Promise<boolean> => {
     const ins = pending.instruction;
@@ -559,7 +511,14 @@ export async function runResearch(
       await store.saveSnapshot(snapshot);
       await ingestToLibrary(snapshot);
       const extracted = await adapters.model.extractClaims({ snapshot }, `${keyBase}:instruct:model:${pending.id}`);
-      attachExtracted(host, snapshot, extracted);
+      run.usage.costEstimate += extracted.cost;
+      if (!state.snapshots.some((s) => s.id === snapshot.id)) state.snapshots.push(snapshot);
+      attachExtraction(state, snapshot, extracted, {
+        kind: "question",
+        qid: host.id,
+        infix: "ins",
+        versionId: snapshotVersionMap.get(snapshot.id),
+      });
       return finish("applied", `补充信源已入证据链(${snapshot.url}),挂接问题 ${host.id}`);
     } catch (error) {
       const note = `补充信源取得失败(${ins.url ?? "文本"}):${error instanceof Error ? error.message : String(error)}`;
@@ -614,25 +573,9 @@ export async function runResearch(
         `${keyBase}:gather:attach:model:${ai}`,
       );
       run.usage.costEstimate += extracted.cost;
-      extracted.claims.forEach((c, ci) => {
-        const claimId = `cl:attachments:${snapshot.id}:${ci}`;
-        const evidenceId = `ev:attachments:${snapshot.id}:${ci}`;
-        state.claims.push({
-          id: claimId,
-          statement: c.statement,
-          kind: c.kind,
-          evidenceIds: [evidenceId],
-          calibration: c.calibration,
-        });
-        state.evidence.push({
-          id: evidenceId,
-          snapshotId: snapshot.id,
-          quote: c.quote,
-          versionId: snapshotVersionMap.get(snapshot.id),
-          revision: 1,
-          extractionCheck: "UNCHECKED",
-        });
-        state.claimQuestions[claimId] = "attachments";
+      attachExtraction(state, snapshot, extracted, {
+        kind: "attachments",
+        versionId: snapshotVersionMap.get(snapshot.id),
       });
     }
     // --- 2.0 复用输入(§5.2/§10.2):绑定资产的正文作为候选证据进入上下文;线索只记录不注入 ---
@@ -704,29 +647,13 @@ export async function runResearch(
           `${keyBase}:gather:reuse:${binding.bindingId}`,
         );
         run.usage.costEstimate += extracted.cost;
-        extracted.claims.forEach((c, ci) => {
-          const claimId = `cl:reuse:${binding.bindingId}:${ci}`;
-          const evidenceId = `ev:reuse:${binding.bindingId}:${ci}`;
-          if (state.claims.some((x) => x.id === claimId)) return;
-          state.claims.push({
-            id: claimId,
-            statement: c.statement,
-            kind: c.kind,
-            evidenceIds: [evidenceId],
-            calibration: c.calibration,
-            // 复用证据带适用范围说明,防止样本边界被抹平(A-05/A-18)
-            scopeNote: binding.checkNotes.join(";") || undefined,
-          });
-          state.evidence.push({
-            id: evidenceId,
-            snapshotId: snapshot.id,
-            quote: c.quote,
-            versionId: binding.versionId,
-            revision: binding.evidenceRevisions[evidenceId] ?? 1,
-            extractionCheck: "UNCHECKED",
-            scopeNote: binding.checkNotes.join(";") || undefined,
-          });
-          state.claimQuestions[claimId] = "reuse";
+        attachExtraction(state, snapshot, extracted, {
+          kind: "reuse",
+          bindingId: binding.bindingId,
+          versionId: binding.versionId,
+          revisions: binding.evidenceRevisions,
+          // 复用证据带适用范围说明,防止样本边界被抹平(A-05/A-18)
+          scopeNote: binding.checkNotes.join(";") || undefined,
         });
         await lib.saveUsage({
           usageId: `u-${randomUUID().slice(0, 8)}`,
