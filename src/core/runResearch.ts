@@ -35,6 +35,7 @@ import {
 } from "./stages.js";
 import { emptyState, safeParse, type RunState } from "./runState.js";
 import { addLimitation } from "./limitations.js";
+import { snapshotFrom } from "./snapshotFrom.js";
 import { buildQuestionEvidencePacks } from "./evidencePacks.js";
 
 export const DEFAULT_BUDGET: Budget = {
@@ -316,17 +317,16 @@ export async function runResearch(
             const n = `${q.id}:${i + j}`;
             const page = await adapters.page.fetch(hit.url, `${keyBase}:gather:r${round}:fetch:${n}`);
             const doc = await adapters.parser.parse(page, `${keyBase}:gather:r${round}:parse:${n}`);
-            const snapshot: SourceSnapshot = {
+            const snapshot = snapshotFrom({
               id: `snap:${hit.url}`,
               url: hit.url,
               // 网页自身标题最准(搜索接口的 title 偶发缺省/碎片);两者皆缺时展示层回退 URL
               title: doc.title || hit.title || hit.url,
-              fetchedAt: new Date().toISOString(),
               bodyText: doc.bodyText,
               parseStatus: doc.parseStatus,
               contentType: page.contentType,
               tier: tierOfSource(hit.url, moduleConfig.sourceStrategy.preferredDomains),
-            };
+            });
             await store.saveSnapshot(snapshot);
             await ingestToLibrary(snapshot);
             const extracted = await adapters.model.extractClaims(
@@ -537,26 +537,24 @@ export async function runResearch(
           const page = await adapters.page.fetch(ins.url, `${keyBase}:instruct:fetch:${pending.id}`);
           if (page.status !== 200) throw new Error(`HTTP ${page.status}`);
           const doc = await adapters.parser.parse(page, `${keyBase}:instruct:parse:${pending.id}`);
-          snapshot = {
+          snapshot = snapshotFrom({
             id: `snap:${ins.url}`,
             url: ins.url,
             title: ins.title ?? ins.url,
-            fetchedAt: new Date().toISOString(),
             bodyText: doc.bodyText,
             parseStatus: doc.parseStatus,
             contentType: page.contentType,
-          };
+          });
         }
       } else {
-        snapshot = {
+        snapshot = snapshotFrom({
           id: `snap:user-text:${pending.id}`,
           url: `user-text://${pending.id}`,
           title: ins.title ?? "用户补充材料",
-          fetchedAt: new Date().toISOString(),
           bodyText: ins.text ?? "",
           parseStatus: "ok",
           contentType: "text/plain",
-        };
+        });
       }
       await store.saveSnapshot(snapshot);
       await ingestToLibrary(snapshot);
@@ -598,17 +596,16 @@ export async function runResearch(
         ...(isPdf ? { pdf: new Uint8Array(buf) } : { text: buf.toString("utf8") }),
       };
       const doc = await adapters.parser.parse(page, `${keyBase}:gather:attach:parse:${ai}`);
-      const snapshot: SourceSnapshot = {
+      const snapshot = snapshotFrom({
         id: `snap:attachment:${path}`,
         url: page.url,
         title: path.split("/").pop() ?? path,
-        fetchedAt: new Date().toISOString(),
         bodyText: doc.bodyText,
         parseStatus: doc.parseStatus,
         contentType: page.contentType,
         // 用户提供的本机资料视为一手来源
         tier: "A",
-      };
+      });
       await store.saveSnapshot(snapshot);
       await ingestToLibrary(snapshot);
       state.snapshots.push(snapshot);
@@ -691,16 +688,15 @@ export async function runResearch(
           state.limitations.push(`复用资产正文不可读(${source.title}),已按缺口保留绑定`);
           continue;
         }
-        const snapshot: SourceSnapshot = {
+        const snapshot = snapshotFrom({
           id: `snap:lib:${binding.versionId}`,
           url: source.url ?? `library://${source.sourceId}`,
           title: source.title,
-          fetchedAt: new Date().toISOString(),
           bodyText: content,
           parseStatus: "ok",
           contentType: "text/plain",
           tier: source.docType === "research-report" ? "C" : "B",
-        };
+        });
         if (!state.snapshots.some((s) => s.id === snapshot.id)) state.snapshots.push(snapshot);
         await store.saveSnapshot(snapshot);
         const extracted = await adapters.model.extractClaims(

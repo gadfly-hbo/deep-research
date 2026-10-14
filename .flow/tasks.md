@@ -11,7 +11,7 @@
 - [x] 3. 迁移 runState.ts(RunState / emptyState / safeParse) — 证据:typecheck 双 tsconfig 绿;npm test 288/288 绿(金样本 diff 空);runResearch.ts 导出集合不变(5 个)
 - [x] 4. 抽取 #5 addLimitation → limitations.ts — 证据:typecheck 绿;npm test 290/290 绿(+2 单测;金样本 diff 空);6 处守卫站点替换,:730/:745/:1027 等无条件 push 逐位保留;safeParse 同步统一
 - [x] 5. 抽取 #1 发布门禁 → quality/publishGate.ts — 证据:typecheck 绿;npm test 300/300 绿(+10 publishGate 单测,limitationsToAppend 有序 toEqual);金样本 diff 空;编排器写回=机械赋值;早退路径零 diff;runResearch.ts 1222→1035 行
-- [ ] 6. 抽取 #3 快照构造 → snapshotFrom.ts
+- [x] 6. 抽取 #3 快照构造 → snapshotFrom.ts — 证据:typecheck 绿;npm test 302/302 绿(+2 snapshotFrom 单测,含 now 注入);5 处构造全部改走 snapshotFrom(tier 缺省两处逐位保留);金样本 diff 空
 - [ ] 7. 抽取 #6 预算判定 → budgetTracker.ts
 - [ ] 8. 抽取 #2 采证装配 → attachExtraction.ts(两函数)
 - [ ] 9. 抽取 #4 阶段样板 → runStageSafe.ts(仅 analyze+draft 子集)
@@ -120,9 +120,9 @@ None - can start immediately
 
 ### Acceptance criteria
 
-- [ ] 5 处构造全部改走 snapshotFrom,tier 缺省语义(tier 为 undefined 的两处)逐位保留
-- [ ] snapshotFrom 单测(含 now 注入)
-- [ ] 金样本 diff 为空;`npm test` + `npm run typecheck` 全绿
+- [x] 5 处构造全部改走 snapshotFrom,tier 缺省语义(tier 为 undefined 的两处)逐位保留
+- [x] snapshotFrom 单测(含 now 注入)
+- [x] 金样本 diff 为空;`npm test` + `npm run typecheck` 全绿
 
 ### Blocked by
 
