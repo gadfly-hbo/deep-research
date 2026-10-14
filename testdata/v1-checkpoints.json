@@ -1,0 +1,76 @@
+[
+  {
+    "runId": "run-v1",
+    "stage": "plan",
+    "data": {
+      "questions": [
+        {
+          "id": "q1",
+          "question": "咖啡市场规模与口径",
+          "status": "partially"
+        }
+      ]
+    },
+    "completedAt": "2026-10-14T15:51:09.515Z"
+  },
+  {
+    "runId": "run-v1",
+    "stage": "gather",
+    "data": {
+      "questions": [
+        {
+          "id": "q1",
+          "question": "咖啡市场规模与口径",
+          "status": "partially"
+        }
+      ],
+      "snapshots": [
+        {
+          "id": "snap:https://gov.cn/a",
+          "url": "https://gov.cn/a",
+          "title": "官方统计",
+          "fetchedAt": "2026-10-14T15:51:09.516Z",
+          "bodyText": "中国咖啡市场规模约 1,200 亿元(2025 年)。",
+          "parseStatus": "ok",
+          "contentType": "text/html",
+          "tier": "A"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev:q1:snap:https://gov.cn/a:0",
+          "snapshotId": "snap:https://gov.cn/a",
+          "quote": "中国咖啡市场规模约 1,200 亿元(2025 年)",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        }
+      ],
+      "claims": [
+        {
+          "id": "cl:q1:snap:https://gov.cn/a:0",
+          "statement": "中国咖啡市场规模约 1,200 亿元(2025 年)",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://gov.cn/a:0"
+          ],
+          "calibration": {
+            "entity": "中国咖啡市场",
+            "period": "2025",
+            "unit": "亿元",
+            "value": 1200
+          }
+        }
+      ],
+      "claimQuestions": {
+        "cl:q1:snap:https://gov.cn/a:0": "q1"
+      },
+      "findings": [],
+      "draftMd": null,
+      "limitations": [],
+      "unresolved": [],
+      "counterexampleChecked": false,
+      "capped": true
+    },
+    "completedAt": "2026-10-14T15:51:09.517Z"
+  }
+]
