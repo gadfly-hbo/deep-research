@@ -9,7 +9,6 @@ import { buildExportFilesV2, zipExport } from "../app/exportBundle.js";
 import { createProject, generateFormal, publishBundle, runOnProject } from "../app/projectService.js";
 import {
   ResearchRequestSchema,
-  InterventionSchema,
   RunInstructionSchema,
   type Intervention,
   type ResearchRequest,
@@ -27,6 +26,7 @@ import { FsLibraryStore } from "../library/fsLibraryStore.js";
 import { bindAssets } from "../library/reuse.js";
 import { searchAssets } from "../library/searchService.js";
 import { migrateProjectsToLibrary } from "../app/migrateLibrary.js";
+import { RunRegistry } from "./runRegistry.js";
 
 export interface ServerDeps {
   dataDir: string;
@@ -121,25 +121,17 @@ const stripKeys = (value: unknown): unknown => {
 };
 
 export async function startServer(deps: ServerDeps, port = 0): Promise<RunningServer> {
-  const controllers = new Map<string, AbortController>();
-  // 2.1 执行中干预:per-run 待消费指令队列(内存 + pending-instructions.json 落盘)
-  const instructionQueues = new Map<string, Intervention[]>();
+  // 运行态收敛到纯内存 Registry(P1-3 D3):AbortController 按 requestId、干预指令队列按 run.id;
+  // 2.1 执行中干预的双写编排(内存 + pending-instructions.json 落盘)仍由本层完成
+  const registry = new RunRegistry();
   const configPath = join(deps.dataDir, "config.json");
 
-  const getQueue = (runId: string): Intervention[] => {
-    let q = instructionQueues.get(runId);
-    if (!q) {
-      q = [];
-      instructionQueues.set(runId, q);
-    }
-    return q;
-  };
   const drainFor =
     (runId: string, dir: string): (() => Promise<Intervention[]>) =>
     async () => {
-      const q = instructionQueues.get(runId);
-      if (!q || q.length === 0) return [];
-      const drained = q.splice(0);
+      // R2-2:空队列直接返回 [] 不落盘;非空取空后重写 pending 文件
+      const drained = registry.drain(runId);
+      if (drained.length === 0) return [];
       await FsProjectStore.open(dir).savePendingInstructions(runId, []);
       return drained;
     };
@@ -323,8 +315,7 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
         requestId: string;
         reuse: { bound: number; rejected: Array<{ sourceId: string; reason: string }> };
       }> => {
-        const controller = new AbortController();
-        controllers.set(request.id ?? "", controller);
+        const controller = registry.acquire(request.id ?? "");
         const runId = randomUUID();
         // 2.0 复用选择(§5.2):启动前服务端检查并固定版本绑定;越权项拒绝并回报
         let bindReport: { bound: number; rejected: Array<{ sourceId: string; reason: string }> } = {
@@ -376,7 +367,7 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
             });
           })
           .finally(() => {
-            controllers.delete(request.id ?? "");
+            registry.release(request.id ?? "");
           });
         return { runId, requestId: request.id ?? "", reuse: bindReport };
       };
@@ -431,12 +422,11 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
       }
 
       if (method === "POST" && rest === "/runs/cancel") {
-        const controller = controllers.get(body.requestId);
-        if (!controller) {
+        // 查找键原样透传 body.requestId(含 undefined):无运行中 run 则 404,文案插值逐字保留
+        if (!registry.cancel(body.requestId)) {
           json(res, 404, { error: `没有正在运行的 run: ${body.requestId}` });
           return;
         }
-        controller.abort();
         json(res, 200, { cancelled: true });
         return;
       }
@@ -453,8 +443,7 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
           json(res, 400, { error: "干预指令不合法", issues: parsed.error.issues.map((i) => i.message) });
           return;
         }
-        const queue = getQueue(run.id);
-        if (queue.length >= 20) {
+        if (registry.pendingCount(run.id) >= 20) {
           json(res, 409, { error: "指令队列已满(20),请等待当前问题完成" });
           return;
         }
@@ -463,12 +452,13 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
           submittedAt: new Date().toISOString(),
           instruction: parsed.data,
         };
-        queue.push(record);
-        await store().savePendingInstructions(run.id, queue);
+        // 双写顺序保留(R2-7):先 enqueue(内存 push)后 savePendingInstructions(落盘)
+        const pending = registry.enqueue(run.id, record);
+        await store().savePendingInstructions(run.id, registry.snapshot(run.id));
         json(res, 200, {
           queued: true,
           instructionId: record.id,
-          pending: queue.length,
+          pending,
           note: "已入队,将在当前问题完成后生效",
         });
         return;
@@ -487,13 +477,9 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
           json(res, 409, { error: `没有可恢复的已取消运行: ${body.requestId}` });
           return;
         }
-        const controller = new AbortController();
-        controllers.set(request.id ?? "", controller);
-        // 恢复未消费的干预指令(取消/中断前入队的继续有效)
-        for (const raw of await store().readPendingInstructions(prior.id)) {
-          const check = InterventionSchema.safeParse(raw);
-          if (check.success) getQueue(prior.id).push(check.data);
-        }
+        const controller = registry.acquire(request.id ?? "");
+        // 恢复未消费的干预指令(取消/中断前入队的继续有效;非法项被 safeParse 过滤丢弃)
+        registry.restoreFromDisk(prior.id, await store().readPendingInstructions(prior.id));
         void runOnProject(dir, request, deps.makeAdapters(), {
           plan: body.plan,
           signal: controller.signal,
@@ -513,7 +499,7 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
             }
           })
           .finally(() => {
-            controllers.delete(request.id ?? "");
+            registry.release(request.id ?? "");
           });
         json(res, 200, { resumed: true, requestId: request.id, runId: prior.id });
         return;
