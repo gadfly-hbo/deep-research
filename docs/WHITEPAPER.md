@@ -205,7 +205,7 @@ research-data/
 └── projects/
     └── p-<id>/
         ├── project.json            项目元数据
-        ├── snapshots.json          来源快照字典
+        ├── snapshots/              来源快照(一文件一快照 + index.json 顺序索引;旧 snapshots.json 打开时自动迁移为 .bak)
         ├── audit.jsonl             项目审计流
         ├── requests/req-<id>.json  研究请求
         ├── runs/<run-id>/

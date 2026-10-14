@@ -66,7 +66,7 @@
 | | 网页读取 | ✅ | HTTP 抓取→正文抽取→纯文本快照 |
 | | 文本 / PDF 解析 | ✅ | HTML 正文抽取 + `unpdf` PDF 抽文本(`live.ts:371-390`) |
 | | **受控数值计算** | ❌ | 无计算工具;数值主张只核"口径一致性"(单位归一/同口径数值冲突),不做算术复算 |
-| 本地项目存储 | 资料快照·证据与主张·运行检查点·报告与版本;不依赖外部底座 | ✅ | `research-data/projects/<id>/`:project.json / snapshots.json / audit.jsonl / requests/ / runs/ / reports/vN/,纯文件系统零外部依赖 |
+| 本地项目存储 | 资料快照·证据与主张·运行检查点·报告与版本;不依赖外部底座 | ✅ | `research-data/projects/<id>/`:project.json / snapshots/(一文件一快照 + index.json) / audit.jsonl / requests/ / runs/ / reports/vN/,纯文件系统零外部依赖 |
 | 可追溯研究成果 | Markdown / HTML / 结构化成果包;结论+依据+限制+版本 | ✅ | bundle.json(结构化)+ report.md + report.html(全文转义)+ zip 导出 |
 
 ## 5. 七项横向质量与运行控制对照(方案 §9.2)

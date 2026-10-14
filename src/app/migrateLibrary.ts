@@ -1,7 +1,7 @@
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import type { SourceSnapshot } from "../contracts.js";
 import type { FsLibraryStore } from "../library/fsLibraryStore.js";
+import { readProjectSnapshots } from "../stores/fsStore.js";
 
 export interface ProjectMigrationRow {
   projectId: string;
@@ -53,10 +53,8 @@ export async function migrateProjectsToLibrary(
   for (const projectId of readdirSync(projectsDir).sort()) {
     const dir = join(projectsDir, projectId);
     if (!existsSync(join(dir, "project.json"))) continue;
-    const snapshotsPath = join(dir, "snapshots.json");
-    const snapshots: Record<string, SourceSnapshot> = existsSync(snapshotsPath)
-      ? (JSON.parse(readFileSync(snapshotsPath, "utf8")) as Record<string, SourceSnapshot>)
-      : {};
+    // P0-2:共享只读 helper,新 snapshots/ 目录权威 → 回退旧 snapshots.json;不迁移不写盘(dryRun 语义)
+    const snapshots = readProjectSnapshots(dir);
     let evidenceCount = 0;
     let hasBundle = false;
     let latestReportRunId: string | null = null;
@@ -93,7 +91,7 @@ export async function migrateProjectsToLibrary(
         }
       }
     }
-    const snapshotCount = Object.keys(snapshots).length;
+    const snapshotCount = snapshots.length;
     const tier: ProjectMigrationRow["tier"] =
       snapshotCount === 0
         ? latestReportText !== null
@@ -166,7 +164,7 @@ export async function migrateProjectsToLibrary(
       continue;
     }
 
-    for (const snapshot of Object.values(snapshots)) {
+    for (const snapshot of snapshots) {
       if (map.snapshots[snapshot.id]) continue;
       const readable = snapshot.parseStatus === "ok" && snapshot.bodyText.trim() !== "";
       if (!opts.dryRun) {

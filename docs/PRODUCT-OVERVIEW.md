@@ -200,7 +200,7 @@ xiaomi-token-plan-cn / mimo-v2.6-flash  ←—— 备用顶上
 research-data/
 └── projects/<项目id>/
     ├── project.json          # 项目元信息(模块/目标/范围)
-    ├── snapshots.json        # 证据快照索引(正文为纯文本)
+    ├── snapshots/            # 证据快照(一文件一快照 + index.json 顺序索引;正文为纯文本;旧 snapshots.json 自动迁移)
     ├── audit.jsonl           # 审计日志(append-only)
     ├── requests/<请求id>.json # 研究请求(恢复运行用)
     ├── runs/<runId>/run.json # 运行记录 + 检查点
