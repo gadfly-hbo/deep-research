@@ -1,4 +1,5 @@
 import type { Claim, Evidence, SourceSnapshot } from "../contracts.js";
+import { addLimitation } from "./limitations.js";
 import type { AnalyzeOutput, PlanQuestion } from "./stages.js";
 
 /**
@@ -45,7 +46,7 @@ export function safeParse<T>(
   try {
     return schema.parse(output);
   } catch {
-    if (!state.limitations.includes(limitation)) state.limitations.push(limitation);
+    addLimitation(state.limitations, limitation);
     return fallback();
   }
 }

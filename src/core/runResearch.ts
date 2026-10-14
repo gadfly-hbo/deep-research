@@ -37,6 +37,7 @@ import {
   type PlanQuestion,
 } from "./stages.js";
 import { emptyState, safeParse, type RunState } from "./runState.js";
+import { addLimitation } from "./limitations.js";
 import { buildQuestionEvidencePacks } from "./evidencePacks.js";
 
 export const DEFAULT_BUDGET: Budget = {
@@ -265,8 +266,7 @@ export async function runResearch(
       });
       snapshotVersionMap.set(snapshot.id, versionId);
     } catch {
-      const note = "共享登记失败:部分资料未进入情报库(项目已保存、共享登记待处理)";
-      if (!state.limitations.includes(note)) state.limitations.push(note);
+      addLimitation(state.limitations, "共享登记失败:部分资料未进入情报库(项目已保存、共享登记待处理)");
     }
   };
 
@@ -393,8 +393,10 @@ export async function runResearch(
       // 2.1 增量:检索命中全部为基准已采信源(未重复采证)的问题如实披露
       // (入 limitations 而非 unresolved——主路径组装时会重写 unresolved)
       if (q.status === "unanswered" && reusedBaseHits > 0 && hits.length === 0) {
-        const note = `问题「${q.question}」的检索命中均为基准研究已采信源,本次未重复采证;答案可能存在于延续证据中`;
-        if (!state.limitations.includes(note)) state.limitations.push(note);
+        addLimitation(
+          state.limitations,
+          `问题「${q.question}」的检索命中均为基准研究已采信源,本次未重复采证;答案可能存在于延续证据中`,
+        );
       }
       await persistRun();
     }
@@ -453,11 +455,9 @@ export async function runResearch(
       }
     }
     for (const l of baseBundle.limitations) {
-      const note = `基准研究限制沿用:${l}`;
-      if (!state.limitations.includes(note)) state.limitations.push(note);
+      addLimitation(state.limitations, `基准研究限制沿用:${l}`);
     }
-    const asOfNote = `延续证据采录于 ${lastFetchedAt || "未知时点"} 之前,时间口径未重新核验`;
-    if (!state.limitations.includes(asOfNote)) state.limitations.push(asOfNote);
+    addLimitation(state.limitations, `延续证据采录于 ${lastFetchedAt || "未知时点"} 之前,时间口径未重新核验`);
   }
 
   // 2.1:增量研究报告标注(头部注记 + 基准主张复用标记)
@@ -576,7 +576,7 @@ export async function runResearch(
       return finish("applied", `补充信源已入证据链(${snapshot.url}),挂接问题 ${host.id}`);
     } catch (error) {
       const note = `补充信源取得失败(${ins.url ?? "文本"}):${error instanceof Error ? error.message : String(error)}`;
-      if (!state.limitations.includes(note)) state.limitations.push(note);
+      addLimitation(state.limitations, note);
       return finish("failed", note);
     }
   };
@@ -1148,7 +1148,7 @@ export async function runResearch(
     );
   }
   for (const reason of reasons) {
-    if (!state.limitations.includes(reason)) state.limitations.push(reason);
+    addLimitation(state.limitations, reason);
   }
   run.status = reasons.length > 0 ? "limited" : "published";
 

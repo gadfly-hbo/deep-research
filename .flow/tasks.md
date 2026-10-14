@@ -9,7 +9,7 @@
 - [x] 1. 金样本测试:record/replay 双层(callKey 有序序列 + saveRun 序列) — 证据:npm test 286/286 绿(基线 283+新增 3);金样本 testdata/golden/{g1-clean-pipeline,g2-repair-loop,g3-intervention}.json;G1 saveRun 序列逐位命中人工推导期望值
 - [x] 2. v1 checkpoint 恢复夹具测试(键集合白名单 + capped→limited 锁定) — 证据:npm test 288/288 绿(+2);夹具 testdata/v1-checkpoints.json(11 键白名单、capped=true);生成器 scripts/gen-v1-checkpoints.mts
 - [x] 3. 迁移 runState.ts(RunState / emptyState / safeParse) — 证据:typecheck 双 tsconfig 绿;npm test 288/288 绿(金样本 diff 空);runResearch.ts 导出集合不变(5 个)
-- [ ] 4. 抽取 #5 addLimitation → limitations.ts
+- [x] 4. 抽取 #5 addLimitation → limitations.ts — 证据:typecheck 绿;npm test 290/290 绿(+2 单测;金样本 diff 空);6 处守卫站点替换,:730/:745/:1027 等无条件 push 逐位保留;safeParse 同步统一
 - [ ] 5. 抽取 #1 发布门禁 → quality/publishGate.ts
 - [ ] 6. 抽取 #3 快照构造 → snapshotFrom.ts
 - [ ] 7. 抽取 #6 预算判定 → budgetTracker.ts
