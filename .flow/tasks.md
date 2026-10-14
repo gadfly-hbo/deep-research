@@ -10,7 +10,7 @@
 - [x] 2. v1 checkpoint 恢复夹具测试(键集合白名单 + capped→limited 锁定) — 证据:npm test 288/288 绿(+2);夹具 testdata/v1-checkpoints.json(11 键白名单、capped=true);生成器 scripts/gen-v1-checkpoints.mts
 - [x] 3. 迁移 runState.ts(RunState / emptyState / safeParse) — 证据:typecheck 双 tsconfig 绿;npm test 288/288 绿(金样本 diff 空);runResearch.ts 导出集合不变(5 个)
 - [x] 4. 抽取 #5 addLimitation → limitations.ts — 证据:typecheck 绿;npm test 290/290 绿(+2 单测;金样本 diff 空);6 处守卫站点替换,:730/:745/:1027 等无条件 push 逐位保留;safeParse 同步统一
-- [ ] 5. 抽取 #1 发布门禁 → quality/publishGate.ts
+- [x] 5. 抽取 #1 发布门禁 → quality/publishGate.ts — 证据:typecheck 绿;npm test 300/300 绿(+10 publishGate 单测,limitationsToAppend 有序 toEqual);金样本 diff 空;编排器写回=机械赋值;早退路径零 diff;runResearch.ts 1222→1035 行
 - [ ] 6. 抽取 #3 快照构造 → snapshotFrom.ts
 - [ ] 7. 抽取 #6 预算判定 → budgetTracker.ts
 - [ ] 8. 抽取 #2 采证装配 → attachExtraction.ts(两函数)
