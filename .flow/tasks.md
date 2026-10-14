@@ -4,7 +4,7 @@
 - [x] 2. 快照布局改造 — 证据:typecheck 绿;npm test 322/322 绿(+7 fsStore 测试:KA2 保序/迁移幂等/迁移失败回退/自愈重建/崩溃窗口 orphan/碰撞 fail-loud/readSnapshot 穿越串 null):FsProjectStore 一文件一快照 + index.json + open() 幂等迁移 + 自愈/碰撞校验,fsStore 测试更新
 - [x] 3. migrateLibrary 改走共享只读 helper — 证据:typecheck 绿;npm test 322/322 绿;docs 三处同步;git check-ignore 验证 .bak 豁免生效 + docs 三处同步 + .gitignore 加 .bak
 - [x] 4. server 端点 — 证据:npm test 323/323 绿(+1 端点测试);typecheck 含 ui 子工程绿(UI 零改动验证);剥离/readSnapshot/穿越 404 全覆盖详情剥离 bodyText + /snapshots?sid= 改走 readSnapshot + 路径穿越 404 测试
-- [ ] 5. 量化收尾:写侧改造后对比 + 读侧离线重算,数字入 handoff
+- [x] 5. 量化收尾 — 证据:写侧 g1 1180→821B(-30%)/g2 1852→1100B(-41%)/g3 2061→1173B(-43%);读侧 6 项目剥离 bodyText 缩减 95.9%–98.6%(PRD 基线即剥离后估算,与实现一致):写侧改造后对比 + 读侧离线重算,数字入 handoff
 
 ---
 
@@ -45,6 +45,6 @@ D3:`GET /api/projects/:id` 的 snapshots 剥离 bodyText(其余字段不变);`/s
 
 ## T5 量化收尾(KA4;Blocked by:T2+T4;User stories:1/2)
 
-- [ ] 写侧:同一金样本 fixture 在新实现上重跑 T1 脚本,两组数字对比记录
-- [ ] 读侧:离线重算 6 个存量项目剥离后体积,与 PRD 基线(95.9%–98.6% 缩减)对照确认
-- [ ] 数字写入 `.flow/handoff.md` 与 DONE 总结
+- [x] 写侧:同一金样本 fixture 在新实现上重跑 T1 脚本,两组数字对比记录
+- [x] 读侧:离线重算 6 个存量项目剥离后体积,与 PRD 基线(95.9%–98.6% 缩减)对照确认
+- [x] 数字写入 `.flow/handoff.md` 与 DONE 总结
