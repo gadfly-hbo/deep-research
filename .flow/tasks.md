@@ -24,7 +24,7 @@ D1+D2+R1.1–R1.7、R2.1–R2.3:文件名 sha256(id) 前 16 hex;index.json `{ord
 - [x] KA2 单测:乱序写入 3 快照 + 同 id 覆盖,`listSnapshots()` 顺序与旧字典语义逐位一致
 - [x] 迁移单测:旧格式 open 后数据原样可读、旧文件改名 `.bak`、二次 open 幂等、损坏 snapshots.json 回退不炸
 - [x] 自愈/碰撞单测覆盖 R1.4/R1.5 各分支
-- [ ] `npm test` + `npm run typecheck` 全绿
+- [x] `npm test` + `npm run typecheck` 全绿
 
 ## T3 migrateLibrary + docs + gitignore(Blocked by:T2;User stories:3)
 
@@ -32,7 +32,7 @@ KA1 + R1.7b + R1.9b:共享只读 helper(新目录权威→回退旧文件,顺序
 
 - [x] helper 只读不迁移(dryRun 语义);migrateLibrary 既有测试全绿
 - [x] 三处 docs 更新;`.gitignore` 生效(`git check-ignore` 验证)
-- [ ] `npm test` + `npm run typecheck` 全绿
+- [x] `npm test` + `npm run typecheck` 全绿
 
 ## T4 server 端点(Blocked by:T2;User stories:2/4)
 

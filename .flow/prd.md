@@ -114,3 +114,8 @@
 - **R2.5 迁移与部署注记去向**:R1.8 的双机前置写入本 PRD「Further Notes」+ `.flow/handoff.md` + DONE 总结。
 
 GRILL 两轮后无新增开放问题,收敛(2/2 轮)。无升级项:全部决议均为 proposal 空白处的填充,无 change/drop。
+
+### Known Limitations / 发布注记(R1.8 + R2.5 落点)
+
+- **dataSync 双机前置**:双机须同批升级后再执行 dataSync;版本偏移窗口内旧代码机器上快照列表为空属已知行为,不回写、不双写(旧机 `readJson("snapshots.json", {})` 落空返回空;若旧机再发起 run 会重建旧格式文件,新机 D2 并存补迁可兜住数据,但窗口期旧机证据链不可用)。
+- 磁盘读放大不在本期指标:剥离只发生在 server 序列化层,`listSnapshots()` 仍全量读 N 个文件(1 次大读→N 次小读);成功指标只对齐网络字节(R1.9a)。
