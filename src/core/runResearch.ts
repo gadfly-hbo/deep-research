@@ -36,6 +36,7 @@ import {
 import { emptyState, safeParse, type RunState } from "./runState.js";
 import { addLimitation } from "./limitations.js";
 import { snapshotFrom } from "./snapshotFrom.js";
+import { BudgetTracker } from "./budgetTracker.js";
 import { buildQuestionEvidencePacks } from "./evidencePacks.js";
 
 export const DEFAULT_BUDGET: Budget = {
@@ -142,8 +143,7 @@ export async function runResearch(
   }
 
   const cancelled = () => options.signal?.aborted === true;
-  const overBudget = () =>
-    run.usage.costEstimate > budget.maxCostEstimate || Date.now() - started > budget.maxWallMs;
+  const tracker = new BudgetTracker(budget, () => run.usage, started);
   const saveCp = async (stage: Checkpoint["stage"], data: unknown) => {
     await store.saveCheckpoint({ runId, stage, data, completedAt: new Date().toISOString() });
   };
@@ -272,7 +272,7 @@ export async function runResearch(
       if (cancelled()) return;
       // 2.1:问题间隙消费干预指令(跳过当前问题则直接进下一问)
       if (await consumeInstructions()) continue;
-      if (run.usage.searches >= budget.maxSearches || overBudget()) {
+      if (!tracker.canSearch()) {
         state.capped = true;
         if (q.status === "open") q.status = "unanswered";
         continue;
@@ -300,18 +300,18 @@ export async function runResearch(
       let claimsForQ = 0;
       // 抓取配额按剩余问题均分,避免首个问题独占预算导致其余问题颗粒无收
       const remainingQuestions = questions.length - qIdx;
-      const perQuestion = Math.max(1, Math.floor((budget.maxFetches - run.usage.fetches) / remainingQuestions));
+      const perQuestion = tracker.fetchQuota(remainingQuestions);
       let fetchedForQ = 0;
       for (let i = 0; i < hits.length && fetchedForQ < perQuestion; i += budget.maxParallel) {
         if (cancelled()) return;
         const chunk = hits.slice(i, i + budget.maxParallel);
-        const room = Math.min(budget.maxFetches - run.usage.fetches, perQuestion - fetchedForQ);
-        if (room <= 0 || overBudget()) {
+        const room = tracker.fetchRoom(perQuestion, fetchedForQ);
+        if (room <= 0 || tracker.overBudget()) {
           state.capped = true;
           break;
         }
         const take = chunk.slice(0, room);
-        if (run.usage.fetches + take.length >= budget.maxFetches) state.capped = true;
+        if (tracker.shouldCapOnTake(take.length)) state.capped = true;
         const produced = await Promise.all(
           take.map(async (hit, j) => {
             const n = `${q.id}:${i + j}`;
@@ -402,7 +402,7 @@ export async function runResearch(
     // 已完成 gather 的恢复路径:问题状态来自检查点
   } else if (!completedStages.has("plan")) {
     if (cancelled()) return cancelRun();
-    if (overBudget()) {
+    if (tracker.overBudget()) {
       state.capped = true;
     } else {
       const res = await adapters.model.runStage(
@@ -793,7 +793,7 @@ export async function runResearch(
   if (!completedStages.has("analyze")) {
     if (cancelled()) return cancelRun();
     await persistRun("analyze");
-    if (overBudget()) {
+    if (tracker.overBudget()) {
       state.capped = true;
     } else {
       const res = await adapters.model.runStage(
@@ -835,7 +835,7 @@ export async function runResearch(
   if (!completedStages.has("draft")) {
     if (cancelled()) return cancelRun();
     await persistRun("draft");
-    if (overBudget()) {
+    if (tracker.overBudget()) {
       state.capped = true;
     } else {
       const res = await adapters.model.runStage(
@@ -868,7 +868,7 @@ export async function runResearch(
   if (request.polish !== false && state.draftMd && !state.capped && !completedStages.has("polish")) {
     if (cancelled()) return cancelRun();
     await persistRun("draft");
-    if (overBudget()) {
+    if (tracker.overBudget()) {
       state.capped = true;
     } else {
       const res = await adapters.model.runStage(
@@ -902,7 +902,7 @@ export async function runResearch(
     let loopsUsed = 0;
     for (;;) {
       if (cancelled()) return cancelRun();
-      if (overBudget()) {
+      if (tracker.overBudget()) {
         state.capped = true;
         break;
       }

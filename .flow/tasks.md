@@ -12,7 +12,7 @@
 - [x] 4. 抽取 #5 addLimitation → limitations.ts — 证据:typecheck 绿;npm test 290/290 绿(+2 单测;金样本 diff 空);6 处守卫站点替换,:730/:745/:1027 等无条件 push 逐位保留;safeParse 同步统一
 - [x] 5. 抽取 #1 发布门禁 → quality/publishGate.ts — 证据:typecheck 绿;npm test 300/300 绿(+10 publishGate 单测,limitationsToAppend 有序 toEqual);金样本 diff 空;编排器写回=机械赋值;早退路径零 diff;runResearch.ts 1222→1035 行
 - [x] 6. 抽取 #3 快照构造 → snapshotFrom.ts — 证据:typecheck 绿;npm test 302/302 绿(+2 snapshotFrom 单测,含 now 注入);5 处构造全部改走 snapshotFrom(tier 缺省两处逐位保留);金样本 diff 空
-- [ ] 7. 抽取 #6 预算判定 → budgetTracker.ts
+- [x] 7. 抽取 #6 预算判定 → budgetTracker.ts — 证据:typecheck 绿;npm test 307/307 绿(+5 边界值单测:恰满/差一/超一、Math.max(1,…) 下钳、>= 语义);6 处判定点全部改走 tracker,capped 置位与计数器写留编排器原位;金样本 diff 空
 - [ ] 8. 抽取 #2 采证装配 → attachExtraction.ts(两函数)
 - [ ] 9. 抽取 #4 阶段样板 → runStageSafe.ts(仅 analyze+draft 子集)
 
@@ -138,9 +138,9 @@ None - can start immediately
 
 ### Acceptance criteria
 
-- [ ] budgetTracker 单测:假钟 + 伪造 usage 序列,五方法边界值(恰满/差一/超一;fetchQuota 的 Math.max(1,…) 下钳;shouldCapOnTake 的 >=)
-- [ ] T2 键集合断言仍绿(capped 未挪位)
-- [ ] 金样本 diff 为空;`npm test` + `npm run typecheck` 全绿
+- [x] budgetTracker 单测:假钟 + 伪造 usage 序列,五方法边界值(恰满/差一/超一;fetchQuota 的 Math.max(1,…) 下钳;shouldCapOnTake 的 >=)
+- [x] T2 键集合断言仍绿(capped 未挪位)
+- [x] 金样本 diff 为空;`npm test` + `npm run typecheck` 全绿
 
 ### Blocked by
 
