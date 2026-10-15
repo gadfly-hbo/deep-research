@@ -11,6 +11,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { basename, join } from "node:path";
+import { ResearchRunSchema } from "../contracts.js";
 import type { ResearchRequest, ResearchResultBundle, ResearchRun, SourceSnapshot } from "../contracts.js";
 import type { Checkpoint, ResearchStore } from "./types.js";
 
@@ -268,6 +269,15 @@ export class FsProjectStore implements ResearchStore {
     return JSON.parse(readFileSync(path, "utf8")) as T;
   }
 
+
+  /** P2-2:run 读取统一过 schema——存量 costEstimate 被 strip,新计量字段 default(0) 兜底。 */
+  private readRun(rel: string): ResearchRun | null {
+    const raw = this.readJson<Record<string, unknown> | null>(rel, null);
+    if (!raw) return null;
+    const parsed = ResearchRunSchema.safeParse(raw);
+    return parsed.success ? parsed.data : (raw as unknown as ResearchRun);
+  }
+
   async saveRun(run: ResearchRun): Promise<void> {
     mkdirSync(join(this.dir, "runs", run.id), { recursive: true });
     this.writeJson(join("runs", run.id, "run.json"), run);
@@ -358,7 +368,7 @@ export class FsProjectStore implements ResearchStore {
     let best: { run: ResearchRun; mtimeMs: number } | undefined;
     for (const runId of readdirSync(runsDir)) {
       const rel = join("runs", runId, "run.json");
-      const run = this.readJson<ResearchRun | null>(rel, null);
+      const run = this.readRun(rel);
       if (run?.requestId !== requestId) continue;
       const mtimeMs = statSync(join(this.dir, rel)).mtimeMs;
       if (!best || mtimeMs >= best.mtimeMs) best = { run, mtimeMs };
@@ -406,7 +416,7 @@ export class FsProjectStore implements ResearchStore {
     if (!existsSync(runsDir)) return [];
     const runs: ResearchRun[] = [];
     for (const runId of readdirSync(runsDir)) {
-      const run = this.readJson<ResearchRun | null>(join("runs", runId, "run.json"), null);
+      const run = this.readRun(join("runs", runId, "run.json"));
       if (run) runs.push(run);
     }
     return runs.sort((a, b) => a.id.localeCompare(b.id));
