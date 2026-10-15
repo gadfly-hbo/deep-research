@@ -139,6 +139,8 @@ function clampExtractPrompt(snapshot: { url: string; title: string; bodyText: st
 export interface PiRuntimeOptions {
   /** 审计文件路径(默认 dataDir/model-audit.jsonl;测试注入临时目录)。 */
   auditPath?: string;
+  /** 显式候选链(测试/装配注入,绕过 env 密钥解析;生产路径不传,走真值表+密钥跳过)。 */
+  candidates?: Array<{ model: ModelConfig; transport: ModelTransport }>;
 }
 
 interface Channel {
@@ -152,20 +154,22 @@ interface Channel {
 const channelCache = new Map<string, Channel>();
 
 function getChannel(configs: LiveModelConfig | LiveModelConfig[], opts: PiRuntimeOptions = {}): Channel {
-  const cacheKey = JSON.stringify({ configs, auditPath: opts.auditPath ?? null });
+  const chain = Array.isArray(configs) ? configs : [configs];
+  const cacheKey = JSON.stringify({ configs: opts.candidates ? null : configs, auditPath: opts.auditPath ?? null, candidates: opts.candidates?.length ?? 0 });
   let channel = channelCache.get(cacheKey);
   if (channel) return channel;
-  const chain = Array.isArray(configs) ? configs : [configs];
   const auditSink = makeAuditSink(opts.auditPath ?? join(defaultDataDir(), "model-audit.jsonl"));
   const lastProviderByTask = new Map<string, string>();
   let runtime: Runtime | null = null;
 
   const getRuntime = (): Runtime => {
     if (runtime) return runtime;
-    const candidates = chain
-      .map(resolveModelConfig)
-      .map((model) => ({ model, transport: transportFor(model) }))
-      .filter((c): c is { model: ModelConfig; transport: ModelTransport } => c.transport !== null);
+    const candidates =
+      opts.candidates ??
+      chain
+        .map(resolveModelConfig)
+        .map((model) => ({ model, transport: transportFor(model) }))
+        .filter((c): c is { model: ModelConfig; transport: ModelTransport } => c.transport !== null);
     if (candidates.length === 0) {
       throw new Error(`缺少模型密钥:请设置环境变量 ${chain.map((c) => envKeyFor(c.provider)).join(" / ")}`);
     }
