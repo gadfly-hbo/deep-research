@@ -1,2 +1,7 @@
 # 本机模型调用审计(P2-1 起追加;跨机保留/轮转口径 P2-2 定)
 model-audit.jsonl
+# P2-3b 会话底座:持久预算账本与跨进程锁(本机运行态,跨机不续)
+model-budget.json
+.model-budget-lock
+# 会话仓与绑定记录(跨机不续会话;崩溃恢复=原机 serve 重启恢复)
+session/
