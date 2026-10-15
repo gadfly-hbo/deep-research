@@ -88,7 +88,9 @@ export async function runResearch(
   const moduleConfig = options.moduleConfig ?? getModuleConfig(request.module);
   const keyBase = request.id ?? randomUUID();
   const prior = request.id ? await store.findRunByRequestId(request.id) : undefined;
-  const resuming = prior !== undefined && prior.status === "cancelled";
+  // P2-3(KA1):awaiting-confirmation 同为可恢复态——门 confirm 重启管线时沿用原 runId/检查点
+  const resuming =
+    prior !== undefined && (prior.status === "cancelled" || prior.status === "awaiting-confirmation");
   const runId = resuming ? prior.id : (options.runId ?? randomUUID());
   const run: ResearchRun = resuming
     ? { ...prior, status: "running" }
@@ -413,7 +415,8 @@ export async function runResearch(
       await saveCp("plan", plan);
     }
   } else {
-    const planCp = priorCheckpoints.find((c) => c.stage === "plan");
+    // P2-3(KA1):plan checkpoint append-only(confirm 追加编辑版),恢复取最新一版
+    const planCp = priorCheckpoints.findLast((c) => c.stage === "plan");
     if (planCp) state.questions = (planCp.data as PlanOutput).questions;
   }
 

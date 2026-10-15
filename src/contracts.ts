@@ -176,7 +176,8 @@ export const ResearchRunSchema = z.object({
   id: z.string().min(1),
   requestId: z.string().min(1),
   stage: z.enum(["plan", "gather", "analyze", "draft", "review", "publish"]),
-  status: z.enum(["running", "cancelled", "failed", "published", "limited"]),
+  // P2-3:确认门暂停态(plan/outline 门落盘返回,confirm 重启管线续跑)
+  status: z.enum(["running", "cancelled", "failed", "published", "limited", "awaiting-confirmation"]),
   checkpoints: z.array(z.string()),
   usage: z.object({
     searches: z.number().int().nonnegative(),
