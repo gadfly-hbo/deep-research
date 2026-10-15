@@ -1,0 +1,50 @@
+[
+  {
+    "runId": "e8cd1b9e-23d1-4767-a94d-81684d1f3a82",
+    "stage": "plan",
+    "data": {
+      "questions": [
+        {
+          "id": "q1",
+          "question": "durable 冒烟测试的覆盖范围与业务边界如何界定？",
+          "status": "open"
+        },
+        {
+          "id": "q2",
+          "question": "durable 冒烟测试的规模口径（用例数、执行频率、覆盖模块）当前基线是什么？",
+          "status": "open"
+        },
+        {
+          "id": "q3",
+          "question": "从需求到执行的端到端冒烟链路涉及哪些环节与依赖？",
+          "status": "open"
+        },
+        {
+          "id": "q4",
+          "question": "当前 competing 冒烟框架（如有）与目标 durable 方案的对比维度有哪些？",
+          "status": "open"
+        },
+        {
+          "id": "q5",
+          "question": "重启 durable 冒烟的现状痛点与成功标准分别是什么？",
+          "status": "open"
+        }
+      ]
+    },
+    "completedAt": "2026-10-15T09:35:06.460Z"
+  },
+  {
+    "runId": "e8cd1b9e-23d1-4767-a94d-81684d1f3a82",
+    "stage": "plan",
+    "data": {
+      "questions": [
+        {
+          "id": "q1",
+          "question": "durable 冒烟测试的覆盖范围与业务边界如何界定？",
+          "status": "open"
+        }
+      ]
+    },
+    "completedAt": "2026-10-15T09:35:13.270Z"
+  }
+]

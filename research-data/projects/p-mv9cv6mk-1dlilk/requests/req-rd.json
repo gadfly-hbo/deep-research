@@ -1,0 +1,10 @@
+{
+  "id": "req-rd",
+  "module": "industry",
+  "goal": "重启证据冒烟B",
+  "scope": {
+    "summary": "s",
+    "queries": []
+  },
+  "attachments": []
+}

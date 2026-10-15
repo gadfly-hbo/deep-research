@@ -1,0 +1,20 @@
+{
+  "id": "6955ab58-291e-486e-a132-a325db0d767e",
+  "requestId": "req-rd",
+  "stage": "plan",
+  "status": "running",
+  "checkpoints": [],
+  "usage": {
+    "searches": 0,
+    "fetches": 0,
+    "modelCalls": 1,
+    "outputTokens": 212,
+    "wallMs": 0
+  },
+  "progress": {
+    "answered": 0,
+    "open": 1,
+    "skipped": 0,
+    "total": 1
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "36692a31-8155-453e-a792-c758b5ae316d",
+  "requestId": "req-gate-smoke",
+  "stage": "draft",
+  "status": "failed",
+  "checkpoints": [],
+  "usage": {
+    "searches": 2,
+    "fetches": 20,
+    "modelCalls": 24,
+    "outputTokens": 50039,
+    "wallMs": 0
+  },
+  "progress": {
+    "answered": 2,
+    "open": 0,
+    "skipped": 0,
+    "total": 2
+  },
+  "error": "服务中断,运行未完成(可重新发起)"
+}

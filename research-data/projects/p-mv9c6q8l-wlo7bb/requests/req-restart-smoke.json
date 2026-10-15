@@ -1,0 +1,10 @@
+{
+  "id": "req-restart-smoke",
+  "module": "industry",
+  "goal": "重启 durable 冒烟",
+  "scope": {
+    "summary": "s",
+    "queries": []
+  },
+  "attachments": []
+}

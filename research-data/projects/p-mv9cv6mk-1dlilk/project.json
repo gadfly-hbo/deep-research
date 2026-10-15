@@ -1,0 +1,12 @@
+{
+  "id": "p-mv9cv6mk-1dlilk",
+  "module": "industry",
+  "goal": "重启证据冒烟B",
+  "scope": {
+    "summary": "s",
+    "queries": []
+  },
+  "createdAt": "2026-10-15T09:47:48.428Z",
+  "updatedAt": "2026-10-15T09:47:48.428Z",
+  "versions": []
+}

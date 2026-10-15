@@ -1,0 +1,20 @@
+{
+  "id": "req-gate-smoke",
+  "module": "industry",
+  "goal": "真实门流冒烟:国产新能源MPV市场",
+  "scope": {
+    "summary": "2025,中国",
+    "queries": []
+  },
+  "attachments": [],
+  "outline": {
+    "title": "真实门流冒烟:国产新能源MPV市场(已确认)",
+    "sections": [
+      {
+        "id": "s1",
+        "title": "正文",
+        "bullets": []
+      }
+    ]
+  }
+}

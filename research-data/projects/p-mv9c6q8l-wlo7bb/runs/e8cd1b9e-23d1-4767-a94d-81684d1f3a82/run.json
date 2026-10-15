@@ -1,0 +1,21 @@
+{
+  "id": "e8cd1b9e-23d1-4767-a94d-81684d1f3a82",
+  "requestId": "req-restart-smoke",
+  "stage": "plan",
+  "status": "failed",
+  "checkpoints": [],
+  "usage": {
+    "searches": 0,
+    "fetches": 0,
+    "modelCalls": 1,
+    "outputTokens": 151,
+    "wallMs": 0
+  },
+  "progress": {
+    "answered": 0,
+    "open": 1,
+    "skipped": 0,
+    "total": 1
+  },
+  "error": "服务中断,运行未完成(可重新发起)"
+}
