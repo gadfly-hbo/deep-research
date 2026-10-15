@@ -1,7 +1,7 @@
 // 诊断:同一 minimax-cn/MiniMax-M3 连续多轮调用,验证稳定性与无配额/限流问题
-import { piAiModel } from "../src/adapters/live.js";
+import { piRuntimeModel } from "../src/adapters/piRuntime.js";
 
-const model = piAiModel([{ provider: "minimax-cn", modelId: "MiniMax-M3" }]);
+const model = piRuntimeModel([{ provider: "minimax-cn", modelId: "MiniMax-M3" }]);
 const bodies = [
   "中国咖啡市场规模约 1,200 亿元(2025 年),同比增长 15%。",
   "森马服饰 2025 年营收 148.2 亿元,归母净利润 11.5 亿元。",
@@ -36,3 +36,5 @@ for (let i = 0; i < bodies.length; i++) {
   }
 }
 console.log(`\n结果: ${ok}/${bodies.length} 轮成功,累计 cost=${totalCost.toFixed(4)}`);
+
+// 注:成本观测已退役(P2-1 起 costEstimate 恒 0)

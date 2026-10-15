@@ -1,12 +1,12 @@
 // 诊断:真实大快照经主备链路抽取一次,计时
-import { piAiModel } from "../src/adapters/live.js";
+import { piRuntimeModel } from "../src/adapters/piRuntime.js";
 import { readFileSync } from "node:fs";
 const b1 = JSON.parse(readFileSync("/tmp/dr-spike/b1-run.json", "utf8"));
 const snaps = [...(b1.bundle?.snapshots ?? [])].sort((a, b) => b.bodyText.length - a.bodyText.length);
 const snap = snaps[0];
 console.log("snapshot:", snap.url.slice(0, 60), "bodyText chars:", snap.bodyText.length, "parse:", snap.parseStatus);
-const model = piAiModel([
-  { provider: "minimax-cn", modelId: "MiniMax-M2.7" },
+const model = piRuntimeModel([
+  { provider: "minimax-cn", modelId: "MiniMax-M3" },
   { provider: "xiaomi-token-plan-cn", modelId: "mimo-v2.6-flash", api: "openai-completions", baseUrl: "https://token-plan-cn.xiaomimimo.com/v1" },
 ]);
 const t0 = Date.now();

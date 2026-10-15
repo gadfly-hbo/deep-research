@@ -3,10 +3,8 @@
  * 只改 research-data/library/sources.json 的 title 字段;不触碰版本与快照。 */
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { runAgentLoop } from "@earendil-works/pi-agent-core";
-import { contentText } from "@earendil-works/pi-ai";
-import { getBuiltinModel } from "@earendil-works/pi-ai/providers/all";
 import { defaultDataDir } from "../src/app/dataDir.js";
+import { runFreeText } from "../src/adapters/piRuntime.js";
 import { cleanPageTitle, livePage, liveParser } from "../src/adapters/live.js";
 
 const dir = defaultDataDir();
@@ -17,36 +15,17 @@ const sources = JSON.parse(readFileSync(sourcesPath, "utf8")) as Record<string, 
 
 const page = livePage();
 const parser = liveParser();
-const model = getBuiltinModel("minimax-cn", "MiniMax-M3") as never;
-const apiKey = process.env.MINIMAX_CN_API_KEY ?? "";
-// MiniMax-M3 builtin api 是 anthropic-messages(踩过:硬编码 openai-completions 会 404);按模型 api 动态选流模块
-const streamMod = model.api === "anthropic-messages"
-  ? await import("@earendil-works/pi-ai/api/anthropic-messages")
-  : await import("@earendil-works/pi-ai/api/openai-completions");
-const streamSimple = streamMod.streamSimple;
-
-async function modelTitle(bodyText: string): Promise<string | undefined> {
+// P2-1:改经 piRuntime 通道(单次超时由 limits.modelTimeoutMs 管,45s→300s 差异无害)
+async function modelTitle(bodyText: string, sourceId: string): Promise<string | undefined> {
   try {
-    const messages = (await runAgentLoop(
-      [{
-        role: "user",
-        content: [{ type: "text", text: `根据以下网页正文,起一个不超过 20 字的简体中文标题,概括主题。只输出标题本身,不要书名号、引号、句号或任何解释。\n\n正文:\n${bodyText.slice(0, 500)}` }],
-        timestamp: Date.now(),
-      }] as never[],
-      { messages: [] },
+    const { text } = await runFreeText(
+      [{ provider: "minimax-cn", modelId: "MiniMax-M3" }],
       {
-        model, apiKey, maxRetries: 1, maxRetryDelayMs: 3_000,
-        convertToLlm: (messages: { role?: string }[]) =>
-          messages.filter(
-            (m): m is Message => m.role === "system" || m.role === "user" || m.role === "assistant" || m.role === "toolResult",
-          ),
-      } as never,
-      () => {},
-      AbortSignal.timeout(45_000) as never,
-      streamSimple as never,
-    )) as { role?: string; content?: unknown }[];
-    const text = messages.filter((m) => m.role === "assistant").map((m) => contentText(m.content as never)).join("").trim();
-    const t = text.replace(/^[「『《"']+/g, "").replace(/[」』》"'.。]+$/g, "").trim();
+        prompt: `根据以下网页正文,起一个不超过 20 字的简体中文标题,概括主题。只输出标题本身,不要书名号、引号、句号或任何解释。\n\n正文:\n${bodyText.slice(0, 500)}`,
+        callKey: `backfill:${sourceId}`,
+      },
+    );
+    const t = text.trim().replace(/^[「『《"']+/g, "").replace(/[」』》"'.。]+$/g, "").trim();
     return t.length >= 4 && t.length <= 30 && !/^[{[]/.test(t) ? t : undefined;
   } catch {
     return undefined;
@@ -80,7 +59,7 @@ for (let i = 0; i < entries.length; i++) {
       try {
         const body = readFileSync(join(libDir, ref), "utf8");
         if (body.trim().length >= 40) {
-          next = await modelTitle(body);
+          next = await modelTitle(body, s.sourceId);
           if (next) how = "model";
         }
       } catch {

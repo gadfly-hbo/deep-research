@@ -1,7 +1,8 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
-import { httpSearch, livePage, liveParser, piAiModel, type HttpSearchConfig, type LiveModelConfig } from "./adapters/live.js";
+import { httpSearch, livePage, liveParser, type HttpSearchConfig } from "./adapters/live.js";
+import { piRuntimeModel, type LiveModelConfig } from "./adapters/piRuntime.js";
 import { mcpWebSearch } from "./adapters/mcpSearch.js";
 import { searchWithFallback } from "./adapters/searchFailover.js";
 import { xiaomiWebSearch } from "./adapters/xiaomiSearch.js";
@@ -111,7 +112,7 @@ async function spike(flags: Record<string, string>): Promise<void> {
       search: makeSearch(config.search),
       page: livePage(),
       parser: liveParser(),
-      model: piAiModel(config.model),
+      model: piRuntimeModel(config.model),
     };
     if (flags.record) {
       adapters = recordingAdapters(adapters, (call) => recorded.push(call));
@@ -178,7 +179,7 @@ function buildAdapters(flags: Record<string, string>, recorded: RecordedCall[]):
     search: makeSearch(config.search),
     page: livePage(),
     parser: liveParser(),
-    model: piAiModel(config.model),
+    model: piRuntimeModel(config.model),
   };
   return flags.record ? recordingAdapters(live, (call) => recorded.push(call)) : live;
 }
@@ -266,7 +267,7 @@ if (command === "data-sync") {
     if (!config.model || !config.search) {
       throw new Error("未配置模型/搜索(见 npm run research -- serve 的 config.json 说明);运行功能不可用,管理功能正常");
     }
-    return { search: makeSearch(config.search), page: livePage(), parser: liveParser(), model: piAiModel(config.model) };
+    return { search: makeSearch(config.search), page: livePage(), parser: liveParser(), model: piRuntimeModel(config.model) };
   };
   startServer({ dataDir, makeAdapters }, flags.port ? Number(flags.port) : 4173)
     .then((srv) => console.log(`工作台已启动(仅本机): http://127.0.0.1:${srv.port}`))

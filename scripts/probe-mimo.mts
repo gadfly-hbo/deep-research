@@ -1,6 +1,6 @@
 // 诊断:mimo-v2.6-flash 不在 pi-ai 内置清单,按 §7.2 自定义 Model(baseUrl+api)接法实测
-import { piAiModel } from "../src/adapters/live.js";
-const model = piAiModel([
+import { piRuntimeModel } from "../src/adapters/piRuntime.js";
+const model = piRuntimeModel([
   {
     provider: "xiaomi-token-plan-cn",
     modelId: "mimo-v2.6-flash",
