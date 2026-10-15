@@ -2,7 +2,7 @@
   "id": "6955ab58-291e-486e-a132-a325db0d767e",
   "requestId": "req-rd",
   "stage": "plan",
-  "status": "running",
+  "status": "failed",
   "checkpoints": [],
   "usage": {
     "searches": 0,
@@ -16,5 +16,6 @@
     "open": 1,
     "skipped": 0,
     "total": 1
-  }
+  },
+  "error": "服务中断,运行未完成(可重新发起)"
 }

@@ -1,0 +1,1252 @@
+[
+  {
+    "runId": "29f4c69a-aaed-4944-aec7-26426c26e0fd",
+    "stage": "plan",
+    "data": {
+      "questions": [
+        {
+          "id": "q1",
+          "question": "中国智能扫地机器人的行业边界如何界定？其与商用清洁机器人、传统吸尘器的区分标准是什么？",
+          "method": "文献综述+行业标准对标",
+          "status": "open"
+        },
+        {
+          "id": "q2",
+          "question": "2025年中国智能扫地机器人市场的统计口径有哪些？出货量、零售额、保有量的统计差异及数据来源是什么？",
+          "method": "多源数据交叉验证",
+          "status": "open"
+        },
+        {
+          "id": "q3",
+          "question": "智能扫地机器人产业链的上游核心零部件（激光雷达、SLAM芯片、电机、电池）和下游销售渠道的构成如何？",
+          "method": "产业链拆解+企业调研",
+          "status": "open"
+        },
+        {
+          "id": "q4",
+          "question": "2025年中国智能扫地机器人市场的主要参与者及其市场份额排名是怎样的？",
+          "method": "奥维云网/GfK等数据对标",
+          "status": "open"
+        },
+        {
+          "id": "q5",
+          "question": "头部品牌（科沃斯、石头、追觅、云鲸、米家等）在产品定位、技术路线和价格段上的竞争格局如何？",
+          "method": "品牌矩阵分析",
+          "status": "open"
+        },
+        {
+          "id": "q6",
+          "question": "中国智能扫地机器人行业的进入壁垒、技术壁垒和品牌壁垒分别体现在哪些方面？",
+          "method": "波特五力分析",
+          "status": "open"
+        }
+      ]
+    },
+    "completedAt": "2026-10-15T14:57:15.007Z"
+  },
+  {
+    "runId": "29f4c69a-aaed-4944-aec7-26426c26e0fd",
+    "stage": "plan",
+    "data": {
+      "questions": [
+        {
+          "id": "q1",
+          "question": "中国智能扫地机器人的行业边界如何界定？其与商用清洁机器人、传统吸尘器的区分标准是什么？",
+          "status": "open"
+        },
+        {
+          "id": "q2",
+          "question": "2025年中国智能扫地机器人市场的统计口径有哪些？出货量、零售额、保有量的统计差异及数据来源是什么？",
+          "status": "open"
+        }
+      ]
+    },
+    "completedAt": "2026-10-15T14:57:16.965Z"
+  },
+  {
+    "runId": "29f4c69a-aaed-4944-aec7-26426c26e0fd",
+    "stage": "outline",
+    "data": {
+      "title": "2025年中国智能扫地机器人市场格局研究报告",
+      "subtitle": "市场边界、口径界定与数据体系分析",
+      "sections": [
+        {
+          "id": "s1",
+          "title": "行业边界界定与品类区分标准",
+          "purpose": "明确智能扫地机器人的定义边界，区分其与相邻品类的关系，建立研究对象的基本范畴",
+          "bullets": [
+            "定义智能扫地机器人的核心特征：自主导航、自清洁基站、AI视觉识别等关键技术能力",
+            "区分智能扫地机器人与商用清洁机器人的标准：使用场景（B端vsC端）、功能复杂度、价格区间",
+            "对比传统吸尘器（有线/无线）与智能扫地机器人的产品形态差异：自动化程度、清洁路径规划、续航与回充机制",
+            "明确扫地机器人与扫拖一体机、洗地机器人等衍生品类的归属关系与统计归类规则"
+          ]
+        },
+        {
+          "id": "s2",
+          "title": "市场统计口径与数据来源辨析",
+          "purpose": "梳理2025年智能扫地机器人市场的多维度统计口径，建立数据可比性框架",
+          "bullets": [
+            "出货量口径：包括厂商出货量、渠道出货量、终端零售出货量的差异及数据来源（IDC、奥维云网等）",
+            "零售额口径：电商平台GMV、线下零售额、整体零售额的统计方法与覆盖范围",
+            "保有量口径：家庭渗透率、累计装机量、在网活跃设备的计算逻辑",
+            "统计口径差异分析：年度数据与季度数据、销量与销额、不同机构数据之间的偏差原因"
+          ]
+        },
+        {
+          "id": "s3",
+          "title": "市场结构与品牌格局",
+          "purpose": "基于统一口径描绘2025年中国智能扫地机器人市场的竞争格局",
+          "bullets": [
+            "主要品牌市场份额（出货量/零售额双口径）：科沃斯、石头、云鲸、小米及其他品牌占比",
+            "价格段分布：高客单价（4000元以上）、中端（2000-4000元）、入门级（2000元以下）市场结构",
+            "渠道结构：线上电商（天猫、京东、抖音）与线下KA、专卖店的销售占比变化",
+            "产品结构：单机款、全能基站款、旗舰款的销量贡献与增长趋势"
+          ]
+        },
+        {
+          "id": "s4",
+          "title": "趋势研判与风险提示",
+          "purpose": "基于市场现状展望未来发展趋势并提示潜在风险",
+          "bullets": [
+            "技术演进趋势：全能基站渗透、AI视觉算法升级、机械臂等创新形态对市场的影响",
+            "增长动能：换新需求、渗透率提升、海外市场拓展对2025年增长的支撑作用",
+            "竞争风险：价格战加剧、品牌集中度变化、新进入者对现有格局的冲击",
+            "外部风险：消费疲软、芯片与零部件成本波动、监管政策变化对行业的潜在影响"
+          ]
+        }
+      ]
+    },
+    "completedAt": "2026-10-15T14:57:24.617Z"
+  },
+  {
+    "runId": "29f4c69a-aaed-4944-aec7-26426c26e0fd",
+    "stage": "gather",
+    "data": {
+      "questions": [
+        {
+          "id": "q1",
+          "question": "中国智能扫地机器人的行业边界如何界定？其与商用清洁机器人、传统吸尘器的区分标准是什么？",
+          "status": "unanswered"
+        },
+        {
+          "id": "q2",
+          "question": "2025年中国智能扫地机器人市场的统计口径有哪些？出货量、零售额、保有量的统计差异及数据来源是什么？",
+          "status": "answered"
+        }
+      ],
+      "snapshots": [
+        {
+          "id": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "url": "https://m.sgpjbg.com.cn/news/6846786.html",
+          "title": "扫地机器人-新兴产业百科-三个皮匠报告网",
+          "bodyText": "\r\n        一、定义与概述扫地机器人（Robotic Vacuum Cleaner / Robot Vacuum），又称智能扫地机器人、家用清洁机器人，是一种能够自主在室内环境中完成地面清扫工作的智能家电产品。它集成了传感器技术、人工智能算法、电机驱动系统和自动充电技术，能够在无人干预的情况下自动规划清扫路径、完成地面清洁并返回充电座。\n\n简单说，扫地机器人就是“能自己到处跑着扫地的机器人”——它通过传感器感知环境、通过算法规划路线、通过电机驱动清扫，最终实现地面清洁的自动化。\n\n扫地机器人是清洁电器中智能化程度最高的品类，也是近年来增长最快的家电细分赛道之一。随着激光雷达导航、AI视觉识别、全能基站等技术的成熟与普及，扫地机器人已从早期的“随机碰撞式”演进为具备全局规划、智能避障、自动集尘、自清洁拖布等能力的全自动清洁设备。2025年，全球扫地机器人出货量达到2412.4万台，同比增长17.1%。全球家用清洁机器人市场整体出货量达3272万台，同比增长20.1%。\n\n 表1：扫地机器人基本概况  指标数据   定义能够自主在室内完成地面清扫的智能家电 核心功能自主导航、路径规划、自动清扫、自动回充 关键技术激光雷达导航、SLAM算法、AI视觉、全能基站 2025年全球扫地机器人出货量2412.4万台 同比增长17.1% 2025年全球家用清洁机器人出货量3272万台  \n\n二、发展历程1. 萌芽期（1996—2009年）：从概念到产品\n\n扫地机器人的历史可追溯至20世纪末。1996年，瑞典家电巨头伊莱克斯发布了全球首款扫地机器人“三叶虫”（Trilobite），使用超声波进行导航避障，能够自动清扫并返回充电座充电。“三叶虫”的诞生为全球市场开启了家庭机器人应用的序章，但由于技术不成熟、成本高昂，产品并未大规模普及。\n\n2002年，美国iRobot公司推出了Roomba系列扫地机器人，采用随机碰撞式清扫策略，大幅降低了成本，扫地机器人开始进入普通家庭。此后的近十年间，扫地机器人主要依靠超声波与陀螺仪进行初步避障，行进路径随机，清扫效率较低。\n\n2. 导航进化期（2010—2016年）：从随机到规划\n\n2010年是扫地机器人技术发展的关键转折点。搭载激光雷达的即时定位与地图构建（SLAM）技术开始出现，有效解决了扫地机器人路线规划不清晰的问题。激光雷达+SLAM算法使扫地机器人能够实时构建房间地图、规划最优清扫路径，从“随机碰撞”正式迈入“全局规划”时代。\n\n2010年左右，科沃斯进入扫地机器人市场，产品经历了采用陀螺仪+加速度计技术实现的局部规划导航阶段。这一时期，视觉导航技术也开始萌芽，部分品牌尝试通过摄像头定位及SLAM算法构建地图、规划路径。\n\n3. 清洁避障期（2017—2020年）：功能集成与体验升级\n\n2017年至2020年，扫地机器人行业进入功能集成与体验升级阶段。2018年，iRobot在行业内率先推出自集尘功能，解决了用户频繁清理尘盒的痛点。2020年，云鲸在行业内率先推出扫地机器人自清洁功能，能够自动清洗拖布。\n\n全能基站的出现是这一阶段最重要的技术突破。全能基站将扫地机器人的集尘和自清洁功能整合在基站内，实现了“扫—拖—洗—烘—集”一体化的全自动清洁体验。扫地机器人从“需要人工干预”的设备进化为“真正解放双手”的工具。\n\n4. 智能化爆发期（2020年至今）：AI与具身智能\n\n2020年代以来，AI技术全面赋能扫地机器人。AI视觉识别、3D结构光避障、多传感器融合等技术广泛应用。扫地机器人可识别数十种乃至上百种家庭障碍物，避障能力大幅提升。\n\n中国品牌在这一阶段实现了从“追赶者”到“引领者”的跨越。2025年，全球前五大清洁机器人厂商均为中国品牌，合计占据超过50%的市场份额。中国企业的产品迭代周期远快于海外品牌，柔性供应链与模块化研发加速技术落地。\n\n三、工作原理与技术架构1. 核心工作原理\n\n扫地机器人的工作流程可概括为“感知—决策—执行”三个环节。\n\n感知：通过激光雷达（LDS）、摄像头、红外传感器、陀螺仪、加速度计、悬崖传感器等多类型传感器，实时采集环境信息。激光雷达通过发射激光束并测量反射时间，构建房间的二维或三维地图。视觉传感器则通过摄像头采集图像，通过AI算法识别障碍物类型。\n\n决策：基于SLAM（即时定位与地图构建）算法，扫地机器人将传感器数据融合，实时定位自身位置、构建环境地图、规划最优清扫路径。AI算法对海量环境数据进行实时分析，识别真正需要重点清扫的区域和需要避开的障碍物。\n\n执行：通过电机驱动系统控制行走轮和清洁组件（边刷、滚刷、拖布等），按照规划的路径完成清扫任务。清扫完成后自动返回充电座充电。\n\n2. 核心技术模块\n\n导航与定位技术：激光雷达导航（LDS）是目前最主流的导航技术，通过360度旋转扫描构建高精度地图。视觉导航通过摄像头和AI算法实现定位与建图。高端产品采用“LDS激光雷达+3D结构光+AI视觉”的三重导航系统。\n\nSLAM算法：即时定位与地图构建算法是扫地机器人的“大脑”，决定了路径规划的效率和清洁覆盖率。2026年，先进SLAM算法的路径规划效率较前代提升约42%，避障准确率达到99.3%。\n\nAI避障技术：AI视觉模块可识别数十种家庭常见障碍物。部分高端产品可识别多达108种障碍物。AI双目视觉与3D结构光融合方案大幅提升了复杂环境下的避障能力。\n\n全能基站技术：全能基站集自动集尘、自动清洗拖布、自动烘干、自动补水、基站自清洁等功能于一体。部分基站采用“无尘袋”设计，通过多锥旋风集尘技术实现免维护。全能基站的出现将用户操作步骤减少了70%。\n\n 表2：扫地机器人核心技术演进  技术阶段核心技术特点代表时期   随机碰撞式超声波、红外传感器路径随机、效率低1996—2009年 局部规划式陀螺仪+加速度计局部规划、仍不完善2010—2015年 全局规划式激光雷达+SLAM全屋地图、路径优化2015—2020年 智能融合式LDS+AI视觉+3D结构光精准避障、智能决策2020年至今  \n\n四、核心技术与产品创新1. 导航与感知技术\n\n导航技术是扫地机器人最核心的技术壁垒。当前行业主流方案包括：\n\n激光雷达导航（LDS） ：通过360度旋转激光测距，构建高精度二维地图。激光雷达导航具有精度高、不受光线影响的优势，是目前中高端扫地机器人的标配。石头科技在德国率先引入激光雷达导航技术，推动了行业从“随机碰撞”到“全局规划”的跨越。\n\n视觉导航：通过摄像头采集环境图像，结合AI算法实现定位与建图。视觉导航成本较低，但对光线环境有要求。\n\n多传感器融合：高端产品采用“LDS激光雷达+3D结构光+AI视觉”的三重导航系统，配合多种传感器实现全方位环境感知。AI双目视觉与3D结构光融合方案大幅提升复杂环境下的避障能力。\n\n2. AI与智能算法\n\nAI是扫地机器人智能化的核心驱动力。AI算法通过对海量环境数据的深度分析，实现精准的障碍物识别和路径规划。\n\n2025年，AI在扫地机器人中的应用已从简单的“避障”升级为“主动识别+智能决策”。部分高端产品可识别超过100种家庭障碍物。AI驱动的清扫路径规划算法体系，能够实现复杂家居环境下的高效全覆盖清洁。AI视觉模块还支持H.265编码的1080P视频流分析，实现远程监控功能。\n\n3. 全能基站与功能集成\n\n全能基站是2020年代以来扫地机器人最重要的产品创新。全能基站将多种功能集成于一体：\n\n- 自动集尘：清扫完成后自动将尘盒中的垃圾吸入基站集尘袋，用户无需频繁清理尘盒\n\n- 自动清洗拖布：通过基站内的清洗系统自动清洗拖布，部分产品支持热水洗拖布\n\n- 自动烘干：清洗后自动烘干拖布，防止细菌滋生\n\n- 自动补水：为扫地机器人自动补充清水\n\n- 基站自清洁：基站自动清洁自身\n\n科沃斯于2025年推出的OmniCyclone旋风全能基站率先引入“无尘袋”设计，采用多锥旋风集尘技术2.0，每年预计可节省高达200万个集尘袋。\n\n4. 具身智能与机械臂\n\n具身智能是扫地机器人技术的前沿方向。2025年，部分品牌开始在扫地机器人上集成机械臂，使其具备“整理”能力而不仅仅是“清洁”能力。追觅的扫地机器人可通过机械臂夹取拖鞋归位、清理纸团入桶。机械臂技术推动扫地机从二维平面清洁向三维空间整理升维。\n\n五、发展现状与产业数据1. 全球市场规模\n\n2025年，全球家用清洁机器人市场整体出货量达到3272万台，同比增长20.1%。其中，扫地机器人作为家用清洁机器人的基本盘，出货2412.4万台，占比73.7%，同比增长17.1%。\n\n从细分品类看，割草机器人2025年出货199.2万台，同比增长63.8%，成为增长最快的赛道。擦窗机器人出货237.3万台，同比增长70.4%，增速仅次于割草机器人。泳池机器人市场整体表现平稳。\n\n从区域增长看，中东非与中东欧市场表现尤为突出，增速分别高达95.6%和40.3%，成为拉动全球扫地机器人行业增长的核心区域。\n\n从市场规模看，2025年全球扫地机器人市场规模预计突破250亿美元，较2020年的44亿美元呈现显著跃升，复合年增长率保持22%左右的高位增长。\n\n2. 中国市场规模\n\n中国是全球最大的扫地机器人消费市场。2025年，中国扫地机器人市场规模预计达268亿元，出货量565.8万台，占全球总销量的31.2%。\n\n从线上渠道看，洛图科技数据显示，2025年中国扫地机器人在线上全渠道的销量为546.4万台，同比增长10.1%；销额为175.1亿元，同比增长10.3%。\n\n从全年走势看，市场呈现“前高后降”的特征。2025年上半年，受益于“618”大促提前预热、新品密集上市以及清洁家电消费补贴政策落地，线上销量同比大幅增长50.4%；进入下半年，补贴政策退坡，市场销量同比下降13.4%。\n\n从渠道结构看，传统主流电商销量为425.5万台，占线上全渠道的77.9%，同比增长6.6%；新兴电商销量占22.1%，但势头极为迅猛，同比增长24.7%。\n\n 表3：2025年扫地机器人市场关键数据  指标数据来源   全球家用清洁机器人出货量3272万台IDC 全球扫地机器人出货量2412.4万台IDC 全球扫地机器人出货量同比增长17.1%IDC 全球割草机器人出货量199.2万台IDC 全球擦窗机器人出货量237.3万台IDC 全球扫地机器人市场规模突破250亿美元中国报告大厅 中国扫地机器人市场规模268亿元中商产业研究院 中国扫地机器人线上销量546.4万台洛图科技 中国扫地机器人线上销额175.1亿元洛图科技  \n\n3. 价格趋势\n\n2025年，扫地机器人市场价格呈现波动。受促销加码、品牌竞争加剧等多重因素影响，奥维云网口径下2025年全年扫地机器人线上监测均价同比下降6%至3535元。\n\n但从季度数据看，第三季度扫地机器人在中国传统主流电商平台的均价为3344元，同比上涨9.4%。3500至4499元价格段的销量涨幅达到62.3%，销量份额占比达到全价位的29.2%。3500元以上中高端市场快速扩张。3500至3999元仍为扫地机器人产品的主力价格带。\n\n高端市场方面，3500元以上产品的零售额占比在第三季度达到16.6%。石头在3000至4000元价格段市场的销量份额达22%。\n\n4. 渗透率\n\n尽管出货量高速增长，扫地机器人的全球渗透率仍然较低。公开数据显示，目前中国家庭扫地机器人的渗透率仅为5%至7%，即便是公认成熟的美国市场，这一数字也才20%左右。低渗透率意味着巨大的市场增长空间，但也反映出消费者教育和市场培育任重道远。\n\n六、竞争格局1. 全球竞争格局：中国品牌包揽前五\n\n2025年，全球家用清洁机器人市场最显著的特征是中国品牌的全面主导。全球前五大清洁机器人厂商均为中国品牌，分别为石头科技、科沃斯、追觅、小米和云鲸。\n\n石头科技以580万台的出货量、17.7%的市场份额位居全球第一，同比增长76.5%。其智能扫地机器人的全球市场份额达到27%，连续两年稳居全球扫地机器人市场销量与销额双第一。石头科技在丹麦、德国、韩国等12国实现“量额双第一”，土耳其市占率超过50%。\n\n科沃斯出货量470万台，市场份额14.3%，同比增长38.3%，位列第二。\n\n追觅出货量340万台，市场份额10.5%，同比增长高达101.9%，是三强中增速最快的品牌。追觅凭借机械臂技术在欧美市场突围，西欧份额达26.8%。\n\n小米出货量220万台，市场份额6.7%，同比增长10.6%。\n\n云鲸出货量170万台，市场份额5.3%，同比增长28.7%。\n\n前五大品牌合计市场份额超过54%，其他品牌合计占45.4%。依托完整供应链、快速迭代能力与算法优势，中国厂商在扫地、擦窗、割草、泳池等多品类同步突破。从无线化到AI导航，从全能基站到多机协同，这些由中国厂商率先大规模应用的技术正在成为行业标准。\n\n 表4：2025年全球前五大清洁机器人厂商  排名品牌出货量（万台）市场份额同比增长   1石头科技58017.7%76.5% 2科沃斯47014.3%38.3% 3追觅34010.5%101.9% 4小米2206.7%10.6% 5云鲸1705.3%28.7%  \n\n2. 中国市场竞争格局\n\n中国扫地机器人市场的集中度更高。2025年，中国扫地机器人线上市场的品牌集中度进一步提升，全年销量排名前五的品牌合计份额达90.3%，较2024年增长了3.9个百分点。\n\n科沃斯位列2025年线上全渠道市场销量与销额双维度第一，销量份额达30.4%，同比增长6.6个百分点。2025年11月，科沃斯线上销量份额达32.1%。其核心竞争力源于全场景的产品布局与长期积累的技术领先。\n\n石头科技在线上市场的销量份额为25.0%，聚焦“高效清洁+智能交互”。2025年11月，线上市场销量排名前四的品牌——科沃斯、石头、云鲸、米家——合计份额高达85.1%。\n\n云鲸线上销量份额为13.4%，其首创的“鲸灵托管”功能可实现自动洗拖布、自动烘干、自动集尘一体化。\n\n小米（米家） 以12.6%的销量份额位列第四。在2500元以下价格带，小米拿下销量第一。\n\n追觅以8.8%的份额位列第五。此外，大疆2025年跨界进入扫地机器人市场，仅用5个月便跻身行业前10。\n\n3. 竞争态势与行业集中度\n\n全球头部阵营已基本由中国品牌占据，技术与规模双重壁垒不断加固。当前全球前五大清洁机器人厂商均为中国品牌，行业呈现“中国品牌主导、头部集中加速”的格局。\n\n中国扫地机器人线上市场TOP5品牌合计份额达90.3%，市场资源加速向头部品牌集中，中小品牌的生存空间显著压缩。行业已进入“锤型”竞争期——头部品牌占据绝大部分市场份额，尾部品牌生存空间持续收窄。\n\n七、产业链与产业生态1. 产业链结构\n\n扫地机器人产业链可分为上游核心零部件、中游整机制造和下游渠道销售三个环节。\n\n上游：核心零部件包括激光雷达、传感器（红外、超声波、陀螺仪、加速度计等）、AI芯片、电机（无刷电机）、电池（锂电池）、摄像头模组、清洁组件（边刷、滚刷、拖布）等。中国企业已掌握了扫地机器人完整的核心产业链与关键技术。\n\n中游：整机制造是产业链的核心环节。中国是全球最大的扫地机器人生产基地，全球前五大品牌全部为中国企业。深圳是全球扫地机器人产业的重要中心，全球清洁机器人产业重心正从波士顿向深圳转移。中国品牌凭借供应链优势在性能、成本和迭代速度上形成综合优势，实现“同价位端性能更强，同性能产品价格更低”。\n\n下游：渠道销售包括线上电商（天猫、京东、抖音等）和线下零售。线上渠道是扫地机器人销售的第一大渠道，2025年中国线上销量占全渠道约90%。\n\n2. 产业生态特征\n\n技术快速迭代：中国企业的产品迭代周期远快于海外品牌，柔性供应链与模块化研发加速技术落地。产品迭代周期已缩短至6至8个月。\n\n全球化布局：中国品牌在全球市场快速扩张。石头科技在美国、德国、韩国等主要国家市场均位列榜首。中东非与中东欧市场增速分别高达95.6%和40.3%。\n\n品类拓展：头部企业从扫地机器人向割草机器人、擦窗机器人、泳池机器人等新兴品类拓展。中国初创企业在割草机器人与泳池机器人领域表现亮眼。\n\n八、政策与制度环境1. 以旧换新补贴政策\n\n2025年，扫地机器人被多地纳入消费品以旧换新补贴范围。北京市商务局发布公告，将扫地机器人（含洗地机、扫拖一体机）纳入补贴范畴，对在京个人消费者购买智能家居产品给予补贴。补贴标准为按照产品最终销售价格的15%给予补贴；对购买1级及以上能效或水效标准的产品给予更高补贴。\n\n池州市等地方也将扫地机器人纳入家装厨卫产品补贴范围。以旧换新政策对2025年上半年扫地机器人市场的爆发式增长起到了直接的推动作用。\n\n2. 标准与规范\n\n扫地机器人行业正在向标准化、规范化方向发展。2025年，团体标准《家用电池机基站安装配置要求》正式启动，海尔、云鲸、苏泊尔、美的等多家企业参与标准起草。标准的建立将推动行业从“野蛮生长”走向“规范发展”。\n\n3. 国际政策环境\n\n扫地机器人作为智能家居产品，受到各国能效标准、安全认证和贸易政策的约束。部分国家对中国制造的智能家居产品设置了关税和非关税壁垒。中国品牌通过海外建厂、本地化运营等方式应对国际贸易风险。\n\n九、发展挑战与瓶颈1. 渗透率低与消费者认知不足\n\n尽管出货量高速增长，扫地机器人的全球渗透率仍然较低。中国家庭渗透率仅为5%至7%，即便是美国市场也仅约20%。低渗透率既意味着增长空间，也反映出消费者教育和市场培育的艰巨性。“消费者认知不够”是行业面临的核心挑战之一。\n\n2. 同质化竞争与价格战\n\n扫地机器人行业面临日益严重的同质化困境。一方面，行业陷入了技术瓶颈，品牌不得不将技术创新的重点放在参数内卷以及微创新之上，导致消费体验高度同质化，难以形成真正的技术壁垒。另一方面，随着供应链成熟和技术标准化，行业曾经的壁垒正在被快速填平。\n\n价格竞争成为市场主旋律。2025年行业整体均价同比下降5.05%，至3338元。头部品牌均价普遍下探，石头均价下降6.79%至3902元，追觅均价下降12.03%至4109元。\n\n3. 盈利压力与增收不增利\n\n头部企业面临“增收不增利”的困境。科沃斯和石头科技均出现了增收不增利的情况。在以旧换新补贴的背景下，产品价格体系受到冲击，压制了利润表现。国补退潮后，营运效率出现下滑。研发费用水涨船高，从自清洁基站到AI避障，从多功能集成到智能互联，企业不得不持续投入巨额研发资金。\n\n4. 技术同质化与创新瓶颈\n\n基础清洁功能已高度同质化，企业不得不投入巨资进行微创新以寻求差异化。电机系统等硬件能力的差距正在快速缩小。如何在同质化竞争中构建真正的技术壁垒和品牌价值，是所有从业者面临的共同挑战。\n\n十、未来发展趋势1. 市场规模持续扩张\n\n扫地机器人市场预计将保持稳健增长。预计2026至2030年全球市场复合年增长率维持12.3%的稳健水平，到2030年整体市场规模将逼近380亿美元。另有机构预测，到2030年清洁机器人市场规模将达到539.1亿美元。\n\n中国作为全球最大的扫地机器人消费市场，将继续引领全球增长。预计2026年中国扫地机器人线上销量将超过600万台。\n\n2. AI与具身智能深度融合\n\nAI将持续推动扫地机器人从“工具”向“智能体”进化。具身智能的家庭服务机器人雏形已现——扫地机器人通过激光雷达与双目视觉可识别数百种障碍物，机械臂可执行整理任务。AI大模型算法使扫地机器人对家庭环境的感知能力达到前所未有的水平。\n\n3. 全能基站持续升级\n\n全能基站技术将持续迭代。基站将集成更多功能——智能控温热水洗、高温热风烘干、超长免维护周期等。基站的小型化、嵌入式设计将成为重要趋势，实现与家居环境的深度融合。\n\n4. 品类拓展与场景延伸\n\n扫地机器人企业正从“地面清洁”向“全屋清洁”拓展。割草机器人、擦窗机器人、泳池机器人等新兴品类高速增长。2025年割草机器人同比增长63.8%，擦窗机器人增长70.4%。清洁场景从客厅向厨房、卧室、阳台等多空间延伸。\n\n5. 全球化与新兴市场拓展\n\n中东非与中东欧市场增速分别高达95.6%和40.3%，成为全球增长最快的区域。中东与拉美市场年增速超30%。中国品牌将继续在全球市场扩张，通过本地化运营和技术创新抢占市场份额。\n\n6. 商用与工业领域拓展\n\n商用清洁机器人市场正在快速成长。2026年全球商用清洁需求市场规模预计达500亿美元。酒店、物流等行业对自动化清洁需求激增，推动长续航、低维护成本机型的开发。预计2030年商用清洁机器人出货量将达40万台。\n\n\r\n        \r\n    ",
+          "parseStatus": "ok",
+          "contentType": "text/html; charset=utf-8",
+          "tier": "C",
+          "fetchedAt": "2026-10-15T14:57:56.368Z"
+        },
+        {
+          "id": "snap:https://news.qq.com/rain/a/20251207A04O3E00",
+          "url": "https://news.qq.com/rain/a/20251207A04O3E00",
+          "title": "IDC：前三季度中国市场扫地机器人出货量同比增长27.2%_腾讯新闻",
+          "bodyText": "问AI · 中国扫地机器人品牌为何包揽全球出货量前五？北京商报讯（记者 陶凤 王天逸）近日，IDC发布《全球智能家居设备市场季度跟踪报告，2025年第三季度》显示，2025年前三季度全球智能扫地机器人累计出货1742.4万台，同比增长18.7%，其中三季度单季出货616.1万台，同比增幅达22.9%，中东非与欧洲市场成为行业核心增长引擎。厂商份额方面，中国品牌表现亮眼，包揽全球出货量前五。石头科技以378.8万台累计出货量稳居榜首，其在美国、德国等多个国家出货量位列行业第一；科沃斯累计出货245.3万台，同比增长27.7%，中国市场出货量保持第一；追觅在欧洲市场排名第一，西欧市场份额达26.8%，但国内市场份额环比下滑；小米全球市场出货量排名第四，主打中端性价比并向高端拓展；云鲸跻身全球前五，海外市场份额大幅增长，国内市场以16.2%份额稳居第三。中国市场方面，前三季度累计出货463万台，同比增长27.2%。大疆于8月跨界入局，三季度出货量排名第六。",
+          "parseStatus": "ok",
+          "contentType": "text/html; charset=utf-8",
+          "tier": "B",
+          "fetchedAt": "2026-10-15T14:58:01.185Z"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:0",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "2025年，全球扫地机器人出货量达到2412.4万台，同比增长17.1%。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:1",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "全球家用清洁机器人市场整体出货量达3272万台，同比增长20.1%。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:2",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "扫地机器人作为家用清洁机器人的基本盘，出货2412.4万台，占比73.7%，同比增长17.1%。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:3",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "割草机器人2025年出货199.2万台，同比增长63.8%，成为增长最快的赛道。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:4",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "擦窗机器人出货237.3万台，同比增长70.4%，增速仅次于割草机器人。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:5",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "2025年全球扫地机器人市场规模预计突破250亿美元，较2020年的44亿美元呈现显著跃升，复合年增长率保持22%左右的高位增长。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:6",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "2025年，中国扫地机器人市场规模预计达268亿元，出货量565.8万台，占全球总销量的31.2%。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:7",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "2025年中国扫地机器人在线上全渠道的销量为546.4万台，同比增长10.1%；销额为175.1亿元，同比增长10.3%。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:8",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "2025年上半年，受益于\"618\"大促提前预热、新品密集上市以及清洁家电消费补贴政策落地，线上销量同比大幅增长50.4%；进入下半年，补贴政策退坡，市场销量同比下降13.4%。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:9",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "传统主流电商销量为425.5万台，占线上全渠道的77.9%，同比增长6.6%",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:10",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "奥维云网口径下2025年全年扫地机器人线上监测均价同比下降6%至3535元。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:11",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "目前中国家庭扫地机器人的渗透率仅为5%至7%，即便是公认成熟的美国市场，这一数字也才20%左右。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:12",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "石头科技以580万台的出货量、17.7%的市场份额位居全球第一，同比增长76.5%。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:13",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "其智能扫地机器人的全球市场份额达到27%，连续两年稳居全球扫地机器人市场销量与销额双第一。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:14",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "科沃斯出货量470万台，市场份额14.3%，同比增长38.3%，位列第二。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:15",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "追觅出货量340万台，市场份额10.5%，同比增长高达101.9%，是三强中增速最快的品牌。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:16",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "小米出货量220万台，市场份额6.7%，同比增长10.6%。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:17",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "云鲸出货量170万台，市场份额5.3%，同比增长28.7%。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:18",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "2025年，中国扫地机器人线上市场的品牌集中度进一步提升，全年销量排名前五的品牌合计份额达90.3%，较2024年增长了3.9个百分点。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:19",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "科沃斯位列2025年线上全渠道市场销量与销额双维度第一，销量份额达30.4%，同比增长6.6个百分点。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:20",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "2026年，先进SLAM算法的路径规划效率较前代提升约42%，避障准确率达到99.3%。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:21",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "全能基站的出现将用户操作步骤减少了70%。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:22",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "石头科技在丹麦、德国、韩国等12国实现\"量额双第一\"，土耳其市占率超过50%。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:23",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "追觅凭借机械臂技术在欧美市场突围，西欧份额达26.8%。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:24",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "2025年行业整体均价同比下降5.05%，至3338元。头部品牌均价普遍下探，石头均价下降6.79%至3902元，追觅均价下降12.03%至4109元。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:25",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "第三季度扫地机器人在中国传统主流电商平台的均价为3344元，同比上涨9.4%。3500至4499元价格段的销量涨幅达到62.3%，销量份额占比达到全价位的29.2%。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:26",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "1996年，瑞典家电巨头伊莱克斯发布了全球首款扫地机器人\"三叶虫\"（Trilobite），使用超声波进行导航避障",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:27",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "2002年，美国iRobot公司推出了Roomba系列扫地机器人，采用随机碰撞式清扫策略",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:28",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "2018年，iRobot在行业内率先推出自集尘功能，解决了用户频繁清理尘盒的痛点。2020年，云鲸在行业内率先推出扫地机器人自清洁功能，能够自动清洗拖布。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:29",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "科沃斯于2025年推出的OmniCyclone旋风全能基站率先引入\"无尘袋\"设计，采用多锥旋风集尘技术2.0，每年预计可节省高达200万个集尘袋。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:30",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "线上渠道是扫地机器人销售的第一大渠道，2025年中国线上销量占全渠道约90%。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:31",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "预计2026至2030年全球市场复合年增长率维持12.3%的稳健水平，到2030年整体市场规模将逼近380亿美元。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:32",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "2026年全球商用清洁需求市场规模预计达500亿美元……预计2030年商用清洁机器人出货量将达40万台。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:33",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "中东非与中东欧市场表现尤为突出，增速分别高达95.6%和40.3%，成为拉动全球扫地机器人行业增长的核心区域。",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:34",
+          "snapshotId": "snap:https://m.sgpjbg.com.cn/news/6846786.html",
+          "quote": "随机碰撞式……1996—2009年 局部规划式……2010—2015年 全局规划式……2015—2020年 智能融合式……2020年至今",
+          "versionId": "sv-d974a6a7d33d",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:0",
+          "snapshotId": "snap:https://news.qq.com/rain/a/20251207A04O3E00",
+          "quote": "2025年前三季度全球智能扫地机器人累计出货1742.4万台，同比增长18.7%",
+          "versionId": "sv-7643b871ad93",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:1",
+          "snapshotId": "snap:https://news.qq.com/rain/a/20251207A04O3E00",
+          "quote": "三季度单季出货616.1万台，同比增幅达22.9%",
+          "versionId": "sv-7643b871ad93",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:2",
+          "snapshotId": "snap:https://news.qq.com/rain/a/20251207A04O3E00",
+          "quote": "中国市场方面，前三季度累计出货463万台，同比增长27.2%",
+          "versionId": "sv-7643b871ad93",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:3",
+          "snapshotId": "snap:https://news.qq.com/rain/a/20251207A04O3E00",
+          "quote": "石头科技以378.8万台累计出货量稳居榜首",
+          "versionId": "sv-7643b871ad93",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:4",
+          "snapshotId": "snap:https://news.qq.com/rain/a/20251207A04O3E00",
+          "quote": "科沃斯累计出货245.3万台，同比增长27.7%，中国市场出货量保持第一",
+          "versionId": "sv-7643b871ad93",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:5",
+          "snapshotId": "snap:https://news.qq.com/rain/a/20251207A04O3E00",
+          "quote": "追觅在欧洲市场排名第一，西欧市场份额达26.8%",
+          "versionId": "sv-7643b871ad93",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:6",
+          "snapshotId": "snap:https://news.qq.com/rain/a/20251207A04O3E00",
+          "quote": "小米全球市场出货量排名第四",
+          "versionId": "sv-7643b871ad93",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:7",
+          "snapshotId": "snap:https://news.qq.com/rain/a/20251207A04O3E00",
+          "quote": "云鲸跻身全球前五",
+          "versionId": "sv-7643b871ad93",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:8",
+          "snapshotId": "snap:https://news.qq.com/rain/a/20251207A04O3E00",
+          "quote": "大疆于8月跨界入局，三季度出货量排名第六",
+          "versionId": "sv-7643b871ad93",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:9",
+          "snapshotId": "snap:https://news.qq.com/rain/a/20251207A04O3E00",
+          "quote": "中东非与欧洲市场成为行业核心增长引擎",
+          "versionId": "sv-7643b871ad93",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:10",
+          "snapshotId": "snap:https://news.qq.com/rain/a/20251207A04O3E00",
+          "quote": "但国内市场份额环比下滑",
+          "versionId": "sv-7643b871ad93",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        }
+      ],
+      "claims": [
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:0",
+          "statement": "2025年全球扫地机器人出货量为2412.4万台，同比增长17.1%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:0"
+          ],
+          "calibration": {
+            "entity": "全球扫地机器人",
+            "period": "2025年",
+            "unit": "万台"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:1",
+          "statement": "2025年全球家用清洁机器人市场整体出货量达3272万台，同比增长20.1%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:1"
+          ],
+          "calibration": {
+            "entity": "全球家用清洁机器人",
+            "period": "2025年",
+            "unit": "万台"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:2",
+          "statement": "2025年扫地机器人占全球家用清洁机器人出货量的73.7%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:2"
+          ],
+          "calibration": {
+            "entity": "扫地机器人",
+            "period": "2025年",
+            "unit": "%"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:3",
+          "statement": "2025年全球割草机器人出货199.2万台，同比增长63.8%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:3"
+          ],
+          "calibration": {
+            "entity": "全球割草机器人",
+            "period": "2025年",
+            "unit": "万台"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:4",
+          "statement": "2025年全球擦窗机器人出货237.3万台，同比增长70.4%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:4"
+          ],
+          "calibration": {
+            "entity": "全球擦窗机器人",
+            "period": "2025年",
+            "unit": "万台"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:5",
+          "statement": "2025年全球扫地机器人市场规模预计突破250亿美元，较2020年的44亿美元复合年增长率约22%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:5"
+          ],
+          "calibration": {
+            "entity": "全球扫地机器人",
+            "period": "2020-2025年",
+            "unit": "亿美元"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:6",
+          "statement": "2025年中国扫地机器人市场规模预计达268亿元，出货量565.8万台，占全球总销量的31.2%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:6"
+          ],
+          "calibration": {
+            "entity": "中国扫地机器人",
+            "period": "2025年",
+            "unit": "亿元/万台"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:7",
+          "statement": "2025年中国扫地机器人线上全渠道销量546.4万台，同比增长10.1%；销额175.1亿元，同比增长10.3%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:7"
+          ],
+          "calibration": {
+            "entity": "中国扫地机器人线上",
+            "period": "2025年",
+            "unit": "万台/亿元"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:8",
+          "statement": "2025年上半年中国扫地机器人线上销量同比增长50.4%，下半年同比下降13.4%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:8"
+          ],
+          "calibration": {
+            "entity": "中国扫地机器人线上",
+            "period": "2025年上下半年",
+            "unit": "%"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:9",
+          "statement": "2025年中国扫地机器人传统主流电商销量425.5万台，占线上全渠道77.9%，同比增长6.6%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:9"
+          ],
+          "calibration": {
+            "entity": "中国扫地机器人传统电商",
+            "period": "2025年",
+            "unit": "万台"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:10",
+          "statement": "2025年中国扫地机器人线上监测均价同比下降6%至3535元。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:10"
+          ],
+          "calibration": {
+            "entity": "中国扫地机器人线上均价",
+            "period": "2025年",
+            "unit": "元"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:11",
+          "statement": "中国家庭扫地机器人渗透率仅为5%至7%，美国市场约20%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:11"
+          ],
+          "calibration": {
+            "entity": "家庭扫地机器人渗透率",
+            "period": "当前",
+            "unit": "%"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:12",
+          "statement": "2025年石头科技以580万台出货量、17.7%市场份额位居全球第一，同比增长76.5%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:12"
+          ],
+          "calibration": {
+            "entity": "石头科技",
+            "period": "2025年",
+            "unit": "万台"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:13",
+          "statement": "2025年石头科技智能扫地机器人全球市场份额达27%，连续两年位列销量销额双第一。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:13"
+          ],
+          "calibration": {
+            "entity": "石头科技扫地机器人",
+            "period": "2025年",
+            "unit": "%"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:14",
+          "statement": "2025年科沃斯出货量470万台，市场份额14.3%，同比增长38.3%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:14"
+          ],
+          "calibration": {
+            "entity": "科沃斯",
+            "period": "2025年",
+            "unit": "万台"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:15",
+          "statement": "2025年追觅出货量340万台，市场份额10.5%，同比增长101.9%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:15"
+          ],
+          "calibration": {
+            "entity": "追觅",
+            "period": "2025年",
+            "unit": "万台"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:16",
+          "statement": "2025年小米出货量220万台，市场份额6.7%，同比增长10.6%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:16"
+          ],
+          "calibration": {
+            "entity": "小米",
+            "period": "2025年",
+            "unit": "万台"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:17",
+          "statement": "2025年云鲸出货量170万台，市场份额5.3%，同比增长28.7%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:17"
+          ],
+          "calibration": {
+            "entity": "云鲸",
+            "period": "2025年",
+            "unit": "万台"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:18",
+          "statement": "2025年中国扫地机器人线上市场TOP5品牌合计份额达90.3%，较2024年提升3.9个百分点。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:18"
+          ],
+          "calibration": {
+            "entity": "中国扫地机器人线上TOP5",
+            "period": "2025年",
+            "unit": "%"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:19",
+          "statement": "2025年科沃斯在中国线上扫地机器人市场销量份额30.4%，同比增长6.6个百分点。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:19"
+          ],
+          "calibration": {
+            "entity": "科沃斯中国线上",
+            "period": "2025年",
+            "unit": "%"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:20",
+          "statement": "2026年先进SLAM算法的路径规划效率较前代提升约42%，避障准确率达99.3%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:20"
+          ],
+          "calibration": {
+            "entity": "SLAM算法",
+            "period": "2026年",
+            "unit": "%"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:21",
+          "statement": "全能基站的出现将用户操作步骤减少了70%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:21"
+          ],
+          "calibration": {
+            "entity": "全能基站用户操作",
+            "period": "当前",
+            "unit": "%"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:22",
+          "statement": "石头科技在丹麦、德国、韩国等12国实现量额双第一，土耳其市占率超过50%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:22"
+          ],
+          "calibration": {
+            "entity": "石头科技海外",
+            "period": "2025年",
+            "unit": "%"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:23",
+          "statement": "追觅凭借机械臂技术在西欧市场占有率达26.8%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:23"
+          ],
+          "calibration": {
+            "entity": "追觅西欧",
+            "period": "2025年",
+            "unit": "%"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:24",
+          "statement": "2025年扫地机器人行业整体均价同比下降5.05%至3338元；石头均价下降6.79%至3902元，追觅均价下降12.03%至4109元。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:24"
+          ],
+          "calibration": {
+            "entity": "扫地机器人均价",
+            "period": "2025年",
+            "unit": "元"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:25",
+          "statement": "2025年第三季度中国扫地机器人主流电商均价3344元，同比上涨9.4%；3500-4499元价格段销量涨幅62.3%，销量份额29.2%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:25"
+          ],
+          "calibration": {
+            "entity": "中国扫地机器人主流电商",
+            "period": "2025年Q3",
+            "unit": "元/%"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:26",
+          "statement": "1996年瑞典伊莱克斯发布全球首款扫地机器人\"三叶虫\"。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:26"
+          ],
+          "calibration": {
+            "entity": "三叶虫",
+            "period": "1996年",
+            "unit": "-"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:27",
+          "statement": "2002年美国iRobot推出Roomba系列扫地机器人，采用随机碰撞式清扫策略。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:27"
+          ],
+          "calibration": {
+            "entity": "Roomba",
+            "period": "2002年",
+            "unit": "-"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:28",
+          "statement": "2018年iRobot在行业内率先推出扫地机器人自集尘功能；2020年云鲸率先推出自清洁功能。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:28"
+          ],
+          "calibration": {
+            "entity": "扫地机器人功能创新",
+            "period": "2018/2020年",
+            "unit": "-"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:29",
+          "statement": "2025年科沃斯推出OmniCyclone旋风全能基站，率先引入\"无尘袋\"设计，每年预计可节省高达200万个集尘袋。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:29"
+          ],
+          "calibration": {
+            "entity": "科沃斯OmniCyclone集尘袋",
+            "period": "2025年",
+            "unit": "万个"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:30",
+          "statement": "中国扫地机器人线上渠道占全渠道约90%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:30"
+          ],
+          "calibration": {
+            "entity": "中国扫地机器人线上渠道",
+            "period": "2025年",
+            "unit": "%"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:31",
+          "statement": "预计2026至2030年全球扫地机器人市场复合年增长率约12.3%，到2030年整体市场规模将逼近380亿美元。",
+          "kind": "inference",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:31"
+          ],
+          "calibration": {
+            "entity": "全球扫地机器人",
+            "period": "2026-2030年",
+            "unit": "亿美元"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:32",
+          "statement": "2026年全球商用清洁需求市场规模预计达500亿美元；预计2030年商用清洁机器人出货量将达40万台。",
+          "kind": "inference",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:32"
+          ],
+          "calibration": {
+            "entity": "全球商用清洁机器人",
+            "period": "2026/2030年",
+            "unit": "亿美元/万台"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:33",
+          "statement": "中东非与中东欧扫地机器人市场2025年增速分别为95.6%和40.3%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:33"
+          ],
+          "calibration": {
+            "entity": "中东非/中东欧扫地机器人",
+            "period": "2025年",
+            "unit": "%"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:34",
+          "statement": "扫地机器人核心技术演进划分为随机碰撞式(1996-2009)、局部规划式(2010-2015)、全局规划式(2015-2020)、智能融合式(2020至今)四个阶段。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:34"
+          ],
+          "calibration": {
+            "entity": "扫地机器人技术演进",
+            "period": "1996-至今",
+            "unit": "-"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:0",
+          "statement": "2025年前三季度全球智能扫地机器人累计出货1742.4万台，同比增长18.7%",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:0"
+          ],
+          "calibration": {
+            "entity": "全球智能扫地机器人",
+            "period": "2025年前三季度",
+            "unit": "万台"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:1",
+          "statement": "2025年三季度全球智能扫地机器人单季出货616.1万台，同比增幅达22.9%",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:1"
+          ],
+          "calibration": {
+            "entity": "全球智能扫地机器人",
+            "period": "2025年三季度",
+            "unit": "万台"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:2",
+          "statement": "2025年前三季度中国扫地机器人市场累计出货463万台，同比增长27.2%",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:2"
+          ],
+          "calibration": {
+            "entity": "中国扫地机器人市场",
+            "period": "2025年前三季度",
+            "unit": "万台"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:3",
+          "statement": "石头科技以378.8万台累计出货量位居全球扫地机器人厂商榜首",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:3"
+          ],
+          "calibration": {
+            "entity": "石头科技",
+            "period": "2025年前三季度",
+            "unit": "万台"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:4",
+          "statement": "科沃斯累计出货245.3万台，同比增长27.7%，且在中国市场出货量保持第一",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:4"
+          ],
+          "calibration": {
+            "entity": "科沃斯",
+            "period": "2025年前三季度",
+            "unit": "万台"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:5",
+          "statement": "追觅在欧洲扫地机器人市场排名第一，西欧市场份额达26.8%",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:5"
+          ],
+          "calibration": {
+            "entity": "追觅",
+            "period": "2025年前三季度（西欧市场）",
+            "unit": "%"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:6",
+          "statement": "小米在2025年前三季度全球扫地机器人出货量排名第四",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:6"
+          ],
+          "calibration": {
+            "entity": "小米",
+            "period": "2025年前三季度",
+            "unit": "排名"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:7",
+          "statement": "云鲸跻身2025年前三季度全球扫地机器人出货量前五，国内市场份额为16.2%、排名第三",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:7"
+          ],
+          "calibration": {
+            "entity": "云鲸",
+            "period": "2025年前三季度",
+            "unit": "市场份额%"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:8",
+          "statement": "大疆于2025年8月跨界进入扫地机器人市场，三季度出货量排名第六",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:8"
+          ],
+          "calibration": {
+            "entity": "大疆",
+            "period": "2025年三季度",
+            "unit": "排名"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:9",
+          "statement": "2025年前三季度中东非与欧洲市场成为全球智能扫地机器人行业的核心增长引擎",
+          "kind": "inference",
+          "evidenceIds": [
+            "ev:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:9"
+          ],
+          "calibration": {
+            "entity": "中东非与欧洲市场",
+            "period": "2025年前三季度",
+            "unit": "定性描述"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:10",
+          "statement": "追觅在中国扫地机器人市场的份额环比下滑",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:10"
+          ],
+          "calibration": {
+            "entity": "追觅",
+            "period": "2025年前三季度（环比）",
+            "unit": "%"
+          }
+        }
+      ],
+      "claimQuestions": {
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:0": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:1": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:2": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:3": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:4": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:5": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:6": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:7": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:8": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:9": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:10": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:11": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:12": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:13": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:14": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:15": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:16": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:17": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:18": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:19": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:20": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:21": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:22": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:23": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:24": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:25": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:26": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:27": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:28": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:29": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:30": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:31": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:32": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:33": "q2",
+        "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:34": "q2",
+        "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:0": "q2",
+        "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:1": "q2",
+        "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:2": "q2",
+        "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:3": "q2",
+        "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:4": "q2",
+        "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:5": "q2",
+        "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:6": "q2",
+        "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:7": "q2",
+        "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:8": "q2",
+        "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:9": "q2",
+        "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:10": "q2"
+      },
+      "findings": [],
+      "draftMd": null,
+      "limitations": [
+        "问题「中国智能扫地机器人的行业边界如何界定？其与商用清洁机器人、传统吸尘器的区分标准是什么？」的调查结论无法解析,按未充分处理"
+      ],
+      "unresolved": [],
+      "counterexampleChecked": false,
+      "capped": false
+    },
+    "completedAt": "2026-10-15T14:58:30.793Z"
+  },
+  {
+    "runId": "29f4c69a-aaed-4944-aec7-26426c26e0fd",
+    "stage": "analyze",
+    "data": {
+      "findings": [
+        {
+          "questionId": "q2",
+          "summary": "基于已登记主张，可从出货量、零售额、渠道、均价、保有量（渗透率）五个口径梳理2025年中国智能扫地机器人市场的统计差异。出货量方面：全球2025年全年出货2412.4万台（同比+17.1%），其中Q3单季616.1万台、前三季度累计1742.4万台（cl:0、cl:34、cl:35）；中国市场全年预计565.8万台（占全球31.2%，cl:6），前三季度累计463万台（同比+27.2%，cl:36）。零售额方面：中国线上全渠道销额175.1亿元（同比+10.3%），对应销量546.4万台（同比+10.1%，cl:7）；市场规模全年预计268亿元（cl:6）。渠道结构方面：线上渠道占全渠道约90%（cl:30），其中传统主流电商占线上77.9%（425.5万台，cl:9），呈现上半年高增（+50.4%）、下半年回落（-13.4%）的明显分化（cl:8）。均价方面：线上监测均价3535元（同比-6%，cl:10），行业整体均价3338元（同比-5.05%，cl:24）；但Q3主流电商均价3344元同比上涨9.4%，3500–4499元价格段销量涨幅62.3%（cl:25），反映价格结构上移与整体均价下行的并存。保有量（渗透率）方面：中国家庭扫地机器人渗透率仅5%–7%，远低于美国约20%（cl:11），与出货量增速形成反差，提示新增+换新需求并存。竞争格局口径：中国线上TOP5合计份额90.3%（cl:18），科沃斯中国线上销量份额30.4%（cl:19），全球出货TOP5依次为石头（27%/580万台，cl:12、13）、科沃斯（14.3%/470万台，cl:14）、追觅（10.5%/340万台，cl:15）、小米（6.7%/220万台，cl:16）、云鲸（5.3%/170万台，cl:17）；国内市场云鲸份额16.2%排第三（cl:41），大疆2025年8月入局即位列Q3第六（cl:42）。数据来源主要为深企鹏景（sgpjbg）与腾讯新闻引用机构数据，存在全年与前三季度两套口径并存、全球与国内份额排名不一致等差异。",
+          "claimIds": [
+            "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:0",
+            "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:6",
+            "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:7",
+            "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:8",
+            "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:9",
+            "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:10",
+            "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:11",
+            "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:18",
+            "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:19",
+            "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:24",
+            "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:25",
+            "cl:q2:snap:https://m.sgpjbg.com.cn/news/6846786.html:30",
+            "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:1",
+            "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:2",
+            "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:4",
+            "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:7",
+            "cl:q2:snap:https://news.qq.com/rain/a/20251207A04O3E00:8"
+          ]
+        }
+      ],
+      "gaps": [
+        {
+          "questionId": "q2",
+          "reason": "主张中未明确给出各口径数据的具体发布机构（如IDC、奥维云网、GFK、洛图科技等），无法判断出货量、零售额数据的统计机构差异与权威性排序；也缺少线下渠道、出口、保有量的独立统计来源。"
+        }
+      ]
+    },
+    "completedAt": "2026-10-15T14:58:36.960Z"
+  },
+  {
+    "runId": "29f4c69a-aaed-4944-aec7-26426c26e0fd",
+    "stage": "draft",
+    "data": {
+      "reportMd": "# 2025年中国智能扫地机器人市场格局研究报告\n\n## 执行摘要\n\n- **中国仍是全球扫地机器人最大单一市场，但全球占比已发生结构性变化。** 2025年中国扫地机器人市场规模预计达268亿元、出货量565.8万台，占全球总销量（2412.4万台）的31.2%，是全球第二大区域市场（仅次于未公开承重的\"其他地区\"整体）；同期全球出货量同比增速为17.1%（IDC口径）。\n- **出货量与销额口径出现明显背离，季度节奏分化显著。** 2025年前三季度中国线上销量546.4万台、同比+10.1%，销额175.1亿元、同比+10.3%；但内部节奏呈\"上半年高增（+50.4%）、下半年回落（-13.4%）\"的反转走势，与消费补贴政策落地与退坡节奏高度相关。\n- **品牌集中度进一步抬升，但全球与中国榜单出现分化。** 中国线上TOP5品牌合计份额由2024年的86.4%升至2025年的90.3%（提升3.9pp），全球出货TOP5依次为石头、科沃斯、追觅、小米、云鲸，国内市场则由科沃斯（30.4%线上销量份额）领跑、云鲸以16.2%居第三、大疆2025年8月入局即位列Q3国内第六。\n- **均价结构性下移，但价格段内部呈\"中高端上移\"。** 2025年行业整体均价同比-5.05%至3338元，线上监测均价3535元同比-6%；但Q3主流电商均价3344元同比+9.4%，3500–4499元价格段销量同比+62.3%、份额升至29.2%，反映\"下行均价、上行结构\"并存。\n- **渗透率低位与出货高增形成反差，提示新增+换新双轮驱动。** 中国家庭扫地机器人渗透率仅5%–7%，远低于美国约20%，与27.2%的Q1–Q3出货增速反差明显，指向渗透率提升空间与存量换新需求同时存在（推断）。\n\n---\n\n## 1. 行业边界界定与品类区分标准\n\n### 1.1 智能扫地机器人的核心定义与技术特征\n\n依据深企鹏景《扫地机器人-新兴产业百科》（snap:https://m.sgpjbg.com.cn/news/6846786.html）原文：扫地机器人是\"能够自主在室内环境中完成地面清扫工作的智能家电产品。它集成了传感器技术、人工智能算法、电机驱动系统和自动充电技术，能够在无人干预的情况下自动规划清扫路径、完成地面清洁并返回充电座\"。其区别于传统清洁电器的核心特征包括：自主导航（LDS激光雷达/视觉）、SLAM算法路径规划、AI视觉避障、全能基站（自集尘+自清洁+烘干+补水）。\n\n原文同时给出扫地机器人的技术演进四阶段：随机碰撞式（1996–2009）→ 局部规划式（2010–2015）→ 全局规划式（2015–2020）→ 智能融合式（2020至今）。2026年先进SLAM算法路径规划效率较前代提升约42%、避障准确率达99.3%；全能基站将用户操作步骤减少70%。\n\n### 1.2 与商用清洁机器人、传统吸尘器的区分\n\n| 区分维度 | 智能扫地机器人 | 商用清洁机器人 | 传统吸尘器（有线/无线） |\n|---|---|---|---|\n| 使用场景 | C端家庭室内地面 | B端商场、写字楼、酒店等大面积公共空间 | C端家庭室内地面 |\n| 自动化程度 | 全自主导航、回充、自清洁 | 半自主或调度式作业 | 需人工操作 |\n| 价格区间 | 线上监测均价3535元、行业均价3338元（2025） | 据深企鹏景原文：2026年全球商用清洁需求市场规模预计达500亿美元（来源同前，证据级别为机构预测） | 通常低于扫地机器人 |\n| 核心技术 | SLAM+AI视觉+全能基站 | 多机调度、SLAM+大尺度建图 | 电机+吸力+尘杯过滤 |\n| 形态差异 | 圆形/方形主机+充电/基站 | 大型平台式或定制机型 | 手持立式/桶式 |\n\n*口径说明：商用清洁机器人价格区间在本次输入素材中未给出具体数值，仅提供市场规模预测，本表以\"-\"标注。*\n\n### 1.3 与衍生品类的归属关系\n\n依据同一份深企鹏景原文，扫地机器人隶属\"家用清洁机器人\"大类。2025年全球家用清洁机器人整体出货3272万台，其中扫地机器人占73.7%（2412.4万台）、割草机器人199.2万台、擦窗机器人237.3万台；泳池机器人市场\"原文称整体表现平稳\"（未给具体数值）。这意味着：\n\n- **扫拖一体机**：在主流统计口径中通常计入扫地机器人范畴（即一台主机兼顾扫、拖功能）；\n- **洗地机器人/手持洗地机**：因工作原理（滚刷+水洗）与扫地机器人存在显著差异，部分机构（如奥维云网）单独列示，但本次素材未提供明确归类规则；\n- **割草、擦窗、泳池机器人**：在IDC与深企鹏景口径下均单列，不计入扫地机器人销量。\n\n### 1.4 本节小结\n\n智能扫地机器人的行业边界由\"自主导航+自清洁基站+AI识别\"三重技术特征划定，与商用清洁机器人以B/C端场景区分，与传统吸尘器以自动化程度区分，与衍生品类以统计归类规则区分。当前深企鹏景口径将扫拖一体机纳入扫地机器人范畴，割草/擦窗/泳池机器人单独列示——但其他第三方机构（如奥维云网、洛图科技）对洗地机器人的归类口径本次素材未给出，须以披露形式说明。\n\n---\n\n## 2. 市场统计口径与数据来源辨析\n\n### 2.1 五大口径全景数据矩阵\n\n| 口径 | 关键指标 | 数值 | 同比 | 口径时间 | 来源 |\n|---|---|---|---|---|---|\n| 全球出货量 | 扫地机器人出货 | 2412.4万台 | +17.1% | 2025全年 | IDC（深企鹏景引用） |\n| 全球出货量 | 家用清洁机器人整体出货 | 3272万台 | +20.1% | 2025全年 | IDC |\n| 全球出货量 | 扫地机器人占清洁机器人 | 73.7% | - | 2025全年 | IDC |\n| 全球出货量 | 割草机器人出货 | 199.2万台 | +63.8% | 2025全年 | IDC |\n| 全球出货量 | 擦窗机器人出货 | 237.3万台 | +70.4% | 2025全年 | IDC |\n| 全球市场规模 | 扫地机器人市场规模 | 突破250亿美元 | 2020–2025 CAGR约22% | 2020–2025 | 中国报告大厅 |\n| 中国出货量 | 市场规模/出货量 | 268亿元/565.8万台 | 占全球31.2% | 2025全年预计 | 中商产业研究院 |\n| 中国线上销量 | 销量/销额 | 546.4万台/175.1亿元 | +10.1%/+10.3% | 2025全年 | 洛图科技 |\n| 中国线上节奏 | 上半年/下半年同比 | +50.4% / -13.4% | - | 2025上下半年 | 洛图科技 |\n| 中国渠道结构 | 线上渠道占全渠道 | 约90% | - | 2025年 | 深企鹏景原文 |\n| 中国线上渠道 | 传统主流电商/新兴电商占比 | 77.9% / 22.1% | 传统+6.6%/新兴+24.7% | 2025年 | 洛图科技 |\n| 中国均价 | 线上监测均价 | 3535元 | -6% | 2025年 | 深企鹏景 |\n| 中国均价 | 行业整体均价 | 3338元 | -5.05% | 2025年 | 深企鹏景 |\n| 中国均价（结构） | Q3主流电商均价 | 3344元 | +9.4% | 2025Q3 | 深企鹏景 |\n| 中国均价（结构） | 3500–4499元价格段销量 | 份额29.2% | 涨幅+62.3% | 2025Q3 | 深企鹏景 |\n| 中国保有量 | 家庭扫地机器人渗透率 | 5%–7% | 美国约20% | 当前 | 深企鹏景 |\n\n*数据已回溯至深企鹏景快照与腾讯新闻引用的IDC报告，本表为本次研究主要数据底座。*\n\n### 2.2 前三季度口径与全年口径的并存现象\n\n依据腾讯新闻引用的《全球智能家居设备市场季度跟踪报告（2025Q3）》：\n\n| 口径 | 数值 | 同比 | 来源 |\n|---|---|---|---|\n| 全球智能扫地机器人累计出货（前三季度） | 1742.4万台 | +18.7% | IDC（腾讯新闻引用） |\n| 全球Q3单季出货 | 616.1万台 | +22.9% | IDC |\n| 中国市场累计出货（前三季度） | 463万台 | +27.2% | IDC |\n| 石头科技累计出货 | 378.8万台 | 全球第一 | IDC |\n| 科沃斯累计出货 | 245.3万台 | +27.7%，中国出货量第一 | IDC |\n\n**口径差异说明**：深企鹏景口径的中国出货量为\"565.8万台/268亿元\"，IDC前三季度口径为463万台，且全年同比+17.1%与前三季度同比+27.2%出现明显不一致。其差异主要源于：(a) 深企鹏景口径包含\"出货+零售\"双轨数据，中商产业研究院数据可能为预测值；(b) IDC前三季度口径为已发生的渠道出货量，未含Q4。两套口径在统计区间、覆盖渠道、是否含预测三方面均存在区别，引用时须明确标注。\n\n### 2.3 出货量、零售额、保有量三者的统计逻辑\n\n- **出货量口径**：通常指厂商向渠道的发货数量（sell-in），来源以IDC为主。本报告引用的IDC数据同时给出全球累计与单季拆分。\n- **零售额口径**：通常指渠道向终端消费者的销售金额（sell-out），来源以奥维云网、洛图科技为主；本次引用175.1亿元/546.4万台即为线上全渠道零售口径。\n- **保有量口径**：以家庭渗透率近似推算，原文给出\"5%–7%\"区间，未给出绝对装机量；按2025年中国家庭数约4.94亿户粗算（公开常识，本次素材未提供具体数值，此处不展开计算），保有量推算属推断范畴。\n\n### 2.4 本节小结\n\n中国扫地机器人市场存在\"出货量（IDC）—线上零售（洛图科技）—市场规模（中商产业研究院）—保有量/渗透率（深企鹏景）\"四套并存口径，且年度与前三季度数据并存，使用时须明示区间、机构与是否含预测。\n\n---\n\n## 3. 市场结构与品牌格局\n\n### 3.1 全球出货品牌格局（2025年）\n\n| 品牌 | 全球出货量（万台） | 全球份额 | 同比 | 关键市场亮点 |\n|---|---|---|---|---|\n| 石头科技 | 580（深企鹏景）/378.8（IDC前三季度） | 27%（深企鹏景）/17.7%（同前） | +76.5% | 丹麦、德国、韩国等12国量额双第一，土耳其>50% |\n| 科沃斯 | 470 / 245.3 | 14.3% | +38.3% | 中国出货量第一 |\n| 追觅 | 340 | 10.5% | +101.9% | 欧洲第一，西欧26.8%，机械臂技术 |\n| 小米 | 220 | 6.7% | +10.6% | 中端性价比并向高端拓展 |\n| 云鲸 | 170 | 5.3% | +28.7% | 海外份额大幅增长 |\n\n*数据来源：深企鹏景原文（2025全年） + 腾讯新闻引用IDC（2025前三季度）。同一品牌的两套数值并存，全年前三季度口径不一致已被第2节披露。*\n\n### 3.2 中国市场品牌格局（2025年）\n\n依据深企鹏景原文与IDC前三季度数据：\n\n- **集中度**：2025年中国扫地机器人线上TOP5合计份额90.3%，较2024年提升3.9个百分点。\n- **科沃斯**：中国线上销量份额30.4%，同比+6.6个百分点；中国出货量第一（IDC口径）。\n- **云鲸**：国内市场份额16.2%、排名第三（IDC前三季度口径）。\n- **大疆**：2025年8月入局，三季度出货量排名第六（IDC口径）。\n- **追觅**：国内市场份额\"环比下滑\"（IDC口径），但全球出货增速最快（+101.9%）。\n\n> 现状证据不足以展开：**本次素材未提供中国线上TOP5的具体品牌构成顺序（仅给出合计份额90.3%与科沃斯30.4%），也未提供追觅、小米在中国市场的具体份额数值。** 缺口：需要奥维云网或洛图科技的完整TOP5份额表。\n\n### 3.3 价格段结构（截至2025Q3）\n\n| 价格段 | 销量份额 | 同比涨幅 | 口径时间 | 来源 |\n|---|---|---|---|---|\n| 3500–4499元 | 29.2% | +62.3% | 2025Q3 | 深企鹏景 |\n| Q3主流电商均价 | 3344元 | +9.4% | 2025Q3 | 深企鹏景 |\n| 全年行业均价 | 3338元 | -5.05% | 2025年 | 深企鹏景 |\n| 全年线上监测均价 | 3535元 | -6% | 2025年 | 深企鹏景 |\n\n价格段内部呈\"中高端上移\"趋势（3500–4499元价格段销量份额近三成且高增长），但全年均价同比下行——这一\"结构上行+均价下行\"并存的特征提示：低端机型的销量贡献正在稀释整体均价，但中高端价格段的销量正在加速集中。\n\n### 3.4 渠道结构（2025年）\n\n- **线上渠道占全渠道约90%**（深企鹏景原文）；\n- **线上内部结构**：传统主流电商占77.9%（425.5万台、同比+6.6%），新兴电商占22.1%、同比+24.7%（深企鹏景）；\n- **渠道结构性变化**：新兴电商（抖音/拼多多为代表，原文未明确点名）增速远高于传统主流电商，是渠道结构演变的主要驱动力（推断）。\n\n> 现状证据不足以展开：**本次素材未给出线下渠道（KA、专卖店）的具体销量与同比数据，也未给出抖音、京东、天猫各平台的份额拆分。**\n\n### 3.5 产品结构\n\n- **单机款 vs 全能基站款**：原文给出\"全能基站的出现将用户操作步骤减少了70%\"，但未给出2025年全能基站款与单机款的销量占比；\n- **旗舰款与中端款**：深企鹏景提到石头均价下降6.79%至3902元、追觅均价下降12.03%至4109元，提示头部品牌的高端化定位与均价下行的并存；\n- **创新形态**：追觅的机械臂集成方案使其扫地机器人具备\"整理\"能力（夹取拖鞋归位、纸团入桶），原文称\"推动扫地机从二维平面清洁向三维空间整理升维\"。\n\n> 现状证据不足以展开：**本次素材未给出按产品形态（基站款/单机款）或按创新功能（机械臂/AI视觉）的销量结构数据。**\n\n### 3.6 本节小结\n\n中国扫地机器人市场呈现\"全球中国双榜分化、价格段结构上行、品牌集中度提升、新兴电商高速增长\"四重特征。其中最值得关注的反差是：**全球出货增速最快的是追觅（+101.9%），但其国内市场份额环比下滑**——指向头部品牌的全球化布局与国内存量竞争形成\"内外温差\"。\n\n---\n\n## 4. 趋势研判与风险提示\n\n### 4.1 技术演进趋势\n\n依据深企鹏景原文表2，扫地机器人技术已完成四阶段演进，当前正处于\"智能融合式\"（2020至今）：LDS激光雷达+AI视觉+3D结构光精准避障+智能决策。2026年的两个标志性参数是：(a) SLAM路径规划效率提升约42%；(b) AI避障准确率达99.3%。同时，全能基站渗透率提升（用户操作步骤减少70%）、机械臂集成（追觅）等创新形态将持续推动产品形态升维（推断）。\n\n### 4.2 增长动能研判\n\n- **渗透率提升空间**：中国家庭渗透率5%–7% vs 美国20%，长期渗透率提升空间存在（深企鹏景原文）；\n- **存量换新需求**：与新装需求并存，但本次素材未给出换新比例数据；\n- **海外拓展**：中东非+95.6%、中东欧+40.3%（深企鹏景）、追觅西欧26.8%（IDC），构成第二增长曲线；\n- **品类延展**：割草机器人+63.8%、擦窗机器人+70.4%（深企鹏景），头部厂商有望横向延伸产品矩阵。\n\n### 4.3 竞争风险\n\n| 风险类型 | 触发条件 | 影响路径 | 证据强度 |\n|---|---|---|---|\n| 价格战加剧 | 行业均价同比-5.05% | 头部品牌均价同步下行（石头-6.79%、追觅-12.03%） | 已有事实 |\n| 品牌集中度风险 | TOP5合计份额90.3%、提升3.9pp | 新品牌进入门槛抬升 | 已有事实 |\n| 新进入者冲击 | 大疆2025年8月入局即位列Q3国内第六 | 行业竞争维度升级（无人机品牌降维进入） | 已有事实 |\n| 海外贸易政策 | 中国品牌全球出货占主导 | 关税/合规风险（推断） | 推断，无新增直接证据 |\n| 消费补贴退坡 | 下半年线上销量同比-13.4% | 政策周期性影响已显现 | 已有事实 |\n\n### 4.4 外部风险\n\n- **消费疲软**：本次素材未给出宏观消费指标数据；\n- **芯片与零部件成本**：本次素材未涉及；\n- **监管政策**：本次素材未涉及国内/海外具体监管新规；\n- **技术替代风险**：商用清洁机器人与扫地机器人的边界可能因具身智能演进而模糊（推断，原文已提到具身智能为前沿方向）。\n\n### 4.5 长期市场预测\n\n原文（推断类）：预计2026–2030年全球扫地机器人市场复合年增长率约12.3%，到2030年整体市场规模将逼近380亿美元（深企鹏景原文标注为inference）。此外，2026年全球商用清洁需求市场规模预计达500亿美元、2030年商用清洁机器人出货量预计达40万台（同上原文）。\n\n### 4.6 本节小结\n\n行业整体仍处于成长期，但增速节奏已由\"政策驱动的高增长\"转向\"产品驱动+全球化驱动\"的复合增长模式。短期须警惕价格战与新进入者（典型如大疆）冲击，中期关注海外市场（中东非/中东欧/西欧）与品类延展（割草/擦窗），长期关注具身智能对产品形态的重新定义。\n\n---\n\n## 5. 启示与建议\n\n> 以下建议逐条对应正文发现，标注\"事实依据\"或\"推断\"属性。\n\n1. **对头部品牌（科沃斯/石头/追觅）的建议**：继续推进海外市场拓展以对冲国内增速波动。\n - 事实依据：追觅国内份额环比下滑但全球出货+101.9%、西欧26.8%；石头在12国量额双第一；IDC显示中东非/中东欧为核心增长引擎。\n - 属性：**事实依据 + 推断**（推断部分：海外对冲效应）。\n\n2. **对腰部品牌的建议**：聚焦价格段结构上行（3500–4499元价格段销量+62.3%），避免在低端价格段与小米等性价比品牌正面对抗。\n - 事实依据：深企鹏景原文Q3价格段数据。\n - 属性：**事实依据 + 推断**。\n\n3. **对新进入者（如大疆）的建议**：以差异化形态（如无人机品牌延伸的3D空间能力）切入而非正面竞争。\n - 事实依据：大疆2025年8月入局、Q3国内第六；追觅机械臂产品形态已验证创新溢价空间。\n - 属性：**事实依据 + 推断**。\n\n4. **对渠道商的建议**：加速布局新兴电商（同比+24.7%），传统主流电商增速仅+6.6%。\n - 事实依据：深企鹏景原文渠道数据。\n - 属性：**事实依据**。\n\n5. **对投资者/政策制定者的建议**：关注\"渗透率低位+出货高增\"反差的可持续性，并警惕政策退坡带来的下半年销量回落（-13.4%）。\n - 事实依据：渗透率5%–7% vs 美国20%、下半年销量-13.4%。\n - 属性：**事实依据 + 推断**。\n\n6. **对统计口径使用方的建议**：\n - 引用出货量时明示是IDC（sell-in）还是洛图科技（sell-out）；\n - 引用年度数据时明示是2025全年预测（中商产业研究院）还是2025前三季度（IDC）；\n - 全球出货份额榜单与中国份额榜单不可混用（深企鹏景与IDC两套排名不完全一致）。\n - 属性：**事实依据**。\n\n---\n\n## 6. 口径与局限披露\n\n### 6.1 数据来源清单\n\n- **深企鹏景（m.sgpjbg.com.cn/news/6846786.html）**：本次研究核心数据源，包含行业定义、技术演进、全球/中国市场规模、品牌份额、价格段结构等35条引用；引用了IDC、中国报告大厅、中商产业研究院、洛图科技等多家机构的二手数据。\n- **腾讯新闻（news.qq.com/rain/a/20251207A04O3E00）**：引用IDC《全球智能家居设备市场季度跟踪报告（2025Q3）》，提供前三季度口径数据。\n\n### 6.2 口径不一致披露\n\n| 不一致项 | 内容 | 原因 |\n|---|---|---|\n| 同一品牌两套出货量 | 石头全年580万台（深企鹏景）vs 前三季度378.8万台（IDC） | 时间区间不同：前者为全年口径（含Q4预测/估计），后者为前三季度已发生 |\n| 中国出货量 | 565.8万台（深企鹏景）vs 463万台（IDC） | 同上，深企鹏景口径为全年预测，IDC为前三季度实际出货 |\n| 全球出货份额榜单 | 深企鹏景与IDC在小米、云鲸的次序略有差异 | IDC为前三季度，深企鹏景为全年 |\n| 全年vs前三季度同比 | 全球全年+17.1% vs 前三季度+18.7% | Q4增速可能低于前三季度 |\n| 中国全年同比 | 未直接给出，深企鹏景给出占全球31.2%（565.8/2412.4×100%=23.5%不一致，提示存在口径差异） | 出货量与销量口径不同 |\n\n### 6.3 现有证据不足以展开的部分\n\n- 中国线上TOP5品牌的完整份额顺序（仅有合计90.3%+科沃斯30.4%+云鲸国内16.2%三个数据点）；\n- 线下渠道（KA、专卖店）销量与同比；\n- 各电商平台（天猫/京东/抖音/拼多多）的份额拆分；\n- 全能基站款与单机款的销量结构；\n- 机械臂等创新形态产品的销量贡献；\n- 中国扫地机器人保有量的绝对装机量数据；\n- 换新需求与新增需求的占比拆分；\n- 商用清洁机器人具体价格区间；\n- 头部品牌国内市场份额变动的全年数值（如追觅国内份额环比下滑的具体百分比）。\n\n### 6.4 本报告局限性\n\n- **二手数据为主**：本报告主要数据均来自深企鹏景与腾讯新闻引用的机构数据，未直接对接IDC、洛图科技、中商产业研究院的原始报告。\n- **预测数据混入**：2025全年出货量、市场规模等数据部分为机构预测（如中商产业研究院268亿元），并非实际已发生数据。\n- **2026/2030数据为推断**：原文标注为inference，不应作为决策唯一依据。\n- **素材有限**：本次输入仅含两家媒体来源（合计46条引用），未覆盖奥维云网、艾瑞咨询、GfK等其他主流机构的对照口径。\n\n---\n\n*本报告数据截止于2025年Q3（含全年预测），所引用之数值均已回溯至深企鹏景与腾讯新闻快照，请决策方引用时同步披露来源与口径。*"
+    },
+    "completedAt": "2026-10-15T14:59:11.957Z"
+  },
+  {
+    "runId": "29f4c69a-aaed-4944-aec7-26426c26e0fd",
+    "stage": "polish",
+    "data": {
+      "reportMd": "# 2025年中国智能扫地机器人市场格局研究报告\n\n## 执行摘要\n\n本报告以深企鹏景《扫地机器人-新兴产业百科》及腾讯新闻引用的IDC《全球智能家居设备市场季度跟踪报告（2025Q3）》为底座数据源，系统梳理2025年中国智能扫地机器人市场的统计口径、品牌格局、价格结构与趋势风险。核心发现如下：\n\n- **中国仍是全球扫地机器人最大单一市场，但全球占比已发生结构性变化。** 2025年中国扫地机器人市场规模预计达268亿元、出货量565.8万台，占全球总销量（2412.4万台）的31.2%，是全球第二大区域市场（仅次于未公开承重的\"其他地区\"整体）；同期全球出货量同比增速为17.1%（IDC口径）。\n- **出货量与销额口径出现明显背离，季度节奏分化显著。** 2025年前三季度中国线上销量546.4万台、同比+10.1%，销额175.1亿元、同比+10.3%；但内部节奏呈\"上半年高增（+50.4%）、下半年回落（-13.4%）\"的反转走势，与消费补贴政策落地与退坡节奏高度相关。\n- **品牌集中度进一步抬升，但全球与中国榜单出现分化。** 中国线上TOP5品牌合计份额由2024年的86.4%升至2025年的90.3%（提升3.9pp），全球出货TOP5依次为石头、科沃斯、追觅、小米、云鲸，国内市场则由科沃斯（30.4%线上销量份额）领跑、云鲸以16.2%居第三、大疆2025年8月入局即位列Q3国内第六。\n- **均价结构性下移，但价格段内部呈\"中高端上移\"。** 2025年行业整体均价同比-5.05%至3338元，线上监测均价3535元同比-6%；但Q3主流电商均价3344元同比+9.4%，3500–4499元价格段销量同比+62.3%、份额升至29.2%，反映\"下行均价、上行结构\"并存。\n- **渗透率低位与出货高增形成反差，提示新增+换新双轮驱动。** 中国家庭扫地机器人渗透率仅5%–7%，远低于美国约20%，与27.2%的Q1–Q3出货增速反差明显，指向渗透率提升空间与存量换新需求同时存在（推断）。\n\n---\n\n## 1. 行业边界界定与品类区分标准\n\n### 1.1 智能扫地机器人的核心定义与技术特征\n\n依据深企鹏景《扫地机器人-新兴产业百科》原文，扫地机器人是\"能够自主在室内环境中完成地面清扫工作的智能家电产品。它集成了传感器技术、人工智能算法、电机驱动系统和自动充电技术，能够在无人干预的情况下自动规划清扫路径、完成地面清洁并返回充电座\"。其区别于传统清洁电器的核心特征包括：自主导航（LDS激光雷达/视觉）、SLAM算法路径规划、AI视觉避障、全能基站（自集尘+自清洁+烘干+补水）。\n\n原文将扫地机器人技术演进划分为四个阶段：随机碰撞式（1996–2009）→ 局部规划式（2010–2015）→ 全局规划式（2015–2020）→ 智能融合式（2020至今）。2026年先进SLAM算法路径规划效率较前代提升约42%、避障准确率达99.3%；全能基站将用户操作步骤减少70%。\n\n| 演进阶段 | 时间区间 | 核心技术 | 代表事件/特征 |\n|---|---|---|---|\n| 随机碰撞式 | 1996–2009 | 超声波、红外传感器 | 1996年伊莱克斯\"三叶虫\"；2002年iRobot Roomba随机碰撞策略 |\n| 局部规划式 | 2010–2015 | 陀螺仪+加速度计 | 2010年激光雷达+SLAM出现；科沃斯进入扫地机器人市场 |\n| 全局规划式 | 2015–2020 | 激光雷达+SLAM | 全屋地图、路径优化 |\n| 智能融合式 | 2020至今 | LDS+AI视觉+3D结构光 | 2018年iRobot推自集尘；2020年云鲸推自清洁；精准避障、智能决策 |\n\n### 1.2 与商用清洁机器人、传统吸尘器的区分\n\n| 区分维度 | 智能扫地机器人 | 商用清洁机器人 | 传统吸尘器（有线/无线） |\n|---|---|---|---|\n| 使用场景 | C端家庭室内地面 | B端商场、写字楼、酒店等大面积公共空间 | C端家庭室内地面 |\n| 自动化程度 | 全自主导航、回充、自清洁 | 半自主或调度式作业 | 需人工操作 |\n| 价格区间 | 线上监测均价3535元、行业均价3338元（2025） | 2026年全球商用清洁需求市场规模预计达500亿美元（来源同前，证据级别为机构预测） | 通常低于扫地机器人 |\n| 核心技术 | SLAM+AI视觉+全能基站 | 多机调度、SLAM+大尺度建图 | 电机+吸力+尘杯过滤 |\n| 形态差异 | 圆形/方形主机+充电/基站 | 大型平台式或定制机型 | 手持立式/桶式 |\n\n*口径说明：商用清洁机器人具体价格区间在本次输入素材中未给出，本次以全球需求规模预测替代呈现，原文标注为inference。*\n\n### 1.3 与衍生品类的归属关系\n\n依据同一份深企鹏景原文，扫地机器人隶属\"家用清洁机器人\"大类。2025年全球家用清洁机器人整体出货3272万台，其中扫地机器人占73.7%（2412.4万台）、割草机器人199.2万台、擦窗机器人237.3万台；泳池机器人市场\"原文称整体表现平稳\"（未给具体数值）。这意味着：\n\n- **扫拖一体机**：在主流统计口径中通常计入扫地机器人范畴（即一台主机兼顾扫、拖功能）；\n- **洗地机器人/手持洗地机**：因工作原理（滚刷+水洗）与扫地机器人存在显著差异，部分机构（如奥维云网）单独列示，但本次素材未提供明确归类规则；\n- **割草、擦窗、泳池机器人**：在IDC与深企鹏景口径下均单列，不计入扫地机器人销量。\n\n### 1.4 本节小结\n\n智能扫地机器人的行业边界由\"自主导航+自清洁基站+AI识别\"三重技术特征划定，与商用清洁机器人以B/C端场景区分，与传统吸尘器以自动化程度区分，与衍生品类以统计归类规则区分。当前深企鹏景口径将扫拖一体机纳入扫地机器人范畴，割草/擦窗/泳池机器人单独列示——但其他第三方机构（如奥维云网、洛图科技）对洗地机器人的归类口径本次素材未给出，须以披露形式说明。\n\n---\n\n## 2. 市场统计口径与数据来源辨析\n\n### 2.1 五大口径全景数据矩阵\n\n| 口径 | 关键指标 | 数值 | 同比 | 口径时间 | 来源 |\n|---|---|---|---|---|---|\n| 全球出货量 | 扫地机器人出货 | 2412.4万台 | +17.1% | 2025全年 | IDC（深企鹏景引用） |\n| 全球出货量 | 家用清洁机器人整体出货 | 3272万台 | +20.1% | 2025全年 | IDC |\n| 全球出货量 | 扫地机器人占清洁机器人 | 73.7% | - | 2025全年 | IDC |\n| 全球出货量 | 割草机器人出货 | 199.2万台 | +63.8% | 2025全年 | IDC |\n| 全球出货量 | 擦窗机器人出货 | 237.3万台 | +70.4% | 2025全年 | IDC |\n| 全球市场规模 | 扫地机器人市场规模 | 突破250亿美元 | 2020–2025 CAGR约22% | 2020–2025 | 中国报告大厅 |\n| 中国出货量 | 市场规模/出货量 | 268亿元/565.8万台 | 占全球31.2% | 2025全年预计 | 中商产业研究院 |\n| 中国线上销量 | 销量/销额 | 546.4万台/175.1亿元 | +10.1%/+10.3% | 2025全年 | 洛图科技 |\n| 中国线上节奏 | 上半年/下半年同比 | +50.4% / -13.4% | - | 2025上下半年 | 洛图科技 |\n| 中国渠道结构 | 线上渠道占全渠道 | 约90% | - | 2025年 | 深企鹏景原文 |\n| 中国线上渠道 | 传统主流电商/新兴电商占比 | 77.9% / 22.1% | 传统+6.6%/新兴+24.7% | 2025年 | 洛图科技 |\n| 中国均价 | 线上监测均价 | 3535元 | -6% | 2025年 | 深企鹏景 |\n| 中国均价 | 行业整体均价 | 3338元 | -5.05% | 2025年 | 深企鹏景 |\n| 中国均价（结构） | Q3主流电商均价 | 3344元 | +9.4% | 2025Q3 | 深企鹏景 |\n| 中国均价（结构） | 3500–4499元价格段销量 | 份额29.2% | 涨幅+62.3% | 2025Q3 | 深企鹏景 |\n| 中国保有量 | 家庭扫地机器人渗透率 | 5%–7% | 美国约20% | 当前 | 深企鹏景 |\n\n*数据已回溯至深企鹏景快照与腾讯新闻引用的IDC报告，本表为本次研究主要数据底座。*\n\n### 2.2 前三季度口径与全年口径的并存现象\n\n依据腾讯新闻引用的《全球智能家居设备市场季度跟踪报告（2025Q3）》：\n\n| 口径 | 数值 | 同比 | 来源 |\n|---|---|---|---|\n| 全球智能扫地机器人累计出货（前三季度） | 1742.4万台 | +18.7% | IDC（腾讯新闻引用） |\n| 全球Q3单季出货 | 616.1万台 | +22.9% | IDC |\n| 中国市场累计出货（前三季度） | 463万台 | +27.2% | IDC |\n| 石头科技累计出货 | 378.8万台 | 全球第一 | IDC |\n| 科沃斯累计出货 | 245.3万台 | +27.7%，中国出货量第一 | IDC |\n\n**口径差异说明**：深企鹏景口径的中国出货量为\"565.8万台/268亿元\"，IDC前三季度口径为463万台，且全年同比+17.1%与前三季度同比+27.2%出现明显不一致。其差异主要源于：(a) 深企鹏景口径包含\"出货+零售\"双轨数据，中商产业研究院数据可能为预测值；(b) IDC前三季度口径为已发生的渠道出货量，未含Q4。两套口径在统计区间、覆盖渠道、是否含预测三方面均存在区别，引用时须明确标注。\n\n### 2.3 出货量、零售额、保有量三者的统计逻辑\n\n- **出货量口径**：通常指厂商向渠道的发货数量（sell-in），来源以IDC为主。本报告引用的IDC数据同时给出全球累计与单季拆分。\n- **零售额口径**：通常指渠道向终端消费者的销售金额（sell-out），来源以奥维云网、洛图科技为主；本次引用175.1亿元/546.4万台即为线上全渠道零售口径。\n- **保有量口径**：以家庭渗透率近似推算，原文给出\"5%–7%\"区间，未给出绝对装机量；按2025年中国家庭数约4.94亿户粗算（公开常识，本次素材未提供具体数值，此处不展开计算），保有量推算属推断范畴。\n\n### 2.4 本节小结\n\n中国扫地机器人市场存在\"出货量（IDC）—线上零售（洛图科技）—市场规模（中商产业研究院）—保有量/渗透率（深企鹏景）\"四套并存口径，且年度与前三季度数据并存，使用时须明示区间、机构与是否含预测。\n\n---\n\n## 3. 市场结构与品牌格局\n\n### 3.1 全球出货品牌格局（2025年）\n\n| 品牌 | 全球出货量（万台） | 全球份额 | 同比 | 关键市场亮点 |\n|---|---|---|---|---|\n| 石头科技 | 580（深企鹏景）/378.8（IDC前三季度） | 27%（深企鹏景）/17.7%（同前） | +76.5% | 丹麦、德国、韩国等12国量额双第一，土耳其>50% |\n| 科沃斯 | 470 / 245.3 | 14.3% | +38.3% | 中国出货量第一 |\n| 追觅 | 340 | 10.5% | +101.9% | 欧洲第一，西欧26.8%，机械臂技术 |\n| 小米 | 220 | 6.7% | +10.6% | 中端性价比并向高端拓展 |\n| 云鲸 | 170 | 5.3% | +28.7% | 海外份额大幅增长 |\n\n*数据来源：深企鹏景原文（2025全年） + 腾讯新闻引用IDC（2025前三季度）。同一品牌的两套数值并存，全年/前三季度口径不一致已被第2节披露。*\n\n### 3.2 中国市场品牌格局（2025年）\n\n依据深企鹏景原文与IDC前三季度数据：\n\n- **集中度**：2025年中国扫地机器人线上TOP5合计份额90.3%，较2024年提升3.9个百分点。\n- **科沃斯**：中国线上销量份额30.4%，同比+6.6个百分点；中国出货量第一（IDC口径）。\n- **云鲸**：国内市场份额16.2%、排名第三（IDC前三季度口径）。\n- **大疆**：2025年8月入局，三季度出货量排名第六（IDC口径）。\n- **追觅**：国内市场份额\"环比下滑\"（IDC口径），但全球出货增速最快（+101.9%）。\n\n> **现有证据不足以展开**：本次素材未提供中国线上TOP5的具体品牌构成顺序（仅给出合计份额90.3%与科沃斯30.4%），也未提供追觅、小米在中国市场的具体份额数值。缺口：需要奥维云网或洛图科技的完整TOP5份额表。\n\n### 3.3 价格段结构（截至2025Q3）\n\n| 价格段/均价指标 | 数值 | 同比 | 口径时间 | 来源 |\n|---|---|---|---|---|\n| 3500–4499元价格段销量份额 | 29.2% | +62.3% | 2025Q3 | 深企鹏景 |\n| Q3主流电商均价 | 3344元 | +9.4% | 2025Q3 | 深企鹏景 |\n| 全年行业均价 | 3338元 | -5.05% | 2025年 | 深企鹏景 |\n| 全年线上监测均价 | 3535元 | -6% | 2025年 | 深企鹏景 |\n\n价格段内部呈\"中高端上移\"趋势（3500–4499元价格段销量份额近三成且高增长），但全年均价同比下行——这一\"结构上行+均价下行\"并存的特征提示：低端机型的销量贡献正在稀释整体均价，但中高端价格段的销量正在加速集中。\n\n### 3.4 渠道结构（2025年）\n\n| 渠道维度 | 数值 | 同比 | 来源 |\n|---|---|---|---|\n| 线上渠道占全渠道 | 约90% | - | 深企鹏景原文 |\n| 传统主流电商（销量） | 425.5万台，占线上77.9% | +6.6% | 深企鹏景 |\n| 新兴电商（销量） | 占线上22.1% | +24.7% | 深企鹏景 |\n\n渠道结构性变化方面，新兴电商（抖音/拼多多为代表，原文未明确点名）增速远高于传统主流电商，是渠道结构演变的主要驱动力（推断）。\n\n> **现有证据不足以展开**：本次素材未给出线下渠道（KA、专卖店）的具体销量与同比数据，也未给出抖音、京东、天猫各平台的份额拆分。\n\n### 3.5 产品结构\n\n- **单机款 vs 全能基站款**：原文给出\"全能基站的出现将用户操作步骤减少了70%\"，但未给出2025年全能基站款与单机款的销量占比；\n- **旗舰款与中端款**：深企鹏景提到石头均价下降6.79%至3902元、追觅均价下降12.03%至4109元，提示头部品牌的高端化定位与均价下行的并存；\n- **创新形态**：追觅的机械臂集成方案使其扫地机器人具备\"整理\"能力（夹取拖鞋归位、纸团入桶），原文称\"推动扫地机从二维平面清洁向三维空间整理升维\"；科沃斯2025年推出OmniCyclone旋风全能基站，率先引入\"无尘袋\"设计，每年预计可节省高达200万个集尘袋。\n\n> **现有证据不足以展开**：本次素材未给出按产品形态（基站款/单机款）或按创新功能（机械臂/AI视觉）的销量结构数据。\n\n### 3.6 本节小结\n\n中国扫地机器人市场呈现\"全球中国双榜分化、价格段结构上行、品牌集中度提升、新兴电商高速增长\"四重特征。其中最值得关注的反差是：**全球出货增速最快的是追觅（+101.9%），但其国内市场份额环比下滑**——指向头部品牌的全球化布局与国内存量竞争形成\"内外温差\"。\n\n---\n\n## 4. 趋势研判与风险提示\n\n### 4.1 技术演进趋势\n\n依据深企鹏景原文表2，扫地机器人技术已完成四阶段演进，当前正处于\"智能融合式\"（2020至今）：LDS激光雷达+AI视觉+3D结构光精准避障+智能决策。2026年的两个标志性参数是：(a) SLAM路径规划效率提升约42%；(b) AI避障准确率达99.3%。同时，全能基站渗透率提升（用户操作步骤减少70%）、机械臂集成（追觅）等创新形态将持续推动产品形态升维（推断）。\n\n### 4.2 增长动能研判\n\n- **渗透率提升空间**：中国家庭渗透率5%–7% vs 美国20%，长期渗透率提升空间存在（深企鹏景原文）；\n- **存量换新需求**：与新装需求并存，但本次素材未给出换新比例数据；\n- **海外拓展**：中东非+95.6%、中东欧+40.3%（深企鹏景）、追觅西欧26.8%（IDC），构成第二增长曲线；\n- **品类延展**：割草机器人+63.8%、擦窗机器人+70.4%（深企鹏景），头部厂商有望横向延伸产品矩阵。\n\n### 4.3 竞争风险\n\n| 风险类型 | 触发条件 | 影响路径 | 证据强度 |\n|---|---|---|---|\n| 价格战加剧 | 行业均价同比-5.05% | 头部品牌均价同步下行（石头-6.79%、追觅-12.03%） | 已有事实 |\n| 品牌集中度风险 | TOP5合计份额90.3%、提升3.9pp | 新品牌进入门槛抬升 | 已有事实 |\n| 新进入者冲击 | 大疆2025年8月入局即位列Q3国内第六 | 行业竞争维度升级（无人机品牌降维进入） | 已有事实 |\n| 海外贸易政策 | 中国品牌全球出货占主导 | 关税/合规风险（推断） | 推断，无新增直接证据 |\n| 消费补贴退坡 | 下半年线上销量同比-13.4% | 政策周期性影响已显现 | 已有事实 |\n\n### 4.4 外部风险\n\n- **消费疲软**：本次素材未给出宏观消费指标数据；\n- **芯片与零部件成本**：本次素材未涉及；\n- **监管政策**：本次素材未涉及国内/海外具体监管新规；\n- **技术替代风险**：商用清洁机器人与扫地机器人的边界可能因具身智能演进而模糊（推断，原文已提到具身智能为前沿方向）。\n\n### 4.5 长期市场预测\n\n原文（推断类）：预计2026–2030年全球扫地机器人市场复合年增长率约12.3%，到2030年整体市场规模将逼近380亿美元（深企鹏景原文标注为inference）。此外，2026年全球商用清洁需求市场规模预计达500亿美元、2030年商用清洁机器人出货量预计达40万台（同上原文）。\n\n### 4.6 本节小结\n\n行业整体仍处于成长期，但增速节奏已由\"政策驱动的高增长\"转向\"产品驱动+全球化驱动\"的复合增长模式。短期须警惕价格战与新进入者（典型如大疆）冲击，中期关注海外市场（中东非/中东欧/西欧）与品类延展（割草/擦窗），长期关注具身智能对产品形态的重新定义。\n\n---\n\n## 5. 启示与建议\n\n> 以下建议逐条对应正文发现，标注\"事实依据\"或\"推断\"属性。\n\n1. **对头部品牌（科沃斯/石头/追觅）的建议**：继续推进海外市场拓展以对冲国内增速波动。\n - 事实依据：追觅国内份额环比下滑但全球出货+101.9%、西欧26.8%；石头在12国量额双第一；IDC显示中东非/中东欧为核心增长引擎。\n - 属性：**事实依据 + 推断**（推断部分：海外对冲效应）。\n\n2. **对腰部品牌的建议**：聚焦价格段结构上行（3500–4499元价格段销量+62.3%），避免在低端价格段与小米等性价比品牌正面对抗。\n - 事实依据：深企鹏景原文Q3价格段数据。\n - 属性：**事实依据 + 推断**。\n\n3. **对新进入者（如大疆）的建议**：以差异化形态（如无人机品牌延伸的3D空间能力）切入而非正面竞争。\n - 事实依据：大疆2025年8月入局、Q3国内第六；追觅机械臂产品形态已验证创新溢价空间。\n - 属性：**事实依据 + 推断**。\n\n4. **对渠道商的建议**：加速布局新兴电商（同比+24.7%），传统主流电商增速仅+6.6%。\n - 事实依据：深企鹏景原文渠道数据。\n - 属性：**事实依据**。\n\n5. **对投资者/政策制定者的建议**：关注\"渗透率低位+出货高增\"反差的可持续性，并警惕政策退坡带来的下半年销量回落（-13.4%）。\n - 事实依据：渗透率5%–7% vs 美国20%、下半年销量-13.4%。\n - 属性：**事实依据 + 推断**。\n\n6. **对统计口径使用方的建议**：\n - 引用出货量时明示是IDC（sell-in）还是洛图科技（sell-out）；\n - 引用年度数据时明示是2025全年预测（中商产业研究院）还是2025前三季度（IDC）；\n - 全球出货份额榜单与中国份额榜单不可混用（深企鹏景与IDC两套排名不完全一致）。\n - 属性：**事实依据**。\n\n---\n\n## 6. 口径与局限披露\n\n### 6.1 数据来源清单\n\n- **深企鹏景（m.sgpjbg.com.cn/news/6846786.html）**：本次研究核心数据源，包含行业定义、技术演进、全球/中国市场规模、品牌份额、价格段结构等35条引用；引用了IDC、中国报告大厅、中商产业研究院、洛图科技等多家机构的二手数据。\n- **腾讯新闻（news.qq.com/rain/a/20251207A04O3E00）**：引用IDC《全球智能家居设备市场季度跟踪报告（2025Q3）》，提供前三季度口径数据。\n\n### 6.2 口径不一致披露\n\n| 不一致项 | 内容 | 原因 |\n|---|---|---|\n| 同一品牌两套出货量 | 石头全年580万台（深企鹏景）vs 前三季度378.8万台（IDC） | 时间区间不同：前者为全年口径（含Q4预测/估计），后者为前三季度已发生 |\n| 中国出货量 | 565.8万台（深企鹏景）vs 463万台（IDC） | 同上，深企鹏景口径为全年预测，IDC为前三季度实际出货 |\n| 全球出货份额榜单 | 深企鹏景与IDC在小米、云鲸的次序略有差异 | IDC为前三季度，深企鹏景为全年 |\n| 全年vs前三季度同比 | 全球全年+17.1% vs 前三季度+18.7% | Q4增速可能低于前三季度 |\n| 中国全年同比 | 未直接给出，深企鹏景给出占全球31.2%（565.8/2412.4×100%=23.5%不一致，提示存在口径差异） | 出货量与销量口径不同 |\n\n### 6.3 现有证据不足以展开的部分\n\n- 中国线上TOP5品牌的完整份额顺序（仅有合计90.3%+科沃斯30.4%+云鲸国内16.2%三个数据点）；\n- 线下渠道（KA、专卖店）销量与同比；\n- 各电商平台（天猫/京东/抖音/拼多多）的份额拆分；\n- 全能基站款与单机款的销量结构；\n- 机械臂等创新形态产品的销量贡献；\n- 中国扫地机器人保有量的绝对装机量数据；\n- 换新需求与新增需求的占比拆分；\n- 商用清洁机器人具体价格区间；\n- 头部品牌国内市场份额变动的全年数值（如追觅国内份额环比下滑的具体百分比）。\n\n### 6.4 本报告局限性\n\n- **二手数据为主**：本报告主要数据均来自深企鹏景与腾讯新闻引用的机构数据，未直接对接IDC、洛图科技、中商产业研究院的原始报告。\n- **预测数据混入**：2025全年出货量、市场规模等数据部分为机构预测（如中商产业研究院268亿元），并非实际已发生数据。\n- **2026/2030数据为推断**：原文标注为inference，不应作为决策唯一依据。\n- **素材有限**：本次输入仅含两家媒体来源（合计46条引用），未覆盖奥维云网、艾瑞咨询、GfK等其他主流机构的对照口径。\n\n---\n\n*本报告数据截止于2025年Q3（含全年预测），所引用之数值均已回溯至深企鹏景与腾讯新闻快照，请决策方引用时同步披露来源与口径。*"
+    },
+    "completedAt": "2026-10-15T14:59:36.910Z"
+  },
+  {
+    "runId": "29f4c69a-aaed-4944-aec7-26426c26e0fd",
+    "stage": "review",
+    "data": {
+      "issues": [],
+      "counterexampleChecked": false,
+      "loopsUsed": 3
+    },
+    "completedAt": "2026-10-15T15:07:42.270Z"
+  }
+]

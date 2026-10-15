@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>P2-4 UI-GATE 原型 — 采证页调查流视图</title>
+<link rel="stylesheet" href="../../ui/styles.css">
+<style>
+  body { background: var(--bg); margin: 0; padding: 24px 32px 64px; }
+  .gate-sec { max-width: 880px; margin: 0 auto 36px; }
+  .gate-h { font: 600 15px/1.4 Inter, system-ui; color: var(--text-2); letter-spacing: .04em; text-transform: uppercase; margin: 0 0 4px; }
+  .gate-note { font: 12px/1.6 Inter, system-ui; color: var(--text-3); margin: 0 0 12px; }
+  .gate-cell { border: 1px dashed var(--line-strong); border-radius: 8px; padding: 10px; margin-bottom: 12px; }
+  .gate-cell > .gate-tag { font: 11px/1 Inter, system-ui; color: var(--accent-strong); display: block; margin-bottom: 8px; letter-spacing: .06em; }
+  .q-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 4px 6px; border-bottom: 1px solid var(--line); }
+  .q-title { font: 600 14px/1.4 Inter, system-ui; }
+  .q-note { font: 12px/1.5 Inter, system-ui; color: var(--text-3); padding: 4px 4px 2px; }
+  .tl { padding: 8px 0 0 14px; border-left: 2px solid var(--line); margin: 8px 0 4px 8px; display: flex; flex-direction: column; gap: 8px; }
+  .ev { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; box-shadow: 0 3px 12px rgba(40,36,30,.04); }
+  .ev .ev-k { font: 11px/1 Inter, system-ui; color: var(--accent); letter-spacing: .08em; text-transform: uppercase; }
+  .ev .ev-t { font: 13px/1.5 Inter, system-ui; margin-top: 3px; }
+  .ev .ev-meta { font: 12px/1.4 Inter, system-ui; color: var(--text-3); margin-top: 2px; font-variant-numeric: tabular-nums; }
+  .usage-bar { display:flex; gap:14px; align-items:center; background: var(--shell); border:1px solid var(--line); border-radius:10px; padding:8px 14px; font-size:12.5px; color:var(--text-2); margin-bottom:12px; }
+</style>
+</head>
+<body>
+
+<section class="gate-sec">
+  <h1 style="font:600 18px/1.4 Inter,system-ui; margin:0 0 6px">P2-4 调查流视图原型(静态,真实 ui/styles.css)</h1>
+  <p class="gate-note">采证页主区从问题进度演化为调查时间线(决策③)。事件字段=PRD D4 契约;数值合成。</p>
+</section>
+
+<section class="gate-sec">
+  <p class="gate-h">C1 · running 态(两问:已收束+进行中)+ S4 用量条共存</p>
+  <div class="gate-cell">
+    <div class="usage-bar">
+      <span>● 采证进行中</span><span>搜索 7/40</span><span>抓取 9/80</span><span>模型 12 次 · 输出 3.2k tok</span><span>用时 214s</span>
+      <span style="margin-left:auto">[取消] [干预指令(现状表单)]</span>
+    </div>
+    <div class="q-head">
+      <span class="q-title">问题 1 · 天猫/京东/抖音渠道销售占比</span>
+      <span class="chip chip-ok">已答</span>
+    </div>
+    <div class="q-note">agent 判定:证据充分——三平台占比均有 2025 口径来源</div>
+    <div class="tl">
+      <div class="ev"><span class="ev-k">搜索</span><div class="ev-t">森马 天猫 京东 抖音 2025 销售占比</div><div class="ev-meta">命中 6</div></div>
+      <div class="ev"><span class="ev-k">抓取</span><div class="ev-t">零售渠道年报解读——三平台份额拆分</div><div class="ev-meta">finance.sina.com · sid 2df1d50c…</div></div>
+      <div class="ev"><span class="ev-k">读取</span><div class="ev-t">sid 2df1d50c… 偏移 0-6KB</div><div class="ev-meta">摘录进入调查上下文</div></div>
+    </div>
+    <div class="q-head" style="margin-top:12px">
+      <span class="q-title">问题 2 · 双 11/618 销售额与类目排名</span>
+      <span class="chip chip-run">调查中</span>
+    </div>
+    <div class="tl">
+      <div class="ev"><span class="ev-k">搜索</span><div class="ev-t">森马 双11 2025 销售额 类目排名</div><div class="ev-meta">命中 8</div></div>
+      <div class="ev"><span class="ev-k">抓取</span><div class="ev-t">双11 服饰类目战报</div><div class="ev-meta">cbndata.com · sid 7b1473ed…</div></div>
+      <div class="ev"><span class="ev-k">抓取 · 失败</span><div class="ev-t">[超时] 慢站未响应,继续下一候选</div><div class="ev-meta">slow-shop.example · 20s 截断</div></div>
+      <div class="ev" style="opacity:.65"><span class="ev-k">搜索</span><div class="ev-t">……</div><div class="ev-meta">(2.5s 轮询增量追加中)</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="gate-sec">
+  <p class="gate-h">S2 · 各状态徽 + 单问失败形态</p>
+  <div class="gate-cell">
+    <div class="q-head"><span class="q-title">问题 3 · 与优衣库线上大促对比</span><span class="chip chip-wait">部分回答</span></div>
+    <div class="q-note">agent 判定:优衣库中国区线上口径缺失,已答部分</div>
+    <div class="q-head" style="margin-top:10px"><span class="q-title">问题 4 · 价格带竞争</span><span class="chip chip-fail">未答</span></div>
+    <div class="q-note">agent 调查失败(模型调用中断)——已披露限制,可在评审后补采</div>
+    <div class="q-head" style="margin-top:10px"><span class="q-title">问题 5 · 会员运营玩法(已跳过)</span><span class="chip chip-local">已跳过</span></div>
+  </div>
+</section>
+
+<section class="gate-sec">
+  <p class="gate-h">S5 · 两空态</p>
+  <div class="gate-cell"><span class="gate-tag">首问前(附件/复用注入进行中)</span>
+    <div class="ev"><div class="ev-t">准备采证材料中(附件解析与复用注入)……</div></div>
+  </div>
+  <div class="gate-cell"><span class="gate-tag">agent 已启动未动工具</span>
+    <div class="ev"><div class="ev-t">尚无调查事件——调查代理正在规划……</div></div>
+  </div>
+  <p class="gate-note">负例:时间线无附件/复用事件;无逐问抓取计数 UI;无模型内部轮次原文;awaiting 确认态不进时间线。</p>
+</section>
+
+</body>
+</html>

@@ -4,3 +4,4 @@
 {"at":"2026-10-15T09:47:53.361Z","event":"run-finished","data":{"runId":"6955ab58-291e-486e-a132-a325db0d767e","requestId":"req-rd","status":"awaiting-confirmation","usage":{"searches":0,"fetches":0,"modelCalls":1,"outputTokens":212,"wallMs":0}}}
 {"at":"2026-10-15T09:48:00.895Z","event":"run-finished","data":{"runId":"6955ab58-291e-486e-a132-a325db0d767e","requestId":"req-rd","status":"running","usage":{"searches":0,"fetches":0,"modelCalls":1,"outputTokens":212,"wallMs":0}}}
 {"at":"2026-10-15T09:48:00.897Z","event":"run-finished","data":{"runId":"6955ab58-291e-486e-a132-a325db0d767e","requestId":"req-rd","status":"running","usage":{"searches":0,"fetches":0,"modelCalls":1,"outputTokens":212,"wallMs":0}}}
+{"at":"2026-10-15T14:54:11.281Z","event":"run-finished","data":{"runId":"6955ab58-291e-486e-a132-a325db0d767e","requestId":"req-rd","status":"failed","usage":{"searches":0,"fetches":0,"modelCalls":1,"outputTokens":212,"wallMs":0}}}

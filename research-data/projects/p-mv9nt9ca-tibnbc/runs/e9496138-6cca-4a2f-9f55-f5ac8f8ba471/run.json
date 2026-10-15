@@ -1,0 +1,20 @@
+{
+  "id": "e9496138-6cca-4a2f-9f55-f5ac8f8ba471",
+  "requestId": "req-p24",
+  "stage": "publish",
+  "status": "limited",
+  "checkpoints": [],
+  "usage": {
+    "searches": 8,
+    "fetches": 0,
+    "modelCalls": 11,
+    "outputTokens": 5855,
+    "wallMs": 59309
+  },
+  "progress": {
+    "answered": 0,
+    "open": 2,
+    "skipped": 0,
+    "total": 2
+  }
+}

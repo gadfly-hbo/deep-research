@@ -1,0 +1,21 @@
+{
+  "id": "req-p24",
+  "module": "industry",
+  "goal": "中国智能扫地机器人市场格局",
+  "scope": {
+    "summary": "2025,中国",
+    "queries": []
+  },
+  "attachments": [],
+  "budgetTier": "low",
+  "outline": {
+    "title": "中国智能扫地机器人市场格局",
+    "sections": [
+      {
+        "id": "s1",
+        "title": "正文",
+        "bullets": []
+      }
+    ]
+  }
+}

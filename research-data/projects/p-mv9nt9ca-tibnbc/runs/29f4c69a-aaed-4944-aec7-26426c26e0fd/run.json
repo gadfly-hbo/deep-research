@@ -1,0 +1,22 @@
+{
+  "id": "29f4c69a-aaed-4944-aec7-26426c26e0fd",
+  "requestId": "req-p24b",
+  "stage": "publish",
+  "status": "limited",
+  "checkpoints": [],
+  "usage": {
+    "searches": 27,
+    "fetches": 2,
+    "modelCalls": 43,
+    "outputTokens": 105642,
+    "wallMs": 616990
+  },
+  "progress": {
+    "currentQuestionId": "q1",
+    "currentQuestionText": "中国智能扫地机器人的行业边界如何界定？其与商用清洁机器人、传统吸尘器的区分标准是什么？",
+    "answered": 1,
+    "open": 1,
+    "skipped": 0,
+    "total": 2
+  }
+}
