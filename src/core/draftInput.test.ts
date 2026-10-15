@@ -3,6 +3,7 @@ import type { Adapters, FetchedPage } from "../adapters/types.js";
 import { ResearchRequestSchema, type ResearchRequest } from "../contracts.js";
 import { createMemoryStore } from "../stores/memory.js";
 import { runResearch } from "./runResearch.js";
+import { scriptedRunAgent } from "../adapters/testing.js";
 
 const request: ResearchRequest = ResearchRequestSchema.parse({
   module: "industry",
@@ -36,6 +37,7 @@ function captureAdapters(captured: Array<{ stage: string; input: unknown }>): Ad
         ],
         usage: { modelCalls: 1, outputTokens: 16 },
       }),
+      runAgent: scriptedRunAgent(),
       runStage: async (stage, input) => {
         const reviewCount = captured.filter((c) => c.stage === "review").length;
         captured.push({ stage, input });

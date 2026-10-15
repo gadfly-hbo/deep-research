@@ -3,6 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { Adapters } from "../adapters/types.js";
+import { scriptedRunAgent } from "../adapters/testing.js";
 import { FsProjectStore } from "../stores/fsStore.js";
 import { startServer, type RunningServer } from "./server.js";
 
@@ -50,6 +51,7 @@ const fakeAdapters = (searchQueries: string[]): Adapters => ({
               ? { output: { reportMd: "# 行业研究\n\n## 市场规模\nx" }, usage: { modelCalls: 1, outputTokens: 16 } }
               : { output: { issues: [], counterexampleChecked: true }, usage: { modelCalls: 1, outputTokens: 16 } };
     },
+    runAgent: scriptedRunAgent(),
   },
 });
 

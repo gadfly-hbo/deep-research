@@ -3,6 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { Adapters } from "../adapters/types.js";
+import { scriptedRunAgent } from "../adapters/testing.js";
 import { startServer, type RunningServer } from "./server.js";
 import { FsProjectStore } from "../stores/fsStore.js";
 
@@ -38,6 +39,7 @@ const fakeAdapters = (slow = false): Adapters => ({
       ],
       usage: { modelCalls: 1, outputTokens: 16 },
     }),
+    runAgent: scriptedRunAgent(),
     runStage: async (stage) =>
       stage === "plan"
         ? { output: { questions: [{ id: "q1", question: "市场规模" }] }, usage: { modelCalls: 1, outputTokens: 16 } }
@@ -51,11 +53,13 @@ const fakeAdapters = (slow = false): Adapters => ({
   },
 });
 
-// search 抛错的失败适配器(其余环节正常),用于触发 runOnProject 拒绝
+// P2-4:采证三件在 executor 内已 error-as-value(search 抛错不再击杀 run),
+// 失败落盘改用 extractClaims 抛错作向量(后置批量提取不被吞,仍触发 runOnProject 拒绝)
 const failingAdapters = (message: string): Adapters => ({
   ...fakeAdapters(),
-  search: {
-    search: async () => {
+  model: {
+    ...fakeAdapters().model,
+    extractClaims: async () => {
       throw new Error(message);
     },
   },

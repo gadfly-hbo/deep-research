@@ -4,6 +4,7 @@ import { ResearchRequestSchema, type ResearchRequest } from "../contracts.js";
 import { createMemoryStore } from "../stores/memory.js";
 import { runResearch, type RunOptions } from "./runResearch.js";
 import type { StageName } from "./stages.js";
+import { scriptedRunAgent } from "../adapters/testing.js";
 
 interface FakeCfg {
   searchResults: Record<string, SearchHit[]>;
@@ -35,6 +36,7 @@ function fakes(cfg: FakeCfg): Adapters {
         extractCounts.set(snapshot.url, n + 1);
         return cfg.extract(snapshot.url, n);
       },
+      runAgent: scriptedRunAgent(),
       runStage: async (stage, _input, _key) => {
         const n = stageCounts.get(stage) ?? 0;
         stageCounts.set(stage, n + 1);

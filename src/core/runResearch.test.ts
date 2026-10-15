@@ -3,6 +3,7 @@ import type { Adapters, FetchedPage } from "../adapters/types.js";
 import { ResearchRequestSchema, type ResearchRequest, type ResearchRun, type RunInstruction } from "../contracts.js";
 import { createMemoryStore } from "../stores/memory.js";
 import { runResearch, type RunOptions } from "./runResearch.js";
+import { scriptedRunAgent } from "../adapters/testing.js";
 
 const bodies: Record<string, string> = {
   "https://a/1": "中国咖啡市场规模约 1,200 亿元(2025 年)。",
@@ -47,6 +48,7 @@ function fakeAdapters(fetchedUrls: string[] = [], hits?: Array<{ url: string; ti
               ],
               usage: { modelCalls: 1, outputTokens: 16 },
             },
+      runAgent: scriptedRunAgent(),
       runStage: async () => {
         throw new Error("gather-only 路径不应调用 runStage");
       },

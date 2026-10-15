@@ -5,6 +5,7 @@ import { createMemoryStore } from "../stores/memory.js";
 import type { MemoryStore } from "../stores/memory.js";
 import { runResearch, type RunOptions } from "./runResearch.js";
 import type { PlanOutput, StageName } from "./stages.js";
+import { scriptedRunAgent } from "../adapters/testing.js";
 
 /**
  * P2-3 T1 编排器确认门:gates 下 plan 产出→返回式门→confirm(编辑)续跑→outline 门→
@@ -36,6 +37,7 @@ const gateFakes = (stageCalls: StageCall[], searchQueries: string[]): Adapters =
       claims: [{ statement: "市场规模约 1200 亿元(2025)", kind: "fact" as const, quote: "市场规模约 1,200 亿元" }],
       usage: { modelCalls: 1, outputTokens: 16 },
     }),
+    runAgent: scriptedRunAgent(),
     runStage: async (stage, input) => {
       stageCalls.push({ stage, input: input as Record<string, unknown> });
       if (stage === "plan") {
@@ -144,6 +146,7 @@ describe("编排器确认门(P2-3 T1)", () => {
       ...adapters,
       model: {
         ...adapters.model,
+        runAgent: scriptedRunAgent(),
         runStage: async (stage, input) => {
           if (stage === "plan") {
             stageCalls.push({ stage, input: input as Record<string, unknown> });

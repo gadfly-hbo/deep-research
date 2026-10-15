@@ -42,6 +42,63 @@ import { BudgetTracker } from "./budgetTracker.js";
 import { attachExtraction, attachGatherExtraction } from "./attachExtraction.js";
 import { runStageSafe } from "./runStageSafe.js";
 import { buildQuestionEvidencePacks } from "./evidencePacks.js";
+import { parseJsonLoose } from "../adapters/modelText.js";
+import { assertPublicUrl } from "../library/assetService.js";
+import type { AgentTool, RunAgentInput } from "../adapters/types.js";
+import type { InvestigationEvent } from "../stores/types.js";
+
+/**
+ * P2-4(D1):三工具定义——**轮次不变**(R1-1:工具定义只描述能力,预算余量只进任务卡与
+ * executor 返回值,不进 description/parameters,防 CONFIGURATION_CHANGED 与录制键漂移)。
+ */
+const TOOL_DEFINITIONS = {
+  webSearch: {
+    name: "web_search",
+    description:
+      "联网搜索:输入搜索词,返回命中列表(url/标题/摘要);base=true 表示基准研究已有该页快照,勿重抓。",
+    effect: "external" as const,
+    parameters: {
+      type: "object",
+      properties: { query: { type: "string", description: "搜索词" } },
+      required: ["query"],
+    },
+  },
+  fetchPage: {
+    name: "fetch_page",
+    description:
+      "抓取公开网页并留存快照:返回净化正文摘录(≤6KB)与快照 id;仅公开 http/https,私网/本机地址会被拒绝。",
+    effect: "external" as const,
+    parameters: {
+      type: "object",
+      properties: { url: { type: "string", description: "要抓取的页面地址" } },
+      required: ["url"],
+    },
+  },
+  readSnapshot: {
+    name: "read_snapshot",
+    description: "分页读取本 run 已有快照正文(offset/limit,每页 ≤6KB;每问至多 8 次),用于复核已抓材料原文。",
+    effect: "read" as const,
+    parameters: {
+      type: "object",
+      properties: {
+        sid: { type: "string", description: "快照 id" },
+        offset: { type: "integer", description: "起始字符偏移(缺省 0)" },
+        limit: { type: "integer", description: "读取长度上限(≤6144)" },
+      },
+      required: ["sid"],
+    },
+  },
+};
+
+/** P2-4(D1):按字节截断摘录(摘录/分页两层截断之一;尾部残缺代理对丢弃)。 */
+const clipExcerpt = (text: string, maxBytes: number): string => {
+  const bytes = Buffer.from(text, "utf8");
+  if (bytes.length <= maxBytes) return text;
+  return bytes.subarray(0, maxBytes).toString("utf8").replace(/\ufffd+$/, "");
+};
+
+const EXCERPT_MAX_BYTES = 6 * 1024;
+const READ_PER_QUESTION_LIMIT = 8;
 
 export const DEFAULT_BUDGET: Budget = {
   maxSearches: 80,
@@ -117,7 +174,7 @@ export async function runResearch(
   const priorCheckpoints = resuming ? await store.checkpoints(runId) : [];
   const completedStages = new Set(priorCheckpoints.map((c) => c.stage));
 
-  // P2-2:模型用量统一累计 wrapper——全部 extractClaims/runStage 调用点的 usage 汇入 run 记录
+  // P2-2:模型用量统一累计 wrapper——全部 extractClaims/runStage/runAgent 调用点的 usage 汇入 run 记录
   const model: ModelProvider = {
     extractClaims: async (input, callKey) => {
       const r = await adapters.model.extractClaims(input, callKey);
@@ -131,6 +188,17 @@ export async function runResearch(
       run.usage.outputTokens += r.usage.outputTokens;
       return r;
     },
+    // P2-4(R1-2):agent 调用的计量同样过 wrapper;底层通道缺席时不设此键(gather 侧降级)
+    ...(adapters.model.runAgent
+      ? {
+          runAgent: async (input: RunAgentInput, tools: AgentTool[], callKey: string) => {
+            const r = await adapters.model.runAgent!(input, tools, callKey);
+            run.usage.modelCalls += r.usage.modelCalls;
+            run.usage.outputTokens += r.usage.outputTokens;
+            return r;
+          },
+        }
+      : {}),
   };
 
   const state = emptyState();
@@ -205,6 +273,25 @@ export async function runResearch(
     syncProgress();
     await store.saveRun(ResearchRunSchema.parse(run));
   };
+  // P2-4(D4):调查事件侧车 writer——追加失败吞错(侧车不杀问,D1)
+  const appendInvestigationSafe = async (event: Omit<InvestigationEvent, "seq" | "at">): Promise<void> => {
+    try {
+      await store.appendInvestigation(runId, event);
+    } catch {
+      /* 调查侧车失败不影响调查本身 */
+    }
+  };
+  // P2-4(R1-6):executor 内计数即时写 run.usage,落盘按 2s 节流(与调查事件同步活;
+  // 窗口自 run 起点计——快测首事件不落盘,保持问边界落盘形状)
+  let lastUsagePersistAt = started;
+  const persistUsageThrottled = async (): Promise<void> => {
+    if (Date.now() - lastUsagePersistAt < 2_000) return;
+    lastUsagePersistAt = Date.now();
+    await persistRun();
+  };
+  // P2-4(C4):调查归属映射——qid → 该问抓取过的 sid 集合;共享快照对抓取过它的每个问展开 attach
+  const fetchedByQ = new Map<string, Set<string>>();
+  const snapshotsBySid = new Map<string, SourceSnapshot>();
   // 2.1:采证进度摘要(当前问题 + 计数),随每次落盘刷新
   let currentQuestion: PlanQuestion | undefined;
   const syncProgress = (): void => {
@@ -326,108 +413,274 @@ export async function runResearch(
     }
   };
 
+  /**
+   * P2-4(R1-5):调查任务卡——固定六段,常量级篇幅;预算余量为调用时静态快照
+   * (只进 prompt 不进 configuration,R1-1);不用 claims(未过 review)。
+   */
+  const investigationCard = (q: PlanQuestion, perQuestion: number): string => {
+    const answered = state.questions
+      .filter((x) => x.status === "answered" || x.status === "partially")
+      .map((x) => x.question);
+    const baseUrls = baseBundle?.snapshots.map((s) => s.url) ?? [];
+    const fold = (items: string[], sep: string, max: number): string =>
+      items.length === 0 ? "无" : `${items.slice(0, max).join(sep)}${items.length > max ? ` 等 ${items.length} 项` : ""}`;
+    return [
+      `【研究问题】${q.question}`,
+      `【方向附注】${directionNotes.length ? directionNotes.join(";") : "无"}`,
+      `【研究目标与范围】${request.goal}(${request.scope.summary})`,
+      `【已答问题】${fold(answered, " / ", 8)}`,
+      `【已有快照(勿重抓)】${fold(baseUrls, " ; ", 8)}`,
+      `【预算余量】搜索 ${Math.max(0, budget.maxSearches - run.usage.searches)} 次 / 抓取 ${Math.max(
+        0,
+        budget.maxFetches - run.usage.fetches,
+      )} 次(本问抓取上限 ${perQuestion});余量以工具返回为准,用尽会收到错误提示`,
+      `【输出契约】调查结束后停止调用工具,只输出 JSON:{"sufficient":boolean,"note":"一句话结论口径"}`,
+    ].join("\n");
+  };
+
   const gather = async (round: number, targets?: PlanQuestion[]): Promise<void> => {
     const questions = targets ?? state.questions.filter((q) => q.status === "open");
     activeGatherTargets = questions;
     try {
-    for (let qIdx = 0; qIdx < questions.length; qIdx++) {
-      const q = questions[qIdx];
-      // 2.1:被用户跳过的问题(含指令指向的后续问题)不再采证,状态不被覆盖
-      if (q.status === "skipped") continue;
-      currentQuestion = q;
-      if (cancelled()) return;
-      // 2.1:问题间隙消费干预指令(跳过当前问题则直接进下一问)
-      if (await consumeInstructions()) continue;
-      if (!tracker.canSearch()) {
-        state.capped = true;
-        if (q.status === "open") q.status = "unanswered";
-        continue;
-      }
-      // 补采/重采前清掉该问题的旧主张与证据,受影响分支被重算
-      const staleClaimIds = state.claims
-        .filter((c) => state.claimQuestions[c.id] === q.id)
-        .map((c) => c.id);
-      state.claims = state.claims.filter((c) => state.claimQuestions[c.id] !== q.id);
-      state.evidence = state.evidence.filter((e) => !e.id.startsWith(`ev:${q.id}:`));
-      for (const cid of staleClaimIds) delete state.claimQuestions[cid];
-
-      const query = directionNotes.length
-        ? `${q.question} ${directionNotes.map((n) => `(${n})`).join(" ")}`
-        : q.question;
-      const hitsAll = await adapters.search.search(
-        query,
-        `${keyBase}:gather:r${round}:search:${q.id}`,
-      );
-      run.usage.searches += 1;
-      // 2.1 增量:基准已有快照的 URL 直接复用旧证据,不重抓不重抽
-      const hits = hitsAll.filter((h) => !baseSnapshotUrls.has(h.url));
-      const reusedBaseHits = hitsAll.length - hits.length;
-      let fetchedAny = false;
-      let claimsForQ = 0;
-      // 抓取配额按剩余问题均分,避免首个问题独占预算导致其余问题颗粒无收
-      const remainingQuestions = questions.length - qIdx;
-      const perQuestion = tracker.fetchQuota(remainingQuestions);
-      let fetchedForQ = 0;
-      for (let i = 0; i < hits.length && fetchedForQ < perQuestion; i += budget.maxParallel) {
+      for (let qIdx = 0; qIdx < questions.length; qIdx++) {
+        const q = questions[qIdx];
+        // 2.1:被用户跳过的问题(含指令指向的后续问题)不再采证,状态不被覆盖
+        if (q.status === "skipped") continue;
+        currentQuestion = q;
         if (cancelled()) return;
-        const chunk = hits.slice(i, i + budget.maxParallel);
-        const room = tracker.fetchRoom(perQuestion, fetchedForQ);
-        if (room <= 0 || tracker.overBudget()) {
+        // 2.1:问题间隙消费干预指令(D2:问启动前 drain,skip/add/refine 零漂移)
+        if (await consumeInstructions()) continue;
+        if (!tracker.canSearch()) {
           state.capped = true;
-          break;
+          if (q.status === "open") q.status = "unanswered";
+          continue;
         }
-        const take = chunk.slice(0, room);
-        if (tracker.shouldCapOnTake(take.length)) state.capped = true;
-        const produced = await Promise.all(
-          take.map(async (hit, j) => {
-            const n = `${q.id}:${i + j}`;
-            const page = await adapters.page.fetch(hit.url, `${keyBase}:gather:r${round}:fetch:${n}`);
-            const doc = await adapters.parser.parse(page, `${keyBase}:gather:r${round}:parse:${n}`);
-            const snapshot = snapshotFrom({
-              id: `snap:${hit.url}`,
-              url: hit.url,
-              // 网页自身标题最准(搜索接口的 title 偶发缺省/碎片);两者皆缺时展示层回退 URL
-              title: doc.title || hit.title || hit.url,
-              bodyText: doc.bodyText,
-              parseStatus: doc.parseStatus,
-              contentType: page.contentType,
-              tier: tierOfSource(hit.url, moduleConfig.sourceStrategy.preferredDomains),
-            });
-            await store.saveSnapshot(snapshot);
-            await ingestToLibrary(snapshot);
-            const extracted = await model.extractClaims(
-              { snapshot },
-              `${keyBase}:gather:r${round}:model:${n}`,
-            );
-            return { snapshot, extracted };
-          }),
+        // 补采/重采前清掉该问题的旧主张与证据,受影响分支被重算(现状语义,D3)
+        const staleClaimIds = state.claims
+          .filter((c) => state.claimQuestions[c.id] === q.id)
+          .map((c) => c.id);
+        state.claims = state.claims.filter((c) => state.claimQuestions[c.id] !== q.id);
+        state.evidence = state.evidence.filter((e) => !e.id.startsWith(`ev:${q.id}:`));
+        for (const cid of staleClaimIds) delete state.claimQuestions[cid];
+
+        // --- P2-4(D2):runAgent 全自主调查;通道缺席(旧夹具路径)按不支持降级,run 不死 ---
+        if (!model.runAgent) {
+          addLimitation(state.limitations, `问题「${q.question}」的模型通道不支持自主调查,该问未采证`);
+          q.status = "unanswered";
+          await appendInvestigationSafe({
+            qid: q.id,
+            kind: "verdict",
+            summary: "未采证(通道不支持自主调查)",
+            sufficient: false,
+          });
+          await persistRun();
+          continue;
+        }
+        // 单问软顶(KA5):fetchQuota 按剩余问题均分保留(补证轮有预算的公平性)
+        const remainingQuestions = questions.length - qIdx;
+        const perQuestion = tracker.fetchQuota(remainingQuestions);
+        let searchN = 0;
+        let fetchN = 0;
+        let readN = 0;
+        let fetchedForQ = 0;
+        let allBaseHits = false;
+        const errMsgOf = (e: unknown): string => (e instanceof Error ? e.message : String(e));
+
+        // --- 工具三件(D1:executor 闭包捕获 qid/轮次/软顶计数;定义轮次不变) ---
+        const webSearch: AgentTool = {
+          ...TOOL_DEFINITIONS.webSearch,
+          execute: async (args) => {
+            searchN += 1;
+            const query = String(args.query ?? "");
+            await appendInvestigationSafe({ qid: q.id, kind: "query", summary: query, query });
+            if (tracker.overBudget()) {
+              state.capped = true;
+              return { error: "budget-exhausted", note: "墙钟预算已到,请立即收束并输出结论" };
+            }
+            if (run.usage.searches >= budget.maxSearches) {
+              state.capped = true;
+              return { error: "search-quota-exhausted", note: "全局搜索配额已用尽,请基于已有材料收束" };
+            }
+            try {
+              const hits = await adapters.search.search(
+                query,
+                `${keyBase}:gather:r${round}:a:${q.id}:search:${searchN}`,
+              );
+              run.usage.searches += 1;
+              await persistUsageThrottled();
+              if (hits.length > 0) allBaseHits = hits.every((h) => baseSnapshotUrls.has(h.url));
+              return {
+                hits: hits.map((h) => ({
+                  url: h.url,
+                  title: h.title,
+                  snippet: h.snippet,
+                  ...(baseSnapshotUrls.has(h.url) ? { base: true } : {}),
+                })),
+              };
+            } catch (error) {
+              addLimitation(state.limitations, `问题「${q.question}」的搜索调用失败:${errMsgOf(error)}`);
+              return { error: "search-failed", note: `搜索服务不可用:${errMsgOf(error)}` };
+            }
+          },
+        };
+
+        const fetchPage: AgentTool = {
+          ...TOOL_DEFINITIONS.fetchPage,
+          execute: async (args) => {
+            fetchN += 1;
+            const url = String(args.url ?? "");
+            await appendInvestigationSafe({ qid: q.id, kind: "fetch", summary: url, url });
+            if (tracker.overBudget()) {
+              state.capped = true;
+              return { error: "budget-exhausted", note: "墙钟预算已到,请立即收束并输出结论" };
+            }
+            if (fetchedForQ >= perQuestion) {
+              return { error: "question-quota-exhausted", note: `本问抓取已达上限(${perQuestion} 次),请基于已有材料收束` };
+            }
+            if (tracker.fetchRoom(perQuestion, fetchedForQ) <= 0) {
+              state.capped = true;
+              return { error: "fetch-quota-exhausted", note: "全局抓取配额已用尽,请基于已有材料收束" };
+            }
+            // C3:SSRF 边界——直接地址与重定向终址都过 assertPublicUrl(硬性前置)
+            try {
+              assertPublicUrl(url);
+            } catch {
+              return { error: "url-rejected", note: `地址被拒绝(仅公开 http/https): ${url}` };
+            }
+            try {
+              const page = await adapters.page.fetch(url, `${keyBase}:gather:r${round}:a:${q.id}:fetch:${fetchN}`);
+              if (page.finalUrl) {
+                try {
+                  assertPublicUrl(page.finalUrl);
+                } catch {
+                  return { error: "url-rejected", note: `重定向目标被拒绝: ${page.finalUrl}` };
+                }
+              }
+              if (page.error || page.status !== 200) {
+                return { error: "fetch-failed", note: `抓取失败(HTTP ${page.status})` };
+              }
+              const doc = await adapters.parser.parse(page, `${keyBase}:gather:r${round}:a:${q.id}:parse:${fetchN}`);
+              const snapshot = snapshotFrom({
+                id: `snap:${url}`,
+                url,
+                // 网页自身标题最准;agent 只传 url,无搜索命中标题可兜底
+                title: doc.title || url,
+                bodyText: doc.bodyText,
+                parseStatus: doc.parseStatus,
+                contentType: page.contentType,
+                tier: tierOfSource(url, moduleConfig.sourceStrategy.preferredDomains),
+              });
+              await store.saveSnapshot(snapshot);
+              await ingestToLibrary(snapshot);
+              fetchedForQ += 1;
+              run.usage.fetches += 1;
+              if (tracker.shouldCapOnTake(0)) state.capped = true;
+              // C4:归属映射——共享快照对抓取过它的每个问展开
+              (fetchedByQ.get(q.id) ?? fetchedByQ.set(q.id, new Set()).get(q.id)!).add(snapshot.id);
+              snapshotsBySid.set(snapshot.id, snapshot);
+              await persistUsageThrottled();
+              return {
+                sid: snapshot.id,
+                title: snapshot.title,
+                url,
+                parseStatus: snapshot.parseStatus,
+                excerpt: clipExcerpt(snapshot.bodyText, EXCERPT_MAX_BYTES),
+              };
+            } catch (error) {
+              addLimitation(state.limitations, `问题「${q.question}」的抓取调用失败:${errMsgOf(error)}`);
+              return { error: "fetch-failed", note: `抓取服务不可用:${errMsgOf(error)}` };
+            }
+          },
+        };
+
+        const readSnapshot: AgentTool = {
+          ...TOOL_DEFINITIONS.readSnapshot,
+          execute: async (args) => {
+            readN += 1;
+            const sid = String(args.sid ?? "");
+            const offset = Math.max(0, Math.floor(Number(args.offset ?? 0)) || 0);
+            const limit = Math.min(EXCERPT_MAX_BYTES, Math.max(1, Math.floor(Number(args.limit ?? EXCERPT_MAX_BYTES)) || EXCERPT_MAX_BYTES));
+            await appendInvestigationSafe({ qid: q.id, kind: "read", summary: `读取 ${sid}(offset=${offset})`, sid });
+            if (readN > READ_PER_QUESTION_LIMIT) {
+              return { error: "read-limit-exceeded", note: `本问读取次数已达上限(${READ_PER_QUESTION_LIMIT} 次),请基于已有摘录收束` };
+            }
+            const snap = state.snapshots.find((s) => s.id === sid);
+            if (!snap) return { error: "snapshot-not-found", note: `快照不存在: ${sid}` };
+            return { sid, title: snap.title, excerpt: clipExcerpt(snap.bodyText.slice(offset), limit) };
+          },
+        };
+
+        const res = await model.runAgent(
+          {
+            prompt: investigationCard(q, perQuestion),
+            // R1-1:taskId 完整字面量含轮次;工具定义轮次不变
+            taskId: `dr:${keyBase}:gather-agent:r${round}:${q.id}`,
+            toolExecution: "parallel",
+          },
+          [webSearch, fetchPage, readSnapshot],
+          `${keyBase}:gather:r${round}:a:${q.id}`,
         );
-        run.usage.fetches += take.length;
-        fetchedForQ += take.length;
-        for (const { snapshot, extracted } of produced) {
-          fetchedAny = true;
-          // 2.0:证据绑定情报库来源版本,提取核验待评审确认
+
+        // --- 终局后验(裁决②:parseJsonLoose;解析失败→sufficient:false+limitation) ---
+        let sufficient = false;
+        let note = "";
+        let agentFailed = false;
+        if (res.status === "succeeded" && res.text !== null) {
+          const parsed = parseJsonLoose(res.text) as { sufficient?: unknown; note?: unknown };
+          if (parsed && typeof parsed === "object" && typeof parsed.sufficient === "boolean") {
+            sufficient = parsed.sufficient;
+            note = typeof parsed.note === "string" ? parsed.note : "";
+          } else {
+            addLimitation(state.limitations, `问题「${q.question}」的调查结论无法解析,按未充分处理`);
+          }
+        } else if (res.status === "succeeded") {
+          addLimitation(state.limitations, `问题「${q.question}」的调查结论文本不可用(截断),按未充分处理`);
+        } else {
+          // D2:RunResult failed/blocked→该问 unanswered+limitation,整 run 不死
+          agentFailed = true;
+          addLimitation(
+            state.limitations,
+            `问题「${q.question}」的自主调查失败(${res.reason ?? res.status}),该问按未回答处理`,
+          );
+        }
+        await appendInvestigationSafe({
+          qid: q.id,
+          kind: "verdict",
+          summary: sufficient ? "调查充分" : agentFailed ? "调查失败" : "调查未充分",
+          sufficient,
+          ...(note ? { note } : {}),
+        });
+
+        // --- extract 批量后置(R1-4 callKey;C4:对该问抓取过的快照逐个装配) ---
+        let claimsForQ = 0;
+        const sids = [...(fetchedByQ.get(q.id) ?? [])];
+        for (let i = 0; i < sids.length; i++) {
+          const snapshot = snapshotsBySid.get(sids[i]);
+          if (!snapshot) continue;
+          const extracted = await model.extractClaims(
+            { snapshot },
+            `${keyBase}:gather:r${round}:extract:${q.id}:${i}`,
+          );
           claimsForQ += attachGatherExtraction(state, snapshot, extracted, q.id, snapshotVersionMap.get(snapshot.id));
         }
+
+        // --- q.status 合成(D3:现状判定链的 agent 形态) ---
+        q.status = agentFailed
+          ? "unanswered"
+          : sufficient && claimsForQ > 0
+            ? "answered"
+            : claimsForQ > 0
+              ? "partially"
+              : "unanswered";
+        // 2.1 增量:检索命中全部为基准已采信源(未重复采证)的问题如实披露
+        if (q.status === "unanswered" && allBaseHits && fetchedForQ === 0) {
+          addLimitation(
+            state.limitations,
+            `问题「${q.question}」的检索命中均为基准研究已采信源,本次未重复采证;答案可能存在于延续证据中`,
+          );
+        }
+        await persistRun();
       }
-      q.status =
-        claimsForQ > 0
-          ? state.capped
-            ? "partially"
-            : "answered"
-          : fetchedAny
-            ? "partially"
-            : "unanswered";
-      // 2.1 增量:检索命中全部为基准已采信源(未重复采证)的问题如实披露
-      // (入 limitations 而非 unresolved——主路径组装时会重写 unresolved)
-      if (q.status === "unanswered" && reusedBaseHits > 0 && hits.length === 0) {
-        addLimitation(
-          state.limitations,
-          `问题「${q.question}」的检索命中均为基准研究已采信源,本次未重复采证;答案可能存在于延续证据中`,
-        );
-      }
-      await persistRun();
-    }
     } finally {
       activeGatherTargets = null;
       currentQuestion = undefined;

@@ -34,6 +34,11 @@ export function recordingAdapters(live: Adapters, sink: (call: RecordedCall) => 
         sink({ key, kind: "stage", response: result });
         return result;
       },
+      // P2-4:透传宿主 agent(executor 内的 search/fetch/parse/model 调用照常被上面录制;
+      // agent 回合本身的录制形状属 T3 R1-3)
+      ...(live.model.runAgent
+        ? { runAgent: (input: Parameters<NonNullable<Adapters["model"]["runAgent"]>>[0], tools, key) => live.model.runAgent!(input, tools, key) }
+        : {}),
     },
   };
 }

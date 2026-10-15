@@ -50,9 +50,18 @@ async function defaultInvestigate(prompt: string, tools: AgentTool[], signal: Ab
 }
 
 /** scripted runAgent:按任务卡匹配脚本依次执行轮次;未匹配走默认调查脚本。 */
-export function scriptedRunAgent(scripts: AgentScript[] = []): NonNullable<ModelProvider["runAgent"]> {
+export function scriptedRunAgent(
+  scripts: AgentScript[] = [],
+  opts?: {
+    /** 每轮工具的执行结果落此(供测试断言 error-as-value 形状)。 */
+    log?: Array<{ name: string; result: unknown }>;
+    /** 收到任务卡时回调(供测试断言任务卡六段内容)。 */
+    onPrompt?: (prompt: string) => void;
+  },
+): NonNullable<ModelProvider["runAgent"]> {
   return async (input, tools): Promise<RunAgentResult> => {
     const signal = new AbortController().signal;
+    opts?.onPrompt?.(input.prompt);
     const script = scripts.find((s) =>
       !s.match
         ? false
@@ -67,7 +76,8 @@ export function scriptedRunAgent(scripts: AgentScript[] = []): NonNullable<Model
       if (turn.tool) {
         const tool = tools.find((t) => t.name === turn.tool!.name);
         if (!tool) throw new Error(`scripted agent: 工具未注册 ${turn.tool.name}`);
-        await tool.execute(turn.tool.args, signal);
+        const result = await tool.execute(turn.tool.args, signal);
+        opts?.log?.push({ name: turn.tool.name, result });
       } else if (turn.text !== undefined) {
         return { status: "succeeded", text: turn.text, usage: { ...USAGE } };
       }

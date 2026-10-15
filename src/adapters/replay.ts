@@ -7,6 +7,7 @@ import type {
   Recording,
   SearchHit,
 } from "./types.js";
+import { scriptedRunAgent } from "./testing.js";
 
 interface SearchResponse {
   hits: SearchHit[];
@@ -66,6 +67,9 @@ export function replayAdapters(recording: Recording, options: ReplayOptions = {}
           throw error;
         }
       },
+      // P2-4:回放侧同样以默认调查脚本驱动真 executor——executor 打到本回放适配器,
+      // 按录制 callKey 逐位命中,调查/快照/主张装配全链再生(录制形状 T3 R1-3)
+      runAgent: scriptedRunAgent(),
     },
   };
 }

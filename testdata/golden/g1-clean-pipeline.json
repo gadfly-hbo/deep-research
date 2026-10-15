@@ -20,7 +20,7 @@
       }
     },
     {
-      "key": "req-golden-1:gather:r0:search:q1",
+      "key": "req-golden-1:gather:r0:a:q1:search:1",
       "kind": "search",
       "response": {
         "hits": [
@@ -38,7 +38,7 @@
       }
     },
     {
-      "key": "req-golden-1:gather:r0:fetch:q1:0",
+      "key": "req-golden-1:gather:r0:a:q1:fetch:1",
       "kind": "fetch",
       "response": {
         "page": {
@@ -50,7 +50,17 @@
       }
     },
     {
-      "key": "req-golden-1:gather:r0:fetch:q1:1",
+      "key": "req-golden-1:gather:r0:a:q1:parse:1",
+      "kind": "parse",
+      "response": {
+        "doc": {
+          "bodyText": "中国咖啡市场规模约 1,200 亿元(2025 年)。现磨咖啡门店数持续增长。行业边界与定义清晰。",
+          "parseStatus": "ok"
+        }
+      }
+    },
+    {
+      "key": "req-golden-1:gather:r0:a:q1:fetch:2",
       "kind": "fetch",
       "response": {
         "page": {
@@ -62,17 +72,7 @@
       }
     },
     {
-      "key": "req-golden-1:gather:r0:parse:q1:0",
-      "kind": "parse",
-      "response": {
-        "doc": {
-          "bodyText": "中国咖啡市场规模约 1,200 亿元(2025 年)。现磨咖啡门店数持续增长。行业边界与定义清晰。",
-          "parseStatus": "ok"
-        }
-      }
-    },
-    {
-      "key": "req-golden-1:gather:r0:parse:q1:1",
+      "key": "req-golden-1:gather:r0:a:q1:parse:2",
       "kind": "parse",
       "response": {
         "doc": {
@@ -82,7 +82,7 @@
       }
     },
     {
-      "key": "req-golden-1:gather:r0:model:q1:0",
+      "key": "req-golden-1:gather:r0:extract:q1:0",
       "kind": "model",
       "response": {
         "claims": [
@@ -115,7 +115,7 @@
       }
     },
     {
-      "key": "req-golden-1:gather:r0:model:q1:1",
+      "key": "req-golden-1:gather:r0:extract:q1:1",
       "kind": "model",
       "response": {
         "claims": [

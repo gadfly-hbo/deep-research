@@ -3,6 +3,7 @@ import type { Adapters, FetchedPage } from "../adapters/types.js";
 import { ResearchRequestSchema, type ResearchRequest } from "../contracts.js";
 import { createMemoryStore } from "../stores/memory.js";
 import { runResearch, type RunResult } from "./runResearch.js";
+import { scriptedRunAgent } from "../adapters/testing.js";
 
 const DRAFT_MD = "# 报告草稿\n\n## 市场\nx";
 const POLISHED_MD = "# 润色后报告\n\n## 市场\n充实后的正文";
@@ -25,6 +26,7 @@ function adapters(opts: {
         claims: [{ statement: "市场规模 1200 亿", kind: "fact" as const, quote: "市场规模约 1,200 亿元" }],
         usage: { modelCalls: 1, outputTokens: 16 },
       }),
+      runAgent: scriptedRunAgent(),
       runStage: async (stage, input) => {
         captured.push({ stage, input });
         if (stage === "analyze") return { output: { findings: [], gaps: [] }, usage: { modelCalls: 1, outputTokens: 16 } };

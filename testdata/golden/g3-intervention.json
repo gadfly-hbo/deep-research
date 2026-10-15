@@ -18,7 +18,7 @@
       }
     },
     {
-      "key": "req-golden-3:gather:r0:search:q1",
+      "key": "req-golden-3:gather:r0:a:q1:search:1",
       "kind": "search",
       "response": {
         "hits": [
@@ -31,7 +31,7 @@
       }
     },
     {
-      "key": "req-golden-3:gather:r0:fetch:q1:0",
+      "key": "req-golden-3:gather:r0:a:q1:fetch:1",
       "kind": "fetch",
       "response": {
         "page": {
@@ -43,7 +43,7 @@
       }
     },
     {
-      "key": "req-golden-3:gather:r0:parse:q1:0",
+      "key": "req-golden-3:gather:r0:a:q1:parse:1",
       "kind": "parse",
       "response": {
         "doc": {
@@ -53,7 +53,7 @@
       }
     },
     {
-      "key": "req-golden-3:gather:r0:model:q1:0",
+      "key": "req-golden-3:gather:r0:extract:q1:0",
       "kind": "model",
       "response": {
         "claims": [
@@ -86,7 +86,7 @@
       }
     },
     {
-      "key": "req-golden-3:gather:r0:search:q-ins-1",
+      "key": "req-golden-3:gather:r0:a:q-ins-1:search:1",
       "kind": "search",
       "response": {
         "hits": [
@@ -99,7 +99,7 @@
       }
     },
     {
-      "key": "req-golden-3:gather:r0:fetch:q-ins-1:0",
+      "key": "req-golden-3:gather:r0:a:q-ins-1:fetch:1",
       "kind": "fetch",
       "response": {
         "page": {
@@ -111,7 +111,7 @@
       }
     },
     {
-      "key": "req-golden-3:gather:r0:parse:q-ins-1:0",
+      "key": "req-golden-3:gather:r0:a:q-ins-1:parse:1",
       "kind": "parse",
       "response": {
         "doc": {
@@ -121,7 +121,7 @@
       }
     },
     {
-      "key": "req-golden-3:gather:r0:model:q-ins-1:0",
+      "key": "req-golden-3:gather:r0:extract:q-ins-1:0",
       "kind": "model",
       "response": {
         "claims": [

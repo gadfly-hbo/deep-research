@@ -4,6 +4,7 @@ import { ResearchRequestSchema } from "../contracts.js";
 import { createMemoryStore } from "../stores/memory.js";
 import { runResearch } from "./runResearch.js";
 import type { StageName } from "./stages.js";
+import { scriptedRunAgent } from "../adapters/testing.js";
 
 describe("gather 抓取预算按问题分配", () => {
   it("多问题时预算不被首个问题独占:每问获得均分配额", async () => {
@@ -31,6 +32,7 @@ describe("gather 抓取预算按问题分配", () => {
           claims: [{ statement: "中国咖啡市场规模约 1200 亿元(2025)", kind: "fact" as const, quote: "中国咖啡市场规模约 1,200 亿元" }],
           usage: { modelCalls: 0, outputTokens: 0 },
         }),
+        runAgent: scriptedRunAgent(),
         runStage: async (stage: StageName) =>
           stage === "analyze"
             ? { output: { findings: [], gaps: [] }, usage: { modelCalls: 0, outputTokens: 0 } }

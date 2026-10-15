@@ -9,6 +9,7 @@ import { FsLibraryStore } from "../library/fsLibraryStore.js";
 import { bindAssets } from "../library/reuse.js";
 import { createMemoryStore } from "../stores/memory.js";
 import { runResearch, type RunOptions } from "./runResearch.js";
+import { scriptedRunAgent } from "../adapters/testing.js";
 
 function fakeAdapters(): Adapters {
   return {
@@ -22,6 +23,7 @@ function fakeAdapters(): Adapters {
         claims: [{ statement: `${snapshot.title} 的关键数值`, kind: "fact" as const, quote: snapshot.bodyText.slice(0, 20) }],
         usage: { modelCalls: 1, outputTokens: 16 },
       }),
+      runAgent: scriptedRunAgent(),
       runStage: async (stage) =>
         stage === "analyze"
           ? { output: { findings: [], gaps: [] }, usage: { modelCalls: 1, outputTokens: 16 } }

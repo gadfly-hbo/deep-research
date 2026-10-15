@@ -8,6 +8,7 @@ import { FsLibraryStore } from "../library/fsLibraryStore.js";
 import type { LibraryStore } from "../library/types.js";
 import { createMemoryStore } from "../stores/memory.js";
 import { runResearch, type RunOptions } from "./runResearch.js";
+import { scriptedRunAgent } from "../adapters/testing.js";
 
 const bodies: Record<string, string> = {
   "https://a/1": "中国咖啡市场规模约 1,200 亿元(2025 年)。行业边界含现磨与即饮。",
@@ -31,6 +32,7 @@ function fakeAdapters(): Adapters {
         snapshot.url === "https://a/1"
           ? { claims: [{ statement: "规模约 1200 亿元(2025)", kind: "fact" as const, quote: "市场规模约 1,200 亿元" }], usage: { modelCalls: 1, outputTokens: 16 } }
           : { claims: [{ statement: "门店数增长", kind: "inference" as const, quote: "门店数持续增长" }], usage: { modelCalls: 1, outputTokens: 16 } },
+      runAgent: scriptedRunAgent(),
       runStage: async (stage) =>
         stage === "analyze"
           ? { output: { findings: [], gaps: [] }, usage: { modelCalls: 1, outputTokens: 16 } }

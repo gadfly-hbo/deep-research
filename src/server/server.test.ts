@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { unzipSync } from "fflate";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { Adapters } from "../adapters/types.js";
+import { scriptedRunAgent } from "../adapters/testing.js";
 import { startServer, type RunningServer } from "./server.js";
 import { FsProjectStore } from "../stores/fsStore.js";
 
@@ -34,6 +35,7 @@ const fakeAdapters = (slow = false): Adapters => ({
       ],
       usage: { modelCalls: 1, outputTokens: 16 },
     }),
+    runAgent: scriptedRunAgent(),
     runStage: async (stage) =>
       stage === "plan"
         ? { output: { questions: [{ id: "q1", question: "市场规模" }] }, usage: { modelCalls: 1, outputTokens: 16 } }
@@ -209,7 +211,7 @@ describe("本地 HTTP 服务", () => {
     }
   });
 
-  it("阶段失败可见:适配器抛错时 run 落为 failed 并带错误信息(失败不冒充完成)", async () => {
+  it("阶段失败可见:适配器持续抛错时如实披露为限制,不冒充完整交付(P2-4:executor error-as-value,run 不死)", async () => {
     await srv.close();
     const failing: Adapters = {
       ...fakeAdapters(),
@@ -220,21 +222,25 @@ describe("本地 HTTP 服务", () => {
 
     const created = await post("/api/projects", { module: "industry", goal: "失败可见性", scope: { summary: "s", queries: [] } });
     const projectId = (await created.json()).id as string;
-    // P2-3:免 plan 启动会先落 plan 门,失败可见性走带 plan 旧路径直进采证
     await post(`/api/projects/${projectId}/runs`, {
       request: { id: "req-fail", module: "industry", goal: "失败可见性", scope: { summary: "s", queries: [] } },
       plan: { questions: [{ id: "q1", question: "市场规模", status: "open" }] },
     });
 
-    let failed: any;
-    for (let i = 0; i < 40; i++) {
+    let done: any;
+    for (let i = 0; i < 80; i++) {
       const detail = await api(`/api/projects/${projectId}`);
-      failed = (await detail.json()).runs.find((r: any) => r.requestId === "req-fail");
-      if (failed) break;
+      done = (await detail.json()).runs.find((r: any) => r.requestId === "req-fail");
+      if (done && done.status !== "running") break;
       await new Promise((r) => setTimeout(r, 50));
     }
-    expect(failed?.status).toBe("failed");
-    expect(failed?.error).toContain("搜索服务不可用");
+    // run 不死(C1):问题按未回答收束、有限交付,失败原因进限制披露
+    expect(done?.status).toBe("limited");
+    expect(done?.error).toBeUndefined();
+    const store = FsProjectStore.open(join(dataDir, "projects", projectId));
+    const bundle = await store.readBundle(done.id);
+    expect(bundle?.limitations.join("\n")).toContain("搜索服务不可用");
+    expect(done?.progress).toMatchObject({ answered: 0, total: 1 });
   });
 
   it("重跑:读原请求换档位预算,生成新请求 ID;原运行进行中则拒绝", async () => {

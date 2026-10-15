@@ -3,6 +3,7 @@ import type { Adapters } from "../adapters/types.js";
 import { ResearchRequestSchema, type ResearchRun } from "../contracts.js";
 import { createMemoryStore } from "../stores/memory.js";
 import { runResearch } from "./runResearch.js";
+import { scriptedRunAgent } from "../adapters/testing.js";
 
 /**
  * P2-3 T0(KA1 陷阱钉死):plan checkpoint append-only——confirm 只追加新版本时,
@@ -39,6 +40,7 @@ describe("plan checkpoint 恢复取最新(find-last)", () => {
       parser: { parse: async () => ({ bodyText: "", parseStatus: "failed" as const }) },
       model: {
         extractClaims: async () => ({ claims: [], usage: { modelCalls: 0, outputTokens: 0 } }),
+        runAgent: scriptedRunAgent(),
         runStage: async (stage) => {
           if (stage === "plan") throw new Error("恢复路径不应重跑 plan");
           if (stage === "analyze") return { output: { findings: [], gaps: [] }, usage: { modelCalls: 1, outputTokens: 16 } };

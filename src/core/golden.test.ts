@@ -11,6 +11,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import { recordingAdapters } from "../adapters/recording.js";
+import { scriptedRunAgent } from "../adapters/testing.js";
 import { replayAdapters } from "../adapters/replay.js";
 import type { Adapters, ExtractedClaim, FetchedPage, RecordedCall, SearchHit } from "../adapters/types.js";
 import {
@@ -146,6 +147,7 @@ function makeFakes(script: {
     model: {
       extractClaims: async ({ snapshot }) => ({ claims: CLAIMS_BY_URL[snapshot.url] ?? [], usage: { modelCalls: 1, outputTokens: 16 } }),
       runStage: async (stage, _input, key) => ({ output: script.stage(stage, key), usage: { modelCalls: 1, outputTokens: 16 } }),
+      runAgent: scriptedRunAgent(),
     },
   };
 }
@@ -212,8 +214,8 @@ describe("金样本 G2:修复回环(analyze gap 补采 + review regather + rephr
   const fakes = () =>
     makeFakes({
       search: (_query, key) => {
-        if (key.endsWith(":search:q2") && key.includes(":r0:")) return []; // 首轮 q2 无结果 → unanswered
-        if (key.endsWith(":search:q2")) return [{ url: "https://iresearch.com.cn/b", title: "门店数据", snippet: "" }];
+        if (key.includes(":r0:a:q2:search:")) return []; // 首轮 q2 无结果 → unanswered
+        if (key.includes(":r1:a:q2:search:")) return [{ url: "https://iresearch.com.cn/b", title: "门店数据", snippet: "" }];
         return [{ url: "https://gov.cn/a", title: "官方统计", snippet: "" }];
       },
       stage: (stage, key) => {
@@ -243,8 +245,8 @@ describe("金样本 G2:修复回环(analyze gap 补采 + review regather + rephr
     const recorded = await recordGolden(request, fakes(), options);
     const golden = checkGolden("g2-repair-loop", recorded);
     const keys = recorded.calls.map((c) => c.key);
-    expect(keys).toContain("req-golden-2:gather:r1:search:q2");
-    expect(keys).toContain("req-golden-2:gather:r10:search:q1");
+    expect(keys).toContain("req-golden-2:gather:r1:a:q2:search:1");
+    expect(keys).toContain("req-golden-2:gather:r10:a:q1:search:1");
     expect(keys).toContain("req-golden-2:draft:fix0");
     expect(keys).toContain("req-golden-2:review:0");
     expect(keys).toContain("req-golden-2:review:1");
@@ -276,7 +278,7 @@ describe("金样本 G3:执行中干预(add-source 文本 + add-questions)", () =
   const fakes = () =>
     makeFakes({
       search: (_query, key) =>
-        key.endsWith(":search:q-ins-1")
+        key.includes(":a:q-ins-1:search:")
           ? [{ url: "https://iresearch.com.cn/r", title: "行业报告", snippet: "" }]
           : [{ url: "https://gov.cn/a", title: "官方统计", snippet: "" }],
       stage: (stage) => {
@@ -293,7 +295,7 @@ describe("金样本 G3:执行中干预(add-source 文本 + add-questions)", () =
     const golden = checkGolden("g3-intervention", recorded);
     const keys = recorded.calls.map((c) => c.key);
     expect(keys).toContain("req-golden-3:instruct:model:ins-a");
-    expect(keys).toContain("req-golden-3:gather:r0:search:q-ins-1");
+    expect(keys).toContain("req-golden-3:gather:r0:a:q-ins-1:search:1");
     expect(recorded.capture.result.run.progress).toMatchObject({ answered: 2, open: 0, skipped: 0, total: 2 });
     const replayed = await collectRun(request, replayAdapters(golden.calls), makeOptions());
     expectSameOutcome(recorded.capture, replayed);

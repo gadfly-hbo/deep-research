@@ -1,7 +1,7 @@
 {
   "calls": [
     {
-      "key": "req-golden-2:gather:r0:search:q1",
+      "key": "req-golden-2:gather:r0:a:q1:search:1",
       "kind": "search",
       "response": {
         "hits": [
@@ -14,7 +14,7 @@
       }
     },
     {
-      "key": "req-golden-2:gather:r0:fetch:q1:0",
+      "key": "req-golden-2:gather:r0:a:q1:fetch:1",
       "kind": "fetch",
       "response": {
         "page": {
@@ -26,7 +26,7 @@
       }
     },
     {
-      "key": "req-golden-2:gather:r0:parse:q1:0",
+      "key": "req-golden-2:gather:r0:a:q1:parse:1",
       "kind": "parse",
       "response": {
         "doc": {
@@ -36,7 +36,7 @@
       }
     },
     {
-      "key": "req-golden-2:gather:r0:model:q1:0",
+      "key": "req-golden-2:gather:r0:extract:q1:0",
       "kind": "model",
       "response": {
         "claims": [
@@ -69,7 +69,7 @@
       }
     },
     {
-      "key": "req-golden-2:gather:r0:search:q2",
+      "key": "req-golden-2:gather:r0:a:q2:search:1",
       "kind": "search",
       "response": {
         "hits": []
@@ -101,7 +101,7 @@
       }
     },
     {
-      "key": "req-golden-2:gather:r1:search:q2",
+      "key": "req-golden-2:gather:r1:a:q2:search:1",
       "kind": "search",
       "response": {
         "hits": [
@@ -114,7 +114,7 @@
       }
     },
     {
-      "key": "req-golden-2:gather:r1:fetch:q2:0",
+      "key": "req-golden-2:gather:r1:a:q2:fetch:1",
       "kind": "fetch",
       "response": {
         "page": {
@@ -126,7 +126,7 @@
       }
     },
     {
-      "key": "req-golden-2:gather:r1:parse:q2:0",
+      "key": "req-golden-2:gather:r1:a:q2:parse:1",
       "kind": "parse",
       "response": {
         "doc": {
@@ -136,7 +136,7 @@
       }
     },
     {
-      "key": "req-golden-2:gather:r1:model:q2:0",
+      "key": "req-golden-2:gather:r1:extract:q2:0",
       "kind": "model",
       "response": {
         "claims": [
@@ -213,7 +213,7 @@
       }
     },
     {
-      "key": "req-golden-2:gather:r10:search:q1",
+      "key": "req-golden-2:gather:r10:a:q1:search:1",
       "kind": "search",
       "response": {
         "hits": [
@@ -226,7 +226,7 @@
       }
     },
     {
-      "key": "req-golden-2:gather:r10:fetch:q1:0",
+      "key": "req-golden-2:gather:r10:a:q1:fetch:1",
       "kind": "fetch",
       "response": {
         "page": {
@@ -238,7 +238,7 @@
       }
     },
     {
-      "key": "req-golden-2:gather:r10:parse:q1:0",
+      "key": "req-golden-2:gather:r10:a:q1:parse:1",
       "kind": "parse",
       "response": {
         "doc": {
@@ -248,7 +248,7 @@
       }
     },
     {
-      "key": "req-golden-2:gather:r10:model:q1:0",
+      "key": "req-golden-2:gather:r10:extract:q1:0",
       "kind": "model",
       "response": {
         "claims": [

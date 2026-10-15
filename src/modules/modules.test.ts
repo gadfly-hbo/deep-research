@@ -7,6 +7,7 @@ import { createMemoryStore } from "../stores/memory.js";
 import { brandConfig } from "./brand.js";
 import { industryConfig } from "./industry.js";
 import { getModuleConfig } from "./registry.js";
+import { scriptedRunAgent } from "../adapters/testing.js";
 
 describe("研究模块配置(四件套完整性)", () => {
   it("品牌模块:定位/价格/渠道/竞品 + 品牌档案/竞品对比表/机会-风险-假设", () => {
@@ -41,6 +42,7 @@ function moduleFakes(cfg: {
     parser: { parse: async (page) => ({ bodyText: cfg.bodies[page.url] ?? "", parseStatus: "ok" }) },
     model: {
       extractClaims: async ({ snapshot }) => ({ claims: cfg.extracts[snapshot.url] ?? [], usage: { modelCalls: 1, outputTokens: 16 } }),
+      runAgent: scriptedRunAgent(),
       runStage: async (stage: StageName) =>
         stage === "analyze"
           ? { output: { findings: [], gaps: [] }, usage: { modelCalls: 1, outputTokens: 16 } }

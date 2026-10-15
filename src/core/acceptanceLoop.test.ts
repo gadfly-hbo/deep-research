@@ -16,6 +16,7 @@ import { bindAssets, changeReuseScope } from "../library/reuse.js";
 import { changeLifecycle } from "../library/lifecycle.js";
 import { FsProjectStore } from "../stores/fsStore.js";
 import { runResearch, type RunOptions } from "./runResearch.js";
+import { scriptedRunAgent } from "../adapters/testing.js";
 
 const bodies: Record<string, string> = {
   "https://brand/1": "某平台品牌关注者样本中女性占 62%,样本定义见附注。",
@@ -46,6 +47,7 @@ function fakeAdapters(): Adapters {
         ],
         usage: { modelCalls: 1, outputTokens: 16 },
       }),
+      runAgent: scriptedRunAgent(),
       runStage: async (stage) =>
         stage === "analyze"
           ? { output: { findings: [], gaps: [] }, usage: { modelCalls: 1, outputTokens: 16 } }

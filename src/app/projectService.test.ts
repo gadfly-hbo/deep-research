@@ -6,6 +6,7 @@ import type { Adapters } from "../adapters/types.js";
 import { ResearchRequestSchema } from "../contracts.js";
 import { createProject, diffBundles, generateFormal, publishBundle, runOnProject, templateRequest } from "./projectService.js";
 import type { StageName } from "../core/stages.js";
+import { scriptedRunAgent } from "../adapters/testing.js";
 
 const tmp = () => mkdtempSync(join(tmpdir(), "dr-svc-"));
 
@@ -22,6 +23,7 @@ function fakes(extractClaims: { statement: string; quote: string }[]): Adapters 
         claims: extractClaims.map((c) => ({ statement: c.statement, kind: "fact" as const, quote: c.quote })),
         usage: { modelCalls: 1, outputTokens: 16 },
       }),
+      runAgent: scriptedRunAgent(),
       runStage: async (stage: StageName) =>
         stage === "analyze"
           ? { output: { findings: [], gaps: [] }, usage: { modelCalls: 1, outputTokens: 16 } }
@@ -116,6 +118,7 @@ describe("报告框架与正式报告", () => {
     const adapters = fakes([{ statement: "市场规模约 1200 亿元(2025)", quote: "市场规模约 1,200 亿元" }]);
     adapters.model = {
       extractClaims: adapters.model.extractClaims,
+      runAgent: scriptedRunAgent(),
       runStage: async (stage: StageName, input: unknown) => {
         if (stage === "draft") seen.draftInputs.push(input);
         return stage === "analyze"
@@ -145,6 +148,7 @@ describe("报告框架与正式报告", () => {
     await publishBundle(dir, run.id);
     const fakeModel: Adapters["model"] = {
       extractClaims: async () => ({ claims: [], usage: { modelCalls: 0, outputTokens: 0 } }),
+      runAgent: scriptedRunAgent(),
       runStage: async () => ({
         output: { executiveSummary: ["咖啡市场持续增长"], sectionHighlights: [{ sectionId: "s1", bullets: ["规模约 1200 亿元"] }] },
         usage: { modelCalls: 1, outputTokens: 8 },
@@ -170,6 +174,7 @@ describe("报告框架与正式报告", () => {
     await publishBundle(dir, run.id);
     const brokenModel: Adapters["model"] = {
       extractClaims: async () => ({ claims: [], usage: { modelCalls: 0, outputTokens: 0 } }),
+      runAgent: scriptedRunAgent(),
       runStage: async () => {
         throw new Error("provider down");
       },
