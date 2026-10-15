@@ -1,18 +1,18 @@
-/* 阶段 1 · 计划:研究语境 + 新建运行三步向导(计划确认 → 框架确认 → 开始研究)。 */
+/* 阶段 1 · 计划:研究语境 + 新建运行三步向导(计划确认 → 框架确认 → 开始研究)。
+   P1-4:计划/框架预览的请求编排下沉至 ui/state/planWizard.tsx,本视图只剩表单/渲染/按钮绑定。 */
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Chip from "../components/Chip";
 import Empty from "../components/Empty";
 import { useProject, type SelectedAsset } from "../state/projectDetail";
-import { errMsg, post } from "../state/api";
+import { errMsg } from "../state/api";
+import { usePlanWizard, type BaseRunRef, type PlanQuestion, type WizardForm } from "../state/planWizard";
 import { FETCH_STATUS_LABEL, REUSE_LABEL, searchLibrary, type AssetSearchRow } from "../state/library";
 import { useToast } from "../state/toast";
 import { BUDGET_TIER_META, MODULE_LABEL, stageTitle } from "../state/types";
-import type { BudgetTier, Outline } from "../state/types";
+import type { BudgetTier } from "../state/types";
 
 const FETCH_LABEL = FETCH_STATUS_LABEL;
-
-interface PlanQuestion { id: string; question: string }
 
 export function PlanView() {
   const p = useProject();
@@ -20,22 +20,19 @@ export function PlanView() {
   const toast = useToast();
   const [params, setParams] = useSearchParams();
 
+  const meta = p.detail?.meta;
+  const hw = usePlanWizard(p.id, meta?.module);
+  const { busy, setBusy, plan, setPlan, outline, setOutline, baseSummary, previewPlan, previewOutline } = hw;
+
   const [wizard, setWizard] = useState(false);
-  const [form, setForm] = useState({ goal: "", summary: "", attachments: "", budgetTier: "medium" as BudgetTier });
-  const [plan, setPlan] = useState<PlanQuestion[] | null>(null);
-  const [outline, setOutline] = useState<Outline | null>(null);
-  const [busy, setBusy] = useState("");
+  const [form, setForm] = useState<WizardForm>({ goal: "", summary: "", attachments: "", budgetTier: "medium" as BudgetTier });
   // 2.0 复用选择器:候选资产 → 启动时随请求提交,服务端固定版本绑定
   const [reuseQuery, setReuseQuery] = useState("");
   const [reuseHits, setReuseHits] = useState<AssetSearchRow[]>([]);
   const [selected, setSelected] = useState<SelectedAsset[]>([]);
-  // 2.1 增量追问:基准 run + 延续摘要
-  const [baseRun, setBaseRun] = useState<{ runId: string; requestId: string } | null>(null);
-  const [baseSummary, setBaseSummary] = useState<{
-    runId: string; answeredQuestions: number; evidence: number; snapshots: number; claims: number;
-  } | null>(null);
+  // 2.1 增量追问:基准 run 选择(延续摘要 baseSummary 由 planWizard 持有)
+  const [baseRun, setBaseRun] = useState<BaseRunRef | null>(null);
 
-  const meta = p.detail?.meta;
   const finishedRuns = (p.detail?.runs ?? []).filter((r) => r.status === "published" || r.status === "limited");
 
   const openWizard = () => {
@@ -43,7 +40,7 @@ export function PlanView() {
     setPlan(null);
     setOutline(null);
     setBaseRun(null);
-    setBaseSummary(null);
+    hw.setBaseSummary(null);
     setForm({ goal: meta.goal, summary: meta.scope.summary, attachments: "", budgetTier: "medium" });
     setWizard(true);
   };
@@ -69,7 +66,7 @@ export function PlanView() {
         setPlan(null);
         setOutline(null);
         setBaseRun({ runId: target.id, requestId: target.requestId });
-        setBaseSummary(null);
+        hw.setBaseSummary(null);
         setForm({ goal: `追问:${meta.goal}`, summary: meta.scope.summary, attachments: "", budgetTier: "medium" });
         setWizard(true);
       }
@@ -84,47 +81,6 @@ export function PlanView() {
       </div>
     );
   }
-
-  const previewPlan = async () => {
-    setBusy("生成计划中…通常 1-2 分钟");
-    try {
-      const r = await post<{
-        plan: { questions: PlanQuestion[] };
-        base?: { runId: string; answeredQuestions: number; evidence: number; snapshots: number; claims: number };
-      }>(`/api/projects/${p.id}/plan-preview`, {
-        module: meta.module,
-        goal: form.goal,
-        scope: { summary: form.summary, queries: [] },
-        ...(baseRun ? { incrementalOf: baseRun } : {}),
-      });
-      setPlan(r.plan.questions);
-      setBaseSummary(r.base ?? null);
-      setOutline(null);
-    } catch (e) {
-      toast.show(errMsg(e));
-    } finally {
-      setBusy("");
-    }
-  };
-
-  const previewOutline = async () => {
-    if (!plan) return;
-    setBusy("生成报告框架中…通常 1-2 分钟");
-    try {
-      const r = await post<{ outline: Outline }>(`/api/projects/${p.id}/outline-preview`, {
-        module: meta.module,
-        goal: form.goal,
-        scope: { summary: form.summary, queries: plan.map((q) => q.question) },
-        questions: plan.map((q) => ({ id: q.id, question: q.question })),
-        ...(baseRun ? { incrementalOf: baseRun } : {}),
-      });
-      setOutline(r.outline);
-    } catch (e) {
-      toast.show(errMsg(e));
-    } finally {
-      setBusy("");
-    }
-  };
 
   const start = async () => {
     if (!plan || !outline) return;
@@ -250,7 +206,7 @@ export function PlanView() {
                   onChange={(e) => {
                     const target = finishedRuns.find((r) => r.id === e.target.value);
                     setBaseRun(target ? { runId: target.id, requestId: target.requestId } : null);
-                    setBaseSummary(null);
+                    hw.setBaseSummary(null);
                   }}
                 >
                   <option value="">— 全新研究(不追问) —</option>
@@ -385,7 +341,7 @@ export function PlanView() {
                 )}
               </div>
               <div className="actions">
-                <button className="btn btn-primary" type="button" disabled={!form.goal || busy !== ""} onClick={() => void previewPlan()}>
+                <button className="btn btn-primary" type="button" disabled={!form.goal || busy !== ""} onClick={() => void previewPlan(form, baseRun)}>
                   {busy || "生成研究计划"}
                 </button>
                 <button className="btn btn-ghost" type="button" disabled={busy !== ""} onClick={() => setWizard(false)}>取消</button>
@@ -413,10 +369,10 @@ export function PlanView() {
                 </label>
               ))}
               <div className="actions">
-                <button className="btn btn-primary" type="button" disabled={busy !== ""} onClick={() => void previewOutline()}>
+                <button className="btn btn-primary" type="button" disabled={busy !== ""} onClick={() => void previewOutline(form, plan, baseRun)}>
                   {busy || "下一步:生成报告框架"}
                 </button>
-                <button className="btn" type="button" disabled={busy !== ""} onClick={() => void previewPlan()}>
+                <button className="btn" type="button" disabled={busy !== ""} onClick={() => void previewPlan(form, baseRun)}>
                   {busy ? busy : "重新生成计划"}
                 </button>
                 <button className="btn btn-ghost" type="button" disabled={busy !== ""} onClick={() => setPlan(null)}>返回上一步</button>
@@ -502,7 +458,7 @@ export function PlanView() {
                 >
                   {busy || "确认框架并开始研究"}
                 </button>
-                <button className="btn" type="button" disabled={busy !== ""} onClick={() => void previewOutline()}>
+                <button className="btn" type="button" disabled={busy !== ""} onClick={() => void previewOutline(form, plan, baseRun)}>
                   {busy ? busy : "重新生成框架"}
                 </button>
                 <button className="btn btn-ghost" type="button" disabled={busy !== ""} onClick={() => setOutline(null)}>返回计划</button>
