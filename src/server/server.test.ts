@@ -189,7 +189,11 @@ describe("本地 HTTP 服务", () => {
 
     const created = await post("/api/projects", { module: "industry", goal: "失败可见性", scope: { summary: "s", queries: [] } });
     const projectId = (await created.json()).id as string;
-    await post(`/api/projects/${projectId}/runs`, { request: { id: "req-fail", module: "industry", goal: "失败可见性", scope: { summary: "s", queries: [] } } });
+    // P2-3:免 plan 启动会先落 plan 门,失败可见性走带 plan 旧路径直进采证
+    await post(`/api/projects/${projectId}/runs`, {
+      request: { id: "req-fail", module: "industry", goal: "失败可见性", scope: { summary: "s", queries: [] } },
+      plan: { questions: [{ id: "q1", question: "市场规模", status: "open" }] },
+    });
 
     let failed: any;
     for (let i = 0; i < 40; i++) {

@@ -14,6 +14,30 @@ import { InterventionSchema, type Intervention } from "../contracts.js";
 export class RunRegistry {
   private controllers = new Map<string, AbortController>();
   private instructionQueues = new Map<string, Intervention[]>();
+  // P2-3(R1-6):门条件写的 per-run 互斥 + 启动守卫的 per-project 互斥;
+  // Promise 链式串行(同键临界区不重叠),链空闲后清理条目避免随键无限增长
+  private gateLocks = new Map<string, Promise<unknown>>();
+  private projectLocks = new Map<string, Promise<unknown>>();
+
+  private chainLock<T>(locks: Map<string, Promise<unknown>>, key: string, fn: () => Promise<T>): Promise<T> {
+    const next = (locks.get(key) ?? Promise.resolve())
+      .catch(() => {})
+      .then(fn);
+    locks.set(key, next);
+    return next.finally(() => {
+      if (locks.get(key) === next) locks.delete(key);
+    });
+  }
+
+  /** P2-3:per-run 门临界区(gate confirm/cancel 的锁内条件写,confirm×cancel 恰一胜)。 */
+  withGateLock<T>(runId: string, fn: () => Promise<T>): Promise<T> {
+    return this.chainLock(this.gateLocks, runId, fn);
+  }
+
+  /** P2-3:per-project 启动临界区(单 active-run 守卫与 launch/rerun 之间消 TOCTOU)。 */
+  withProjectLock<T>(projectId: string, fn: () => Promise<T>): Promise<T> {
+    return this.chainLock(this.projectLocks, projectId, fn);
+  }
 
   // ---- 键空间 A:controllers 按 requestId ----
 

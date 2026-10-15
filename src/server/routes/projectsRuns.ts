@@ -11,7 +11,7 @@ import {
   type ResearchRequest,
 } from "../../contracts.js";
 import type { RunOptions } from "../../core/runResearch.js";
-import { OutlineOutputSchema, PlanOutputSchema, type PlanOutput } from "../../core/stages.js";
+import { OutlineOutputSchema, PlanOutputSchema, type OutlineOutput, type PlanOutput } from "../../core/stages.js";
 import type { AssetBinding } from "../../library/contracts.js";
 import { bindAssets } from "../../library/reuse.js";
 import { getModuleConfig } from "../../modules/registry.js";
@@ -23,6 +23,9 @@ import { handleVersionRoutes } from "./versions.js";
 // T5:Ctx 已迁至 routes/http.ts(D2 启动级单例)。
 
 const IncrementalRefSchema = z.object({ runId: z.string().min(1), requestId: z.string().min(1) });
+
+/** P2-3:确认门常开组合——POST /runs body 无 plan 时由 server 传入(R1-4)。 */
+const CONFIRM_GATES = { plan: true as const, outline: true as const };
 
 /** 2.1 追问扩展:解析并校验增量基准——本项目内已完成(published/limited)的 run 及其成果包。 */
 const resolveIncrementalBase = async (
@@ -116,6 +119,7 @@ const launchRun = async (
   request: ResearchRequest,
   plan: PlanOutput | undefined,
   selectedAssets?: unknown,
+  gates?: RunOptions["gates"],
 ): Promise<{
   runId: string;
   requestId: string;
@@ -158,6 +162,7 @@ const launchRun = async (
     {
       plan,
       runId,
+      gates,
       library: ctx.library,
       projectId: id,
       pollInstructions: drainAndPersist(ctx, runId, dir),
@@ -322,8 +327,30 @@ export const handleProjectsRoutes = async (
         return true;
       }
     }
-    const started = await launchRun(ctx, id, dir, request, body.plan, body.selectedAssets);
-    json(res, 200, { started: true, requestId: started.requestId, reuse: started.reuse });
+    // P2-3(KA2/R1-6):服务端单 active-run 守卫——同项目 running|awaiting-confirmation → 409;
+    // 守卫与 launch 同把 per-project 锁消 TOCTOU;body 无 plan 时传 gates 走确认门(R1-4)
+    const outcome = await ctx.registry.withProjectLock(id, async () => {
+      const active = (await ctx.storeFor(id).listRuns()).find(
+        (r) => r.status === "running" || r.status === "awaiting-confirmation",
+      );
+      if (active) {
+        return {
+          status: 409 as const,
+          body: { error: `该项目存在进行中或待确认的运行(${active.requestId}),结束后才能发起新运行` },
+        };
+      }
+      const started = await launchRun(
+        ctx,
+        id,
+        dir,
+        request,
+        body.plan,
+        body.selectedAssets,
+        body.plan ? undefined : CONFIRM_GATES,
+      );
+      return { status: 200 as const, body: { started: true, requestId: started.requestId, reuse: started.reuse } };
+    });
+    json(res, outcome.status, outcome.body);
     return true;
   }
 
@@ -353,11 +380,24 @@ export const handleProjectsRoutes = async (
         return true;
       }
     }
-    const plan: PlanOutput = {
-      questions: request.scope.queries.map((q, i) => ({ id: `q${i + 1}`, question: q, status: "open" })),
-    };
-    const started = await launchRun(ctx, id, dir, request, plan);
-    json(res, 200, { started: true, requestId: started.requestId, reuse: started.reuse });
+    // P2-3(KA2):rerun 同守卫(不传 gates,旧路径直跑,R1-4)
+    const outcome = await ctx.registry.withProjectLock(id, async () => {
+      const active = (await ctx.storeFor(id).listRuns()).find(
+        (r) => r.status === "running" || r.status === "awaiting-confirmation",
+      );
+      if (active) {
+        return {
+          status: 409 as const,
+          body: { error: `该项目存在进行中或待确认的运行(${active.requestId}),结束后才能重跑` },
+        };
+      }
+      const plan: PlanOutput = {
+        questions: request.scope.queries.map((q, i) => ({ id: `q${i + 1}`, question: q, status: "open" })),
+      };
+      const started = await launchRun(ctx, id, dir, request, plan);
+      return { status: 200 as const, body: { started: true, requestId: started.requestId, reuse: started.reuse } };
+    });
+    json(res, outcome.status, outcome.body);
     return true;
   }
 
@@ -442,6 +482,151 @@ export const handleProjectsRoutes = async (
       },
     );
     json(res, 200, { resumed: true, requestId: request.id, runId: prior.id });
+    return true;
+  }
+
+  // ---- P2-3 确认门三端点(KA3:store 直写 + status 条件写 409 + per-run 互斥;不复用 /runs/cancel) ----
+
+  // R1-5:awaiting 时回门载荷(问题/框架清单 + 上下文 + 增量摘要);非 awaiting → 404
+  const gateMatch = rest.match(/^\/runs\/([^/]+)\/gate$/);
+  if (method === "GET" && gateMatch) {
+    const run = (await ctx.storeFor(id).listRuns()).find((r) => r.id === gateMatch[1]);
+    if (!run || run.status !== "awaiting-confirmation" || !run.gate) {
+      json(res, 404, { error: `没有待确认的运行: ${gateMatch[1]}` });
+      return true;
+    }
+    // 载荷取门产出的检查点(plan 门取最新一版——confirm 前即产出本身)
+    const cp = (await ctx.storeFor(id).checkpoints(run.id)).findLast((c) => c.stage === run.gate!.kind);
+    if (!cp) {
+      json(res, 404, { error: `门的产出检查点缺失: ${run.id}` });
+      return true;
+    }
+    const request = await ctx.storeFor(id).readRequest(run.requestId);
+    // R1-5:增量摘要按 request.incrementalOf 重跑 resolveIncrementalBase(替代旧预览 base 字段)
+    let incremental: { summary: Record<string, unknown> } | undefined;
+    if (request?.incrementalOf) {
+      const resolved = await resolveIncrementalBase(ctx.storeFor(id), request.incrementalOf);
+      if (!("error" in resolved)) incremental = { summary: resolved.base.summary };
+    }
+    json(res, 200, {
+      kind: run.gate.kind,
+      payload: cp.data,
+      context: { goal: request?.goal, scope: request?.scope, module: request?.module },
+      ...(incremental ? { incremental } : {}),
+    });
+    return true;
+  }
+
+  // R1-3:锁内 CAS 条件写(仅 awaiting 可确认,恰一胜)+ 落确认 checkpoint;锁外 startPipeline 续跑
+  const gateConfirmMatch = rest.match(/^\/runs\/([^/]+)\/gate\/confirm$/);
+  if (method === "POST" && gateConfirmMatch) {
+    const store = ctx.storeFor(id);
+    // listRuns 反查 runId(R1-3,不猜目录路径)
+    const run = (await store.listRuns()).find((r) => r.id === gateConfirmMatch[1]);
+    if (!run || !run.gate) {
+      json(res, 404, { error: `没有待确认的运行: ${gateConfirmMatch[1]}` });
+      return true;
+    }
+    const kind = run.gate.kind;
+    const parsed = (kind === "plan" ? PlanOutputSchema : OutlineOutputSchema).safeParse(body.payload);
+    if (!parsed.success) {
+      json(res, 400, { error: "确认载荷不合法", issues: parsed.error.issues.map((i) => i.message) });
+      return true;
+    }
+    const conflict = await ctx.registry.withGateLock(run.id, async () => {
+      const current = (await store.listRuns()).find((r) => r.id === run.id);
+      if (!current || current.status !== "awaiting-confirmation" || !current.gate) {
+        return `运行不在待确认状态(${current?.status ?? "不存在"}),不能确认`;
+      }
+      // plan 门:追加确认 checkpoint(编辑版权威落盘,后续重启不依赖 find-first,KA1 双保险)
+      if (kind === "plan") {
+        await store.saveCheckpoint({
+          runId: current.id,
+          stage: "plan",
+          data: parsed.data,
+          completedAt: new Date().toISOString(),
+        });
+      }
+      // CAS:置回 running 并同步清 gate 字段(R1-3)
+      await store.saveRun({ ...current, status: "running", gate: undefined });
+      return null;
+    });
+    if (conflict) {
+      json(res, 409, { error: conflict });
+      return true;
+    }
+    const request = await store.readRequest(run.requestId);
+    if (!request) {
+      json(res, 404, { error: `找不到请求: ${run.requestId}` });
+      return true;
+    }
+    // R1-3:pending 指令回灌(resume 同构),失败沿既有语义落 failed(原 runId)
+    ctx.registry.restoreFromDisk(run.id, await store.readPendingInstructions(run.id));
+    const onFailure = async (error: unknown) => {
+      const current = (await store.listRuns()).find((r) => r.id === run.id);
+      if (current) {
+        await store.saveRun({
+          ...current,
+          status: "failed",
+          error: String(error instanceof Error ? error.message : error),
+        });
+      }
+    };
+    if (kind === "plan") {
+      startPipeline(
+        ctx,
+        dir,
+        request,
+        {
+          plan: parsed.data as PlanOutput,
+          gates: CONFIRM_GATES,
+          library: ctx.library,
+          projectId: id,
+          pollInstructions: drainAndPersist(ctx, run.id, dir),
+        },
+        onFailure,
+      );
+    } else {
+      // R1-2:outline 编辑经 runOnProject 的 saveRequest 持久化,恢复权威源=request 文件
+      startPipeline(
+        ctx,
+        dir,
+        { ...request, outline: parsed.data as OutlineOutput },
+        {
+          gates: CONFIRM_GATES,
+          library: ctx.library,
+          projectId: id,
+          pollInstructions: drainAndPersist(ctx, run.id, dir),
+        },
+        onFailure,
+      );
+    }
+    json(res, 200, { confirmed: true, runId: run.id, kind });
+    return true;
+  }
+
+  // 门取消:状态 cancelled(既有语义,可再 resume);非 awaiting → 409(锁内条件写)
+  const gateCancelMatch = rest.match(/^\/runs\/([^/]+)\/gate\/cancel$/);
+  if (method === "POST" && gateCancelMatch) {
+    const store = ctx.storeFor(id);
+    const run = (await store.listRuns()).find((r) => r.id === gateCancelMatch[1]);
+    if (!run) {
+      json(res, 404, { error: `找不到运行: ${gateCancelMatch[1]}` });
+      return true;
+    }
+    const conflict = await ctx.registry.withGateLock(run.id, async () => {
+      const current = (await store.listRuns()).find((r) => r.id === run.id);
+      if (!current || current.status !== "awaiting-confirmation") {
+        return `运行不在待确认状态(${current?.status ?? "不存在"}),不能取消`;
+      }
+      await store.saveRun({ ...current, status: "cancelled" });
+      return null;
+    });
+    if (conflict) {
+      json(res, 409, { error: conflict });
+      return true;
+    }
+    json(res, 200, { cancelled: true, runId: run.id });
     return true;
   }
 

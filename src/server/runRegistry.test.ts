@@ -108,3 +108,50 @@ describe("RunRegistry 指令队列", () => {
     expect(registry.pendingCount("run-x")).toBe(1);
   });
 });
+
+describe("RunRegistry 互斥锁(P2-3 R1-6)", () => {
+  it("withGateLock 同 runId 串行:临界区不重叠;不同 runId 互不阻塞", async () => {
+    const registry = new RunRegistry();
+    const events: string[] = [];
+    const section = (name: string, ms: number) => () =>
+      new Promise<string>((resolve) => {
+        events.push(`${name}:enter`);
+        setTimeout(() => {
+          events.push(`${name}:exit`);
+          resolve(name);
+        }, ms);
+      });
+    const [a, b] = await Promise.all([
+      registry.withGateLock("run-x", section("a", 20)),
+      registry.withGateLock("run-x", section("b", 1)),
+    ]);
+    // a 先入锁:b 的 enter 必晚于 a 的 exit(串行),完成序=a 先返回
+    expect(events.slice(0, 2)).toEqual(["a:enter", "a:exit"]);
+    expect(events.indexOf("b:enter")).toBeGreaterThan(events.indexOf("a:exit"));
+    expect([a, b]).toEqual(["a", "b"]);
+    // 不同 runId 并行:短任务先完成
+    const order: string[] = [];
+    await Promise.all([
+      registry.withGateLock("run-y", () => new Promise((r) => setTimeout(r, 20)).then(() => order.push("y"))),
+      registry.withGateLock("run-z", () => new Promise((r) => setTimeout(r, 1)).then(() => order.push("z"))),
+    ]);
+    expect(order).toEqual(["z", "y"]);
+  });
+
+  it("withProjectLock 同项目串行;临界区抛错不阻断后续排队者", async () => {
+    const registry = new RunRegistry();
+    const seen: number[] = [];
+    const failing = registry.withProjectLock("p-1", async () => {
+      await new Promise((r) => setTimeout(r, 10));
+      seen.push(1);
+      throw new Error("临界区失败");
+    });
+    const queued = registry.withProjectLock("p-1", async () => {
+      seen.push(2);
+      return "ok";
+    });
+    await expect(failing).rejects.toThrow("临界区失败");
+    await expect(queued).resolves.toBe("ok");
+    expect(seen).toEqual([1, 2]); // 失败不吞掉后续临界区
+  });
+});
