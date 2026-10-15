@@ -430,6 +430,7 @@ export async function runResearch(
       `【研究目标与范围】${request.goal}(${request.scope.summary})`,
       `【已答问题】${fold(answered, " / ", 8)}`,
       `【已有快照(勿重抓)】${fold(baseUrls, " ; ", 8)}`,
+      `【证据规则】本产品关键结论必须逐条绑定已抓取页面的原文快照——搜索摘要只是发现线索,不构成证据。判定 sufficient=true 的前提:你已 fetch_page 抓取并阅读了足以支撑本问结论的页面(通常 ≥2 个独立来源);只凭搜索摘要判定"充分"将被评审打回。`,
       `【预算余量】搜索 ${Math.max(0, budget.maxSearches - run.usage.searches)} 次 / 抓取 ${Math.max(
         0,
         budget.maxFetches - run.usage.fetches,
