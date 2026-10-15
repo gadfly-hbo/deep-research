@@ -676,16 +676,23 @@ describe("formalGenerated 标记(P1-4)", () => {
       };
       expect(before.meta.versions.map((v) => v.formalGenerated)).toEqual([false, false]);
 
-      // 存量形状:不经 POST /formal,手写产物文件 → 响应时计算得 true(D1/KA1)
+      // 真值来源一(PRD 字面场景):POST /formal 生成产物 → 端到端 true/false
+      const gen = await post(`/api/projects/${id}/versions/1/formal`, {});
+      expect(gen.status).toBe(200);
+      const viaPost = (await (await fetch(`${base}/api/projects/${id}`)).json()) as {
+        meta: { versions: Array<{ version: number; formalGenerated: boolean }> };
+      };
+      expect(viaPost.meta.versions.map((v) => v.formalGenerated)).toEqual([true, false]);
+
+      // 真值来源二(存量形状):不经 POST /formal,手写产物文件 → 响应时计算得 true(D1/KA1)
       const projDir = join(dataDir, "projects", id);
       const { mkdirSync } = await import("node:fs");
-      mkdirSync(join(projDir, "reports", "v1", "formal"), { recursive: true });
-      writeFileSync(join(projDir, "reports", "v1", "formal", "formal.json"), "{}");
+      mkdirSync(join(projDir, "reports", "v2", "formal"), { recursive: true });
+      writeFileSync(join(projDir, "reports", "v2", "formal", "formal.json"), "{}");
       const after = (await (await fetch(`${base}/api/projects/${id}`)).json()) as {
         meta: { versions: Array<{ version: number; formalGenerated: boolean }> };
       };
-      expect(after.meta.versions.find((v) => v.version === 1)?.formalGenerated).toBe(true);
-      expect(after.meta.versions.find((v) => v.version === 2)?.formalGenerated).toBe(false);
+      expect(after.meta.versions.map((v) => v.formalGenerated)).toEqual([true, true]);
 
       // 负例(R1-2):列表端点不带该字段
       const list = (await (await fetch(`${base}/api/projects`)).json()) as { projects: Array<Record<string, unknown>> };
