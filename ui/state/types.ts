@@ -87,6 +87,21 @@ export interface Bundle {
 }
 export interface ProjectDetail { meta: ProjectMeta; runs: Run[]; snapshots: Snapshot[] }
 
+/** P2-4(D4):调查事件侧车(UI 消费形状,与服务端 InvestigationEvent 对应)。 */
+export interface InvestigationEventUI {
+  seq: number;
+  qid: string;
+  kind: "query" | "fetch" | "read" | "verdict";
+  at: string;
+  summary: string;
+  sid?: string;
+  url?: string;
+  query?: string;
+  sufficient?: boolean;
+  note?: string;
+  title?: string;
+}
+
 /** Chip 色调 → styles.css 类名后缀 */
 export type Tone = "ok" | "run" | "queue" | "wait" | "fail" | "insuf" | "agg" | "local" | "fork" | "falsi" | "plain";
 

@@ -7,7 +7,7 @@ import { api } from "../state/api";
 import { useProject } from "../state/projectDetail";
 import { snapshotTitle } from "../state/derive";
 import { STATUS, STATUS_DOT, TIER_BADGE, stageTitle, BUDGET_TIER_META, gateLabelOf } from "../state/types";
-import type { BudgetTier, Run } from "../state/types";
+import type { BudgetTier, InvestigationEventUI, Run, Tone } from "../state/types";
 
 const INS_TYPE_LABEL: Record<string, string> = {
   "skip-question": "跳过问题",
@@ -46,6 +46,125 @@ function RerunControls({ disabled, onRerun }: { disabled: boolean; onRerun: (tie
         重跑
       </button>
     </>
+  );
+}
+
+/* P2-4(D5):调查时间线(S1-S3)——问题分组头(状态徽+verdict note)+三型事件卡(query/fetch/read);
+   空态两分(S5):附件/复用注入期 vs agent 未动工具。只读;无逐问计数、无模型轮次原文(负例)。 */
+function InvestigationTimeline({
+  events, questions, running, materialPhase,
+}: {
+  events: InvestigationEventUI[];
+  questions: Array<{ id: string; question: string; status: string }>;
+  running: boolean;
+  materialPhase: boolean;
+}) {
+  interface Group { qid: string; events: InvestigationEventUI[]; verdict?: InvestigationEventUI }
+  const groups: Group[] = [];
+  for (const ev of events) {
+    let g = groups.find((x) => x.qid === ev.qid);
+    if (!g) {
+      g = { qid: ev.qid, events: [] };
+      groups.push(g);
+    }
+    if (ev.kind === "verdict") g.verdict = ev;
+    else g.events.push(ev);
+  }
+  // 终态补齐无事件的问题(已跳过等,来自 checkpoint 问题清单)
+  if (!running) {
+    for (const q of questions) {
+      if (!groups.some((g) => g.qid === q.id)) groups.push({ qid: q.id, events: [] });
+    }
+  }
+  const Q_STATUS: Record<string, { label: string; tone: Tone }> = {
+    answered: { label: "已答", tone: "ok" },
+    partially: { label: "部分回答", tone: "wait" },
+    unanswered: { label: "未答", tone: "fail" },
+    skipped: { label: "已跳过", tone: "local" },
+  };
+  const chipOf = (g: Group): { label: string; tone: Tone } => {
+    const mapStatus = questions.find((q) => q.id === g.qid)?.status;
+    if (!running && mapStatus && Q_STATUS[mapStatus]) return Q_STATUS[mapStatus]; // 终态:checkpoint 权威状态
+    if (g.verdict) return g.verdict.sufficient ? Q_STATUS.answered : Q_STATUS.unanswered; // 运行中:verdict 近似
+    return { label: "调查中", tone: "run" };
+  };
+  const domainOf = (url?: string): string => {
+    try {
+      return new URL(url ?? "").hostname;
+    } catch {
+      return url ?? "";
+    }
+  };
+
+  return (
+    <div className="card">
+      <h2 className="card-h">
+        调查记录
+        <span className="card-h-note num">{events.length} 事件{running ? " · 自动追加" : ""}</span>
+      </h2>
+      {events.length === 0 ? (
+        <p className="fine" style={{ margin: 0 }}>
+          {materialPhase ? "准备采证材料中(附件解析与复用注入)……" : "尚无调查事件——调查代理正在规划……"}
+        </p>
+      ) : (
+        groups.map((g) => {
+          const chip = chipOf(g);
+          const q = questions.find((x) => x.id === g.qid);
+          return (
+            <div key={g.qid} style={{ marginTop: 14 }}>
+              <div className="pstep-head" style={{ borderBottom: "1px solid var(--line)", paddingBottom: 6 }}>
+                <span className="pstep-name">{q?.question ?? g.qid}</span>
+                <Chip tone={chip.tone}>{chip.label}</Chip>
+              </div>
+              {g.verdict?.note && (
+                <p className="fine" style={{ margin: "4px 0 0" }}>agent 判定:{g.verdict.note}</p>
+              )}
+              {g.events.length > 0 && (
+                <ul
+                  className="filelist"
+                  style={{ marginLeft: 8, marginTop: 8, borderLeft: "2px solid var(--line)", paddingLeft: 12 }}
+                >
+                  {g.events.map((e) => {
+                    if (e.kind === "query") {
+                      return (
+                        <li className="file" key={e.seq}>
+                          <span className="file-icon" aria-hidden="true">⌕</span>
+                          <span className="file-name">{e.query ?? e.summary}</span>
+                          {e.note && <span className="file-meta num">{e.note}</span>}
+                        </li>
+                      );
+                    }
+                    if (e.kind === "fetch") {
+                      const failed = !e.sid;
+                      return (
+                        <li className="file" key={e.seq}>
+                          <span className="file-icon" aria-hidden="true">{failed ? "✕" : "▦"}</span>
+                          <span className="file-name" style={failed ? { color: "var(--fail)" } : undefined}>
+                            {failed ? e.summary : (e.title ?? e.summary)}
+                          </span>
+                          <span className="file-meta">
+                            {domainOf(e.url)}
+                            {e.sid ? ` · sid ${e.sid.slice(5, 13)}…` : ""}
+                            {failed && e.note ? ` · ${e.note}` : ""}
+                          </span>
+                        </li>
+                      );
+                    }
+                    return (
+                      <li className="file" key={e.seq}>
+                        <span className="file-icon" aria-hidden="true">▤</span>
+                        <span className="file-name">{e.summary}</span>
+                        {e.sid && <span className="file-meta mono">sid {e.sid.slice(5, 13)}…</span>}
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </div>
+          );
+        })
+      )}
+    </div>
   );
 }
 
@@ -248,6 +367,16 @@ export function GatherView() {
             </ul>
           )}
         </div>
+      )}
+
+      {/* P2-4(D5):调查时间线(S1)——只呈现 agent 调查事件;awaiting 不进时间线(负例);完成态全量回看 */}
+      {!awaiting && (run?.status === "running" || p.investigation.length > 0) && (
+        <InvestigationTimeline
+          events={p.investigation}
+          questions={p.investigationQuestions}
+          running={run?.status === "running"}
+          materialPhase={snapshots.some((s) => s.url.startsWith("file://") || s.url.startsWith("library://"))}
+        />
       )}
 
       {reuse && reuse.bindings.length > 0 && (

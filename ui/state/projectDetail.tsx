@@ -7,7 +7,7 @@ import { useToast } from "./toast";
 import { useUI } from "./ui";
 import { useProjects } from "./projects";
 import { STAGES, BUDGET_TIER_META } from "./types";
-import type { Bundle, BudgetTier, Claim, Outline, ProjectDetail, Run, RunInstructionUI } from "./types";
+import type { Bundle, BudgetTier, Claim, InvestigationEventUI, Outline, ProjectDetail, Run, RunInstructionUI } from "./types";
 
 export interface SelectedAsset {
   sourceId: string;
@@ -57,6 +57,10 @@ interface ProjectCtx {
   snapshotText: string | null;
   openClaim(c: Claim | null): void;
   reload(): Promise<void>;
+  /** P2-4(D4/D5):聚焦 run(activeRun 优先,否则最近 run)的调查事件——since 游标增量追加。 */
+  investigation: InvestigationEventUI[];
+  /** P2-4:调查流分组头的问题清单(最新 gather/plan checkpoint;带 plan 旧路径首采前为空)。 */
+  investigationQuestions: Array<{ id: string; question: string; status: string }>;
 }
 
 const Ctx = createContext<ProjectCtx | null>(null);
@@ -79,6 +83,12 @@ export function ProjectDetailProvider({ id, children }: { id: string; children: 
   const snapCache = useRef(new Map<string, string>());
   const autoLoaded = useRef(false);
   const lastUpdatedAt = useRef<string | null>(null);
+  // P2-4:调查事件游标——runId 切换重置;终态全量回看一次后停(窗口溢出则拉到收尾)
+  const detailRef = useRef<ProjectDetail | null>(null);
+  detailRef.current = detail;
+  const invRef = useRef<{ runId: string | null; since: number; stopped: boolean }>({ runId: null, since: 0, stopped: false });
+  const [investigation, setInvestigation] = useState<InvestigationEventUI[]>([]);
+  const [investigationQuestions, setInvestigationQuestions] = useState<Array<{ id: string; question: string; status: string }>>([]);
 
   // 切换项目:清空上一个项目的全部状态
   useEffect(() => {
@@ -93,6 +103,9 @@ export function ProjectDetailProvider({ id, children }: { id: string; children: 
     autoLoaded.current = false;
     lastUpdatedAt.current = null;
     snapCache.current = new Map();
+    invRef.current = { runId: null, since: 0, stopped: false };
+    setInvestigation([]);
+    setInvestigationQuestions([]);
   }, [id]);
 
   const reload = useCallback(async () => {
@@ -121,11 +134,51 @@ export function ProjectDetailProvider({ id, children }: { id: string; children: 
     }
   }, [id, projects]);
 
+  /**
+   * P2-4(D4/D5):调查事件增量拉取——沿 2.5s 轮询 since 追加;终态全量回看一次后停
+   * (窗口溢出 ≥500 时整段替换并继续拉到收尾);awaiting 不停(确认后沿用同一游标);
+   * 404/无事件吞错交空态。
+   */
+  const invTick = useCallback(async () => {
+    const d = detailRef.current;
+    if (!d) return;
+    const focus =
+      d.runs.find((r) => r.status === "running" || r.status === "awaiting-confirmation") ??
+      d.runs[d.runs.length - 1] ??
+      null;
+    const fid = focus?.id ?? null;
+    if (invRef.current.runId !== fid) {
+      invRef.current = { runId: fid, since: 0, stopped: false };
+      setInvestigation([]);
+      setInvestigationQuestions([]);
+    }
+    if (!fid || invRef.current.stopped) return;
+    try {
+      const r = await api<{ events: InvestigationEventUI[]; questions: Array<{ id: string; question: string; status: string }> }>(
+        `/api/projects/${id}/runs/${fid}/investigation?since=${invRef.current.since}`,
+      );
+      if (r.questions.length > 0) setInvestigationQuestions(r.questions);
+      if (r.events.length > 0) {
+        invRef.current.since = r.events[r.events.length - 1].seq;
+        setInvestigation((prev) => (r.events.length >= 500 ? r.events : prev.concat(r.events)));
+      }
+      if (focus && ["cancelled", "failed", "published", "limited"].includes(focus.status) && r.events.length < 500) {
+        invRef.current.stopped = true;
+      }
+    } catch {
+      /* 无事件/端点不可用 → 空态呈现 */
+    }
+  }, [id]);
+
   useEffect(() => {
     void reload();
-    const timer = window.setInterval(() => void reload(), 2500);
+    void invTick();
+    const timer = window.setInterval(() => {
+      void reload();
+      void invTick();
+    }, 2500);
     return () => window.clearInterval(timer);
-  }, [reload]);
+  }, [reload, invTick]);
 
   // P1-4:formalReady 从轮询到的 meta.versions[].formalGenerated 派生(D2,替代逐版本探测 fetch);
   // merge 只增不减,与 genFormal 成功后的乐观置位一致
@@ -319,6 +372,7 @@ export function ProjectDetailProvider({ id, children }: { id: string; children: 
         startRun, instruct, cancelRun, resumeRun, publishRun, rerunRun,
         selectedClaim, snapshotText, openClaim,
         reload,
+        investigation, investigationQuestions,
       }}
     >
       {children}
