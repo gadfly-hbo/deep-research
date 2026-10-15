@@ -471,9 +471,10 @@ research-result/<version>/
 | GET | `/api/projects` | 列出所有项目 |
 | POST | `/api/projects` | 创建项目 |
 | GET | `/api/projects/:id` | 项目详情（元数据/运行/快照） |
-| POST | `/api/projects/:id/plan-preview` | 预览研究计划 |
-| POST | `/api/projects/:id/outline-preview` | 预览报告框架 |
-| POST | `/api/projects/:id/runs` | 发起研究运行（支持 `selectedAssets`） |
+| POST | `/api/projects/:id/runs` | 发起研究运行（支持 `selectedAssets`；免 plan 起跑走确认门） |
+| GET | `/api/projects/:id/runs/:runId/gate` | 确认门详情（待确认计划/框架 + 上下文与增量摘要） |
+| POST | `/api/projects/:id/runs/:runId/gate/confirm` | 确认门（编辑后计划/框架，续跑管线） |
+| POST | `/api/projects/:id/runs/:runId/gate/cancel` | 放弃待确认运行（cancelled，可恢复） |
 | POST | `/api/projects/:id/runs/cancel` | 取消运行 |
 | POST | `/api/projects/:id/runs/resume` | 恢复运行 |
 | POST | `/api/projects/:id/publish` | 发布版本（2.0 扩展门禁检查） |

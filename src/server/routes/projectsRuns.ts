@@ -14,7 +14,6 @@ import type { RunOptions } from "../../core/runResearch.js";
 import { OutlineOutputSchema, PlanOutputSchema, type OutlineOutput, type PlanOutput } from "../../core/stages.js";
 import type { AssetBinding } from "../../library/contracts.js";
 import { bindAssets } from "../../library/reuse.js";
-import { getModuleConfig } from "../../modules/registry.js";
 import { FsProjectStore } from "../../stores/fsStore.js";
 import { json, PROJECT_ID, type Ctx } from "./http.js";
 import { handleVersionRoutes } from "./versions.js";
@@ -243,79 +242,8 @@ export const handleProjectsRoutes = async (
     return true;
   }
 
-  if (method === "POST" && rest === "/plan-preview") {
-    const cfg = getModuleConfig(body.module ?? ctx.storeFor(id).meta().module);
-    // 2.1 增量追问:基准必须是本项目已完成的 run,预览只为新问题生成计划
-    let base: { runId: string; summary: Record<string, unknown>; answeredQuestions: string[] } | undefined;
-    if (body.incrementalOf !== undefined) {
-      const resolved = await resolveIncrementalBase(ctx.storeFor(id), body.incrementalOf);
-      if ("error" in resolved) {
-        json(res, resolved.status, { error: resolved.error });
-        return true;
-      }
-      base = resolved.base;
-    }
-    const result = await ctx
-      .makeAdapters()
-      .model.runStage(
-        "plan",
-        {
-          goal: body.goal,
-          scope: body.scope,
-          questionFramework: cfg.questionFramework,
-          ...(base
-            ? {
-                incremental: {
-                  answeredQuestions: base.answeredQuestions,
-                  newQuestionBudget: 6,
-                  note: "只为追问生成新问题,不重复基准研究已回答的问题",
-                },
-              }
-            : {}),
-        },
-        `plan-preview:${id}:${Date.now()}`,
-      );
-    const plan = PlanOutputSchema.parse(result.output);
-    if (base && plan.questions.length > 6) plan.questions = plan.questions.slice(0, 6);
-    json(res, 200, { plan, usage: result.usage, ...(base ? { base: base.summary } : {}) });
-    return true;
-  }
-
-  if (method === "POST" && rest === "/outline-preview") {
-    const cfg = getModuleConfig(body.module ?? ctx.storeFor(id).meta().module);
-    let base: { runId: string; summary: Record<string, unknown>; answeredQuestions: string[]; outline: unknown } | undefined;
-    if (body.incrementalOf !== undefined) {
-      const resolved = await resolveIncrementalBase(ctx.storeFor(id), body.incrementalOf);
-      if ("error" in resolved) {
-        json(res, resolved.status, { error: resolved.error });
-        return true;
-      }
-      base = resolved.base;
-    }
-    const result = await ctx
-      .makeAdapters()
-      .model.runStage(
-        "outline",
-        {
-          goal: body.goal,
-          scope: body.scope,
-          questions: Array.isArray(body.questions) ? body.questions : [],
-          reportTemplate: cfg.reportTemplate,
-          ...(base
-            ? {
-                incremental: {
-                  baseOutline: base.outline ?? null,
-                  answeredQuestions: base.answeredQuestions,
-                  note: "基于基准研究框架生成增量框架:保留原有章节,标注新问题章节的插入位置",
-                },
-              }
-            : {}),
-        },
-        `outline-preview:${id}:${Date.now()}`,
-      );
-    json(res, 200, { outline: OutlineOutputSchema.parse(result.output), usage: result.usage, ...(base ? { base: base.summary } : {}) });
-    return true;
-  }
+  // P2-3(裁决 3):plan-preview/outline-preview 预览端点已退役——计划/框架确认翻转进 run 内
+  // durable 门(POST /runs 免 plan 起跑 + gate 三端点),保留预览通道=绕过确认的旁路 LLM 调用。
 
   if (method === "POST" && rest === "/runs") {
     const request = ResearchRequestSchema.parse(body.request);

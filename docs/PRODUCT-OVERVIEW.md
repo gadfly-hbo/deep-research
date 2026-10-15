@@ -218,9 +218,10 @@ research-data/
 | GET | `/api/projects` | 项目列表 |
 | POST | `/api/projects` | 新建项目 |
 | GET | `/api/projects/:id` | 项目详情(meta + 运行 + 快照) |
-| POST | `/api/projects/:id/plan-preview` | LLM 生成研究计划预览 |
-| POST | `/api/projects/:id/outline-preview` | LLM 生成报告框架预览(供用户确认) |
-| POST | `/api/projects/:id/runs` | 发起运行(立即落 running 记录) |
+| POST | `/api/projects/:id/runs` | 发起运行(立即落 running 记录;免 plan 起跑走确认门) |
+| GET | `/api/projects/:id/runs/:runId/gate` | 确认门详情(待确认计划/框架 + 上下文与增量摘要) |
+| POST | `/api/projects/:id/runs/:runId/gate/confirm` | 确认门(编辑后计划/框架,续跑管线) |
+| POST | `/api/projects/:id/runs/:runId/gate/cancel` | 放弃待确认运行(cancelled,可恢复) |
 | POST | `/api/projects/:id/runs/cancel` | 取消运行 |
 | POST | `/api/projects/:id/runs/resume` | 自检查点恢复运行 |
 | POST | `/api/projects/:id/publish` | 发布不可变版本(含差异摘要) |

@@ -72,7 +72,7 @@ describe("本地 HTTP 服务", () => {
     expect(srv.server.address()).toMatchObject({ address: "127.0.0.1" });
   });
 
-  it("创建 → 计划预览 → 运行 → 发布 → 成果包/导出/快照/设置,全流程可走通", async () => {
+  it("创建 → 免 plan 起跑→双确认门 → 发布 → 成果包/导出/快照/设置,全流程可走通", async () => {
     const created = await post("/api/projects", {
       module: "industry",
       goal: "中国咖啡行业研究",
@@ -84,33 +84,64 @@ describe("本地 HTTP 服务", () => {
     const list = await api("/api/projects");
     expect((await list.json()).projects.some((p: { id: string }) => p.id === projectId)).toBe(true);
 
-    const preview = await post(`/api/projects/${projectId}/plan-preview`, {
-      module: "industry",
-      goal: "中国咖啡行业研究",
-      scope: { summary: "s", queries: [] },
-    });
-    expect((await preview.json()).plan.questions[0].question).toBe("市场规模");
-
+    // P2-3:免 plan 起跑走确认门;预览端点已退役(catch-all 404)
     const runReq = {
       id: "req-srv",
       module: "industry",
       goal: "中国咖啡行业研究",
       scope: { summary: "s", queries: [] },
     };
-    const started = await post(`/api/projects/${projectId}/runs`, {
-      request: runReq,
-      plan: { questions: [{ id: "q1", question: "市场规模", status: "open" }] },
-    });
+    const started = await post(`/api/projects/${projectId}/runs`, { request: runReq });
     expect((await started.json()).started).toBe(true);
+    const retired = await post(`/api/projects/${projectId}/plan-preview`, {
+      module: "industry",
+      goal: "中国咖啡行业研究",
+      scope: { summary: "s", queries: [] },
+    });
+    expect(retired.status).toBe(404);
 
-    let runs: any[] = [];
-    for (let i = 0; i < 50; i++) {
+    const findRun = async () => {
       const detail = await api(`/api/projects/${projectId}`);
-      runs = (await detail.json()).runs;
-      if (runs.some((r) => r.requestId === "req-srv" && r.status !== "running")) break;
+      return ((await detail.json()).runs as any[]).find((r) => r.requestId === "req-srv");
+    };
+    // plan 门:GET 契约(非增量无 incremental 摘要)→ confirm(编辑一问)
+    let gated: any;
+    for (let i = 0; i < 60; i++) {
+      gated = await findRun();
+      if (gated?.status === "awaiting-confirmation") break;
       await new Promise((r) => setTimeout(r, 50));
     }
-    const finished = runs.find((r) => r.requestId === "req-srv");
+    expect(gated.gate).toEqual({ kind: "plan" });
+    const planGate = await api(`/api/projects/${projectId}/runs/${gated.id}/gate`);
+    expect(planGate.status).toBe(200);
+    const planBody = await planGate.json();
+    expect(planBody.payload.questions[0].question).toBe("市场规模");
+    expect(planBody.incremental).toBeUndefined();
+    const planConfirmed = await post(`/api/projects/${projectId}/runs/${gated.id}/gate/confirm`, {
+      payload: { questions: [{ id: "q1", question: "市场规模", status: "open" }] },
+    });
+    expect(planConfirmed.status).toBe(200);
+
+    // outline 门:确认后直跑发布
+    let outlined: any;
+    for (let i = 0; i < 60; i++) {
+      outlined = await findRun();
+      if (outlined?.status === "awaiting-confirmation" && outlined.gate?.kind === "outline") break;
+      await new Promise((r) => setTimeout(r, 50));
+    }
+    const outlineGate = await api(`/api/projects/${projectId}/runs/${outlined.id}/gate`);
+    expect((await outlineGate.json()).kind).toBe("outline");
+    const outlineConfirmed = await post(`/api/projects/${projectId}/runs/${outlined.id}/gate/confirm`, {
+      payload: { title: "中国咖啡行业研究", sections: [{ id: "s1", title: "市场规模", bullets: [] }] },
+    });
+    expect(outlineConfirmed.status).toBe(200);
+
+    let finished: any;
+    for (let i = 0; i < 60; i++) {
+      finished = await findRun();
+      if (finished && ["published", "limited"].includes(finished.status)) break;
+      await new Promise((r) => setTimeout(r, 50));
+    }
     expect(finished.status).toBe("published");
 
     const published = await post(`/api/projects/${projectId}/publish`, { runId: finished.id });
@@ -368,13 +399,14 @@ describe("本地 HTTP 服务", () => {
     expect(runs[0]?.id).toBe(before.id);
   }, 20_000);
 
-describe("增量预览(2.1 追问扩展)", () => {
-  it("已完成 run 可作基准:计划/框架预览返回 base 摘要;无 incrementalOf 行为不变", async () => {
+describe("增量追问基准(2.1;P2-3 起走门流)", () => {
+  it("已完成 run 可作基准:追问免 plan 起跑,门 GET 返回 incremental 摘要,双门确认走通", async () => {
     await srv.close();
     srv = await startServer({ dataDir, makeAdapters: () => fakeAdapters() });
     base = `http://127.0.0.1:${srv.port}`;
     const created = await post("/api/projects", { module: "industry", goal: "增量基准", scope: { summary: "s", queries: [] } });
     const projectId = (await created.json()).id as string;
+    // 基准 run 走旧路径(带 plan)跑完,问题已答、成果包可复用
     await post(`/api/projects/${projectId}/runs`, {
       request: { id: "req-inc-1", module: "industry", goal: "增量基准", scope: { summary: "s", queries: [] } },
       plan: { questions: [{ id: "q1", question: "市场规模", status: "open" }] },
@@ -388,72 +420,92 @@ describe("增量预览(2.1 追问扩展)", () => {
     }
     expect(["published", "limited"]).toContain(baseRun?.status);
 
-    const planRes = await post(`/api/projects/${projectId}/plan-preview`, {
-      goal: "追问近况",
-      scope: { summary: "s", queries: [] },
-      module: "industry",
-      incrementalOf: { runId: baseRun.id, requestId: "req-inc-1" },
+    // 追问:免 plan 起跑(incrementalOf)→ plan 门 GET 的 incremental 摘要(原预览 base 断言迁此)
+    const started = await post(`/api/projects/${projectId}/runs`, {
+      request: {
+        id: "req-inc-2",
+        module: "industry",
+        goal: "追问近况",
+        scope: { summary: "s", queries: [] },
+        incrementalOf: { runId: baseRun.id, requestId: "req-inc-1" },
+      },
     });
-    expect(planRes.status).toBe(200);
-    const planBody = await planRes.json();
-    expect(planBody.base).toMatchObject({
+    expect(started.status).toBe(200);
+    const findRun = async () => {
+      const detail = await api(`/api/projects/${projectId}`);
+      return ((await detail.json()).runs as any[]).find((r) => r.requestId === "req-inc-2");
+    };
+    let gated: any;
+    for (let i = 0; i < 80; i++) {
+      gated = await findRun();
+      if (gated?.status === "awaiting-confirmation") break;
+      await new Promise((r) => setTimeout(r, 50));
+    }
+    expect(gated.gate).toEqual({ kind: "plan" });
+    const planGate = await api(`/api/projects/${projectId}/runs/${gated.id}/gate`);
+    expect(planGate.status).toBe(200);
+    const planBody = await planGate.json();
+    expect(planBody.incremental?.summary).toMatchObject({
       runId: baseRun.id,
       answeredQuestions: expect.any(Number),
       evidence: expect.any(Number),
       snapshots: expect.any(Number),
       claims: expect.any(Number),
     });
-    expect(planBody.base.answeredQuestions).toBeGreaterThanOrEqual(1);
-    expect(planBody.base.evidence).toBeGreaterThanOrEqual(1);
+    expect(planBody.incremental.summary.answeredQuestions).toBeGreaterThanOrEqual(1);
+    expect(planBody.incremental.summary.evidence).toBeGreaterThanOrEqual(1);
 
-    const outlineRes = await post(`/api/projects/${projectId}/outline-preview`, {
-      goal: "追问近况",
-      scope: { summary: "s", queries: [] },
-      questions: ["近一个季度变化"],
-      module: "industry",
-      incrementalOf: { runId: baseRun.id, requestId: "req-inc-1" },
+    await post(`/api/projects/${projectId}/runs/${gated.id}/gate/confirm`, {
+      payload: { questions: [{ id: "q1", question: "近一个季度变化", status: "open" }] },
     });
-    expect(outlineRes.status).toBe(200);
-    const outlineBody = await outlineRes.json();
-    expect(outlineBody.base?.runId).toBe(baseRun.id);
-    expect(outlineBody.outline.sections.length).toBeGreaterThanOrEqual(1);
-
-    const plainRes = await post(`/api/projects/${projectId}/plan-preview`, {
-      goal: "普通预览", scope: { summary: "s", queries: [] }, module: "industry",
+    let outlined: any;
+    for (let i = 0; i < 80; i++) {
+      outlined = await findRun();
+      if (outlined?.status === "awaiting-confirmation" && outlined.gate?.kind === "outline") break;
+      await new Promise((r) => setTimeout(r, 50));
+    }
+    const outlineGate = await api(`/api/projects/${projectId}/runs/${outlined.id}/gate`);
+    const outlineBody = await outlineGate.json();
+    expect(outlineBody.kind).toBe("outline");
+    expect(outlineBody.incremental?.summary?.runId).toBe(baseRun.id);
+    expect(outlineBody.payload.sections.length).toBeGreaterThanOrEqual(1);
+    const confirmed = await post(`/api/projects/${projectId}/runs/${outlined.id}/gate/confirm`, {
+      payload: { title: "增量研究报告", sections: [{ id: "s1", title: "市场规模", bullets: [] }] },
     });
-    expect(plainRes.status).toBe(200);
-    expect((await plainRes.json()).base).toBeUndefined();
+    expect(confirmed.status).toBe(200);
+    let done: any;
+    for (let i = 0; i < 100; i++) {
+      done = await findRun();
+      if (done && ["published", "limited"].includes(done.status)) break;
+      await new Promise((r) => setTimeout(r, 50));
+    }
+    expect(["published", "limited"]).toContain(done.status);
   }, 20_000);
 
   it("不存在/未完成的基准被拒(4xx)", async () => {
     const created = await post("/api/projects", { module: "industry", goal: "非法基准", scope: { summary: "s", queries: [] } });
     const projectId = (await created.json()).id as string;
-    // 不存在
-    const missing = await post(`/api/projects/${projectId}/plan-preview`, {
-      goal: "g", scope: { summary: "s", queries: [] }, module: "industry",
-      incrementalOf: { runId: "run-nope", requestId: "req-nope" },
+    // 不存在:同一校验(resolveIncrementalBase)现作用于运行启动端点
+    const missing = await post(`/api/projects/${projectId}/runs`, {
+      request: {
+        id: "req-missing-base", module: "industry", goal: "非法基准", scope: { summary: "s", queries: [] },
+        incrementalOf: { runId: "run-nope", requestId: "req-nope" },
+      },
     });
-    expect([400, 404]).toContain(missing.status);
+    expect(missing.status).toBe(404);
     // 已取消(未完成)的 run 作基准被拒——直接落一条 cancelled 记录(确定性,无时序依赖)
     const dir = join(dataDir, "projects", projectId);
     await FsProjectStore.open(dir).saveRun({
       id: "run-cancelled-base", requestId: "req-cancelled-base", stage: "gather", status: "cancelled",
       checkpoints: [], usage: { searches: 1, fetches: 1, modelCalls: 0, outputTokens: 0, wallMs: 100 },
     });
-    const res = await post(`/api/projects/${projectId}/plan-preview`, {
-      goal: "g", scope: { summary: "s", queries: [] }, module: "industry",
-      incrementalOf: { runId: "run-cancelled-base", requestId: "req-cancelled-base" },
-    });
-    expect(res.status).toBe(409);
-    // 同一校验覆盖运行启动端点:对未完成基准直接发起增量 run 被拒,不产生新 run
-    const started = await post(`/api/projects/${projectId}/runs`, {
+    const res = await post(`/api/projects/${projectId}/runs`, {
       request: {
         id: "req-start-bad-base", module: "industry", goal: "非法基准", scope: { summary: "s", queries: [] },
         incrementalOf: { runId: "run-cancelled-base", requestId: "req-cancelled-base" },
       },
-      plan: { questions: [{ id: "q1", question: "x", status: "open" }] },
     });
-    expect(started.status).toBe(409);
+    expect(res.status).toBe(409);
   }, 20_000);
 
   it("2.1 执行中干预:instruct 入队落盘、间隙消费、干预历史落 run;非 running 409/非法 400", async () => {
@@ -590,7 +642,7 @@ describe("settings 配置合并", () => {
       });
       expect(res.status).toBe(200);
       const merged = JSON.parse(readFileSync(join(dataDir, "config.json"), "utf8")) as Record<string, unknown>;
-      // 搜索链必须保留——此前整文件覆盖导致 plan-preview 500 的根因
+      // 搜索链必须保留——此前整文件覆盖导致搜索链丢失、阶段调用 500 的根因
       expect(merged.search).toEqual([{ type: "minimax-mcp" }, { type: "xiaomi-websearch" }]);
       expect(merged.model).toEqual([
         { provider: "minimax-cn", modelId: "MiniMax-M2.7" },
