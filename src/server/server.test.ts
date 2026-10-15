@@ -636,3 +636,63 @@ describe("项目归档", () => {
     }
   });
 });
+
+describe("formalGenerated 标记(P1-4)", () => {
+  it("详情端点响应时计算:仅生成的版本 true;存量手写产物同样 true;列表端点不带该字段", async () => {
+    const { writeFileSync } = await import("node:fs");
+    const dataDir = mkdtempSync(join(tmpdir(), "dr-srv-formal-"));
+    const srv = await startServer({ dataDir, makeAdapters: () => fakeAdapters() });
+    const base = `http://127.0.0.1:${srv.port}`;
+    const post = (path: string, body: unknown) =>
+      fetch(`${base}${path}`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
+    try {
+      const created = await post("/api/projects", { module: "industry", goal: "正式标记", scope: { summary: "s", queries: [] } });
+      const id = ((await created.json()) as { id: string }).id;
+      const waitDone = async (reqId: string) => {
+        for (let i = 0; i < 100; i++) {
+          const d = (await (await fetch(`${base}/api/projects/${id}`)).json()) as { runs: Array<{ requestId: string; status: string; id: string }> };
+          const run = d.runs.find((r) => r.requestId === reqId);
+          if (run && ["published", "limited"].includes(run.status)) return run;
+          await new Promise((r) => setTimeout(r, 50));
+        }
+        throw new Error("等待 run 完成超时");
+      };
+      await post(`/api/projects/${id}/runs`, {
+        request: { id: "req-fm1", module: "industry", goal: "正式标记", scope: { summary: "s", queries: [] } },
+        plan: { questions: [{ id: "q1", question: "市场规模", status: "open" }] },
+      });
+      const run1 = await waitDone("req-fm1");
+      await post(`/api/projects/${id}/publish`, { runId: run1.id });
+      await post(`/api/projects/${id}/runs`, {
+        request: { id: "req-fm2", module: "industry", goal: "正式标记", scope: { summary: "s", queries: [] } },
+        plan: { questions: [{ id: "q1", question: "市场规模", status: "open" }] },
+      });
+      const run2 = await waitDone("req-fm2");
+      await post(`/api/projects/${id}/publish`, { runId: run2.id });
+
+      // 两版本均未生成 formal → false
+      const before = (await (await fetch(`${base}/api/projects/${id}`)).json()) as {
+        meta: { versions: Array<{ version: number; formalGenerated: boolean }> };
+      };
+      expect(before.meta.versions.map((v) => v.formalGenerated)).toEqual([false, false]);
+
+      // 存量形状:不经 POST /formal,手写产物文件 → 响应时计算得 true(D1/KA1)
+      const projDir = join(dataDir, "projects", id);
+      const { mkdirSync } = await import("node:fs");
+      mkdirSync(join(projDir, "reports", "v1", "formal"), { recursive: true });
+      writeFileSync(join(projDir, "reports", "v1", "formal", "formal.json"), "{}");
+      const after = (await (await fetch(`${base}/api/projects/${id}`)).json()) as {
+        meta: { versions: Array<{ version: number; formalGenerated: boolean }> };
+      };
+      expect(after.meta.versions.find((v) => v.version === 1)?.formalGenerated).toBe(true);
+      expect(after.meta.versions.find((v) => v.version === 2)?.formalGenerated).toBe(false);
+
+      // 负例(R1-2):列表端点不带该字段
+      const list = (await (await fetch(`${base}/api/projects`)).json()) as { projects: Array<Record<string, unknown>> };
+      const me = list.projects.find((p) => p.id === id) as { versions?: Array<Record<string, unknown>> } | undefined;
+      expect(me?.versions?.every((v) => !("formalGenerated" in v))).toBe(true);
+    } finally {
+      await srv.close();
+    }
+  }, 30_000);
+});

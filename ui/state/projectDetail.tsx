@@ -126,24 +126,19 @@ export function ProjectDetailProvider({ id, children }: { id: string; children: 
     return () => window.clearInterval(timer);
   }, [reload]);
 
-  // 探测各版本正式报告是否已生成(版本集合变化时补测)
+  // P1-4:formalReady 从轮询到的 meta.versions[].formalGenerated 派生(D2,替代逐版本探测 fetch);
+  // merge 只增不减,与 genFormal 成功后的乐观置位一致
   const versionsKey = detail ? detail.meta.versions.map((v) => v.version).join(",") : "";
   useEffect(() => {
-    if (!versionsKey) return;
-    let cancelled = false;
-    void (async () => {
-      const ready: Record<number, boolean> = {};
-      await Promise.all(
-        versionsKey.split(",").map(async (raw) => {
-          const v = Number(raw);
-          const res = await fetch(`/api/projects/${id}/versions/${v}/formal/json`).catch(() => null);
-          if (res?.ok) ready[v] = true;
-        }),
-      );
-      if (!cancelled) setFormalReady((prev) => ({ ...prev, ...ready }));
-    })();
-    return () => { cancelled = true; };
-  }, [id, versionsKey]);
+    if (!detail) return;
+    setFormalReady((prev) => {
+      const next = { ...prev };
+      for (const v of detail.meta.versions) {
+        if (v.formalGenerated) next[v.version] = true;
+      }
+      return next;
+    });
+  }, [versionsKey, detail?.meta.versions]);
 
   const selectVersion = useCallback(async (v: number) => {
     setBundleVersion(v);

@@ -9,6 +9,8 @@ export interface VersionEntry {
   runId: string;
   publishedAt: string;
   diffSummary?: { addedClaims: string[]; removedClaims: string[]; evidenceDelta: number };
+  /** P1-4:服务端响应时计算(产物文件即事实源);仅项目详情端点携带,列表端点无此字段 */
+  formalGenerated?: boolean;
 }
 export interface ProjectMeta {
   id: string;

@@ -223,8 +223,14 @@ export const handleProjectsRoutes = async (
 
   if (method === "GET" && rest === "") {
     const s = ctx.storeFor(id);
+    const meta = s.meta();
+    // P1-4:formalGenerated 响应时计算(D1/KA1)——产物文件即事实源,零迁移;仅详情端点(R1-2)
+    const versions = meta.versions.map((v) => ({
+      ...v,
+      formalGenerated: existsSync(join(dir, "reports", `v${v.version}`, "formal", "formal.json")),
+    }));
     json(res, 200, {
-      meta: s.meta(),
+      meta: { ...meta, versions },
       runs: await s.listRuns(),
       // P0-2:列表型响应剥离 bodyText(UI 从未消费;正文按需走 /snapshots?sid=)
       snapshots: (await s.listSnapshots()).map(({ bodyText: _omit, ...rest }) => rest),
