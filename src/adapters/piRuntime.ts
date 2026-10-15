@@ -9,7 +9,6 @@
 import { appendFile, mkdir, rename, stat as statFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import {
-  createMemoryBudgetStore,
   createPiTransport,
   createRuntime,
   type AuditEvent,
@@ -21,6 +20,7 @@ import {
   type Runtime,
 } from "pi-agent-runtime";
 import { defaultDataDir } from "../app/dataDir.js";
+import { getBudgetStore } from "../server/fileBudgetStore.js";
 import type { StageName } from "../core/stages.js";
 import { buildExtractPrompt, buildStagePrompt, parseClaims, parseJsonLoose, draftFromText } from "./modelText.js";
 import type { AgentTool, ModelProvider, RunAgentResult } from "./types.js";
@@ -168,7 +168,8 @@ interface Channel {
   ): Promise<RunAgentResult>;
 }
 
-/** 调用计数重建阈值(P2-2 D5):子 taskId 唯一,丢弃整个 runtime/budget store 无语义损失,防 server 长跑 Map 线性膨胀。 */
+/** 调用计数重建阈值(P2-2 D5):子 taskId 唯一,丢弃 runtime 对象无语义损失,防 server 长跑 Map 线性膨胀。
+   P2-3b(KA2):重建只弃 runtime 对象;持久 FileBudgetStore(路径单例,永不重建)跨重建延续账目。 */
 const REBUILD_AFTER_CALLS = 100_000;
 
 /**
@@ -182,7 +183,14 @@ function getChannel(configs: LiveModelConfig | LiveModelConfig[], opts: PiRuntim
   const cacheKey = JSON.stringify({ configs: opts.candidates ? null : configs, auditPath: opts.auditPath ?? null, candidates: opts.candidates?.length ?? 0 });
   let channel = channelCache.get(cacheKey);
   if (channel) return channel;
-  const auditSink = makeAuditSink(opts.auditPath ?? join(defaultDataDir(), "model-audit.jsonl"));
+  // P2-3b(R1-5):账本目录=审计同源(dirname(auditPath),与 config.json 一致;--datadir 不改其位置)
+  const auditPath = opts.auditPath ?? join(defaultDataDir(), "model-audit.jsonl");
+  const auditSink = makeAuditSink(auditPath);
+  // P2-3b(D1):持久账本——路径级进程单例,打开处 O_EXCL 跨进程收口,跨 channel 重建延续
+  const budgets = getBudgetStore(dirname(auditPath));
+  if (process.env.DR_DEBUG) {
+    console.error(`[model] 预算账本 ${budgets.filePath}(锁 ${dirname(auditPath)}/.model-budget-lock)`);
+  }
   const lastProviderByTask = new Map<string, string>();
   let runtime: Runtime | null = null;
   let callCount = 0;
@@ -205,7 +213,7 @@ function getChannel(configs: LiveModelConfig | LiveModelConfig[], opts: PiRuntim
       // 放行 model/publish(红队强制:成功路径强制 publish 授权;结果仅进程内返回,无外发)
       authorize: async () => true,
       audit: auditSink,
-      budgets: createMemoryBudgetStore(),
+      budgets,
       onEvent: (event) => {
         if (event.kind === "model.finished") {
           lastProviderByTask.set(event.taskId, `${event.provider}/${event.model}`);
@@ -226,8 +234,8 @@ function getChannel(configs: LiveModelConfig | LiveModelConfig[], opts: PiRuntim
     runTextRaw: async (prompt, callKey): Promise<{ text: string | null; usage: { modelCalls: number; outputTokens: number } }> => {
       if (++callCount >= REBUILD_AFTER_CALLS) {
         callCount = 0;
-        runtime = null; // 下次 getRuntime 重建(新 budget store,旧条目整体丢弃)
-        lastProviderByTask.clear(); // 重建同步清理(D5:防 Map 只增不减)
+        runtime = null; // P2-3b:只重建 runtime 对象;FileBudgetStore(路径单例)账目延续
+        lastProviderByTask.clear();
       }
       const startedAt = Date.now();
       const result = await getRuntime().runText({

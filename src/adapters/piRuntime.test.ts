@@ -3,7 +3,7 @@
 import { readFileSync } from "node:fs";
 import { mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import type { JsonObject, ModelConfig, ModelReply, ModelRequest, ModelTransport } from "pi-agent-runtime";
 import type { AgentTool } from "./types.js";
@@ -120,8 +120,7 @@ describe("piRuntime runText 三分映射", () => {
     expect(claims.usage.modelCalls).toBeGreaterThanOrEqual(1); // 成功路径至少 1 次(备用含预留保守)
   });
 
-  it("(f) 审计事件落盘:JSONL 可解析,taskId 前缀 dr:、版本 1.0", async () => {
-    const provider = piRuntimeModel([], { auditPath, candidates: [{ model: M3, transport: staticTransport('{"issues":[],"counterexampleChecked":true}') }] });
+  it("(f) 审计事件落盘:JSONL 可解析,taskId 前缀 dr:、版本 1.0", async () => {    const provider = piRuntimeModel([], { auditPath, candidates: [{ model: M3, transport: staticTransport('{"issues":[],"counterexampleChecked":true}') }] });
     await provider.runStage("review", {}, "t:audit:0");
     const lines = readFileSync(auditPath, "utf8").trim().split("\n").map((l) => JSON.parse(l) as Record<string, unknown>);
     expect(lines.every((l) => l.version === "1.0")).toBe(true);
@@ -266,6 +265,17 @@ describe("piRuntime runAgentRaw 工具循环(P2-4)", () => {
     );
     expect(res.status).toBe("succeeded");
     expect(res.text).toBeNull();
+  });
+  it("(g) P2-3b:runText 经 FileBudgetStore 计量——账本随 auditPath 目录落盘", async () => {
+    const provider = piRuntimeModel([], {
+      auditPath,
+      candidates: [{ model: M3, transport: staticTransport('{"issues":[],"counterexampleChecked":true}') }],
+    });
+    await provider.runStage("review", {}, "t:budget:0");
+    const ledger = JSON.parse(readFileSync(join(dirname(auditPath), "model-budget.json"), "utf-8")) as {
+      tasks: Record<string, { usage: { modelCalls: number } }>;
+    };
+    expect(ledger.tasks["dr:t:budget:0"].usage.modelCalls).toBeGreaterThanOrEqual(1);
   });
 });
 
