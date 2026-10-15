@@ -20,6 +20,7 @@ import { getModuleConfig } from "../../modules/registry.js";
 import { FsProjectStore } from "../../stores/fsStore.js";
 import type { RunRegistry } from "../runRegistry.js";
 import { json, PROJECT_ID } from "./http.js";
+import { handleVersionRoutes } from "./versions.js";
 
 // P1-3 T2:projectsRuns 域(附录 A 第 1–12 项)。HTTP 行为与拆分前逐位一致。
 
@@ -230,8 +231,10 @@ export const handleProjectsRoutes = async (
   // D1 怪癖逐位保留:任何 /api/projects/:id/* 先验 id(非法→抛出→外层 500),再做子路由分发(T7 钉住)
   const dir = ctx.projectDir(id);
 
-  // versions/snapshots 子树暂由 server.ts 处理(T3 迁移,R2-1):验 id 后返回 false 落回 server.ts
-  if (rest === "/snapshots" || rest.startsWith("/versions/")) return false;
+  // versions/snapshots 子树(T3,R2-1 交接):验 id 后委托 versions 域;未匹配的子路径由其返回 false 落回
+  if (rest === "/snapshots" || rest.startsWith("/versions/")) {
+    return handleVersionRoutes(ctx, res, { id, dir, rest, url, method });
+  }
 
   if (method === "GET" && rest === "") {
     const s = ctx.storeFor(id);

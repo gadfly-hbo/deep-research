@@ -4,8 +4,6 @@ import { createServer, type IncomingMessage, type Server, type ServerResponse } 
 import { randomUUID } from "node:crypto";
 import { join } from "node:path";
 import type { Adapters } from "../adapters/types.js";
-import { buildExportFilesV2, zipExport } from "../app/exportBundle.js";
-import { generateFormal } from "../app/projectService.js";
 import { DEFAULT_BUDGET } from "../core/runResearch.js";
 import { FsProjectStore } from "../stores/fsStore.js";
 import { fetchAssetContent, registerAssets, type RegisterInput } from "../library/assetService.js";
@@ -124,106 +122,10 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
         ? JSON.parse((await readBody(req)) || "{}")
         : {};
 
-    // projectsRuns 域(T2 拆至 routes/projectsRuns.ts):/api/projects 列表/创建与 :id 子树(versions/snapshots 除外)。
-    // 匹配顺序保留现状:该域最先匹配,id 校验先于子路由分发;versions/snapshots 与未知 rest 返回 false 落回本文件
+    // projectsRuns 域(T2 拆至 routes/projectsRuns.ts):/api/projects 列表/创建与 :id 子树;
+    // versions/snapshots 子树由该域在验 id 后委托 routes/versions.ts(T3,R2-1),不再进入本文件。
+    // 匹配顺序保留现状:该域最先匹配,id 校验先于子路由分发;未知 rest 返回 false 落到后续域。
     if (await handleProjectsRoutes(ctx, req, res, url, body)) return;
-
-    // versions/snapshots 子树(T3 再迁;非法 id 已在 projectsRuns 域抛出 500,不会到达这里)
-    const projectMatch = path.match(/^\/api\/projects\/([^/]+)(.*)$/);
-    if (projectMatch) {
-      const [, id, rest] = projectMatch;
-      const dir = projectDir(id);
-      const store = () => FsProjectStore.open(dir);
-
-      const versionMatch = rest.match(/^\/versions\/(\d+)(\/.*)?$/);
-      if (versionMatch) {
-        const [, vRaw, vRest = ""] = versionMatch;
-        const v = Number(vRaw);
-        const bundlePath = join(dir, "reports", `v${v}`, "bundle.json");
-        if (!existsSync(bundlePath)) {
-          json(res, 404, { error: `版本不存在: v${v}` });
-          return;
-        }
-
-        // 生成正式报告(幂等:重新生成覆盖旧产物)
-        if (method === "POST" && vRest === "/formal") {
-          json(res, 200, await generateFormal(dir, v, deps.makeAdapters().model));
-          return;
-        }
-
-        if (method === "GET" && vRest === "/bundle") {
-          json(res, 200, JSON.parse(readFileSync(bundlePath, "utf8")));
-          return;
-        }
-
-        const formalMatch = vRest.match(/^\/formal\/(html|pptx|json)$/);
-        if (method === "GET" && formalMatch) {
-          const formalDir = join(dir, "reports", `v${v}`, "formal");
-          const file =
-            formalMatch[1] === "html"
-              ? { path: join(formalDir, "report.html"), type: "text/html; charset=utf-8", name: `research-v${v}.html` }
-              : formalMatch[1] === "pptx"
-                ? {
-                    path: join(formalDir, "report.pptx"),
-                    type: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-                    name: `research-v${v}.pptx`,
-                  }
-                : { path: join(formalDir, "formal.json"), type: "application/json; charset=utf-8", name: `research-v${v}-formal.json` };
-          if (!existsSync(file.path)) {
-            json(res, 404, { error: `正式报告尚未生成: v${v}(先 POST /versions/${v}/formal)` });
-            return;
-          }
-          const buf = readFileSync(file.path);
-          res.writeHead(200, {
-            "content-type": file.type,
-            "content-disposition": `${formalMatch[1] === "json" ? "inline" : "attachment"}; filename="${file.name}"`,
-          });
-          res.end(buf);
-          return;
-        }
-
-        if (method === "GET" && vRest === "/export") {
-          const bundle = JSON.parse(readFileSync(bundlePath, "utf8"));
-          const files = await buildExportFilesV2(bundle, { library, runId: bundle.runId });
-          const formalDir = join(dir, "reports", `v${v}`, "formal");
-          if (existsSync(formalDir)) {
-            files.push({
-              path: "formal/report.html",
-              content: readFileSync(join(formalDir, "report.html"), "utf8"),
-            });
-            files.push({
-              path: "formal/report.pptx",
-              content: new Uint8Array(readFileSync(join(formalDir, "report.pptx"))),
-            });
-            files.push({
-              path: "formal/formal.json",
-              content: readFileSync(join(formalDir, "formal.json"), "utf8"),
-            });
-          }
-          const zipped = zipExport(files);
-          res.writeHead(200, {
-            "content-type": "application/zip",
-            "content-disposition": `attachment; filename="research-v${v}.zip"`,
-          });
-          res.end(Buffer.from(zipped));
-          return;
-        }
-      }
-
-      if (method === "GET" && rest === "/snapshots") {
-        const sid = url.searchParams.get("sid") ?? "";
-        // P0-2:单文件读(哈希→精确文件名,原始 sid 永不拼路径)
-        const snapshot = await store().readSnapshot(sid);
-        if (!snapshot) {
-          json(res, 404, { error: `快照不存在: ${sid}` });
-          return;
-        }
-        // 只回传净化后的纯文本正文,来源 HTML 永不下发(06 数据与工具权限)
-        res.writeHead(200, { "content-type": "text/plain; charset=utf-8" });
-        res.end(snapshot.bodyText);
-        return;
-      }
-    }
 
     // ---- 外部情报库(U2-01):不依赖研究任务的直接入库 ----
     if (path === "/api/library/assets" && method === "POST") {
