@@ -18,7 +18,8 @@
 |---|---|---|
 | **P2-1 接缝合规** | vendor `pi-agent-runtime-0.4.3.tgz`;全项目唯一 Pi Adapter;7 阶段 + extractClaims 改 runWorker(zod validator 复用);主备链交 runtime fallbacks;最小必要 authorize/audit/budget 输入(行为等价) | 无(合规批,形态不变) |
 | **P2-2 预算与审计** | **预算放开(用户 2026-10-15 裁决:方案 A"干脆放开")**:模型侧 uncapped+单次保护显式化,零累计上限工程(方案 B 静态硬顶被否);计量进 usage(modelCalls/outputTokens);**costEstimate 整体移除**(④:契约字段、UI 6 处、9 测试文件、CLI、文档口径、replay 夹具 cost 字段一并清理);审计轮转两代上限 | ①④ |
-| **P2-3 会话底座** | SessionRuntime;项目=会话;checkpoint 确认门(BUSINESS_WAIT)替代"向导在浏览器、run 在后台"两张皮;崩溃恢复+恢复前核账 | |
+| **P2-3 确认门翻转** | 拆批(用户 2026-10-15 裁决):确认门=**产品级 durable gate**(规划原文"SDK checkpoint 机制"经红队 dist 实证不可用——runText 无暂停、会话 runAgent 亦拒 checkpoint、无工具无 BUSINESS_WAIT,偏离获批);POST /runs 免 plan 启动→plan 产出 durable 暂停→UI 确认页(可编辑问题)→继续;outline 阶段入流水线+框架确认门;启动清扫不误杀 awaiting-confirmation;预览向导退役 | ① |
+| **P2-3b 会话底座**(原 P2-3 层 1) | SessionRuntime 装配;"走会话"收窄为仅 P2-4/5 需要的调用点(extract/stage 维持无状态——会话路径=全历史+单 busy,并发撞死);持久账本**租约接管协议**前置;绑定独立小文件;CLI/serve 同机 writer 冲突 UX;会话 JSONL gitignore+跨机不续会话披露 | |
 | **P2-4 采证 agent 化** | gather 改 runAgent + web_search/fetch_page/parse_doc 工具(external 效果走预授权策略);steer 替代 instruct 队列;快照证据链保持;**无逐问题抓取护栏——全自主,治理只靠任务级预算与用户停止**(①);UI 同批演化为**调查流视图**(③,过 UI-GATE) | ①③ |
 | **P2-5 追问会话化** | followUp 替代增量新 run;上下文压缩连续;UI 追问入口改接 | |
 | **P2-6 动态预算 + 退役** | 运行中加注/改道;旧编排器退役(runResearch 缩为装配层);全链真实验证 | |
