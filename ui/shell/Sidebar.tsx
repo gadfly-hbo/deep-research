@@ -5,7 +5,7 @@ import Chip from "../components/Chip";
 import { useProjects } from "../state/projects";
 import { useProjectOrNull } from "../state/projectDetail";
 import { useUI } from "../state/ui";
-import { MODULE_LABEL, STATUS, STATUS_DOT, STAGES } from "../state/types";
+import { MODULE_LABEL, STATUS, STATUS_DOT, STAGES, gateLabelOf } from "../state/types";
 import type { Module, ProjectMeta } from "../state/types";
 
 const MODULE_ORDER: Module[] = ["brand", "industry"];
@@ -86,7 +86,7 @@ export function Sidebar() {
             className="sb-new"
             type="button"
             disabled={detail?.activeRun != null}
-            title={detail?.activeRun ? "运行进行中,完成或取消后可再次发起" : undefined}
+            title={detail?.activeRun ? "运行进行中或待确认,处理后方可再次发起" : undefined}
             onClick={() => navigate(`/project/${currentId}/plan?new=1`)}
           >
             ＋ 新建研究运行
@@ -155,7 +155,9 @@ export function Sidebar() {
           )}
           {detail?.activeRun && (
             <p className="sb-empty">
-              当前阶段:{STAGES.find((s) => s.key === detail.activeRun?.stage)?.title ?? detail.activeRun.stage}
+              {detail.activeRun.status === "awaiting-confirmation"
+                ? `待确认:${gateLabelOf(detail.activeRun)}等待确认后继续`
+                : `当前阶段:${STAGES.find((s) => s.key === detail.activeRun?.stage)?.title ?? detail.activeRun.stage}`}
             </p>
           )}
         </div>

@@ -49,12 +49,14 @@ export interface Run {
   id: string;
   requestId: string;
   stage: string;
-  status: "running" | "cancelled" | "failed" | "published" | "limited";
+  status: "running" | "cancelled" | "failed" | "published" | "limited" | "awaiting-confirmation";
   usage: { searches: number; fetches: number; modelCalls: number; outputTokens: number; wallMs: number };
   error?: string;
   derivedFromRunId?: string;
   progress?: RunProgress;
   interventions?: InterventionUI[];
+  /** P2-3:确认门身份(仅 awaiting-confirmation 期间存在) */
+  gate?: { kind: "plan" | "outline" };
 }
 export interface Snapshot { id: string; url: string; title: string; fetchedAt: string; parseStatus: string; tier?: "A" | "B" | "C" }
 export interface Claim {
@@ -96,6 +98,8 @@ export const STATUS: Record<string, { label: string; tone: Tone }> = {
   failed: { label: "已失败", tone: "fail" },
   published: { label: "已发布", tone: "ok" },
   limited: { label: "有限交付", tone: "insuf" },
+  // P2-3(S4):待确认=琥珀(warn 系),与已取消的灰 wait 区分
+  "awaiting-confirmation": { label: "待确认", tone: "insuf" },
 };
 
 /** 侧栏/列表状态点 */
@@ -105,7 +109,12 @@ export const STATUS_DOT: Record<string, string> = {
   failed: "dot-fail",
   published: "dot-ok",
   limited: "dot-warn",
+  "awaiting-confirmation": "dot-amber",
 };
+
+/** P2-3:确认门展示名(计划门/框架门),供五处状态展示点分支文案 */
+export const gateLabelOf = (run: Run): string =>
+  run.gate?.kind === "outline" ? "报告框架" : "研究计划";
 
 /** 预算档位:数值解析在服务端(src/core/budgetTiers.ts),此处只承载展示文案 */
 export type BudgetTier = "low" | "medium" | "high";

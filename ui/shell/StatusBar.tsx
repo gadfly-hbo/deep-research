@@ -1,7 +1,7 @@
 /* 底部状态栏:项目 / 阶段 / 运行状态 / 预算用量 / 本机声明。 */
 import { useLocation } from "react-router-dom";
 import { useProjectOrNull } from "../state/projectDetail";
-import { isStageKey, stageTitle } from "../state/types";
+import { gateLabelOf, isStageKey, stageTitle } from "../state/types";
 
 export function StatusBar() {
   const location = useLocation();
@@ -28,7 +28,9 @@ export function StatusBar() {
         运行状态:
         <strong>
           {p?.activeRun
-            ? `进行中 · ${stageTitle(p.activeRun.stage)}`
+            ? p.activeRun.status === "awaiting-confirmation"
+              ? `待确认 · ${gateLabelOf(p.activeRun)}`
+              : `进行中 · ${stageTitle(p.activeRun.stage)}`
             : p
               ? "空闲"
               : "—"}

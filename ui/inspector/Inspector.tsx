@@ -8,7 +8,7 @@ import type { InspTab } from "../state/ui";
 import { bestTierOf, quoteOf, snapshotTitle, summarizeVerdicts, verdictKeyOf, verdictOf } from "../state/derive";
 import {
   CONFIDENCE, ENTAIL_LABEL, KIND, MODULE_LABEL, NUMERIC_LABEL,
-  STATUS, STATUS_DOT, TIER_BADGE, VERDICT, isStageKey, stageTitle,
+  STATUS, STATUS_DOT, TIER_BADGE, VERDICT, gateLabelOf, isStageKey, stageTitle,
 } from "../state/types";
 
 const TABS: { key: InspTab; label: string }[] = [
@@ -69,7 +69,9 @@ function ContextPane() {
           <dt>运行</dt>
           <dd>
             {p.activeRun
-              ? <>进行中 · {stageTitle(p.activeRun.stage)}</>
+              ? p.activeRun.status === "awaiting-confirmation"
+                ? `待确认 · ${gateLabelOf(p.activeRun)}`
+                : <>进行中 · {stageTitle(p.activeRun.stage)}</>
               : "空闲"}
           </dd>
         </div>

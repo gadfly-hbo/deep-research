@@ -21,8 +21,9 @@ export interface StartRunParams {
   goal: string;
   summary: string;
   attachments: string;
-  plan: { id: string; question: string }[];
-  outline: Outline;
+  /** P2-3:免 plan 起跑(缺省)走 run 内确认门;旧路径显式携带则跳过 plan 门 */
+  plan?: { id: string; question: string }[];
+  outline?: Outline;
   /** 2.0:启动前选择的已有情报;服务端检查权限并固定版本绑定 */
   selectedAssets?: SelectedAsset[];
   /** 2.1:增量追问的基准运行(延续其证据与主张,只为新问题采证) */
@@ -175,13 +176,14 @@ export function ProjectDetailProvider({ id, children }: { id: string; children: 
             id: `req-${Date.now().toString(36)}`,
             module: detail?.meta.module ?? "brand",
             goal: p.goal,
-            scope: { summary: p.summary, queries: p.plan.map((q) => q.question) },
+            scope: { summary: p.summary, queries: (p.plan ?? []).map((q) => q.question) },
             attachments: p.attachments.split("\n").map((s) => s.trim()).filter(Boolean),
             outline: p.outline,
             incrementalOf: p.incrementalOf,
             budgetTier: p.budgetTier ?? "medium",
           },
-          plan: { questions: p.plan.map((q) => ({ ...q, status: "open" })) },
+          // P2-3:不带 plan 时 server 传 gates 走确认门(plan 产出后落门返回)
+          plan: p.plan ? { questions: p.plan.map((q) => ({ ...q, status: "open" })) } : undefined,
           // 2.0:复用选择在请求体顶层,服务端绑定后随 run 固定版本
           selectedAssets: p.selectedAssets,
         });
@@ -189,7 +191,9 @@ export function ProjectDetailProvider({ id, children }: { id: string; children: 
         toast.show(
           rejected.length > 0
             ? `研究运行已启动;${rejected.length} 项选择因权限/状态被拒绝(未绑定)`
-            : "研究运行已启动,可在「采证」阶段跟踪进度",
+            : p.plan
+              ? "研究运行已启动,可在「采证」阶段跟踪进度"
+              : "研究运行已启动,请在「计划」阶段确认研究计划",
         );
         await reload();
         void projects.reload();
@@ -294,7 +298,10 @@ export function ProjectDetailProvider({ id, children }: { id: string; children: 
     }
   }, [bundle, id, ui]);
 
-  const activeRun = detail?.runs.find((r) => r.status === "running") ?? null;
+  // P2-3(D4):activeRun 扩含 awaiting-confirmation——待确认也是"占用中"(新建/追问/重跑均被服务端守卫拒绝);
+  // 各展示点按 status 分支,不再把 awaiting 渲染为"进行中"
+  const activeRun =
+    detail?.runs.find((r) => r.status === "running" || r.status === "awaiting-confirmation") ?? null;
   const progress = detail
     ? activeRun
       ? stageIndexOf(activeRun.stage)

@@ -6,7 +6,7 @@ import Empty from "../components/Empty";
 import { api } from "../state/api";
 import { useProject } from "../state/projectDetail";
 import { snapshotTitle } from "../state/derive";
-import { STATUS, STATUS_DOT, TIER_BADGE, stageTitle, BUDGET_TIER_META } from "../state/types";
+import { STATUS, STATUS_DOT, TIER_BADGE, stageTitle, BUDGET_TIER_META, gateLabelOf } from "../state/types";
 import type { BudgetTier, Run } from "../state/types";
 
 const INS_TYPE_LABEL: Record<string, string> = {
@@ -77,6 +77,8 @@ export function GatherView() {
   const { runs, snapshots } = p.detail;
   const publishedRunIds = new Set(p.detail.meta.versions.map((v) => v.runId));
   const run = p.activeRun;
+  // P2-3(S4):待确认不渲染为"进行中零进度"——独立卡片引导去计划页确认;无干预入口(awaiting 下 instruct 为 409 语义)
+  const awaiting = run?.status === "awaiting-confirmation" ? run : null;
 
   const runActions = (r: Run) => (
     <div className="actions">
@@ -102,13 +104,34 @@ export function GatherView() {
     <div className="view">
       <h1 className="view-h">
         采证
-        {run && <Chip tone="run">进行中 · {stageTitle(run.stage)}</Chip>}
+        {run && (
+          <Chip tone={awaiting ? "insuf" : "run"}>
+            {awaiting ? `待确认 · ${gateLabelOf(run)}` : `进行中 · ${stageTitle(run.stage)}`}
+          </Chip>
+        )}
       </h1>
       <p className="view-sub">
         检索与抓取由流水线在本机服务内执行;每个来源页面留存净化文本快照,供逐条核查。
       </p>
 
-      {run ? (
+      {awaiting ? (
+        <div className="card">
+          <div className="pstep">
+            <div className="pstep-head">
+              <span className="pstep-name">研究运行待确认</span>
+              <Chip tone="insuf">待确认 · {gateLabelOf(awaiting)}</Chip>
+            </div>
+            <p className="fine" style={{ margin: "6px 0 0" }}>
+              「{gateLabelOf(awaiting)}」已生成,等待确认后才会继续执行;关闭页面或重启服务后仍可回来确认。
+            </p>
+            <div className="actions">
+              <button className="btn btn-primary" type="button" onClick={() => navigate(`/project/${p.id}/plan`)}>
+                前往计划页确认
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : run ? (
         <div className="card">
           <div className="pstep running">
             <div className="pstep-head">
