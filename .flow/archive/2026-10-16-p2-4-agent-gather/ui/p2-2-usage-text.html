@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>P2-2 UI-GATE 原型 — 用量文本替换(成本 → 模型计量,行为保持型)</title>
+<link rel="stylesheet" href="../../ui/styles.css">
+<style>
+  body { background: var(--bg); margin: 0; padding: 24px 32px 64px; }
+  .gate-sec { max-width: 860px; margin: 0 auto 36px; }
+  .gate-h { font: 600 15px/1.4 Inter, system-ui; color: var(--text-2); letter-spacing: .04em; text-transform: uppercase; margin: 0 0 4px; }
+  .gate-note { font: 12px/1.6 Inter, system-ui; color: var(--text-3); margin: 0 0 12px; }
+  .gate-cell { border: 1px dashed var(--line-strong); border-radius: 8px; padding: 10px; margin-bottom: 12px; }
+  .gate-cell > .gate-tag { font: 11px/1 Inter, system-ui; color: var(--accent-strong); display: block; margin-bottom: 8px; letter-spacing: .06em; }
+  /* 复刻状态栏/运行行的真实结构最小形态 */
+  .demo-statusbar { display: flex; gap: 14px; align-items: center; background: var(--shell); border-top: 1px solid var(--line); padding: 8px 14px; font-size: 12px; color: var(--text-2); }
+  .demo-runline { font-size: 12.5px; color: var(--text-2); padding: 6px 10px; }
+  .demo-kv { display: grid; grid-template-columns: 96px 1fr; gap: 4px 10px; font-size: 13px; }
+  .demo-kv dt { color: var(--text-3); }
+  .demo-kv dd { margin: 0; font-variant-numeric: tabular-nums; }
+  .demo-card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; box-shadow: 0 3px 12px rgba(40,36,30,.04); }
+</style>
+</head>
+<body>
+
+<section class="gate-sec">
+  <h1 style="font:600 18px/1.4 Inter,system-ui; margin:0 0 6px">P2-2 用量文本替换原型(静态,真实 ui/styles.css)</h1>
+  <p class="gate-note">6 处既有表面的替换后形态;格式钉死:<code>模型 {modelCalls} 次 · 输出 {outputTokens} tok</code>,原始数字不缩写;旧记录(zod default 0)显示 0 值。改动仅文本,布局/表面零变化。数值为合成示例。</p>
+</section>
+
+<section class="gate-sec">
+  <p class="gate-h">S1 · 底部状态栏用量段(StatusBar)</p>
+  <div class="gate-cell">
+    <div class="demo-statusbar">
+      <span>● 本机服务</span><span>项目:森马近3年品牌经营情况</span><span>阶段:采证</span><span>运行状态:进行中</span>
+      <span>搜索 12 · 抓取 18 · 模型 9 次 · 输出 8421 tok · 312s</span>
+    </div>
+  </div>
+  <p class="gate-h" style="margin-top:18px">S2 · 采证页运行指标行(GatherView 进行中)</p>
+  <div class="gate-cell">
+    <div class="demo-runline">搜索 12 · 抓取 18 · 模型 9 次 · 输出 8421 tok · 312s</div>
+  </div>
+  <p class="gate-h" style="margin-top:18px">S3 · 采证页指标卡(GatherView)</p>
+  <div class="gate-cell">
+    <div class="demo-card">
+      <dl class="demo-kv">
+        <dt>搜索</dt><dd>12</dd>
+        <dt>抓取</dt><dd>18</dd>
+        <dt>模型用量</dt><dd>9 次 · 8421 tok</dd>
+        <dt>耗时</dt><dd>312s</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="gate-sec">
+  <p class="gate-h">S4 · Inspector 运行记录行 / S5 · 发布页运行行</p>
+  <div class="gate-cell">
+    <span class="gate-tag">S4(运行记录,历史 run 完成态)</span>
+    <div class="demo-runline">采证 · 搜索 40 · 抓取 72 · 模型 31 次 · 输出 41250 tok · 1084s</div>
+  </div>
+  <div class="gate-cell">
+    <span class="gate-tag">S5(发布页版本对应 run 行)</span>
+    <div class="demo-runline">搜索 40 · 抓取 72 · 模型 31 次 · 输出 41250 tok</div>
+  </div>
+  <div class="gate-cell">
+    <span class="gate-tag">存量旧记录形态(zod default 0,不报错)</span>
+    <div class="demo-runline">搜索 54 · 抓取 60 · 模型 0 次 · 输出 0 tok · 954s</div>
+  </div>
+  <p class="gate-note">负例:全 UI 无 成本/¥/估算 字样;无新增表面;旧记录不报错。</p>
+</section>
+
+</body>
+</html>

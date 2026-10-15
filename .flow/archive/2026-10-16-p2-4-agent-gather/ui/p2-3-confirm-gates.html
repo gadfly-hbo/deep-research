@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>P2-3 UI-GATE 原型 — 确认门翻转(计划页新交互面)</title>
+<link rel="stylesheet" href="../../ui/styles.css">
+<style>
+  body { background: var(--bg); margin: 0; padding: 24px 32px 64px; }
+  .gate-sec { max-width: 880px; margin: 0 auto 36px; }
+  .gate-h { font: 600 15px/1.4 Inter, system-ui; color: var(--text-2); letter-spacing: .04em; text-transform: uppercase; margin: 0 0 4px; }
+  .gate-note { font: 12px/1.6 Inter, system-ui; color: var(--text-3); margin: 0 0 12px; }
+  .gate-cell { border: 1px dashed var(--line-strong); border-radius: 8px; padding: 10px; margin-bottom: 12px; }
+  .gate-cell > .gate-tag { font: 11px/1 Inter, system-ui; color: var(--accent-strong); display: block; margin-bottom: 8px; letter-spacing: .06em; }
+  .demo-card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; box-shadow: 0 3px 12px rgba(40,36,30,.04); }
+  .demo-actions { display: flex; gap: 8px; margin-top: 12px; }
+  .demo-chip { display:inline-flex; align-items:center; gap:6px; font-size:12px; padding:2px 10px; border-radius:999px; border:1px solid var(--warn-line); background:var(--warn-soft); color:var(--warn); }
+  .demo-dot { width:8px; height:8px; border-radius:50%; background:var(--dot-amber); }
+</style>
+</head>
+<body>
+
+<section class="gate-sec">
+  <h1 style="font:600 18px/1.4 Inter,system-ui; margin:0 0 6px">P2-3 确认门原型(静态,真实 ui/styles.css)</h1>
+  <p class="gate-note">计划页从"预览向导"翻转为"run 确认流"。S2/S3 为新交互面;数值合成,字段形状=gate GET 契约。</p>
+</section>
+
+<section class="gate-sec">
+  <p class="gate-h">S2 · 计划确认卡片(新)</p>
+  <div class="gate-cell">
+    <div class="demo-card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h2 style="margin:0;font-size:16px">研究计划待确认</h2>
+        <span class="demo-chip"><span class="demo-dot"></span>待确认</span>
+      </div>
+      <p class="fine" style="margin:6px 0 10px">研究目标:森马 2025 线上渠道与电商大促表现 · 模块:品牌研究</p>
+      <div class="fld"><span class="fld-label">问题 1</span><input value="2025 年天猫/京东/抖音渠道销售占比"></div>
+      <div class="fld" style="margin-top:6px"><span class="fld-label">问题 2</span><input value="双 11/618 销售额与类目排名"></div>
+      <div class="fld" style="margin-top:6px"><span class="fld-label">问题 3(增量)</span><input value="与优衣库线上大促对比"></div>
+      <p class="fine" style="margin:10px 0 0">基准:req-101 · 已答 6 问 · 证据 24 · 快照 18(本次只为新问题采证)</p>
+      <div class="demo-actions">
+        <button class="btn btn-primary" type="button">确认计划,开始框架</button>
+        <button class="btn btn-ghost" type="button">放弃</button>
+      </div>
+    </div>
+  </div>
+  <div class="gate-cell">
+    <span class="gate-tag">变体:非增量(无基准摘要行)</span>
+    <div class="demo-card">
+      <h2 style="margin:0;font-size:16px">研究计划待确认</h2>
+      <div class="fld" style="margin-top:8px"><span class="fld-label">问题 1</span><input value="中国现磨咖啡市场规模"></div>
+      <div class="demo-actions"><button class="btn btn-primary" type="button">确认计划,开始框架</button><button class="btn btn-ghost" type="button">放弃</button></div>
+    </div>
+  </div>
+  <p class="gate-h" style="margin-top:16px">C1 中间态 · 框架生成中(确认计划后)</p>
+  <div class="gate-cell">
+    <div class="demo-card">
+      <p class="fine" style="margin:0"><span class="spinner" style="width:14px;height:14px;display:inline-block;vertical-align:-2px"></span> 正在生成报告框架…通常 1-2 分钟</p>
+    </div>
+  </div>
+</section>
+
+<section class="gate-sec">
+  <p class="gate-h">S3 · 框架确认卡片(新)</p>
+  <div class="gate-cell">
+    <div class="demo-card">
+      <h2 style="margin:0;font-size:16px">报告框架待确认</h2>
+      <div class="fld" style="margin-top:8px"><span class="fld-label">报告标题</span><input value="森马 2025 线上渠道与大促表现研究"></div>
+      <div class="fld" style="margin-top:6px"><span class="fld-label">副标题(可空)</span><input placeholder="副标题"></div>
+      <div class="fld" style="margin-top:6px"><span class="fld-label">章节 1 标题</span><input value="渠道结构与销售占比"></div>
+      <div class="fld" style="margin-top:6px"><span class="fld-label">内容要点(每行一条)</span><textarea rows="2">天猫/京东/抖音占比
+线上增速与线下对比</textarea></div>
+      <div class="fld" style="margin-top:6px"><span class="fld-label">章节 2 标题</span><input value="大促表现与竞对对比"></div>
+      <div class="demo-actions">
+        <button class="btn btn-primary" type="button">确认框架,开始研究</button>
+        <button class="btn btn-ghost" type="button">放弃</button>
+      </div>
+      <p class="fine" style="margin:8px 0 0">确认后开始采证,框架不可中途更改。</p>
+    </div>
+  </div>
+</section>
+
+<section class="gate-sec">
+  <p class="gate-h">失败态与状态呈现</p>
+  <div class="gate-cell"><span class="gate-tag">gate 404(门已处理或不存在)→ 回退运行列表</span>
+    <div class="demo-card"><p class="fine" style="margin:0">该确认已处理或不存在,正在刷新运行状态…(自动回退运行列表)</p></div>
+  </div>
+  <div class="gate-cell"><span class="gate-tag">zod 400(内联,不提交)</span>
+    <div class="demo-card"><div class="fld"><span class="fld-label">问题 2</span><input value="" placeholder="问题不能为空" style="border-color:var(--fail-line)"></div><p class="fine" style="margin:6px 0 0;color:var(--fail)">请至少保留 1 条非空问题</p></div>
+  </div>
+  <div class="gate-cell"><span class="gate-tag">S4 · 状态徽新值(五处消费点同款)</span>
+    <div><span class="demo-chip"><span class="demo-dot"></span>待确认</span> <span class="fine" style="margin-left:8px">GatherView/Inspector/Sidebar/StatusBar/PlanView banner 按 status 分支,awaiting 不再显示"进行中·零进度"</span></div>
+  </div>
+</section>
+
+</body>
+</html>
