@@ -36,6 +36,43 @@
       }
     },
     {
+      "key": "req-golden-2:gather:r0:a:q1",
+      "kind": "agent",
+      "response": {
+        "input": {
+          "prompt": "【研究问题】咖啡市场规模\n【方向附注】无\n【研究目标与范围】G2 修复回环(中国大陆 2025)\n【已答问题】无\n【已有快照(勿重抓)】无\n【预算余量】搜索 80 次 / 抓取 60 次(本问抓取上限 30);余量以工具返回为准,用尽会收到错误提示\n【输出契约】调查结束后停止调用工具,只输出 JSON:{\"sufficient\":boolean,\"note\":\"一句话结论口径\"}",
+          "taskId": "dr:req-golden-2:gather-agent:r0:q1",
+          "toolExecution": "parallel"
+        },
+        "turns": [
+          {
+            "tool": {
+              "name": "web_search",
+              "args": {
+                "query": "咖啡市场规模"
+              }
+            }
+          },
+          {
+            "tool": {
+              "name": "fetch_page",
+              "args": {
+                "url": "https://gov.cn/a"
+              }
+            }
+          }
+        ],
+        "result": {
+          "status": "succeeded",
+          "text": "{\"sufficient\":true,\"note\":\"默认调查完成\"}",
+          "usage": {
+            "modelCalls": 1,
+            "outputTokens": 16
+          }
+        }
+      }
+    },
+    {
       "key": "req-golden-2:gather:r0:extract:q1:0",
       "kind": "model",
       "response": {
@@ -73,6 +110,35 @@
       "kind": "search",
       "response": {
         "hits": []
+      }
+    },
+    {
+      "key": "req-golden-2:gather:r0:a:q2",
+      "kind": "agent",
+      "response": {
+        "input": {
+          "prompt": "【研究问题】门店数量\n【方向附注】无\n【研究目标与范围】G2 修复回环(中国大陆 2025)\n【已答问题】咖啡市场规模\n【已有快照(勿重抓)】无\n【预算余量】搜索 79 次 / 抓取 59 次(本问抓取上限 59);余量以工具返回为准,用尽会收到错误提示\n【输出契约】调查结束后停止调用工具,只输出 JSON:{\"sufficient\":boolean,\"note\":\"一句话结论口径\"}",
+          "taskId": "dr:req-golden-2:gather-agent:r0:q2",
+          "toolExecution": "parallel"
+        },
+        "turns": [
+          {
+            "tool": {
+              "name": "web_search",
+              "args": {
+                "query": "门店数量"
+              }
+            }
+          }
+        ],
+        "result": {
+          "status": "succeeded",
+          "text": "{\"sufficient\":true,\"note\":\"默认调查完成\"}",
+          "usage": {
+            "modelCalls": 1,
+            "outputTokens": 16
+          }
+        }
       }
     },
     {
@@ -132,6 +198,43 @@
         "doc": {
           "bodyText": "现磨咖啡门店数约 40 万家(2025 年)。",
           "parseStatus": "ok"
+        }
+      }
+    },
+    {
+      "key": "req-golden-2:gather:r1:a:q2",
+      "kind": "agent",
+      "response": {
+        "input": {
+          "prompt": "【研究问题】门店数量\n【方向附注】无\n【研究目标与范围】G2 修复回环(中国大陆 2025)\n【已答问题】咖啡市场规模\n【已有快照(勿重抓)】无\n【预算余量】搜索 78 次 / 抓取 59 次(本问抓取上限 59);余量以工具返回为准,用尽会收到错误提示\n【输出契约】调查结束后停止调用工具,只输出 JSON:{\"sufficient\":boolean,\"note\":\"一句话结论口径\"}",
+          "taskId": "dr:req-golden-2:gather-agent:r1:q2",
+          "toolExecution": "parallel"
+        },
+        "turns": [
+          {
+            "tool": {
+              "name": "web_search",
+              "args": {
+                "query": "门店数量"
+              }
+            }
+          },
+          {
+            "tool": {
+              "name": "fetch_page",
+              "args": {
+                "url": "https://iresearch.com.cn/b"
+              }
+            }
+          }
+        ],
+        "result": {
+          "status": "succeeded",
+          "text": "{\"sufficient\":true,\"note\":\"默认调查完成\"}",
+          "usage": {
+            "modelCalls": 1,
+            "outputTokens": 16
+          }
         }
       }
     },
@@ -244,6 +347,43 @@
         "doc": {
           "bodyText": "中国咖啡市场规模约 1,200 亿元(2025 年)。现磨咖啡门店数持续增长。行业边界与定义清晰。",
           "parseStatus": "ok"
+        }
+      }
+    },
+    {
+      "key": "req-golden-2:gather:r10:a:q1",
+      "kind": "agent",
+      "response": {
+        "input": {
+          "prompt": "【研究问题】咖啡市场规模\n【方向附注】无\n【研究目标与范围】G2 修复回环(中国大陆 2025)\n【已答问题】门店数量\n【已有快照(勿重抓)】无\n【预算余量】搜索 77 次 / 抓取 58 次(本问抓取上限 58);余量以工具返回为准,用尽会收到错误提示\n【输出契约】调查结束后停止调用工具,只输出 JSON:{\"sufficient\":boolean,\"note\":\"一句话结论口径\"}",
+          "taskId": "dr:req-golden-2:gather-agent:r10:q1",
+          "toolExecution": "parallel"
+        },
+        "turns": [
+          {
+            "tool": {
+              "name": "web_search",
+              "args": {
+                "query": "咖啡市场规模"
+              }
+            }
+          },
+          {
+            "tool": {
+              "name": "fetch_page",
+              "args": {
+                "url": "https://gov.cn/a"
+              }
+            }
+          }
+        ],
+        "result": {
+          "status": "succeeded",
+          "text": "{\"sufficient\":true,\"note\":\"默认调查完成\"}",
+          "usage": {
+            "modelCalls": 1,
+            "outputTokens": 16
+          }
         }
       }
     },

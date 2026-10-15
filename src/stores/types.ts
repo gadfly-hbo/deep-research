@@ -20,6 +20,8 @@ export interface InvestigationEvent {
   query?: string;
   sufficient?: boolean;
   note?: string;
+  /** P2-4 D5(UI 契约 S3):fetch 卡展示页面标题(成功抓取时随 sid 一并落)。 */
+  title?: string;
 }
 
 export interface ResearchStore {

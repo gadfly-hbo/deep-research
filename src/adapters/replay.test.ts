@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Recording } from "./types.js";
+import type { Adapters, RecordedCall, Recording } from "./types.js";
 import { replayAdapters } from "./replay.js";
 
 const recording: Recording = [
@@ -83,5 +83,81 @@ describe("replayAdapters 旧录制兼容(PRD D4)", () => {
     await expect(adapters.model.runStage("draft", {}, "missing-key")).rejects.toThrow(
       /录制夹具缺少调用/,
     );
+  });
+});
+
+describe("replayAdapters agent 形状(P2-4 R1-3)", () => {
+  it("record→replay 全链再生:回合脚本驱动真 executor,快照/主张/调查事件一致", async () => {
+    const { runResearch } = await import("../core/runResearch.js");
+    const { createMemoryStore } = await import("../stores/memory.js");
+    const { ResearchRequestSchema } = await import("../contracts.js");
+    const { recordingAdapters } = await import("./recording.js");
+    const { scriptedRunAgent } = await import("./testing.js");
+    const bodyA = "中国咖啡市场规模约 1,200 亿元(2025 年)。";
+    const usage = { modelCalls: 1, outputTokens: 16 };
+    const live: Adapters = {
+      search: { search: async () => [{ url: "https://a/1", title: "A", snippet: "" }] },
+      page: { fetch: async (url) => ({ url, status: 200, contentType: "text/html", html: "<p>x</p>" }) },
+      parser: { parse: async () => ({ bodyText: bodyA, parseStatus: "ok" as const }) },
+      model: {
+        extractClaims: async () => ({
+          claims: [{ statement: "市场规模约 1200 亿元(2025)", kind: "fact" as const, quote: "市场规模约 1,200 亿元" }],
+          usage: { ...usage },
+        }),
+        runStage: async () => ({ output: { findings: [], gaps: [] }, usage: { ...usage } }),
+        runAgent: scriptedRunAgent(),
+      },
+    };
+    const request = ResearchRequestSchema.parse({
+      id: "req-rep-agent", module: "industry", goal: "回放再生", scope: { summary: "s", queries: [] },
+    });
+    const options = {
+      runId: "run-rep-agent",
+      plan: { questions: [{ id: "q1", question: "咖啡 市场规模", status: "open" as const }] },
+      stopAfter: "gather" as const,
+    };
+    // 录制侧:默认调查脚本经 recordingAdapters(agent 工具调用逐轮捕获)
+    const calls: RecordedCall[] = [];
+    const storeA = createMemoryStore();
+    const rec = await runResearch(request, recordingAdapters(live, (c) => calls.push(c)), storeA, options);
+    expect(calls.some((c) => c.kind === "agent")).toBe(true);
+    const agentCall = calls.find((c) => c.kind === "agent")!.response as {
+      turns: Array<{ tool: { name: string } }>;
+      result: { status: string; text: string };
+    };
+    expect(agentCall.turns.map((t) => t.tool.name)).toEqual(["web_search", "fetch_page"]);
+    expect(agentCall.result.status).toBe("succeeded");
+
+    // 回放侧:录制脚本驱动真 executor → 快照/主张/调查事件全链再生
+    const storeB = createMemoryStore();
+    const rep = await runResearch(request, replayAdapters(calls), storeB, options);
+    expect(rep.run.status).toBe(rec.run.status);
+    // fetchedAt 为各次运行时点,比对时剥离
+    const snapShape = (s: { id: string; url: string; title: string; bodyText: string; parseStatus: string }) =>
+      `${s.id}|${s.url}|${s.title}|${s.bodyText}|${s.parseStatus}`;
+    expect(rep.bundle!.snapshots.map(snapShape)).toEqual(rec.bundle!.snapshots.map(snapShape));
+    expect(rep.bundle!.claims.map((c) => c.id)).toEqual(rec.bundle!.claims.map((c) => c.id));
+    expect(rep.bundle!.evidence.map((e) => e.id)).toEqual(rec.bundle!.evidence.map((e) => e.id));
+    const stripAt = (events: Array<{ seq: number; qid: string; kind: string; sid?: string }>) =>
+      events.map((e) => `${e.seq}:${e.qid}:${e.kind}:${e.sid ?? ""}`);
+    expect(stripAt(await storeB.readInvestigation("run-rep-agent"))).toEqual(
+      stripAt(await storeA.readInvestigation("run-rep-agent")),
+    );
+  });
+
+  it("agent 录制缺失/任务卡不匹配 → 暴露夹具缺口,不静默编造", async () => {
+    const adapters = replayAdapters([
+      { key: "k:agent:1", kind: "agent", response: { input: { prompt: "另一张任务卡", taskId: "t", toolExecution: "parallel" }, turns: [], result: { status: "succeeded", text: "x", usage: { modelCalls: 1, outputTokens: 1 } } } },
+    ]);
+    await expect(
+      adapters.model.runAgent!(
+        { prompt: "这张任务卡", taskId: "t", toolExecution: "parallel" },
+        [],
+        "k:agent:1",
+      ),
+    ).rejects.toThrow(/任务卡不匹配/);
+    await expect(
+      adapters.model.runAgent!({ prompt: "p", taskId: "t", toolExecution: "parallel" }, [], "missing"),
+    ).rejects.toThrow(/录制夹具缺少调用/);
   });
 });

@@ -53,6 +53,43 @@
       }
     },
     {
+      "key": "req-golden-3:gather:r0:a:q1",
+      "kind": "agent",
+      "response": {
+        "input": {
+          "prompt": "【研究问题】咖啡市场规模\n【方向附注】无\n【研究目标与范围】G3 干预(中国大陆 2025)\n【已答问题】无\n【已有快照(勿重抓)】无\n【预算余量】搜索 80 次 / 抓取 60 次(本问抓取上限 30);余量以工具返回为准,用尽会收到错误提示\n【输出契约】调查结束后停止调用工具,只输出 JSON:{\"sufficient\":boolean,\"note\":\"一句话结论口径\"}",
+          "taskId": "dr:req-golden-3:gather-agent:r0:q1",
+          "toolExecution": "parallel"
+        },
+        "turns": [
+          {
+            "tool": {
+              "name": "web_search",
+              "args": {
+                "query": "咖啡市场规模"
+              }
+            }
+          },
+          {
+            "tool": {
+              "name": "fetch_page",
+              "args": {
+                "url": "https://gov.cn/a"
+              }
+            }
+          }
+        ],
+        "result": {
+          "status": "succeeded",
+          "text": "{\"sufficient\":true,\"note\":\"默认调查完成\"}",
+          "usage": {
+            "modelCalls": 1,
+            "outputTokens": 16
+          }
+        }
+      }
+    },
+    {
       "key": "req-golden-3:gather:r0:extract:q1:0",
       "kind": "model",
       "response": {
@@ -117,6 +154,43 @@
         "doc": {
           "bodyText": "中国咖啡市场规模约 1,200 亿元(2025 年)。产业链上下游链条完整。竞争格局分散。",
           "parseStatus": "ok"
+        }
+      }
+    },
+    {
+      "key": "req-golden-3:gather:r0:a:q-ins-1",
+      "kind": "agent",
+      "response": {
+        "input": {
+          "prompt": "【研究问题】门店结构\n【方向附注】无\n【研究目标与范围】G3 干预(中国大陆 2025)\n【已答问题】咖啡市场规模\n【已有快照(勿重抓)】无\n【预算余量】搜索 79 次 / 抓取 59 次(本问抓取上限 59);余量以工具返回为准,用尽会收到错误提示\n【输出契约】调查结束后停止调用工具,只输出 JSON:{\"sufficient\":boolean,\"note\":\"一句话结论口径\"}",
+          "taskId": "dr:req-golden-3:gather-agent:r0:q-ins-1",
+          "toolExecution": "parallel"
+        },
+        "turns": [
+          {
+            "tool": {
+              "name": "web_search",
+              "args": {
+                "query": "门店结构"
+              }
+            }
+          },
+          {
+            "tool": {
+              "name": "fetch_page",
+              "args": {
+                "url": "https://iresearch.com.cn/r"
+              }
+            }
+          }
+        ],
+        "result": {
+          "status": "succeeded",
+          "text": "{\"sufficient\":true,\"note\":\"默认调查完成\"}",
+          "usage": {
+            "modelCalls": 1,
+            "outputTokens": 16
+          }
         }
       }
     },

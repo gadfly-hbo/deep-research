@@ -5,9 +5,9 @@ import type {
   ParsedDoc,
   RecordedCall,
   Recording,
+  RunAgentResult,
   SearchHit,
 } from "./types.js";
-import { scriptedRunAgent } from "./testing.js";
 
 interface SearchResponse {
   hits: SearchHit[];
@@ -25,6 +25,12 @@ interface ModelResponse {
 interface StageResponse {
   output: unknown;
   usage: { modelCalls: number; outputTokens: number };
+}
+/** R1-3:agent 录制形状=有序回合脚本(经手工具调用)+ 终局 result。 */
+interface AgentResponse {
+  input: { prompt: string; taskId: string; toolExecution: "sequential" | "parallel" };
+  turns: Array<{ tool: { name: string; args: Record<string, unknown> } }>;
+  result: RunAgentResult;
 }
 
 export interface ReplayOptions {
@@ -67,9 +73,22 @@ export function replayAdapters(recording: Recording, options: ReplayOptions = {}
           throw error;
         }
       },
-      // P2-4:回放侧同样以默认调查脚本驱动真 executor——executor 打到本回放适配器,
-      // 按录制 callKey 逐位命中,调查/快照/主张装配全链再生(录制形状 T3 R1-3)
-      runAgent: scriptedRunAgent(),
+      // P2-4(R1-3):按录制的回合脚本驱动真 executor——工具调用逐轮重演(executor 打到本
+      // 回放适配器,按录制 callKey 逐位命中),终局返回录制的 result;
+      // 快照/investigation/extract 由此全链再生
+      runAgent: async (input, tools, callKey) => {
+        const rec = lookup<AgentResponse>("agent", callKey);
+        if (rec.input.prompt !== input.prompt) {
+          throw new Error(`录制夹具 agent 任务卡不匹配: ${callKey}`);
+        }
+        const signal = new AbortController().signal;
+        for (const turn of rec.turns) {
+          const tool = tools.find((t) => t.name === turn.tool.name);
+          if (!tool) throw new Error(`回放缺少工具: ${turn.tool.name} (${callKey})`);
+          await tool.execute(turn.tool.args, signal);
+        }
+        return rec.result;
+      },
     },
   };
 }

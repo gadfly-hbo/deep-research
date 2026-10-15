@@ -492,13 +492,14 @@ export async function runResearch(
           execute: async (args) => {
             searchN += 1;
             const query = String(args.query ?? "");
-            await appendInvestigationSafe({ qid: q.id, kind: "query", summary: query, query });
             if (tracker.overBudget()) {
               state.capped = true;
+              await appendInvestigationSafe({ qid: q.id, kind: "query", summary: query, query, note: "配额已尽(墙钟),未执行" });
               return { error: "budget-exhausted", note: "墙钟预算已到,请立即收束并输出结论" };
             }
             if (run.usage.searches >= budget.maxSearches) {
               state.capped = true;
+              await appendInvestigationSafe({ qid: q.id, kind: "query", summary: query, query, note: "配额已尽(搜索),未执行" });
               return { error: "search-quota-exhausted", note: "全局搜索配额已用尽,请基于已有材料收束" };
             }
             try {
@@ -509,6 +510,14 @@ export async function runResearch(
               run.usage.searches += 1;
               await persistUsageThrottled();
               if (hits.length > 0) allBaseHits = hits.every((h) => baseSnapshotUrls.has(h.url));
+              const baseHits = hits.filter((h) => baseSnapshotUrls.has(h.url)).length;
+              await appendInvestigationSafe({
+                qid: q.id,
+                kind: "query",
+                summary: query,
+                query,
+                note: `命中 ${hits.length}${baseHits > 0 ? `(基准已有 ${baseHits},勿重抓)` : ""}`,
+              });
               return {
                 hits: hits.map((h) => ({
                   url: h.url,
@@ -519,6 +528,7 @@ export async function runResearch(
               };
             } catch (error) {
               addLimitation(state.limitations, `问题「${q.question}」的搜索调用失败:${errMsgOf(error)}`);
+              await appendInvestigationSafe({ qid: q.id, kind: "query", summary: query, query, note: `搜索失败:${errMsgOf(error)}` });
               return { error: "search-failed", note: `搜索服务不可用:${errMsgOf(error)}` };
             }
           },
@@ -529,22 +539,25 @@ export async function runResearch(
           execute: async (args) => {
             fetchN += 1;
             const url = String(args.url ?? "");
-            await appendInvestigationSafe({ qid: q.id, kind: "fetch", summary: url, url });
             if (tracker.overBudget()) {
               state.capped = true;
+              await appendInvestigationSafe({ qid: q.id, kind: "fetch", summary: `抓取未执行:${url}`, url, note: "配额已尽(墙钟)" });
               return { error: "budget-exhausted", note: "墙钟预算已到,请立即收束并输出结论" };
             }
             if (fetchedForQ >= perQuestion) {
+              await appendInvestigationSafe({ qid: q.id, kind: "fetch", summary: `抓取未执行:${url}`, url, note: `本问上限 ${perQuestion} 次` });
               return { error: "question-quota-exhausted", note: `本问抓取已达上限(${perQuestion} 次),请基于已有材料收束` };
             }
             if (tracker.fetchRoom(perQuestion, fetchedForQ) <= 0) {
               state.capped = true;
+              await appendInvestigationSafe({ qid: q.id, kind: "fetch", summary: `抓取未执行:${url}`, url, note: "全局抓取配额已尽" });
               return { error: "fetch-quota-exhausted", note: "全局抓取配额已用尽,请基于已有材料收束" };
             }
             // C3:SSRF 边界——直接地址与重定向终址都过 assertPublicUrl(硬性前置)
             try {
               assertPublicUrl(url);
             } catch {
+              await appendInvestigationSafe({ qid: q.id, kind: "fetch", summary: `抓取被拒绝:${url}`, url, note: "仅公开 http/https" });
               return { error: "url-rejected", note: `地址被拒绝(仅公开 http/https): ${url}` };
             }
             try {
@@ -553,10 +566,12 @@ export async function runResearch(
                 try {
                   assertPublicUrl(page.finalUrl);
                 } catch {
+                  await appendInvestigationSafe({ qid: q.id, kind: "fetch", summary: `抓取被拒绝:${url}`, url, note: `重定向目标被拒绝:${page.finalUrl}` });
                   return { error: "url-rejected", note: `重定向目标被拒绝: ${page.finalUrl}` };
                 }
               }
               if (page.error || page.status !== 200) {
+                await appendInvestigationSafe({ qid: q.id, kind: "fetch", summary: `抓取失败:${url}`, url, note: `HTTP ${page.status}` });
                 return { error: "fetch-failed", note: `抓取失败(HTTP ${page.status})` };
               }
               const doc = await adapters.parser.parse(page, `${keyBase}:gather:r${round}:a:${q.id}:parse:${fetchN}`);
@@ -579,6 +594,14 @@ export async function runResearch(
               (fetchedByQ.get(q.id) ?? fetchedByQ.set(q.id, new Set()).get(q.id)!).add(snapshot.id);
               snapshotsBySid.set(snapshot.id, snapshot);
               await persistUsageThrottled();
+              await appendInvestigationSafe({
+                qid: q.id,
+                kind: "fetch",
+                summary: snapshot.title || url,
+                url,
+                sid: snapshot.id,
+                title: snapshot.title,
+              });
               return {
                 sid: snapshot.id,
                 title: snapshot.title,
@@ -588,6 +611,7 @@ export async function runResearch(
               };
             } catch (error) {
               addLimitation(state.limitations, `问题「${q.question}」的抓取调用失败:${errMsgOf(error)}`);
+              await appendInvestigationSafe({ qid: q.id, kind: "fetch", summary: `抓取失败:${url}`, url, note: errMsgOf(error) });
               return { error: "fetch-failed", note: `抓取服务不可用:${errMsgOf(error)}` };
             }
           },

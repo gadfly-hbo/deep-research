@@ -34,10 +34,33 @@ export function recordingAdapters(live: Adapters, sink: (call: RecordedCall) => 
         sink({ key, kind: "stage", response: result });
         return result;
       },
-      // P2-4:透传宿主 agent(executor 内的 search/fetch/parse/model 调用照常被上面录制;
-      // agent 回合本身的录制形状属 T3 R1-3)
+      // P2-4(R1-3):agent 调用录制为有序回合脚本——经手的工具调用逐轮捕获(名+入参),
+      // 终局 result 一并落盘;回放按脚本驱动真 executor(executor 内的 search/fetch/parse/model
+      // 调用照常被上面录制,callKey 逐位可命中)
       ...(live.model.runAgent
-        ? { runAgent: (input: Parameters<NonNullable<Adapters["model"]["runAgent"]>>[0], tools, key) => live.model.runAgent!(input, tools, key) }
+        ? {
+            runAgent: async (
+              input: Parameters<NonNullable<Adapters["model"]["runAgent"]>>[0],
+              tools: Parameters<NonNullable<Adapters["model"]["runAgent"]>>[1],
+              key: string,
+            ) => {
+              const turns: Array<{ tool: { name: string; args: Record<string, unknown> } }> = [];
+              const instrumented = tools.map((t) => ({
+                ...t,
+                execute: async (args: Record<string, unknown>, signal: AbortSignal) => {
+                  turns.push({ tool: { name: t.name, args } });
+                  return t.execute(args, signal);
+                },
+              }));
+              const result = await live.model.runAgent!(input, instrumented, key);
+              sink({
+                key,
+                kind: "agent",
+                response: { input, turns, result },
+              });
+              return result;
+            },
+          }
         : {}),
     },
   };

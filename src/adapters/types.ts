@@ -97,7 +97,7 @@ export interface Adapters {
   model: ModelProvider;
 }
 
-export type RecordedKind = "search" | "fetch" | "parse" | "model" | "stage";
+export type RecordedKind = "search" | "fetch" | "parse" | "model" | "stage" | "agent";
 
 export interface RecordedCall {
   key: string;

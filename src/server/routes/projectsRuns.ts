@@ -559,6 +559,28 @@ export const handleProjectsRoutes = async (
     return true;
   }
 
+  // ---- P2-4(D4/R1-9):调查事件侧车读回——since 游标增量,≤500 条/响应;空事件回 200+空数组(UI 空态依赖) ----
+  const investigationMatch = rest.match(/^\/runs\/([^/]+)\/investigation$/);
+  if (method === "GET" && investigationMatch) {
+    const store = ctx.storeFor(id);
+    // listRuns 反查(仿 gate):run 不存在 → 404
+    const run = (await store.listRuns()).find((r) => r.id === investigationMatch[1]);
+    if (!run) {
+      json(res, 404, { error: `找不到运行: ${investigationMatch[1]}` });
+      return true;
+    }
+    const since = Math.max(0, Number(url.searchParams.get("since") ?? 0) || 0);
+    const events = await store.readInvestigation(run.id, since, 500);
+    // 问题清单(时间线分组头):最新 gather/plan checkpoint——gates 流 plan 恒落盘;
+    // 带 plan 的旧路径首采前无 checkpoint,questions 空(UI 回退展示 qid)
+    const cps = await store.checkpoints(run.id);
+    const stateCp = cps.findLast((c) => c.stage === "gather") ?? cps.findLast((c) => c.stage === "plan");
+    const questions =
+      (stateCp?.data as { questions?: Array<{ id: string; question: string; status: string }> } | undefined)?.questions ?? [];
+    json(res, 200, { events, questions });
+    return true;
+  }
+
   if (method === "POST" && rest === "/publish") {
     json(res, 200, await publishBundle(dir, body.runId, ctx.library));
     return true;
