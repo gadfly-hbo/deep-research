@@ -1,54 +1,39 @@
-# P1-4 UI-GATE 契约
+# P2-2 UI-GATE 契约
 
-> 产出模式:**降级内联**(UI-GATE 子代理 403 配额中断,主代理内联产出契约与原型;已记 history)。
-> 规格链:proposal.md + prd.md(D1–D4、R1-1~R1-4)。本批次为行为保持型重构——**所有界面在改前/改后逐像素一致**,本契约把"一致"的对象钉死。
+> 产出模式:降级内联(子代理 403)。本批 UI 面 = **6 处既有文本替换**(成本数字 → 模型计量),零新增/删除表面、零布局变化。
 
-## Surfaces(本批触达的表面,不新增、不删除任何表面)
+## Surfaces(全部为既有表面)
 
-| # | 表面 | 位置 | 本批改变 |
+| # | 表面 | 位置 | 变更 |
 |---|---|---|---|
-| S1 | 计划阶段主视图(非向导态:阶段说明/入口) | `ui/views/PlanView.tsx` | 无视觉变化 |
-| S2 | 研究向导弹层(表单→计划→框架→启动) | PlanView wizard | 无视觉变化;请求编排移至 `ui/state/planWizard.tsx` |
-| S3 | 草稿阶段待采纳草案卡 | `ui/views/DraftView.tsx` | 无视觉变化;formalReady 数据源从探测 fetch 改为 `meta.versions[].formalGenerated` 派生 |
-| S4 | 发布视图版本行(生成/查看正式产物) | `ui/views/PublishView.tsx` | 无视觉变化;同上数据源切换 |
+| S1 | 底部状态栏用量段 | ui/shell/StatusBar.tsx:39 | `成本≈X.XXX` → `模型 N 次 · 输出 M tok` |
+| S2 | 采证页运行指标行(进行中) | ui/views/GatherView.tsx:99 | 同上格式,与搜索/抓取并列 |
+| S3 | 采证页指标卡 | ui/views/GatherView.tsx:122 | 卡标题"成本估算"→"模型用量",值 `N 次 · M tok` |
+| S4 | Inspector 运行记录行 | ui/inspector/Inspector.tsx:208 | 同 S1 格式 |
+| S5 | 发布页运行行 | ui/views/PublishView.tsx:84 | 同 S1 格式 |
+| S6 | 用量类型定义 | ui/state/types.ts:53 | usage 形状换字段(代码层,无视觉) |
 
-## Click paths(每条含主成功/次要/失败态)
+## 术语与格式(钉死)
 
-- **C1 新研究向导**:计划阶段点「开始规划」→ S2 弹层(空闲态:表单空、按钮 disabled)→ 填目标 → 点「生成计划」→ busy 态("生成计划中…通常 1-2 分钟",按钮禁用)→ 计划问题清单 + 基准摘要(增量追问时)→ 点「生成报告框架」→ busy 态 → 框架预览 → 「启动研究」→ 弹层关闭,采证阶段开始。失败态:请求出错 → navy toast 错误文案,busy 复位(与现状一致)。
-- **C2 增量追问向导**:从既有 run 详情发起 → S2 预填(目标"追问:…"、基准摘要)→ 同 C1。
-- **C3 生成正式报告**:发布视图版本行点「生成正式报告」→ busy → 成功 toast(含摘要来源)→ 版本行切「查看正式产物」;**刷新页面后已生成状态保持**(D1/D2:由 meta 派生,存量版本同样正确)。
-- **C4 查看正式产物**:草稿卡 adopted 态/发布视图链接 → 现有下载端点,不变。
+`模型 {modelCalls} 次 · 输出 {outputTokens} tok`——原始数字,不缩写、不 toFixed;与既有 `搜索 N · 抓取 N · …s` 的并列风格一致;存量旧记录(zod default 0)显示 `模型 0 次 · 输出 0 tok`。
 
-## Affordances
+## Negative cases
 
-表单 `.fld`(label 在上)、`.btn/-primary/-sm`、弹层按钮禁用逻辑与键盘顺序全部与现状一致;无新增控件、无新增快捷键。
-
-## Terminology
-
-沿用现状文案,不引入新标签:"生成计划中…通常 1-2 分钟"、"生成报告框架中…通常 1-2 分钟"、"人审通过,生成正式报告"、"正式版已生成"、"查看正式产物"。
-
-## Negative cases(不得出现的形态)
-
-- 向导任何新增字段/步骤/文案变化(含按钮文案与禁用时序)。
-- formalReady 因数据源切换出现"已生成→未生成"回跳(派生只增不减,D2)。
-- 存量已生成版本在页面加载时显示"未生成"(KA1 陷阱,D1 响应时计算防之)。
-- 列表页(/api/projects)出现 formalGenerated 字段(R1-2:仅详情端点)。
+- 不得出现成本/¥/估算字样残留(`rg costEstimate ui/` 零命中);
+- 不得新增表面/弹层/图标;
+- 旧记录不得因缺字段报错(default 0 兜底)。
 
 ## Trace links
 
-- S2/C1/C2 ↔ PRD D3+R1-1/R1-4(planWizard hook,请求入参逐字保留)
-- S3/S4/C3 ↔ PRD D1+D2+R1-2(formalGenerated 响应时计算 + 派生)
-- C4 ↔ PRD D4(下载端点不动)
-- 验证义务 ↔ 红队 KA3(UI-GATE 原型 + SHIP 前手工冒烟两条)
+S1–S5 ↔ PRD D3/D4(计量替换);S6 ↔ D2(契约变更)。
 
 ## Visual artifact
 
-- 格式:单页静态 HTML(可交互性:仅 CSS 态切换展示,**无 JS 逻辑**;打开即见全部状态分区)。
-- 渲染工具:手写 HTML,样式直接 `<link>` 复用仓库真实 `ui/styles.css`(路径 `../../ui/styles.css`,相对 .flow/ui/ 打开)——真实 token,非重绘。
-- 文件:`.flow/ui/p1-4-surfaces.html`
-- 覆盖:S1/S2(空闲/busy 计划/busy 框架/计划已出/框架已出/增量变体/错误 toast)× S3(未生成/adopted)× S4(未生成/已生成)全部状态,1:1 对应上表。
-- 数据保真:合成示例数据(咖啡市场研究,形状取自测试夹具同款字段);未接真实项目数据——**保真度披露:字段形状真实,数值合成**。
+- 格式:单页静态 HTML,`<link>` 复用仓库真实 `ui/styles.css`(路径 `../../ui/styles.css`)。
+- 文件:`.flow/ui/p2-2-usage-text.html`
+- 覆盖:S1(状态栏段落)、S2(指标行)、S3(指标卡)、S4/S5(运行行)替换后形态各一分区 + 存量旧记录(0 值)形态。
+- 数据保真:合成示例数值;字段形状来自 PRD D2。披露:数值合成。
 
 ## 结论
 
-PASS(契约与原型 1:1;全部表面/状态有对应分区;无 PRD 之外的发明)——待用户批准。recheck 判据:打开 HTML,对照上表每行能在分区中找到唯一对应,且无多余分区。
+PASS(契约与原型 1:1,无 PRD 外发明)——待用户批准。recheck:打开 HTML,每分区对应上表一行,无多余分区。
