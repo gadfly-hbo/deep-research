@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { draftFromText } from "./live.js";
+import { draftFromText } from "./modelText.js";
 
 describe("draftFromText(draft 输出鲁棒解析)", () => {
   it("合法 JSON 包装 → 取 reportMd", () => {
