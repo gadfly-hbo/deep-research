@@ -461,6 +461,12 @@ export const handleProjectsRoutes = async (
       json(res, 400, { error: "确认载荷不合法", issues: parsed.error.issues.map((i) => i.message) });
       return true;
     }
+    // 读请求前置到 CAS 之前:避免置 running 后才发现 request 缺失卡死(REVIEW F2)
+    const request = await store.readRequest(run.requestId);
+    if (!request) {
+      json(res, 404, { error: `找不到请求: ${run.requestId}` });
+      return true;
+    }
     const conflict = await ctx.registry.withGateLock(run.id, async () => {
       const current = (await store.listRuns()).find((r) => r.id === run.id);
       if (!current || current.status !== "awaiting-confirmation" || !current.gate) {
@@ -481,11 +487,6 @@ export const handleProjectsRoutes = async (
     });
     if (conflict) {
       json(res, 409, { error: conflict });
-      return true;
-    }
-    const request = await store.readRequest(run.requestId);
-    if (!request) {
-      json(res, 404, { error: `找不到请求: ${run.requestId}` });
       return true;
     }
     // R1-3:pending 指令回灌(resume 同构),失败沿既有语义落 failed(原 runId)

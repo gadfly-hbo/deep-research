@@ -65,7 +65,7 @@ function PlanGateCard({
       await post(`/api/projects/${projectId}/runs/${run.id}/gate/confirm`, {
         payload: {
           questions: questions.map((q, i) => ({
-            id: q.id || `q${i + 1}`,
+            id: q.id || `q${Date.now().toString(36)}-${i}`,
             question: q.question.trim(),
             status: "open",
           })),
@@ -315,7 +315,7 @@ function OutlineGateCard({
         type="button"
         style={{ marginTop: 10 }}
         disabled={busy !== ""}
-        onClick={() => setOutline({ ...outline, sections: [...outline.sections, { id: `s${outline.sections.length + 1}`, title: "", bullets: [] }] })}
+        onClick={() => setOutline({ ...outline, sections: [...outline.sections, { id: `s${Date.now().toString(36)}-${outline.sections.length + 1}`, title: "", bullets: [] }] })}
       >
         ＋ 添加章节
       </button>
