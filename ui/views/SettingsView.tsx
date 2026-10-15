@@ -86,7 +86,7 @@ export function SettingsView() {
         <div className="card">
           <h2 className="card-h">
             默认预算上限
-            <span className="card-h-note">每 run 可在请求级覆盖;token plan 供应商成本记 0</span>
+            <span className="card-h-note">每 run 可在请求级覆盖;模型调用不设累计上限,用量按次数/输出 token 计量</span>
           </h2>
           {Object.keys(budget).length === 0 ? (
             <p className="fine">加载中…</p>

@@ -32,5 +32,4 @@
 ## 开放问题(到批再裁决)
 
 - P2-1:AuditSink 落 workspace 级 `model-audit.jsonl` 还是项目 audit.jsonl(makeAdapters 无项目上下文,需接缝设计)。
-- P2-2:costEstimate 移除是硬删字段还是保留恒 0(倾向硬删+一次性数据迁移说明)。
 - P2-4:全自主采证的停止标准(模型自判"够用"→ 提交分析;用户 steer/abort;预算墙钟)与调查流视图的 UI 契约。

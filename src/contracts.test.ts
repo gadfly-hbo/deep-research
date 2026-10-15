@@ -254,3 +254,19 @@ describe("2.1 扩展:增量研究与执行中干预(全部可选,旧数据可解
     expect(RunInstructionSchema.safeParse({ type: "pause-run" }).success).toBe(false);
   });
 });
+
+describe("RunUsage 存量兼容(P2-2)", () => {
+  it("旧记录(含 costEstimate、缺新计量字段)parse 后:costEstimate 被 strip,新字段 default(0)", () => {
+    const legacyRun = {
+      id: "run-legacy",
+      requestId: "req-legacy",
+      stage: "gather",
+      status: "failed",
+      checkpoints: [],
+      usage: { searches: 3, fetches: 5, costEstimate: 0.02, wallMs: 1200 },
+    };
+    const parsed = ResearchRunSchema.parse(legacyRun) as Record<string, any>;
+    expect(parsed.usage).toEqual({ searches: 3, fetches: 5, modelCalls: 0, outputTokens: 0, wallMs: 1200 });
+    expect("costEstimate" in parsed.usage).toBe(false);
+  });
+});

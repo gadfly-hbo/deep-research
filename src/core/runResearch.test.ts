@@ -106,6 +106,7 @@ describe("runResearch(gather → verify 最小路径)", () => {
   it("模型用量累计进 run.usage(P2-2:计量替代成本)", async () => {
     const { run } = await runResearch(request, fakeAdapters(), createMemoryStore(), gatherOnly);
     expect(run.usage.modelCalls).toBeGreaterThanOrEqual(2); // 至少 plan + extract
+    expect(run.usage.outputTokens).toBeGreaterThanOrEqual(16); // 假适配器每次 16 tok,累计 >0
   });
 
   it("抓取到达预算上限:停止新调用、有限交付并披露限制", async () => {

@@ -100,7 +100,12 @@ function transportFor(cfg: ModelConfig): ModelTransport | null {
   return createPiTransport({ model: cfg, apiKey });
 }
 
-/** limits 单一 builder(R1:恰好五键,进程内逐字节一致;uncapped=与现状等价——无累计额度,仅单次超时)。 */
+/**
+ * limits 单一 builder(R1:恰好五键,进程内逐字节一致)。
+ * 宿主累计策略显式声明(P2-2 用户裁决"放开预算",标准 P4):uncapped——
+ * 不设 modelCalls/token/墙钟累计上限;单次保护保留 modelTimeoutMs(300s 防挂死)与
+ * maxOutputTokens(32k 防截断);tier→Limits 的静态硬顶映射被否(方案 B),动态预算属 P2-6。
+ */
 const buildLimits = () => ({
   cumulative: "unlimited" as const,
   maxOutputTokens: 32_768,
@@ -214,6 +219,7 @@ function getChannel(configs: LiveModelConfig | LiveModelConfig[], opts: PiRuntim
       if (++callCount >= REBUILD_AFTER_CALLS) {
         callCount = 0;
         runtime = null; // 下次 getRuntime 重建(新 budget store,旧条目整体丢弃)
+        lastProviderByTask.clear(); // 重建同步清理(D5:防 Map 只增不减)
       }
       const startedAt = Date.now();
       const result = await getRuntime().runText({
