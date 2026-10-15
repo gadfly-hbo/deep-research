@@ -45,13 +45,19 @@ export interface ExtractedClaim {
   calibration?: Calibration;
 }
 
+/** 模型用量计量(P2-2:替代已退役的 costEstimate;每次调用至少 modelCalls:1)。 */
+export interface ModelUsage {
+  modelCalls: number;
+  outputTokens: number;
+}
+
 export interface ModelProvider {
   extractClaims(
     input: { snapshot: SourceSnapshot },
     callKey: string,
-  ): Promise<{ claims: ExtractedClaim[]; cost: number }>;
+  ): Promise<{ claims: ExtractedClaim[]; usage: ModelUsage }>;
   /** 阶段工人入口:编排器传 stage 名与输入,返回值由编排器按阶段 schema 校验。 */
-  runStage(stage: StageName, input: unknown, callKey: string): Promise<{ output: unknown; cost: number }>;
+  runStage(stage: StageName, input: unknown, callKey: string): Promise<{ output: unknown; usage: ModelUsage }>;
 }
 
 export interface Adapters {

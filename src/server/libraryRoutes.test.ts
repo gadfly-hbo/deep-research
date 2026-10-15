@@ -12,8 +12,8 @@ const fakeAdapters = (): Adapters => ({
   },
   parser: { parse: async () => ({ bodyText: "链接正文", parseStatus: "ok" }) },
   model: {
-    extractClaims: async () => ({ claims: [], cost: 0 }),
-    runStage: async () => ({ output: {}, cost: 0 }),
+    extractClaims: async () => ({ claims: [], usage: { modelCalls: 0, outputTokens: 0 } }),
+    runStage: async () => ({ output: {}, usage: { modelCalls: 0, outputTokens: 0 } }),
   },
 });
 

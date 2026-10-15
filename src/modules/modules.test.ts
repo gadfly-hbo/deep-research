@@ -40,13 +40,13 @@ function moduleFakes(cfg: {
     page: { fetch: async (url) => ({ url, status: 200, contentType: "text/html", html: "<p>x</p>" }) },
     parser: { parse: async (page) => ({ bodyText: cfg.bodies[page.url] ?? "", parseStatus: "ok" }) },
     model: {
-      extractClaims: async ({ snapshot }) => ({ claims: cfg.extracts[snapshot.url] ?? [], cost: 0.01 }),
+      extractClaims: async ({ snapshot }) => ({ claims: cfg.extracts[snapshot.url] ?? [], usage: { modelCalls: 1, outputTokens: 16 } }),
       runStage: async (stage: StageName) =>
         stage === "analyze"
-          ? { output: { findings: [], gaps: [] }, cost: 0.01 }
+          ? { output: { findings: [], gaps: [] }, usage: { modelCalls: 1, outputTokens: 16 } }
           : stage === "draft"
-            ? { output: { reportMd: cfg.draftMd }, cost: 0.01 }
-            : { output: { issues: [], counterexampleChecked: true }, cost: 0.01 },
+            ? { output: { reportMd: cfg.draftMd }, usage: { modelCalls: 1, outputTokens: 16 } }
+            : { output: { issues: [], counterexampleChecked: true }, usage: { modelCalls: 1, outputTokens: 16 } },
     },
   };
 }

@@ -29,14 +29,14 @@ function fakeAdapters(): Adapters {
     model: {
       extractClaims: async ({ snapshot }) =>
         snapshot.url === "https://a/1"
-          ? { claims: [{ statement: "规模约 1200 亿元(2025)", kind: "fact" as const, quote: "市场规模约 1,200 亿元" }], cost: 0.01 }
-          : { claims: [{ statement: "门店数增长", kind: "inference" as const, quote: "门店数持续增长" }], cost: 0.01 },
+          ? { claims: [{ statement: "规模约 1200 亿元(2025)", kind: "fact" as const, quote: "市场规模约 1,200 亿元" }], usage: { modelCalls: 1, outputTokens: 16 } }
+          : { claims: [{ statement: "门店数增长", kind: "inference" as const, quote: "门店数持续增长" }], usage: { modelCalls: 1, outputTokens: 16 } },
       runStage: async (stage) =>
         stage === "analyze"
-          ? { output: { findings: [], gaps: [] }, cost: 0.01 }
+          ? { output: { findings: [], gaps: [] }, usage: { modelCalls: 1, outputTokens: 16 } }
           : stage === "draft"
-            ? { output: { reportMd: "# r\n\n## 规模\nx" }, cost: 0.01 }
-            : { output: { issues: [], counterexampleChecked: true }, cost: 0.01 },
+            ? { output: { reportMd: "# r\n\n## 规模\nx" }, usage: { modelCalls: 1, outputTokens: 16 } }
+            : { output: { issues: [], counterexampleChecked: true }, usage: { modelCalls: 1, outputTokens: 16 } },
     },
   };
 }

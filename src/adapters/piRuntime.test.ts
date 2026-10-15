@@ -116,7 +116,7 @@ describe("piRuntime runText 三分映射", () => {
       "t:trunc:1",
     );
     expect(claims.claims).toEqual([]);
-    expect(claims.cost).toBe(0);
+    expect(claims.usage.modelCalls).toBeGreaterThanOrEqual(1); // 成功路径至少 1 次(备用含预留保守)
   });
 
   it("(f) 审计事件落盘:JSONL 可解析,taskId 前缀 dr:、版本 1.0", async () => {

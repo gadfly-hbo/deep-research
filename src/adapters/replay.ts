@@ -19,11 +19,11 @@ interface ParseResponse {
 }
 interface ModelResponse {
   claims: ExtractedClaim[];
-  cost: number;
+  usage: { modelCalls: number; outputTokens: number };
 }
 interface StageResponse {
   output: unknown;
-  cost: number;
+  usage: { modelCalls: number; outputTokens: number };
 }
 
 export interface ReplayOptions {
@@ -61,7 +61,7 @@ export function replayAdapters(recording: Recording, options: ReplayOptions = {}
         } catch (error) {
           if (options.stalePolishFallback && stage === "polish") {
             const draftMd = (input as { draftMd?: string }).draftMd ?? "";
-            return { output: { reportMd: draftMd }, cost: 0 };
+            return { output: { reportMd: draftMd }, usage: { modelCalls: 0, outputTokens: 0 } };
           }
           throw error;
         }

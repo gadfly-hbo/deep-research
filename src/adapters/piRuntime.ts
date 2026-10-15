@@ -6,7 +6,7 @@
      切换与单次超时(modelTimeoutMs + modelRecovery:1)交 runtime。
    - 五必要输入:authorize 放行 model/publish(结果仅进程内返回,本批无工具/外发);
      audit→dataDir/model-audit.jsonl;budgets→内存 store(uncapped,名义账本,P2-2 正式化)。 */
-import { appendFile, mkdir } from "node:fs/promises";
+import { appendFile, mkdir, rename, stat as statFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import {
   createMemoryBudgetStore,
@@ -109,11 +109,19 @@ const buildLimits = () => ({
   controlTimeoutMs: 30_000,
 });
 
-/** 审计落盘:workspace 级 model-audit.jsonl(单行 JSON <4KB,O_APPEND 本地盘并发安全;无 fsync,断电可丢尾——本批名义审计可接受,保留/轮转口径 P2-2 定)。 */
+/** 审计落盘:workspace 级 model-audit.jsonl(单行 JSON <4KB,O_APPEND 本地盘并发安全;无 fsync,断电可丢尾——名义审计可接受)。
+ * 轮转(P2-2 D6):写前检查 >50MB → rename .1(覆盖旧 .1,两代合计上限 ~100MB);并发 append 中 rename 的竞窗最多丢 1-2 行,披露接受。 */
+const AUDIT_ROTATE_BYTES = 50 * 1024 * 1024;
 const makeAuditSink = (auditPath: string): AuditSink => ({
   append: async (event: Readonly<AuditEvent>, signal: AbortSignal) => {
     await mkdir(dirname(auditPath), { recursive: true });
     if (signal.aborted) throw new Error("审计写入被取消");
+    try {
+      const stat = await statFile(auditPath);
+      if (stat.size > AUDIT_ROTATE_BYTES) await rename(auditPath, `${auditPath}.1`);
+    } catch {
+      /* 首写无文件 */
+    }
     await appendFile(auditPath, `${JSON.stringify(event)}\n`);
   },
 });
@@ -144,8 +152,11 @@ export interface PiRuntimeOptions {
 }
 
 interface Channel {
-  runTextRaw(prompt: string, callKey: string): Promise<string | null>;
+  runTextRaw(prompt: string, callKey: string): Promise<{ text: string | null; usage: { modelCalls: number; outputTokens: number } }>;
 }
+
+/** 调用计数重建阈值(P2-2 D5):子 taskId 唯一,丢弃整个 runtime/budget store 无语义损失,防 server 长跑 Map 线性膨胀。 */
+const REBUILD_AFTER_CALLS = 100_000;
 
 /**
  * runText 通道(runtime 进程级惰性单例,R1-3:config/env 变更需重启进程——
@@ -161,6 +172,7 @@ function getChannel(configs: LiveModelConfig | LiveModelConfig[], opts: PiRuntim
   const auditSink = makeAuditSink(opts.auditPath ?? join(defaultDataDir(), "model-audit.jsonl"));
   const lastProviderByTask = new Map<string, string>();
   let runtime: Runtime | null = null;
+  let callCount = 0;
 
   const getRuntime = (): Runtime => {
     if (runtime) return runtime;
@@ -196,9 +208,13 @@ function getChannel(configs: LiveModelConfig | LiveModelConfig[], opts: PiRuntim
     return runtime;
   };
 
-  /** runText + 三分映射:返回原始文本;INVALID_OUTPUT(含截断)降级桶返回 null。 */
+  /** runText + 三分映射:返回原始文本与用量;INVALID_OUTPUT(含截断)降级桶返回 null。 */
   channel = {
-    runTextRaw: async (prompt, callKey) => {
+    runTextRaw: async (prompt, callKey): Promise<{ text: string | null; usage: { modelCalls: number; outputTokens: number } }> => {
+      if (++callCount >= REBUILD_AFTER_CALLS) {
+        callCount = 0;
+        runtime = null; // 下次 getRuntime 重建(新 budget store,旧条目整体丢弃)
+      }
       const startedAt = Date.now();
       const result = await getRuntime().runText({
         taskId: `dr:${callKey}`,
@@ -215,8 +231,10 @@ function getChannel(configs: LiveModelConfig | LiveModelConfig[], opts: PiRuntim
           console.error(`[model] ${callKey} ${secs}s ${result.status}:${result.reason} via ${who}`);
         }
       }
-      if (result.status === "succeeded") return result.value;
-      if (result.status === "failed" && result.reason === "INVALID_OUTPUT") return null;
+      const usage = { modelCalls: result.usage.modelCalls, outputTokens: result.usage.outputTokens };
+      if (result.status === "succeeded") return { text: result.value, usage };
+      // 降级桶(含截断):零计量透传,文本 null 交解析器全函数兜底
+      if (result.status === "failed" && result.reason === "INVALID_OUTPUT") return { text: null, usage };
       throw new Error(`模型调用失败(${result.reason})`);
     },
   };
@@ -229,19 +247,19 @@ export function piRuntimeModel(configs: LiveModelConfig | LiveModelConfig[], opt
   const channel = getChannel(configs, opts);
   return {
     extractClaims: ({ snapshot }, callKey) =>
-      channel.runTextRaw(clampExtractPrompt(snapshot), callKey).then((text) => ({
+      channel.runTextRaw(clampExtractPrompt(snapshot), callKey).then(({ text, usage }) => ({
         claims: parseClaims(text ?? ""),
-        cost: 0,
+        usage,
       })),
     runStage: (stage: StageName, input: unknown, callKey) =>
-      channel.runTextRaw(buildStagePrompt(stage, input), callKey).then((text) => ({
+      channel.runTextRaw(buildStagePrompt(stage, input), callKey).then(({ text, usage }) => ({
         output:
           stage === "draft" || stage === "polish"
             ? text === null
               ? {}
               : draftFromText(text)
             : parseJsonLoose(text ?? ""),
-        cost: 0,
+        usage,
       })),
   };
 }
@@ -252,6 +270,6 @@ export async function runFreeText(
   { prompt, callKey }: { prompt: string; callKey: string },
   opts?: PiRuntimeOptions,
 ): Promise<{ text: string }> {
-  const text = await getChannel(configs, opts).runTextRaw(prompt, callKey);
+  const { text } = await getChannel(configs, opts).runTextRaw(prompt, callKey);
   return { text: text ?? "" };
 }

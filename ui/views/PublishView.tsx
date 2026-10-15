@@ -81,7 +81,7 @@ export function PublishView() {
                 <span className="file-name mono">{r.requestId}</span>
                 <Chip tone={r.status === "published" ? "ok" : "insuf"}>{r.status === "published" ? "已完成" : "有限交付"}</Chip>
                 <span className="file-meta num">
-                  搜索 {r.usage.searches} · 抓取 {r.usage.fetches} · 成本≈{r.usage.costEstimate.toFixed(3)}
+                  搜索 {r.usage.searches} · 抓取 {r.usage.fetches} · 模型 {r.usage.modelCalls} 次 · 输出 {r.usage.outputTokens} tok
                 </span>
                 <div className="actions">
                   <button className="btn btn-primary btn-sm" type="button" onClick={() => void p.publishRun(r)}>

@@ -96,7 +96,7 @@ export function GatherView() {
   );
 
   const usageLine = (r: Run) =>
-    `搜索 ${r.usage.searches} · 抓取 ${r.usage.fetches} · 成本≈${r.usage.costEstimate.toFixed(3)} · ${Math.round(r.usage.wallMs / 1000)}s`;
+    `搜索 ${r.usage.searches} · 抓取 ${r.usage.fetches} · 模型 ${r.usage.modelCalls} 次 · 输出 ${r.usage.outputTokens} tok · ${Math.round(r.usage.wallMs / 1000)}s`;
 
   return (
     <div className="view">
@@ -119,7 +119,7 @@ export function GatherView() {
             <dl className="kv" style={{ marginTop: 10 }}>
               <div><dt>搜索</dt><dd className="num">{run.usage.searches}</dd></div>
               <div><dt>抓取</dt><dd className="num">{run.usage.fetches}</dd></div>
-              <div><dt>成本估算</dt><dd className="num">≈{run.usage.costEstimate.toFixed(3)}</dd></div>
+              <div><dt>模型用量</dt><dd className="num">{run.usage.modelCalls} 次 · {run.usage.outputTokens} tok</dd></div>
               <div><dt>已用时</dt><dd className="num">{Math.round(run.usage.wallMs / 1000)}s</dd></div>
             </dl>
             {run.progress && run.progress.total > 0 && (

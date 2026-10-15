@@ -14,16 +14,16 @@ const fakeAdapters = (): Adapters => ({
   model: {
     extractClaims: async ({ snapshot }) => ({
       claims: [{ statement: `${snapshot.title} 数值`, kind: "fact" as const, quote: snapshot.bodyText.slice(0, 16) }],
-      cost: 0.01,
+      usage: { modelCalls: 1, outputTokens: 16 },
     }),
     runStage: async (stage) =>
       stage === "plan"
-        ? { output: { questions: [{ id: "q1", question: "人群" }] }, cost: 0.01 }
+        ? { output: { questions: [{ id: "q1", question: "人群" }] }, usage: { modelCalls: 1, outputTokens: 16 } }
         : stage === "analyze"
-          ? { output: { findings: [], gaps: [] }, cost: 0.01 }
+          ? { output: { findings: [], gaps: [] }, usage: { modelCalls: 1, outputTokens: 16 } }
           : stage === "draft"
-            ? { output: { reportMd: "# r\n\n## 人群\nx" }, cost: 0.01 }
-            : { output: { issues: [], counterexampleChecked: true }, cost: 0.01 },
+            ? { output: { reportMd: "# r\n\n## 人群\nx" }, usage: { modelCalls: 1, outputTokens: 16 } }
+            : { output: { issues: [], counterexampleChecked: true }, usage: { modelCalls: 1, outputTokens: 16 } },
   },
 });
 

@@ -70,7 +70,6 @@ export type CitationVerdict = z.infer<typeof CitationVerdictSchema>;
 export const BudgetSchema = z.object({
   maxSearches: z.number().int().positive(),
   maxFetches: z.number().int().positive(),
-  maxCostEstimate: z.number().positive(),
   maxWallMs: z.number().positive(),
   maxParallel: z.number().int().positive(),
 });
@@ -182,7 +181,9 @@ export const ResearchRunSchema = z.object({
   usage: z.object({
     searches: z.number().int().nonnegative(),
     fetches: z.number().int().nonnegative(),
-    costEstimate: z.number().nonnegative(),
+    // P2-2(④):成本估算退役,改计量;default(0) 使存量记录(无此二字段)可读
+    modelCalls: z.number().int().nonnegative().default(0),
+    outputTokens: z.number().int().nonnegative().default(0),
     wallMs: z.number().nonnegative(),
   }),
   error: z.string().optional(),

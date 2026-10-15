@@ -143,7 +143,8 @@ async function spike(flags: Record<string, string>): Promise<void> {
       verdicts: bundle.verdicts,
       fetched: bundle.snapshots.length,
       parsedOk: bundle.snapshots.filter((s) => s.parseStatus === "ok").length,
-      costEstimate: run.usage.costEstimate,
+      modelCalls: run.usage.modelCalls,
+      outputTokens: run.usage.outputTokens,
       wallMs: run.usage.wallMs,
     });
   }
@@ -200,7 +201,7 @@ async function runCmd(flags: Record<string, string>): Promise<void> {
     writeFileSync(flags.record, JSON.stringify({ questions: [], recording: recorded }, null, 2));
   }
   await (adapters.search as { close?: () => Promise<void> }).close?.();
-  console.error(`run: status=${run.status} 搜索=${run.usage.searches} 抓取=${run.usage.fetches} 成本≈${run.usage.costEstimate.toFixed(3)} 耗时=${run.usage.wallMs}ms`);
+  console.error(`run: status=${run.status} 搜索=${run.usage.searches} 抓取=${run.usage.fetches} 模型=${run.usage.modelCalls}次 输出=${run.usage.outputTokens}tok 耗时=${run.usage.wallMs}ms`);
 }
 
 async function projectCmd(sub: string, flags: Record<string, string>): Promise<void> {

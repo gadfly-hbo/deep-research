@@ -205,7 +205,7 @@ function RunsPane() {
               </span>
             </div>
             <p className="fine num" style={{ margin: "4px 0 0" }}>
-              {stageTitle(r.stage)} · 搜索 {r.usage.searches} · 抓取 {r.usage.fetches} · 成本≈{r.usage.costEstimate.toFixed(3)} · {Math.round(r.usage.wallMs / 1000)}s
+              {stageTitle(r.stage)} · 搜索 {r.usage.searches} · 抓取 {r.usage.fetches} · 模型 {r.usage.modelCalls} 次 · 输出 {r.usage.outputTokens} tok · {Math.round(r.usage.wallMs / 1000)}s
             </p>
             {r.error && <p className="fine" style={{ margin: "2px 0 0", color: "var(--fail)" }}>{r.error.slice(0, 120)}</p>}
             {(r.status === "running" || r.status === "cancelled" || ((r.status === "published" || r.status === "limited") && !publishedRunIds.has(r.id))) && (

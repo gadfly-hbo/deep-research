@@ -39,13 +39,13 @@ function fakeAdapters(fetchedUrls: string[] = [], hits?: Array<{ url: string; ti
                   quote: "市场规模约 1,200 亿元",
                 },
               ],
-              cost: 0.01,
+              usage: { modelCalls: 1, outputTokens: 16 },
             }
           : {
               claims: [
                 { statement: "门店数下降", kind: "inference" as const, quote: "门店数下降" },
               ],
-              cost: 0.01,
+              usage: { modelCalls: 1, outputTokens: 16 },
             },
       runStage: async () => {
         throw new Error("gather-only 路径不应调用 runStage");
@@ -103,9 +103,9 @@ describe("runResearch(gather → verify 最小路径)", () => {
     expect(duringGather.some((r) => r.progress?.currentQuestionId === "q2")).toBe(true);
   });
 
-  it("模型成本累计进 run.usage", async () => {
+  it("模型用量累计进 run.usage(P2-2:计量替代成本)", async () => {
     const { run } = await runResearch(request, fakeAdapters(), createMemoryStore(), gatherOnly);
-    expect(run.usage.costEstimate).toBeCloseTo(0.02);
+    expect(run.usage.modelCalls).toBeGreaterThanOrEqual(2); // 至少 plan + extract
   });
 
   it("抓取到达预算上限:停止新调用、有限交付并披露限制", async () => {
@@ -299,9 +299,9 @@ describe("runResearch 执行中干预(2.1)", () => {
     const adapters = fakeAdapters();
     adapters.model.runStage = async (stage) =>
       stage === "analyze"
-        ? { output: { findings: [], gaps: [] }, cost: 0.01 }
+        ? { output: { findings: [], gaps: [] }, usage: { modelCalls: 1, outputTokens: 16 } }
         : stage === "draft"
-          ? { output: { reportMd: "# 报告" }, cost: 0.01 }
+          ? { output: { reportMd: "# 报告" }, usage: { modelCalls: 1, outputTokens: 16 } }
           : {
               output: {
                 issues: [
@@ -309,7 +309,7 @@ describe("runResearch 执行中干预(2.1)", () => {
                 ],
                 counterexampleChecked: true,
               },
-              cost: 0.01,
+              usage: { modelCalls: 1, outputTokens: 16 },
             };
     const batches = [
       [{ id: "ins-1", submittedAt: "2026-10-02T00:00:00.000Z", instruction: { type: "skip-question" as const, questionId: "q3" } }],

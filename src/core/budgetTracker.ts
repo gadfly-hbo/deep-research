@@ -13,12 +13,9 @@ export class BudgetTracker {
     private readonly now: () => number = Date.now,
   ) {}
 
-  /** 成本或墙钟任一超限。 */
+  /** 墙钟超限(成本上限随④退役:costEstimate 恒 0 后为死分支,已删)。 */
   overBudget(): boolean {
-    return (
-      this.usage().costEstimate > this.budget.maxCostEstimate ||
-      this.now() - this.startedAt > this.budget.maxWallMs
-    );
+    return this.now() - this.startedAt > this.budget.maxWallMs;
   }
 
   /** 搜索闸门:搜索数未满且未超预算。 */

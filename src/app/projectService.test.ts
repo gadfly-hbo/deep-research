@@ -20,14 +20,14 @@ function fakes(extractClaims: { statement: string; quote: string }[]): Adapters 
     model: {
       extractClaims: async () => ({
         claims: extractClaims.map((c) => ({ statement: c.statement, kind: "fact" as const, quote: c.quote })),
-        cost: 0.01,
+        usage: { modelCalls: 1, outputTokens: 16 },
       }),
       runStage: async (stage: StageName) =>
         stage === "analyze"
-          ? { output: { findings: [], gaps: [] }, cost: 0.01 }
+          ? { output: { findings: [], gaps: [] }, usage: { modelCalls: 1, outputTokens: 16 } }
           : stage === "draft"
-            ? { output: { reportMd: "# 行业研究报告" }, cost: 0.01 }
-            : { output: { issues: [], counterexampleChecked: true }, cost: 0.01 },
+            ? { output: { reportMd: "# 行业研究报告" }, usage: { modelCalls: 1, outputTokens: 16 } }
+            : { output: { issues: [], counterexampleChecked: true }, usage: { modelCalls: 1, outputTokens: 16 } },
     },
   };
 }
@@ -119,10 +119,10 @@ describe("报告框架与正式报告", () => {
       runStage: async (stage: StageName, input: unknown) => {
         if (stage === "draft") seen.draftInputs.push(input);
         return stage === "analyze"
-          ? { output: { findings: [], gaps: [] }, cost: 0.01 }
+          ? { output: { findings: [], gaps: [] }, usage: { modelCalls: 1, outputTokens: 16 } }
           : stage === "draft"
-            ? { output: { reportMd: "# 中国咖啡行业研究报告\n\n## 市场规模\n- 约 1200 亿元" }, cost: 0.01 }
-            : { output: { issues: [], counterexampleChecked: true }, cost: 0.01 };
+            ? { output: { reportMd: "# 中国咖啡行业研究报告\n\n## 市场规模\n- 约 1200 亿元" }, usage: { modelCalls: 1, outputTokens: 16 } }
+            : { output: { issues: [], counterexampleChecked: true }, usage: { modelCalls: 1, outputTokens: 16 } };
       },
     };
     const request = ResearchRequestSchema.parse({
@@ -144,10 +144,10 @@ describe("报告框架与正式报告", () => {
     const { run } = await runOnProject(dir, request, fakes([{ statement: "市场规模约 1200 亿元(2025)", quote: "市场规模约 1,200 亿元" }]), { plan });
     await publishBundle(dir, run.id);
     const fakeModel: Adapters["model"] = {
-      extractClaims: async () => ({ claims: [], cost: 0 }),
+      extractClaims: async () => ({ claims: [], usage: { modelCalls: 0, outputTokens: 0 } }),
       runStage: async () => ({
         output: { executiveSummary: ["咖啡市场持续增长"], sectionHighlights: [{ sectionId: "s1", bullets: ["规模约 1200 亿元"] }] },
-        cost: 0.005,
+        usage: { modelCalls: 1, outputTokens: 8 },
       }),
     };
     const result = await generateFormal(dir, 1, fakeModel);
@@ -169,7 +169,7 @@ describe("报告框架与正式报告", () => {
     const { run } = await runOnProject(dir, request, fakes([{ statement: "市场规模约 1200 亿元(2025)", quote: "市场规模约 1,200 亿元" }]), { plan });
     await publishBundle(dir, run.id);
     const brokenModel: Adapters["model"] = {
-      extractClaims: async () => ({ claims: [], cost: 0 }),
+      extractClaims: async () => ({ claims: [], usage: { modelCalls: 0, outputTokens: 0 } }),
       runStage: async () => {
         throw new Error("provider down");
       },

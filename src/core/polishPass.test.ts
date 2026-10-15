@@ -23,14 +23,14 @@ function adapters(opts: {
     model: {
       extractClaims: async () => ({
         claims: [{ statement: "市场规模 1200 亿", kind: "fact" as const, quote: "市场规模约 1,200 亿元" }],
-        cost: 0.01,
+        usage: { modelCalls: 1, outputTokens: 16 },
       }),
       runStage: async (stage, input) => {
         captured.push({ stage, input });
-        if (stage === "analyze") return { output: { findings: [], gaps: [] }, cost: 0.01 };
-        if (stage === "draft") return { output: { reportMd: DRAFT_MD }, cost: 0.01 };
-        if (stage === "polish") return { output: polishOutput ?? { reportMd: POLISHED_MD }, cost: 0.02 };
-        if (stage === "review") return { output: { issues: [], counterexampleChecked: true }, cost: 0.01 };
+        if (stage === "analyze") return { output: { findings: [], gaps: [] }, usage: { modelCalls: 1, outputTokens: 16 } };
+        if (stage === "draft") return { output: { reportMd: DRAFT_MD }, usage: { modelCalls: 1, outputTokens: 16 } };
+        if (stage === "polish") return { output: polishOutput ?? { reportMd: POLISHED_MD }, usage: { modelCalls: 1, outputTokens: 16 } };
+        if (stage === "review") return { output: { issues: [], counterexampleChecked: true }, usage: { modelCalls: 1, outputTokens: 16 } };
         throw new Error(`未预期的阶段: ${stage}`);
       },
     },
@@ -72,8 +72,8 @@ describe("polish 润色 pass", () => {
     expect(reviewInput.draftMd).toBe(POLISHED_MD);
     expect(bundle!.reportMd).toContain("润色后报告");
     expect(captured.filter((c) => c.stage === "polish")).toHaveLength(1);
-    // 润色成本计入 usage(0.01×4 + 0.02 polish = 0.06)
-    expect(run.usage.costEstimate).toBeGreaterThanOrEqual(0.06);
+    // 润色调用量计入 usage(每次模型调用 modelCalls ≥1)
+    expect(run.usage.modelCalls).toBeGreaterThanOrEqual(5);
   });
 
   it("polish:false 时跳过润色,评审直接吃草稿原文", async () => {

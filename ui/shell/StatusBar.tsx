@@ -36,7 +36,7 @@ export function StatusBar() {
       </span>
       {usageRun && (
         <span className="num">
-          搜索 {usageRun.usage.searches} · 抓取 {usageRun.usage.fetches} · 成本≈{usageRun.usage.costEstimate.toFixed(3)}
+          搜索 {usageRun.usage.searches} · 抓取 {usageRun.usage.fetches} · 模型 {usageRun.usage.modelCalls} 次 · 输出 {usageRun.usage.outputTokens} tok
         </span>
       )}
       <span className="statusbar-right">

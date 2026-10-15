@@ -62,7 +62,10 @@
             "quote": "行业边界与定义清晰"
           }
         ],
-        "cost": 0.01
+        "usage": {
+          "modelCalls": 1,
+          "outputTokens": 16
+        }
       }
     },
     {
@@ -91,7 +94,10 @@
             }
           ]
         },
-        "cost": 0.01
+        "usage": {
+          "modelCalls": 1,
+          "outputTokens": 16
+        }
       }
     },
     {
@@ -146,7 +152,10 @@
             }
           }
         ],
-        "cost": 0.01
+        "usage": {
+          "modelCalls": 1,
+          "outputTokens": 16
+        }
       }
     },
     {
@@ -156,7 +165,10 @@
         "output": {
           "reportMd": "# 报告\n\n## 市场口径表\n\n口径内容\n\n## 行业结构\n\n结构内容\n\n## 趋势与风险\n\n趋势内容"
         },
-        "cost": 0.01
+        "usage": {
+          "modelCalls": 1,
+          "outputTokens": 16
+        }
       }
     },
     {
@@ -166,7 +178,10 @@
         "output": {
           "reportMd": "# 报告\n\n## 市场口径表\n\n口径内容\n\n## 行业结构\n\n结构内容\n\n## 趋势与风险\n\n趋势内容\n\n(润色)"
         },
-        "cost": 0.01
+        "usage": {
+          "modelCalls": 1,
+          "outputTokens": 16
+        }
       }
     },
     {
@@ -191,7 +206,10 @@
           ],
           "counterexampleChecked": false
         },
-        "cost": 0.01
+        "usage": {
+          "modelCalls": 1,
+          "outputTokens": 16
+        }
       }
     },
     {
@@ -256,7 +274,10 @@
             "quote": "行业边界与定义清晰"
           }
         ],
-        "cost": 0.01
+        "usage": {
+          "modelCalls": 1,
+          "outputTokens": 16
+        }
       }
     },
     {
@@ -266,7 +287,10 @@
         "output": {
           "reportMd": "# 报告\n\n## 市场口径表\n\n口径内容\n\n## 行业结构\n\n结构内容\n\n## 趋势与风险\n\n趋势内容\n\n(重写)"
         },
-        "cost": 0.01
+        "usage": {
+          "modelCalls": 1,
+          "outputTokens": 16
+        }
       }
     },
     {
@@ -277,7 +301,10 @@
           "issues": [],
           "counterexampleChecked": true
         },
-        "cost": 0.01
+        "usage": {
+          "modelCalls": 1,
+          "outputTokens": 16
+        }
       }
     }
   ],

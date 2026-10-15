@@ -35,14 +35,14 @@ describe("附件参与采证", () => {
       model: {
         extractClaims: async ({ snapshot }) =>
           snapshot.url.startsWith("file://")
-            ? { claims: [{ statement: "渠道费用率约 18%(2025)", kind: "fact" as const, quote: "渠道费用率约 18%" }], cost: 0.01 }
-            : { claims: [{ statement: "市场规模约 1200 亿元(2025)", kind: "fact" as const, quote: "市场规模约 1,200 亿元" }], cost: 0.01 },
+            ? { claims: [{ statement: "渠道费用率约 18%(2025)", kind: "fact" as const, quote: "渠道费用率约 18%" }], usage: { modelCalls: 1, outputTokens: 16 } }
+            : { claims: [{ statement: "市场规模约 1200 亿元(2025)", kind: "fact" as const, quote: "市场规模约 1,200 亿元" }], usage: { modelCalls: 1, outputTokens: 16 } },
         runStage: async (stage: StageName) =>
           stage === "analyze"
-            ? { output: { findings: [], gaps: [] }, cost: 0.01 }
+            ? { output: { findings: [], gaps: [] }, usage: { modelCalls: 1, outputTokens: 16 } }
             : stage === "draft"
-              ? { output: { reportMd: "# 报告\n\n## 市场口径表\n## 行业结构\n## 趋势与风险" }, cost: 0.01 }
-              : { output: { issues: [], counterexampleChecked: true }, cost: 0.01 },
+              ? { output: { reportMd: "# 报告\n\n## 市场口径表\n## 行业结构\n## 趋势与风险" }, usage: { modelCalls: 1, outputTokens: 16 } }
+              : { output: { issues: [], counterexampleChecked: true }, usage: { modelCalls: 1, outputTokens: 16 } },
       },
     };
 

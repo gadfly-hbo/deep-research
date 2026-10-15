@@ -8,8 +8,8 @@ import type { StageName } from "./stages.js";
 interface FakeCfg {
   searchResults: Record<string, SearchHit[]>;
   bodies: Record<string, string>;
-  extract: (url: string, call: number) => { claims: ExtractedClaim[]; cost: number };
-  stage: (stage: StageName, call: number) => { output: unknown; cost: number };
+  extract: (url: string, call: number) => { claims: ExtractedClaim[]; usage: { modelCalls: number; outputTokens: number } };
+  stage: (stage: StageName, call: number) => { output: unknown; usage: { modelCalls: number; outputTokens: number } };
   onSearch?: (q: string) => void;
 }
 
@@ -64,12 +64,12 @@ const twoQuestions: RunOptions = {
 const searchAB = { 市场规模: [{ url: A, title: "A", snippet: "" }], 门店数: [{ url: B, title: "B", snippet: "" }] };
 const bodyA = "中国咖啡市场规模约 1,200 亿元(2025 年)。行业边界包括现磨与即饮。";
 const bodyB = "2025 年现磨咖啡门店约 12 万家。产业链上游为咖啡豆贸易。竞争格局集中度提升。";
-const cleanStages = (stage: StageName): { output: unknown; cost: number } =>
+const cleanStages = (stage: StageName): { output: unknown; usage: { modelCalls: number; outputTokens: number } } =>
   stage === "analyze"
-    ? { output: { findings: [{ questionId: "q1", summary: "规模已确认", claimIds: [] }], gaps: [] }, cost: 0.01 }
+    ? { output: { findings: [{ questionId: "q1", summary: "规模已确认", claimIds: [] }], gaps: [] }, usage: { modelCalls: 1, outputTokens: 16 } }
     : stage === "draft"
-      ? { output: { reportMd: "# 中国咖啡行业研究\n\n## 市场口径表\n规模 1200 亿元。\n\n## 行业结构\n产业链结构。\n\n## 趋势与风险\n趋势。" }, cost: 0.01 }
-      : { output: { issues: [], counterexampleChecked: true }, cost: 0.01 };
+      ? { output: { reportMd: "# 中国咖啡行业研究\n\n## 市场口径表\n规模 1200 亿元。\n\n## 行业结构\n产业链结构。\n\n## 趋势与风险\n趋势。" }, usage: { modelCalls: 1, outputTokens: 16 } }
+      : { output: { issues: [], counterexampleChecked: true }, usage: { modelCalls: 1, outputTokens: 16 } };
 
 describe("runResearch 全流水线(plan → gather → analyze → draft → review → publish)", () => {
   it("端到端:确认计划后全流程跑通,正常交付,契约校验与检查点齐全", async () => {
@@ -84,12 +84,12 @@ describe("runResearch 全流水线(plan → gather → analyze → draft → rev
             ? { claims: [
                 { statement: "市场规模约 1200 亿元(2025)", kind: "fact", quote: "市场规模约 1,200 亿元", calibration: { entity: "中国咖啡市场", period: "2025", unit: "亿元", value: 1200 } },
                 { statement: "行业边界包括现磨与即饮", kind: "fact", quote: "行业边界包括现磨与即饮" },
-              ], cost: 0.01 }
+              ], usage: { modelCalls: 1, outputTokens: 16 } }
             : { claims: [
                 { statement: "门店约 12 万家(2025)", kind: "fact", quote: "门店约 12 万家", calibration: { entity: "中国现磨咖啡门店数", period: "2025", unit: "万家", value: 12 } },
                 { statement: "产业链上游为咖啡豆贸易", kind: "fact", quote: "产业链上游为咖啡豆贸易" },
                 { statement: "竞争格局集中度提升", kind: "fact", quote: "竞争格局集中度提升" },
-              ], cost: 0.01 },
+              ], usage: { modelCalls: 1, outputTokens: 16 } },
         stage: (stage) => cleanStages(stage),
       }),
       store,
@@ -112,7 +112,7 @@ describe("runResearch 全流水线(plan → gather → analyze → draft → rev
       fakes({
         searchResults: searchAB,
         bodies: { [A]: bodyA, [B]: bodyB },
-        extract: () => ({ claims: [{ statement: "s", kind: "fact", quote: "市场规模约 1,200 亿元" }], cost: 0.01 }),
+        extract: () => ({ claims: [{ statement: "s", kind: "fact", quote: "市场规模约 1,200 亿元" }], usage: { modelCalls: 1, outputTokens: 16 } }),
         stage: (stage) => cleanStages(stage),
       }),
       createMemoryStore(),
@@ -134,7 +134,7 @@ describe("runResearch 全流水线(plan → gather → analyze → draft → rev
         bodies: { [A]: bodyA, [B]: bodyB },
         extract: () => {
           ctl.abort();
-          return { claims: [{ statement: "s", kind: "fact", quote: "市场规模约 1,200 亿元" }], cost: 0.01 };
+          return { claims: [{ statement: "s", kind: "fact", quote: "市场规模约 1,200 亿元" }], usage: { modelCalls: 1, outputTokens: 16 } };
         },
         stage: (stage) => cleanStages(stage),
         onSearch: (q) => searched.push(q),
@@ -159,12 +159,12 @@ describe("runResearch 全流水线(plan → gather → analyze → draft → rev
           ? { claims: [
               { statement: "市场规模约 1200 亿元(2025)", kind: "fact", quote: "市场规模约 1,200 亿元", calibration: { entity: "中国咖啡市场", period: "2025", unit: "亿元", value: 1200 } },
               { statement: "行业边界包括现磨与即饮", kind: "fact", quote: "行业边界包括现磨与即饮" },
-            ], cost: 0.01 }
+            ], usage: { modelCalls: 1, outputTokens: 16 } }
           : { claims: [
               { statement: "门店约 12 万家(2025)", kind: "fact", quote: "门店约 12 万家", calibration: { entity: "中国现磨咖啡门店数", period: "2025", unit: "万家", value: 12 } },
               { statement: "产业链上游为咖啡豆贸易", kind: "fact", quote: "产业链上游为咖啡豆贸易" },
               { statement: "竞争格局集中度提升", kind: "fact", quote: "竞争格局集中度提升" },
-            ], cost: 0.01 },
+            ], usage: { modelCalls: 1, outputTokens: 16 } },
       stage: (stage) => {
         if (stage === "draft") ctl.abort();
         return cleanStages(stage);
@@ -194,21 +194,21 @@ describe("runResearch 全流水线(plan → gather → analyze → draft → rev
         bodies: { [A]: "实际市场规模数据为 1,200 亿元。", [B]: bodyB + "行业边界包括现磨与即饮。" },
         extract: (url, call) =>
           url === A && call === 0
-            ? { claims: [{ statement: "市场规模数据", kind: "fact", quote: "不存在的数据" }], cost: 0.01 }
+            ? { claims: [{ statement: "市场规模数据", kind: "fact", quote: "不存在的数据" }], usage: { modelCalls: 1, outputTokens: 16 } }
             : url === A
-              ? { claims: [{ statement: "市场规模数据", kind: "fact", quote: "实际市场规模数据" }], cost: 0.01 }
+              ? { claims: [{ statement: "市场规模数据", kind: "fact", quote: "实际市场规模数据" }], usage: { modelCalls: 1, outputTokens: 16 } }
               : { claims: [
                   { statement: "门店约 12 万家(2025)", kind: "fact", quote: "门店约 12 万家", calibration: { entity: "中国现磨咖啡门店数", period: "2025", unit: "万家", value: 12 } },
                   { statement: "行业边界包括现磨与即饮", kind: "fact", quote: "行业边界包括现磨与即饮" },
                   { statement: "产业链上游为咖啡豆贸易", kind: "fact", quote: "产业链上游为咖啡豆贸易" },
                   { statement: "竞争格局集中度提升", kind: "fact", quote: "竞争格局集中度提升" },
-                ], cost: 0.01 },
+                ], usage: { modelCalls: 1, outputTokens: 16 } },
         stage: (stage) => {
           if (stage !== "review") return cleanStages(stage);
           reviewCalls += 1;
           return reviewCalls === 1
-            ? { output: { issues: [{ severity: "high", kind: "citation", detail: "引句与原文不符", targetQuestionId: "q1", fix: "regather" }], counterexampleChecked: true }, cost: 0.01 }
-            : { output: { issues: [], counterexampleChecked: true }, cost: 0.01 };
+            ? { output: { issues: [{ severity: "high", kind: "citation", detail: "引句与原文不符", targetQuestionId: "q1", fix: "regather" }], counterexampleChecked: true }, usage: { modelCalls: 1, outputTokens: 16 } }
+            : { output: { issues: [], counterexampleChecked: true }, usage: { modelCalls: 1, outputTokens: 16 } };
         },
         onSearch: (q) => searched.push(q),
       }),
@@ -234,19 +234,19 @@ describe("runResearch 全流水线(plan → gather → analyze → draft → rev
             ? { claims: [
                 { statement: "市场规模约 1200 亿元(2025)", kind: "fact", quote: "市场规模约 1,200 亿元", calibration: { entity: "中国咖啡市场", period: "2025", unit: "亿元", value: 1200 } },
                 { statement: "行业边界包括现磨与即饮", kind: "fact", quote: "行业边界包括现磨与即饮" },
-              ], cost: 0.01 }
+              ], usage: { modelCalls: 1, outputTokens: 16 } }
             : { claims: [
                 { statement: "门店约 12 万家(2025)", kind: "fact", quote: "门店约 12 万家", calibration: { entity: "中国现磨咖啡门店数", period: "2025", unit: "万家", value: 12 } },
                 { statement: "产业链上游为咖啡豆贸易", kind: "fact", quote: "产业链上游为咖啡豆贸易" },
                 { statement: "竞争格局集中度提升", kind: "fact", quote: "竞争格局集中度提升" },
-              ], cost: 0.01 },
+              ], usage: { modelCalls: 1, outputTokens: 16 } },
         stage: (stage, call) => {
           if (stage === "draft" && call === 1) {
             // 复刻 2026-10-04 线上案例:模型把报告双重编码塞进 reportMd
-            return { output: { reportMd: JSON.stringify({ report: inner }) }, cost: 0.01 };
+            return { output: { reportMd: JSON.stringify({ report: inner }) }, usage: { modelCalls: 1, outputTokens: 16 } };
           }
           if (stage === "review" && call === 0) {
-            return { output: { issues: [{ severity: "high", kind: "other", detail: "表达需重写", fix: "rephrase" }], counterexampleChecked: true }, cost: 0.01 };
+            return { output: { issues: [{ severity: "high", kind: "other", detail: "表达需重写", fix: "rephrase" }], counterexampleChecked: true }, usage: { modelCalls: 1, outputTokens: 16 } };
           }
           return cleanStages(stage);
         },
@@ -270,16 +270,16 @@ describe("runResearch 全流水线(plan → gather → analyze → draft → rev
             ? { claims: [
                 { statement: "市场规模约 1200 亿元(2025)", kind: "fact", quote: "市场规模约 1,200 亿元", calibration: { entity: "中国咖啡市场", period: "2025", unit: "亿元", value: 1200 } },
                 { statement: "行业边界包括现磨与即饮", kind: "fact", quote: "行业边界包括现磨与即饮" },
-              ], cost: 0.01 }
+              ], usage: { modelCalls: 1, outputTokens: 16 } }
             : { claims: [
                 { statement: "门店约 12 万家(2025)", kind: "fact", quote: "门店约 12 万家", calibration: { entity: "中国现磨咖啡门店数", period: "2025", unit: "万家", value: 12 } },
                 { statement: "产业链上游为咖啡豆贸易", kind: "fact", quote: "产业链上游为咖啡豆贸易" },
                 { statement: "竞争格局集中度提升", kind: "fact", quote: "竞争格局集中度提升" },
-              ], cost: 0.01 },
+              ], usage: { modelCalls: 1, outputTokens: 16 } },
         stage: (stage, call) => {
-          if (stage === "draft" && call === 1) return { output: 12345, cost: 0.01 };
+          if (stage === "draft" && call === 1) return { output: 12345, usage: { modelCalls: 1, outputTokens: 16 } };
           if (stage === "review" && call === 0) {
-            return { output: { issues: [{ severity: "high", kind: "other", detail: "表达需重写", fix: "rephrase" }], counterexampleChecked: true }, cost: 0.01 };
+            return { output: { issues: [{ severity: "high", kind: "other", detail: "表达需重写", fix: "rephrase" }], counterexampleChecked: true }, usage: { modelCalls: 1, outputTokens: 16 } };
           }
           return cleanStages(stage);
         },
@@ -300,11 +300,11 @@ describe("runResearch 全流水线(plan → gather → analyze → draft → rev
         bodies: { [A]: "实际市场规模数据为 1,200 亿元。", [B]: bodyB },
         extract: (url) =>
           url === A
-            ? { claims: [{ statement: "市场规模数据", kind: "fact", quote: "不存在的数据" }], cost: 0.01 }
-            : { claims: [{ statement: "门店约 12 万家(2025)", kind: "fact", quote: "门店约 12 万家", calibration: { entity: "中国现磨咖啡门店数", period: "2025", unit: "万家", value: 12 } }], cost: 0.01 },
+            ? { claims: [{ statement: "市场规模数据", kind: "fact", quote: "不存在的数据" }], usage: { modelCalls: 1, outputTokens: 16 } }
+            : { claims: [{ statement: "门店约 12 万家(2025)", kind: "fact", quote: "门店约 12 万家", calibration: { entity: "中国现磨咖啡门店数", period: "2025", unit: "万家", value: 12 } }], usage: { modelCalls: 1, outputTokens: 16 } },
         stage: (stage) =>
           stage === "review"
-            ? { output: { issues: [{ severity: "high", kind: "citation", detail: "引句与原文不符", targetQuestionId: "q1", fix: "regather" }], counterexampleChecked: true }, cost: 0.01 }
+            ? { output: { issues: [{ severity: "high", kind: "citation", detail: "引句与原文不符", targetQuestionId: "q1", fix: "regather" }], counterexampleChecked: true }, usage: { modelCalls: 1, outputTokens: 16 } }
             : cleanStages(stage),
       }),
       createMemoryStore(),
@@ -327,7 +327,7 @@ describe("runResearch 全流水线(plan → gather → analyze → draft → rev
             { statement: "市场规模约 1200 亿元(2025)", kind: "fact", quote: "市场规模约 1,200 亿元" },
             { statement: "市场规模约 2000 亿元(2025)", kind: "fact", quote: "市场规模约 2,000 亿元" },
           ],
-          cost: 0.01,
+          usage: { modelCalls: 1, outputTokens: 16 },
         }),
         stage: (stage) => cleanStages(stage),
       }),
@@ -348,13 +348,13 @@ describe("runResearch 全流水线(plan → gather → analyze → draft → rev
         bodies: { [A]: bodyA, [B]: "按 170 百万美元口径折算。行业边界包括现磨与即饮。产业链上游为咖啡豆贸易。竞争格局集中度提升。" },
         extract: (url) =>
           url === A
-            ? { claims: [{ statement: "市场规模约 1200 亿元(2025)", kind: "fact", quote: "市场规模约 1,200 亿元", calibration: { entity: "中国咖啡市场", period: "2025", unit: "亿元", value: 1200 } }], cost: 0.01 }
+            ? { claims: [{ statement: "市场规模约 1200 亿元(2025)", kind: "fact", quote: "市场规模约 1,200 亿元", calibration: { entity: "中国咖啡市场", period: "2025", unit: "亿元", value: 1200 } }], usage: { modelCalls: 1, outputTokens: 16 } }
             : { claims: [
                 { statement: "市场规模约 170 百万美元(2025)", kind: "fact", quote: "170 百万美元", calibration: { entity: "中国咖啡市场", period: "2025", unit: "百万美元", value: 170 } },
                 { statement: "行业边界包括现磨与即饮", kind: "fact", quote: "行业边界包括现磨与即饮" },
                 { statement: "产业链上游为咖啡豆贸易", kind: "fact", quote: "产业链上游为咖啡豆贸易" },
                 { statement: "竞争格局集中度提升", kind: "fact", quote: "竞争格局集中度提升" },
-              ], cost: 0.01 },
+              ], usage: { modelCalls: 1, outputTokens: 16 } },
         stage: (stage) => cleanStages(stage),
       }),
       createMemoryStore(),
@@ -394,13 +394,13 @@ describe("runResearch 全流水线(plan → gather → analyze → draft → rev
                 { statement: "森马门店数位居全国行业榜首", kind: "fact" as const, quote: "门店数达1488家,居行业前列" },
                 { statement: "市场规模约1200亿元", kind: "fact" as const, quote: "市场规模约1,200亿元", calibration: { entity: "市场规模", period: "2025", unit: "亿元", value: 1200 } },
               ],
-              cost: 0.01,
+              usage: { modelCalls: 1, outputTokens: 16 },
             };
           if (url === U2)
-            return { claims: [{ statement: "市场规模约1200亿元", kind: "fact" as const, quote: "市场规模约1,200亿元", calibration: { entity: "市场规模", period: "2025", unit: "亿元", value: 1200 } }], cost: 0.01 };
+            return { claims: [{ statement: "市场规模约1200亿元", kind: "fact" as const, quote: "市场规模约1,200亿元", calibration: { entity: "市场规模", period: "2025", unit: "亿元", value: 1200 } }], usage: { modelCalls: 1, outputTokens: 16 } };
           if (url === U3)
-            return { claims: [{ statement: "门店口碑热度很高", kind: "fact" as const, quote: "门店口碑热度很高" }], cost: 0.01 };
-          return { claims: [{ statement: "年营收999亿元", kind: "fact" as const, quote: "年营收约1,200亿元", calibration: { entity: "年营收", period: "2025", unit: "亿元", value: 999 } }], cost: 0.01 };
+            return { claims: [{ statement: "门店口碑热度很高", kind: "fact" as const, quote: "门店口碑热度很高" }], usage: { modelCalls: 1, outputTokens: 16 } };
+          return { claims: [{ statement: "年营收999亿元", kind: "fact" as const, quote: "年营收约1,200亿元", calibration: { entity: "年营收", period: "2025", unit: "亿元", value: 999 } }], usage: { modelCalls: 1, outputTokens: 16 } };
         },
         stage: (stage) => cleanStages(stage),
       }),

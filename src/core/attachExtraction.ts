@@ -3,13 +3,13 @@ import type { RunState } from "./runState.js";
 
 /** extractClaims 的返回形状(采证装配只消费 claims 与 cost)。 */
 export interface ExtractedClaims {
+  usage: { modelCalls: number; outputTokens: number };
   claims: Array<{
     statement: string;
     kind: Claim["kind"];
     quote: string;
     calibration?: Claim["calibration"];
   }>;
-  cost: number;
 }
 
 /**

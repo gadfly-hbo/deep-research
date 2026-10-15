@@ -29,14 +29,14 @@ describe("gather 抓取预算按问题分配", () => {
       model: {
         extractClaims: async () => ({
           claims: [{ statement: "中国咖啡市场规模约 1200 亿元(2025)", kind: "fact" as const, quote: "中国咖啡市场规模约 1,200 亿元" }],
-          cost: 0,
+          usage: { modelCalls: 0, outputTokens: 0 },
         }),
         runStage: async (stage: StageName) =>
           stage === "analyze"
-            ? { output: { findings: [], gaps: [] }, cost: 0 }
+            ? { output: { findings: [], gaps: [] }, usage: { modelCalls: 0, outputTokens: 0 } }
             : stage === "draft"
-              ? { output: { reportMd: "# r\n## 市场口径表\n## 行业结构\n## 趋势与风险" }, cost: 0 }
-              : { output: { issues: [], counterexampleChecked: true }, cost: 0 },
+              ? { output: { reportMd: "# r\n## 市场口径表\n## 行业结构\n## 趋势与风险" }, usage: { modelCalls: 0, outputTokens: 0 } }
+              : { output: { issues: [], counterexampleChecked: true }, usage: { modelCalls: 0, outputTokens: 0 } },
       },
     };
 

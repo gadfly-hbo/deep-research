@@ -32,18 +32,18 @@ const fakeAdapters = (slow = false): Adapters => ({
         { statement: "产业链上游为咖啡豆贸易", kind: "fact" as const, quote: "产业链上游为咖啡豆贸易" },
         { statement: "竞争格局集中度提升", kind: "fact" as const, quote: "竞争格局集中度提升" },
       ],
-      cost: 0.01,
+      usage: { modelCalls: 1, outputTokens: 16 },
     }),
     runStage: async (stage) =>
       stage === "plan"
-        ? { output: { questions: [{ id: "q1", question: "市场规模" }] }, cost: 0.01 }
+        ? { output: { questions: [{ id: "q1", question: "市场规模" }] }, usage: { modelCalls: 1, outputTokens: 16 } }
         : stage === "outline"
-          ? { output: { title: "增量研究报告", sections: [{ id: "s1", title: "市场规模", bullets: [] }] }, cost: 0.01 }
+          ? { output: { title: "增量研究报告", sections: [{ id: "s1", title: "市场规模", bullets: [] }] }, usage: { modelCalls: 1, outputTokens: 16 } }
           : stage === "analyze"
-            ? { output: { findings: [], gaps: [] }, cost: 0.01 }
+            ? { output: { findings: [], gaps: [] }, usage: { modelCalls: 1, outputTokens: 16 } }
             : stage === "draft"
-              ? { output: { reportMd: "# 行业研究\n\n## 市场口径表\nx\n## 行业结构\ny\n## 趋势与风险\nz" }, cost: 0.01 }
-              : { output: { issues: [], counterexampleChecked: true }, cost: 0.01 },
+              ? { output: { reportMd: "# 行业研究\n\n## 市场口径表\nx\n## 行业结构\ny\n## 趋势与风险\nz" }, usage: { modelCalls: 1, outputTokens: 16 } }
+              : { output: { issues: [], counterexampleChecked: true }, usage: { modelCalls: 1, outputTokens: 16 } },
   },
 });
 
@@ -219,7 +219,7 @@ describe("本地 HTTP 服务", () => {
     });
     await store.saveRun({
       id: "run-orig", requestId: "req-orig", stage: "gather", status: "running",
-      checkpoints: [], usage: { searches: 0, fetches: 0, costEstimate: 0, wallMs: 0 },
+      checkpoints: [], usage: { searches: 0, fetches: 0, modelCalls: 0, outputTokens: 0, wallMs: 0 },
     });
 
     // 原运行进行中:重跑被拒绝
@@ -273,7 +273,7 @@ describe("本地 HTTP 服务", () => {
     const store = FsProjectStore.open(dir);
     await store.saveRun({
       id: "zombie-run", requestId: "req-zombie", stage: "gather", status: "running",
-      checkpoints: [], usage: { searches: 1, fetches: 1, costEstimate: 0, wallMs: 100 },
+      checkpoints: [], usage: { searches: 1, fetches: 1, modelCalls: 0, outputTokens: 0, wallMs: 100 },
     });
     await srv.close();
     srv = await startServer({ dataDir, makeAdapters: () => fakeAdapters() });
@@ -434,7 +434,7 @@ describe("增量预览(2.1 追问扩展)", () => {
     const dir = join(dataDir, "projects", projectId);
     await FsProjectStore.open(dir).saveRun({
       id: "run-cancelled-base", requestId: "req-cancelled-base", stage: "gather", status: "cancelled",
-      checkpoints: [], usage: { searches: 1, fetches: 1, costEstimate: 0, wallMs: 100 },
+      checkpoints: [], usage: { searches: 1, fetches: 1, modelCalls: 0, outputTokens: 0, wallMs: 100 },
     });
     const res = await post(`/api/projects/${projectId}/plan-preview`, {
       goal: "g", scope: { summary: "s", queries: [] }, module: "industry",

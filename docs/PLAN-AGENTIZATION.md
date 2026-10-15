@@ -17,7 +17,7 @@
 | 批次 | 内容 | 决策落点 |
 |---|---|---|
 | **P2-1 接缝合规** | vendor `pi-agent-runtime-0.4.3.tgz`;全项目唯一 Pi Adapter;7 阶段 + extractClaims 改 runWorker(zod validator 复用);主备链交 runtime fallbacks;最小必要 authorize/audit/budget 输入(行为等价) | 无(合规批,形态不变) |
-| **P2-2 预算与审计** | budget tier → Limits 正式映射;AuditSink 富化(模型/工具调用元数据入项目审计);**costEstimate 整体移除**(④:契约字段、UI 状态栏用量显示、reasons 汇总中的成本口径一并清理,token/次数计量保留) | ④ |
+| **P2-2 预算与审计** | **预算放开(用户 2026-10-15 裁决:方案 A"干脆放开")**:模型侧 uncapped+单次保护显式化,零累计上限工程(方案 B 静态硬顶被否);计量进 usage(modelCalls/outputTokens);**costEstimate 整体移除**(④:契约字段、UI 6 处、9 测试文件、CLI、文档口径、replay 夹具 cost 字段一并清理);审计轮转两代上限 | ①④ |
 | **P2-3 会话底座** | SessionRuntime;项目=会话;checkpoint 确认门(BUSINESS_WAIT)替代"向导在浏览器、run 在后台"两张皮;崩溃恢复+恢复前核账 | |
 | **P2-4 采证 agent 化** | gather 改 runAgent + web_search/fetch_page/parse_doc 工具(external 效果走预授权策略);steer 替代 instruct 队列;快照证据链保持;**无逐问题抓取护栏——全自主,治理只靠任务级预算与用户停止**(①);UI 同批演化为**调查流视图**(③,过 UI-GATE) | ①③ |
 | **P2-5 追问会话化** | followUp 替代增量新 run;上下文压缩连续;UI 追问入口改接 | |

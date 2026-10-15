@@ -5,7 +5,8 @@ export interface SpikeQuestionResult {
   verdicts: CitationVerdict[];
   fetched: number;
   parsedOk: number;
-  costEstimate: number;
+  modelCalls: number;
+  outputTokens: number;
   wallMs: number;
 }
 

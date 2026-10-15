@@ -36,18 +36,18 @@ const fakeAdapters = (slow = false): Adapters => ({
         { statement: "产业链上游为咖啡豆贸易", kind: "fact" as const, quote: "产业链上游为咖啡豆贸易" },
         { statement: "竞争格局集中度提升", kind: "fact" as const, quote: "竞争格局集中度提升" },
       ],
-      cost: 0.01,
+      usage: { modelCalls: 1, outputTokens: 16 },
     }),
     runStage: async (stage) =>
       stage === "plan"
-        ? { output: { questions: [{ id: "q1", question: "市场规模" }] }, cost: 0.01 }
+        ? { output: { questions: [{ id: "q1", question: "市场规模" }] }, usage: { modelCalls: 1, outputTokens: 16 } }
         : stage === "outline"
-          ? { output: { title: "增量研究报告", sections: [{ id: "s1", title: "市场规模", bullets: [] }] }, cost: 0.01 }
+          ? { output: { title: "增量研究报告", sections: [{ id: "s1", title: "市场规模", bullets: [] }] }, usage: { modelCalls: 1, outputTokens: 16 } }
           : stage === "analyze"
-            ? { output: { findings: [], gaps: [] }, cost: 0.01 }
+            ? { output: { findings: [], gaps: [] }, usage: { modelCalls: 1, outputTokens: 16 } }
             : stage === "draft"
-              ? { output: { reportMd: "# 行业研究\n\n## 市场口径表\nx\n## 行业结构\ny\n## 趋势与风险\nz" }, cost: 0.01 }
-              : { output: { issues: [], counterexampleChecked: true }, cost: 0.01 },
+              ? { output: { reportMd: "# 行业研究\n\n## 市场口径表\nx\n## 行业结构\ny\n## 趋势与风险\nz" }, usage: { modelCalls: 1, outputTokens: 16 } }
+              : { output: { issues: [], counterexampleChecked: true }, usage: { modelCalls: 1, outputTokens: 16 } },
   },
 });
 
@@ -141,7 +141,7 @@ describe("T1 launch 后流水线失败落盘", () => {
     expect(run.status).toBe("failed");
     expect(run.stage).toBe("gather");
     expect(run.checkpoints).toEqual([]);
-    expect(run.usage).toEqual({ searches: 0, fetches: 0, costEstimate: 0, wallMs: 0 });
+    expect(run.usage).toEqual({ searches: 0, fetches: 0, modelCalls: 0, outputTokens: 0, wallMs: 0 }); // P2-2 契约变更:成本→计量
     expect(run.error).toContain("T1 搜索服务不可用");
   });
 });
@@ -371,7 +371,7 @@ describe("T5–T11 路由守卫与错误映射", () => {
       stage: "gather",
       status: "running",
       checkpoints: [],
-      usage: { searches: 0, fetches: 0, costEstimate: 0, wallMs: 0 },
+      usage: { searches: 0, fetches: 0, modelCalls: 0, outputTokens: 0, wallMs: 0 },
     });
     for (let i = 1; i <= 20; i++) {
       const res = await post(`/api/projects/${projectId}/runs/instruct`, {

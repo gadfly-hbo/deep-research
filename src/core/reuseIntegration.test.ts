@@ -20,14 +20,14 @@ function fakeAdapters(): Adapters {
     model: {
       extractClaims: async ({ snapshot }) => ({
         claims: [{ statement: `${snapshot.title} 的关键数值`, kind: "fact" as const, quote: snapshot.bodyText.slice(0, 20) }],
-        cost: 0.01,
+        usage: { modelCalls: 1, outputTokens: 16 },
       }),
       runStage: async (stage) =>
         stage === "analyze"
-          ? { output: { findings: [], gaps: [] }, cost: 0.01 }
+          ? { output: { findings: [], gaps: [] }, usage: { modelCalls: 1, outputTokens: 16 } }
           : stage === "draft"
-            ? { output: { reportMd: "# r\n\n## 复用\nx" }, cost: 0.01 }
-            : { output: { issues: [], counterexampleChecked: true }, cost: 0.01 },
+            ? { output: { reportMd: "# r\n\n## 复用\nx" }, usage: { modelCalls: 1, outputTokens: 16 } }
+            : { output: { issues: [], counterexampleChecked: true }, usage: { modelCalls: 1, outputTokens: 16 } },
     },
   };
 }

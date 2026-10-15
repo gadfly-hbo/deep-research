@@ -5,31 +5,23 @@ import { BudgetTracker } from "./budgetTracker.js";
 const budget: Budget = {
   maxSearches: 3,
   maxFetches: 10,
-  maxCostEstimate: 5,
   maxWallMs: 1000,
   maxParallel: 2,
 };
 
 const makeUsage = (init: Partial<ResearchRun["usage"]> = {}) => {
-  const usage: ResearchRun["usage"] = { searches: 0, fetches: 0, costEstimate: 0, wallMs: 0, ...init };
+  const usage: ResearchRun["usage"] = { searches: 0, fetches: 0, modelCalls: 0, outputTokens: 0, wallMs: 0, ...init };
   return usage;
 };
 
 describe("BudgetTracker", () => {
-  it("overBudget:成本恰满不超限、超一超限;墙钟假钟超一超限", () => {
-    const usage = makeUsage({ costEstimate: 5 });
-    let t = 100;
+  it("overBudget:墙钟恰满不超限、超一超限(成本上限随④退役)", () => {
+    const usage = makeUsage();
+    let t = 1000;
     const tracker = new BudgetTracker(budget, () => usage, 0, () => t);
-    expect(tracker.overBudget()).toBe(false);
-    usage.costEstimate = 5.01;
-    expect(tracker.overBudget()).toBe(true);
-
-    const usage2 = makeUsage();
-    t = 1000;
-    const tracker2 = new BudgetTracker(budget, () => usage2, 0, () => t);
-    expect(tracker2.overBudget()).toBe(false); // 恰满 maxWallMs 不超限(> 语义)
+    expect(tracker.overBudget()).toBe(false); // 恰满 maxWallMs 不超限(> 语义)
     t = 1001;
-    expect(tracker2.overBudget()).toBe(true);
+    expect(tracker.overBudget()).toBe(true);
   });
 
   it("canSearch:搜索数恰满即关门,overBudget 同样关门", () => {
@@ -39,8 +31,7 @@ describe("BudgetTracker", () => {
     usage.searches = 3;
     expect(tracker.canSearch()).toBe(false);
 
-    const usage2 = makeUsage({ costEstimate: 99 });
-    const tracker2 = new BudgetTracker(budget, () => usage2, 0, () => 0);
+    const tracker2 = new BudgetTracker(budget, () => makeUsage({ wallMs: 2000 }), 0, () => 1001);
     expect(tracker2.canSearch()).toBe(false);
   });
 

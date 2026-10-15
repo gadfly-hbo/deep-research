@@ -36,7 +36,7 @@ const CANCELLED_RUN: ResearchRun = {
   stage: "gather",
   status: "cancelled",
   checkpoints: [],
-  usage: { searches: 1, fetches: 1, costEstimate: 0.02, wallMs: 1000 },
+  usage: { searches: 1, fetches: 1, modelCalls: 0, outputTokens: 0, wallMs: 1000 },
 };
 
 const resumeFakes = (searchCalls: string[]): Adapters => ({
@@ -49,11 +49,11 @@ const resumeFakes = (searchCalls: string[]): Adapters => ({
   page: { fetch: async (url) => ({ url, status: 200, contentType: "text/html", html: "" }) },
   parser: { parse: async () => ({ bodyText: "", parseStatus: "failed" as const }) },
   model: {
-    extractClaims: async () => ({ claims: [], cost: 0 }),
+    extractClaims: async () => ({ claims: [], usage: { modelCalls: 0, outputTokens: 0 } }),
     runStage: async (stage) => {
-      if (stage === "analyze") return { output: { findings: [], gaps: [] }, cost: 0.01 };
-      if (stage === "draft" || stage === "polish") return { output: { reportMd: "# 恢复报告" }, cost: 0.01 };
-      if (stage === "review") return { output: { issues: [], counterexampleChecked: true }, cost: 0.01 };
+      if (stage === "analyze") return { output: { findings: [], gaps: [] }, usage: { modelCalls: 1, outputTokens: 16 } };
+      if (stage === "draft" || stage === "polish") return { output: { reportMd: "# 恢复报告" }, usage: { modelCalls: 1, outputTokens: 16 } };
+      if (stage === "review") return { output: { issues: [], counterexampleChecked: true }, usage: { modelCalls: 1, outputTokens: 16 } };
       throw new Error(`未预期 stage: ${stage}`);
     },
   },

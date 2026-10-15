@@ -13,7 +13,7 @@ const run: ResearchRun = {
   stage: "publish",
   status: "published",
   checkpoints: [],
-  usage: { searches: 1, fetches: 1, costEstimate: 0.01, wallMs: 10 },
+  usage: { searches: 1, fetches: 1, modelCalls: 0, outputTokens: 0, wallMs: 10 },
 };
 
 const snapshot: SourceSnapshot = {

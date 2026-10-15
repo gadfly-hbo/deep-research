@@ -9,7 +9,7 @@ const fakeAdapters = (): Adapters => ({
   search: { search: async () => [] },
   page: { fetch: async (url) => ({ url, status: 200, contentType: "text/html", html: "<p>x</p>" }) },
   parser: { parse: async () => ({ bodyText: "x", parseStatus: "ok" }) },
-  model: { extractClaims: async () => ({ claims: [], cost: 0 }), runStage: async () => ({ output: {}, cost: 0 }) },
+  model: { extractClaims: async () => ({ claims: [], usage: { modelCalls: 0, outputTokens: 0 } }), runStage: async () => ({ output: {}, usage: { modelCalls: 0, outputTokens: 0 } }) },
 });
 
 describe("治理路由:生命周期/更正/删除/迁移预演", () => {

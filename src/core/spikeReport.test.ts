@@ -12,7 +12,7 @@ const q = (
   verdicts: CitationVerdict[],
   fetched: number,
   parsedOk: number,
-): SpikeQuestionResult => ({ question, verdicts, fetched, parsedOk, costEstimate: 0.05, wallMs: 100 });
+): SpikeQuestionResult => ({ question, verdicts, fetched, parsedOk, modelCalls: 1, outputTokens: 64, wallMs: 100 });
 
 describe("buildSpikeReport", () => {
   it("逐问题与总体计算可验证率/可达率,并触发 kill 判据", () => {

@@ -50,7 +50,7 @@ export interface Run {
   requestId: string;
   stage: string;
   status: "running" | "cancelled" | "failed" | "published" | "limited";
-  usage: { searches: number; fetches: number; costEstimate: number; wallMs: number };
+  usage: { searches: number; fetches: number; modelCalls: number; outputTokens: number; wallMs: number };
   error?: string;
   derivedFromRunId?: string;
   progress?: RunProgress;

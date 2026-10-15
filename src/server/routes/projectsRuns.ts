@@ -149,7 +149,7 @@ const launchRun = async (
     stage: "plan",
     status: "running",
     checkpoints: [],
-    usage: { searches: 0, fetches: 0, costEstimate: 0, wallMs: 0 },
+    usage: { searches: 0, fetches: 0, modelCalls: 0, outputTokens: 0, wallMs: 0 },
   });
   startPipeline(
     ctx,
@@ -170,7 +170,7 @@ const launchRun = async (
         stage: "gather",
         status: "failed",
         checkpoints: [],
-        usage: { searches: 0, fetches: 0, costEstimate: 0, wallMs: 0 },
+        usage: { searches: 0, fetches: 0, modelCalls: 0, outputTokens: 0, wallMs: 0 },
         error: String(error instanceof Error ? error.message : error),
       });
     },
@@ -272,7 +272,7 @@ export const handleProjectsRoutes = async (
       );
     const plan = PlanOutputSchema.parse(result.output);
     if (base && plan.questions.length > 6) plan.questions = plan.questions.slice(0, 6);
-    json(res, 200, { plan, cost: result.cost, ...(base ? { base: base.summary } : {}) });
+    json(res, 200, { plan, usage: result.usage, ...(base ? { base: base.summary } : {}) });
     return true;
   }
 
@@ -308,7 +308,7 @@ export const handleProjectsRoutes = async (
         },
         `outline-preview:${id}:${Date.now()}`,
       );
-    json(res, 200, { outline: OutlineOutputSchema.parse(result.output), cost: result.cost, ...(base ? { base: base.summary } : {}) });
+    json(res, 200, { outline: OutlineOutputSchema.parse(result.output), usage: result.usage, ...(base ? { base: base.summary } : {}) });
     return true;
   }
 

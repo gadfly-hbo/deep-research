@@ -50,7 +50,7 @@ describe("ResearchRun 契约", () => {
       stage: "gather",
       status: "running",
       checkpoints: [],
-      usage: { searches: 1, fetches: 2, costEstimate: 0.02, wallMs: 1500 },
+      usage: { searches: 1, fetches: 2, modelCalls: 0, outputTokens: 0, wallMs: 1500 },
     });
     expect(run.status).toBe("running");
     expect(() =>
@@ -170,7 +170,7 @@ describe("2.1 扩展:增量研究与执行中干预(全部可选,旧数据可解
     stage: "gather",
     status: "running",
     checkpoints: [],
-    usage: { searches: 1, fetches: 2, costEstimate: 0.02, wallMs: 1500 },
+    usage: { searches: 1, fetches: 2, modelCalls: 0, outputTokens: 0, wallMs: 1500 },
   };
 
   it("运行记录可带增量基准、进度摘要与干预历史", () => {

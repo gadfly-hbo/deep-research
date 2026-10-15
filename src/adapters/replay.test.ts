@@ -23,7 +23,7 @@ const recording: Recording = [
   {
     key: "run-1:gather:model:0",
     kind: "model",
-    response: { claims: [{ statement: "s", kind: "fact", quote: "正文" }], cost: 0.01 },
+    response: { claims: [{ statement: "s", kind: "fact", quote: "正文" }], usage: { modelCalls: 1, outputTokens: 16 } },
   },
 ];
 
@@ -51,7 +51,7 @@ describe("replayAdapters", () => {
       "run-1:gather:model:0",
     );
     expect(model.claims).toHaveLength(1);
-    expect(model.cost).toBe(0.01);
+    expect(model.usage.modelCalls).toBe(1);
   });
 
   it("录制中不存在的调用键直接报错(暴露夹具缺口,不静默编造)", async () => {
@@ -68,7 +68,7 @@ describe("replayAdapters 旧录制兼容(PRD D4)", () => {
   it("stalePolishFallback=true:缺失 polish 调用降级为沿用草稿原文", async () => {
     const adapters = replayAdapters(recording, { stalePolishFallback: true });
     const result = await adapters.model.runStage("polish", { draftMd: "# 草稿" }, polishKey);
-    expect(result).toEqual({ output: { reportMd: "# 草稿" }, cost: 0 });
+    expect(result).toEqual({ output: { reportMd: "# 草稿" }, usage: { modelCalls: 0, outputTokens: 0 } });
   });
 
   it("缺省(严格):缺失 polish 调用仍暴露夹具缺口", async () => {

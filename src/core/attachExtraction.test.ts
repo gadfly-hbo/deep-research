@@ -18,7 +18,7 @@ const extracted: ExtractedClaims = {
     { statement: "s0", kind: "fact", quote: "q0" },
     { statement: "s1", kind: "inference", quote: "q1" },
   ],
-  cost: 0.5,
+  usage: { modelCalls: 1, outputTokens: 0 },
 };
 
 describe("attachGatherExtraction", () => {

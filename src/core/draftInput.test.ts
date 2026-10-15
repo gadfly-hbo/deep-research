@@ -34,17 +34,17 @@ function captureAdapters(captured: Array<{ stage: string; input: unknown }>): Ad
             quote: "市场规模约 1,200 亿元",
           },
         ],
-        cost: 0.01,
+        usage: { modelCalls: 1, outputTokens: 16 },
       }),
       runStage: async (stage, input) => {
         const reviewCount = captured.filter((c) => c.stage === "review").length;
         captured.push({ stage, input });
-        if (stage === "analyze") return { output: { findings: [], gaps: [] }, cost: 0.01 };
-        if (stage === "draft") return { output: { reportMd: "# 报告\n\n## 市场\nx" }, cost: 0.01 };
+        if (stage === "analyze") return { output: { findings: [], gaps: [] }, usage: { modelCalls: 1, outputTokens: 16 } };
+        if (stage === "draft") return { output: { reportMd: "# 报告\n\n## 市场\nx" }, usage: { modelCalls: 1, outputTokens: 16 } };
         // polish 与 draft 素材注入断言无关,原样回传即可
         if (stage === "polish") {
           const { draftMd } = input as { draftMd: string };
-          return { output: { reportMd: draftMd }, cost: 0.01 };
+          return { output: { reportMd: draftMd }, usage: { modelCalls: 1, outputTokens: 16 } };
         }
         if (stage === "review") {
           // 首轮给一条 high/rephrase 触发修复回环,次轮放行
@@ -53,7 +53,7 @@ function captureAdapters(captured: Array<{ stage: string; input: unknown }>): Ad
             output: first
               ? { issues: [{ severity: "high", kind: "citation", detail: "引用单薄", fix: "rephrase" }], counterexampleChecked: true }
               : { issues: [], counterexampleChecked: true },
-            cost: 0.01,
+            usage: { modelCalls: 1, outputTokens: 16 },
           };
         }
         throw new Error(`未预期的阶段: ${stage}`);

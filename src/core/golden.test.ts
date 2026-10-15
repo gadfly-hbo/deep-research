@@ -144,8 +144,8 @@ function makeFakes(script: {
       parse: async (page) => ({ bodyText: BODIES[page.url] ?? "", parseStatus: "ok" as const }),
     },
     model: {
-      extractClaims: async ({ snapshot }) => ({ claims: CLAIMS_BY_URL[snapshot.url] ?? [], cost: 0.01 }),
-      runStage: async (stage, _input, key) => ({ output: script.stage(stage, key), cost: 0.01 }),
+      extractClaims: async ({ snapshot }) => ({ claims: CLAIMS_BY_URL[snapshot.url] ?? [], usage: { modelCalls: 1, outputTokens: 16 } }),
+      runStage: async (stage, _input, key) => ({ output: script.stage(stage, key), usage: { modelCalls: 1, outputTokens: 16 } }),
     },
   };
 }

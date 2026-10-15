@@ -24,10 +24,9 @@ describe("预算档位", () => {
     });
   });
 
-  it("档位只覆盖搜索/抓取/墙钟,成本与并发沿用默认(实测成本远低于上限)", () => {
+  it("档位只覆盖搜索/抓取/墙钟,并发沿用默认(成本上限随④退役)", () => {
     for (const tier of ["low", "medium", "high"] as BudgetTier[]) {
       const b = resolveBudget({ budgetTier: tier });
-      expect(b.maxCostEstimate).toBe(DEFAULT_BUDGET.maxCostEstimate);
       expect(b.maxParallel).toBe(DEFAULT_BUDGET.maxParallel);
     }
   });

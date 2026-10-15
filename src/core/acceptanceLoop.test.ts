@@ -44,14 +44,14 @@ function fakeAdapters(): Adapters {
             calibration: { entity: "样本", period: "2025", unit: "%" , value: 62 },
           },
         ],
-        cost: 0.01,
+        usage: { modelCalls: 1, outputTokens: 16 },
       }),
       runStage: async (stage) =>
         stage === "analyze"
-          ? { output: { findings: [], gaps: [] }, cost: 0.01 }
+          ? { output: { findings: [], gaps: [] }, usage: { modelCalls: 1, outputTokens: 16 } }
           : stage === "draft"
-            ? { output: { reportMd: "# 报告\n\n## 关键发现\nx" }, cost: 0.01 }
-            : { output: { issues: [], counterexampleChecked: true }, cost: 0.01 },
+            ? { output: { reportMd: "# 报告\n\n## 关键发现\nx" }, usage: { modelCalls: 1, outputTokens: 16 } }
+            : { output: { issues: [], counterexampleChecked: true }, usage: { modelCalls: 1, outputTokens: 16 } },
     },
   };
 }

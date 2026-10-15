@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { readFile } from "node:fs/promises";
-import type { Adapters, FetchedPage } from "../adapters/types.js";
+import type { Adapters, FetchedPage, ModelProvider } from "../adapters/types.js";
 import {
   ResearchResultBundleSchema,
   ResearchRunSchema,
@@ -44,7 +44,6 @@ import { buildQuestionEvidencePacks } from "./evidencePacks.js";
 export const DEFAULT_BUDGET: Budget = {
   maxSearches: 80,
   maxFetches: 60,
-  maxCostEstimate: 80,
   maxWallMs: 90 * 60_000,
   maxParallel: 4,
 };
@@ -99,10 +98,26 @@ export async function runResearch(
         stage: "plan",
         status: "running",
         checkpoints: [],
-        usage: { searches: 0, fetches: 0, costEstimate: 0, wallMs: 0 },
+        usage: { searches: 0, fetches: 0, modelCalls: 0, outputTokens: 0, wallMs: 0 },
       };
   const priorCheckpoints = resuming ? await store.checkpoints(runId) : [];
   const completedStages = new Set(priorCheckpoints.map((c) => c.stage));
+
+  // P2-2:模型用量统一累计 wrapper——全部 extractClaims/runStage 调用点的 usage 汇入 run 记录
+  const model: ModelProvider = {
+    extractClaims: async (input, callKey) => {
+      const r = await adapters.model.extractClaims(input, callKey);
+      run.usage.modelCalls += r.usage.modelCalls;
+      run.usage.outputTokens += r.usage.outputTokens;
+      return r;
+    },
+    runStage: async (stage, input, callKey) => {
+      const r = await adapters.model.runStage(stage, input, callKey);
+      run.usage.modelCalls += r.usage.modelCalls;
+      run.usage.outputTokens += r.usage.outputTokens;
+      return r;
+    },
+  };
 
   const state = emptyState();
 
@@ -331,7 +346,7 @@ export async function runResearch(
             });
             await store.saveSnapshot(snapshot);
             await ingestToLibrary(snapshot);
-            const extracted = await adapters.model.extractClaims(
+            const extracted = await model.extractClaims(
               { snapshot },
               `${keyBase}:gather:r${round}:model:${n}`,
             );
@@ -342,7 +357,6 @@ export async function runResearch(
         fetchedForQ += take.length;
         for (const { snapshot, extracted } of produced) {
           fetchedAny = true;
-          run.usage.costEstimate += extracted.cost;
           // 2.0:证据绑定情报库来源版本,提取核验待评审确认
           claimsForQ += attachGatherExtraction(state, snapshot, extracted, q.id, snapshotVersionMap.get(snapshot.id));
         }
@@ -381,12 +395,11 @@ export async function runResearch(
     if (tracker.overBudget()) {
       state.capped = true;
     } else {
-      const res = await adapters.model.runStage(
+      const res = await model.runStage(
         "plan",
         { goal: request.goal, scope: request.scope, questionFramework: moduleConfig.questionFramework },
         `${keyBase}:plan:0`,
       );
-      run.usage.costEstimate += res.cost;
       const plan = safeParse(
         PlanOutputSchema,
         res.output,
@@ -511,8 +524,7 @@ export async function runResearch(
       }
       await store.saveSnapshot(snapshot);
       await ingestToLibrary(snapshot);
-      const extracted = await adapters.model.extractClaims({ snapshot }, `${keyBase}:instruct:model:${pending.id}`);
-      run.usage.costEstimate += extracted.cost;
+      const extracted = await model.extractClaims({ snapshot }, `${keyBase}:instruct:model:${pending.id}`);
       if (!state.snapshots.some((s) => s.id === snapshot.id)) state.snapshots.push(snapshot);
       attachExtraction(state, snapshot, extracted, {
         kind: "question",
@@ -569,11 +581,10 @@ export async function runResearch(
       await store.saveSnapshot(snapshot);
       await ingestToLibrary(snapshot);
       state.snapshots.push(snapshot);
-      const extracted = await adapters.model.extractClaims(
+      const extracted = await model.extractClaims(
         { snapshot },
         `${keyBase}:gather:attach:model:${ai}`,
       );
-      run.usage.costEstimate += extracted.cost;
       attachExtraction(state, snapshot, extracted, {
         kind: "attachments",
         versionId: snapshotVersionMap.get(snapshot.id),
@@ -643,12 +654,11 @@ export async function runResearch(
         });
         if (!state.snapshots.some((s) => s.id === snapshot.id)) state.snapshots.push(snapshot);
         await store.saveSnapshot(snapshot);
-        const extracted = await adapters.model.extractClaims(
+        const extracted = await model.extractClaims(
           { snapshot },
           `${keyBase}:gather:reuse:${binding.bindingId}`,
         );
-        run.usage.costEstimate += extracted.cost;
-        attachExtraction(state, snapshot, extracted, {
+          attachExtraction(state, snapshot, extracted, {
           kind: "reuse",
           bindingId: binding.bindingId,
           versionId: binding.versionId,
@@ -726,7 +736,7 @@ export async function runResearch(
     } else {
       const analyze = await runStageSafe({
         call: () =>
-          adapters.model.runStage(
+          model.runStage(
             "analyze",
             { goal: request.goal, questions: state.questions, claims: state.claims },
             `${keyBase}:analyze:0`,
@@ -735,9 +745,6 @@ export async function runResearch(
         fallback: () => ({ findings: [], gaps: [] }),
         limitation: "分析输出不合格,发现清单置空",
         state,
-        onCost: (c) => {
-          run.usage.costEstimate += c;
-        },
         apply: (a) => {
           state.findings = a.findings;
         },
@@ -772,7 +779,7 @@ export async function runResearch(
     } else {
       const draft = await runStageSafe({
         call: () =>
-          adapters.model.runStage(
+          model.runStage(
             "draft",
             {
               goal: request.goal,
@@ -790,9 +797,6 @@ export async function runResearch(
         fallback: () => ({ reportMd: `# ${request.goal}\n\n(草稿生成失败,以下为证据清单摘要)` }),
         limitation: "草稿输出不合格,已降级为证据摘要草稿",
         state,
-        onCost: (c) => {
-          run.usage.costEstimate += c;
-        },
         apply: (d) => {
           state.draftMd = d.reportMd;
         },
@@ -808,7 +812,7 @@ export async function runResearch(
     if (tracker.overBudget()) {
       state.capped = true;
     } else {
-      const res = await adapters.model.runStage(
+      const res = await model.runStage(
         "polish",
         {
           goal: request.goal,
@@ -819,7 +823,6 @@ export async function runResearch(
         },
         `${keyBase}:polish:0`,
       );
-      run.usage.costEstimate += res.cost;
       const polished = safeParse(
         PolishOutputSchema,
         coerceDraftOutput(res.output),
@@ -845,7 +848,7 @@ export async function runResearch(
       }
       const preVerdicts = verifyCitations(state.evidence, state.snapshots);
       const preConflicts = checkCalibration(state.claims);
-      const res = await adapters.model.runStage(
+      const res = await model.runStage(
         "review",
         {
           goal: request.goal,
@@ -857,7 +860,6 @@ export async function runResearch(
         },
         `${keyBase}:review:${loopsUsed}`,
       );
-      run.usage.costEstimate += res.cost;
       const review = safeParse(
         ReviewOutputSchema,
         res.output,
@@ -879,7 +881,7 @@ export async function runResearch(
               fixedAny = true;
             }
           } else if (issue.fix === "rephrase") {
-            const d = await adapters.model.runStage(
+            const d = await model.runStage(
               "draft",
               {
                 goal: request.goal,
@@ -891,7 +893,6 @@ export async function runResearch(
               },
               `${keyBase}:draft:fix${loopsUsed}`,
             );
-            run.usage.costEstimate += d.cost;
             // 不用硬 parse:一次不合格的重写输出不该炸掉整个 run;失败保留原草稿并披露
             const rewritten = safeParse(
               DraftOutputSchema,
