@@ -32,3 +32,4 @@
 {"at":"2026-10-04T08:12:57.884Z","event":"published","data":{"version":1,"runId":"406ee09a-f876-4947-9a62-00a94cb4a182","configHash":"81c449167d671827b448486f52d983fe611a1ec4fb44e7c2bb803f222e749334"}}
 {"at":"2026-10-04T08:13:20.782Z","event":"published","data":{"version":2,"runId":"253a193b-4350-4e39-bd12-9ee3597e42e6","configHash":"e93bb83d0a0e5d90954b1249033897f5e1e80d4da717b3bee28c65d40b1c7760"}}
 {"at":"2026-10-04T08:16:11.433Z","event":"formal","data":{"version":2,"summarySource":"fallback","delivery":"limited"}}
+{"at":"2026-10-15T01:53:32.971Z","event":"snapshots-migrated","data":{"count":72,"renamedTo":"snapshots.json.bak"}}

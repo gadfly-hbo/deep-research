@@ -1,2 +1,3 @@
 {"at":"2026-09-21T04:13:04.757Z","event":"project-created","data":{"module":"brand","goal":"森马"}}
 {"at":"2026-09-22T15:10:14.255Z","event":"archived","data":{}}
+{"at":"2026-10-15T01:53:32.930Z","event":"snapshots-migrated","data":{"count":6,"renamedTo":"snapshots.json.bak"}}

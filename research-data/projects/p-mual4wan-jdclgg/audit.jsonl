@@ -3,3 +3,4 @@
 {"at":"2026-09-21T02:35:28.926Z","event":"bundle-saved","data":{"runId":"8347724b-42e3-465a-a00f-ac479b725d80","claims":80,"evidence":80}}
 {"at":"2026-09-21T02:35:29.843Z","event":"published","data":{"version":1,"runId":"8347724b-42e3-465a-a00f-ac479b725d80","configHash":"753fd65bb5294739818526fefe2874536bc2fa2937aacbeed8e288e46a526377"}}
 {"at":"2026-09-22T15:10:10.377Z","event":"archived","data":{}}
+{"at":"2026-10-15T01:53:32.923Z","event":"snapshots-migrated","data":{"count":18,"renamedTo":"snapshots.json.bak"}}
