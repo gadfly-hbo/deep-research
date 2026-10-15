@@ -8,7 +8,7 @@ import { SourceSchema } from "../../library/contracts.js";
 import { searchAssets } from "../../library/searchService.js";
 import { migrateProjectsToLibrary } from "../../app/migrateLibrary.js";
 import { json } from "./http.js";
-import type { Ctx } from "./projectsRuns.js";
+import type { Ctx } from "./http.js";
 
 // P1-3 T4:library 域(附录 A 第 18–33 项:15 个情报库匹配块 + /api/migrate)。
 // HTTP 行为与拆分前逐位一致;5 处局部 try/catch→400 原样机械搬迁(diff gate 注记 8),regex 匹配顺序逐位保留。

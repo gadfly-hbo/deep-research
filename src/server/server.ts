@@ -1,15 +1,14 @@
-import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
-import { chmodSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from "node:http";
 import { join } from "node:path";
 import type { Adapters } from "../adapters/types.js";
-import { DEFAULT_BUDGET } from "../core/runResearch.js";
 import { FsProjectStore } from "../stores/fsStore.js";
 import { FsLibraryStore } from "../library/fsLibraryStore.js";
 import { RunRegistry } from "./runRegistry.js";
-import { json, PROJECT_ID } from "./routes/http.js";
-import { handleProjectsRoutes, type Ctx } from "./routes/projectsRuns.js";
+import { json, PROJECT_ID, type Ctx } from "./routes/http.js";
+import { handleProjectsRoutes } from "./routes/projectsRuns.js";
 import { handleLibraryRoutes } from "./routes/library.js";
+import { handleSettingsRoutes } from "./routes/settings.js";
 
 export interface ServerDeps {
   dataDir: string;
@@ -22,22 +21,10 @@ export interface RunningServer {
   close: () => Promise<void>;
 }
 
-const KEYISH = /key|token|secret|password/i;
-
 const readBody = async (req: IncomingMessage): Promise<string> => {
   const chunks: Buffer[] = [];
   for await (const chunk of req) chunks.push(chunk as Buffer);
   return Buffer.concat(chunks).toString("utf8");
-};
-
-const stripKeys = (value: unknown): unknown => {
-  if (Array.isArray(value)) return value.map(stripKeys);
-  if (typeof value === "object" && value !== null) {
-    return Object.fromEntries(
-      Object.entries(value as Record<string, unknown>).filter(([k]) => !KEYISH.test(k)),
-    );
-  }
-  return value;
 };
 
 export async function startServer(deps: ServerDeps, port = 0): Promise<RunningServer> {
@@ -124,37 +111,8 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
     // library 域(T4 拆至 routes/library.ts):15 个情报库匹配块 + /api/migrate,regex 顺序逐位保留。
     if (await handleLibraryRoutes(ctx, req, res, url, body)) return;
 
-    if (path === "/api/settings") {
-      if (method === "GET") {
-        const raw = existsSync(configPath)
-          ? (JSON.parse(readFileSync(configPath, "utf8")) as Record<string, unknown>)
-          : {};
-        json(res, 200, { config: stripKeys(raw), budgetDefaults: DEFAULT_BUDGET });
-        return;
-      }
-      if (method === "POST") {
-        for (const key of Object.keys(body)) {
-          if (KEYISH.test(key)) {
-            json(res, 400, { error: `密钥不通过 API 写入(字段 ${key});请用环境变量或自行编辑 config.json` });
-            return;
-          }
-        }
-        // 合并而非整体覆盖:body 未提及的键(如 search 链路)必须保留
-        const existing = existsSync(configPath)
-          ? (JSON.parse(readFileSync(configPath, "utf8")) as Record<string, unknown>)
-          : {};
-        const merged: Record<string, unknown> = { ...existing, ...body };
-        // 模型为主备链(数组)时,UI 只编辑链首
-        if (body.model && !Array.isArray(body.model) && Array.isArray(existing.model)) {
-          merged.model = [body.model, ...(existing.model as unknown[]).slice(1)];
-        }
-        mkdirSync(deps.dataDir, { recursive: true });
-        writeFileSync(configPath, JSON.stringify(merged, null, 2));
-        chmodSync(configPath, 0o600);
-        json(res, 200, { saved: true });
-        return;
-      }
-    }
+    // settings 域(T5 拆至 routes/settings.ts):GET/POST /api/settings,其余方法落 catch-all。
+    if (await handleSettingsRoutes(ctx, req, res, url, body)) return;
 
     if (method === "GET" && !path.startsWith("/api/")) {
       const root = join(process.cwd(), "ui-dist");

@@ -4,11 +4,11 @@ import { join } from "node:path";
 import { buildExportFilesV2, zipExport } from "../../app/exportBundle.js";
 import { generateFormal } from "../../app/projectService.js";
 import { json } from "./http.js";
-import type { Ctx } from "./projectsRuns.js";
+import type { Ctx } from "./http.js";
 
 // P1-3 T3:versions 域(附录 A 第 13–17 项:versions 子树 4 端点 + snapshots)。
 // 由 projectsRuns 域在验 id 之后委托(R2-1);HTTP 行为与拆分前逐位一致。
-// 注意:Ctx 类型暂从 projectsRuns.ts 取(type-only import,运行时擦除,无模块环);T5 统一迁至 http.ts。
+// T5:Ctx 已迁至 routes/http.ts。
 
 export interface VersionRouteInput {
   id: string;

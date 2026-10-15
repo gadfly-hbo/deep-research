@@ -3,7 +3,6 @@ import { existsSync, readdirSync } from "node:fs";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { join } from "node:path";
 import { z } from "zod";
-import type { Adapters } from "../../adapters/types.js";
 import { createProject, publishBundle, runOnProject } from "../../app/projectService.js";
 import {
   ResearchRequestSchema,
@@ -14,28 +13,14 @@ import {
 import type { RunOptions } from "../../core/runResearch.js";
 import { OutlineOutputSchema, PlanOutputSchema, type PlanOutput } from "../../core/stages.js";
 import type { AssetBinding } from "../../library/contracts.js";
-import type { FsLibraryStore } from "../../library/fsLibraryStore.js";
 import { bindAssets } from "../../library/reuse.js";
 import { getModuleConfig } from "../../modules/registry.js";
 import { FsProjectStore } from "../../stores/fsStore.js";
-import type { RunRegistry } from "../runRegistry.js";
-import { json, PROJECT_ID } from "./http.js";
+import { json, PROJECT_ID, type Ctx } from "./http.js";
 import { handleVersionRoutes } from "./versions.js";
 
 // P1-3 T2:projectsRuns 域(附录 A 第 1–12 项)。HTTP 行为与拆分前逐位一致。
-
-/** D2:启动级单例 ctx(各域 handler 共享;T5 统一迁至 routes/http.ts)。 */
-export interface Ctx {
-  dataDir: string;
-  makeAdapters: () => Adapters;
-  library: FsLibraryStore;
-  parsePdf: (bytes: Uint8Array) => Promise<{ bodyText: string; parseStatus: "ok" | "failed" }>;
-  projectDir: (id: string) => string;
-  /** = FsProjectStore.open(projectDir(id)):每调新开实例,语义与现状请求级 store() 闭包逐字相同 */
-  storeFor: (id: string) => FsProjectStore;
-  configPath: string;
-  registry: RunRegistry;
-}
+// T5:Ctx 已迁至 routes/http.ts(D2 启动级单例)。
 
 const IncrementalRefSchema = z.object({ runId: z.string().min(1), requestId: z.string().min(1) });
 
