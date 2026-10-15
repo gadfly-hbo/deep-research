@@ -108,7 +108,7 @@ describe("gather agent 化(P2-4 T2)", () => {
     expect(events.filter((e) => e.kind === "fetch")).toHaveLength(2);
     const fetchQids = new Set(events.filter((e) => e.kind === "fetch").map((e) => e.qid));
     expect(fetchQids).toEqual(new Set(["q1", "q2"]));
-    // 任务卡六段(R1-5)
+    // 任务卡六段+证据规则段(修复后七段)(R1-5)
     expect(prompts[0]).toContain("【研究问题】市场规模");
     expect(prompts[0]).toContain("【研究目标与范围】");
     expect(prompts[0]).toContain("【已答问题】");
@@ -233,5 +233,13 @@ describe("gather agent 化(P2-4 T2)", () => {
     });
     const evIds = bundle!.evidence.filter((e) => e.id.startsWith("ev:q1:")).map((e) => e.id);
     expect(evIds).toEqual(["ev:q1:snap:https://a/1:0"]); // 两轮采证各一次,清理后无重复
+  });
+});
+
+describe("REVIEW 收尾钉子(P2-4)", () => {
+  it("S2:livePage 抓取超时常量=20s(低于 toolTimeoutMs 30s,消竞速;源常量钉死防回漂)", async () => {
+    const { readFileSync } = await import("node:fs");
+    const src = readFileSync(new URL("../adapters/live.ts", import.meta.url), "utf8");
+    expect(src).toMatch(/FETCH_TIMEOUT_MS\s*=\s*20_000/);
   });
 });

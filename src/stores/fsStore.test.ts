@@ -237,3 +237,17 @@ describe("FsProjectStore 快照一文件一快照(P0-2)", () => {
     await expect(store.saveSnapshot(snap("snap:victim", "2026-02-01T00:00:00.000Z"))).rejects.toThrow("碰撞");
   });
 });
+
+describe("investigation seq 并发单调(REVIEW S3)", () => {
+  it("同 run 并发 8 路 append,seq 严格递增无重号", async () => {
+    const dir = tmp();
+    const store = FsProjectStore.create(dir, { module: "industry", goal: "g", scope: { summary: "s", queries: [] } });
+    const events = await Promise.all(
+      Array.from({ length: 8 }, (_, i) => store.appendInvestigation("run-x", { qid: `q${i % 2}`, kind: "query", summary: `并发 ${i}` })),
+    );
+    const seqs = events.map((e) => e.seq).sort((a, b) => a - b);
+    expect(seqs).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+    const all = await store.readInvestigation("run-x", 0, 100);
+    expect(all.map((e) => e.seq)).toEqual(seqs);
+  });
+});

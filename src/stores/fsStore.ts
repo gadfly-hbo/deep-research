@@ -385,17 +385,29 @@ export class FsProjectStore implements ResearchStore {
    * P2-4(D4/R1-9):调查事件侧车——runs/<runId>/investigation.jsonl 续写(仿 pending 先例);
    * seq 取文件尾行 +1,跨实例打开/跨 resume 保持单调。
    */
+  /** REVIEW S3:同 run 并发 append 在 await 读缝下会双读尾行重号——per-run 互斥链串行化。 */
+  private investigationTail = new Map<string, Promise<InvestigationEvent | null>>();
   async appendInvestigation(runId: string, event: Omit<InvestigationEvent, "seq" | "at">): Promise<InvestigationEvent> {
-    mkdirSync(join(this.dir, "runs", runId), { recursive: true });
-    const path = join(this.dir, "runs", runId, "investigation.jsonl");
-    const existing = await this.readInvestigation(runId);
-    const full: InvestigationEvent = {
-      seq: existing.length > 0 ? existing[existing.length - 1].seq + 1 : 1,
-      at: new Date().toISOString(),
-      ...event,
-    };
-    appendFileSync(path, `${JSON.stringify(full)}\n`);
-    return full;
+    const run = (this.investigationTail.get(runId) ?? Promise.resolve(null)).catch(() => null);
+    const next = run.then(async (tail) => {
+      mkdirSync(join(this.dir, "runs", runId), { recursive: true });
+      const path = join(this.dir, "runs", runId, "investigation.jsonl");
+      // 缓存尾 seq(跨实例首调重读文件一次)
+      let lastSeq = tail?.seq ?? 0;
+      if (lastSeq === 0) {
+        const existing = await this.readInvestigation(runId);
+        lastSeq = existing.length > 0 ? existing[existing.length - 1].seq : 0;
+      }
+      const full: InvestigationEvent = {
+        seq: lastSeq + 1,
+        at: new Date().toISOString(),
+        ...event,
+      };
+      appendFileSync(path, `${JSON.stringify(full)}\n`);
+      return full;
+    });
+    this.investigationTail.set(runId, next);
+    return next;
   }
 
   async readInvestigation(runId: string, sinceSeq = 0, limit = Number.MAX_SAFE_INTEGER): Promise<InvestigationEvent[]> {

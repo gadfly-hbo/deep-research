@@ -629,7 +629,7 @@ export async function runResearch(
             if (readN > READ_PER_QUESTION_LIMIT) {
               return { error: "read-limit-exceeded", note: `本问读取次数已达上限(${READ_PER_QUESTION_LIMIT} 次),请基于已有摘录收束` };
             }
-            const snap = state.snapshots.find((s) => s.id === sid);
+            const snap = state.snapshots.find((s) => s.id === sid) ?? snapshotsBySid.get(sid);
             if (!snap) return { error: "snapshot-not-found", note: `快照不存在: ${sid}` };
             return { sid, title: snap.title, excerpt: clipExcerpt(snap.bodyText.slice(offset), limit) };
           },

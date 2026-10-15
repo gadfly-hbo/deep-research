@@ -112,7 +112,7 @@ const buildLimits = () => ({
   cumulative: "unlimited" as const,
   maxOutputTokens: 32_768,
   modelTimeoutMs: Number(process.env.DR_MODEL_TIMEOUT_MS ?? 300_000),
-  toolTimeoutMs: 30_000, // 本批无工具,名义值
+  toolTimeoutMs: 30_000, // 罩住 fetch(20s)+解析+落盘的全程上限(P2-4 工具即采证)
   controlTimeoutMs: 30_000,
 });
 
