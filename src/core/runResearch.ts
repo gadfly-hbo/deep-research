@@ -11,6 +11,7 @@ import {
   type ResearchRequest,
   type ResearchResultBundle,
   type ResearchRun,
+  type ReportOutline,
   type SourceSnapshot,
 } from "../contracts.js";
 import { getModuleConfig } from "../modules/registry.js";
@@ -25,6 +26,7 @@ import type { Checkpoint, ResearchStore } from "../stores/types.js";
 import {
   AnalyzeOutputSchema,
   DraftOutputSchema,
+  OutlineOutputSchema,
   PlanOutputSchema,
   PolishOutputSchema,
   ReviewOutputSchema,
@@ -70,6 +72,11 @@ export interface RunOptions {
   projectId?: string;
   /** 2.1:执行中干预指令源(非阻塞拉取,取走即消费);server 层接落盘队列,测试注入可控序列。 */
   pollInstructions?: () => Intervention[] | Promise<Intervention[]>;
+  /**
+   * P2-3 确认门开关(D1/KA4):server 传入启用 plan/outline 两道返回式门;
+   * CLI/测试缺省不传=旧行为直跑(跳过 plan 门、无 outline 阶段)。
+   */
+  gates?: { plan: true; outline: true };
 }
 
 export interface RunResult {
@@ -88,12 +95,17 @@ export async function runResearch(
   const moduleConfig = options.moduleConfig ?? getModuleConfig(request.module);
   const keyBase = request.id ?? randomUUID();
   const prior = request.id ? await store.findRunByRequestId(request.id) : undefined;
-  // P2-3(KA1):awaiting-confirmation 同为可恢复态——门 confirm 重启管线时沿用原 runId/检查点
+  // P2-3(KA1):awaiting-confirmation 同为可恢复态——门 confirm 重启管线时沿用原 runId/检查点;
+  // gates 流程的 launch 预落与 confirm 的 CAS 都会先置 running,凭 gates 认领而非新起 runId
   const resuming =
-    prior !== undefined && (prior.status === "cancelled" || prior.status === "awaiting-confirmation");
+    prior !== undefined &&
+    (prior.status === "cancelled" ||
+      prior.status === "awaiting-confirmation" ||
+      (prior.status === "running" && options.gates !== undefined));
   const runId = resuming ? prior.id : (options.runId ?? randomUUID());
   const run: ResearchRun = resuming
-    ? { ...prior, status: "running" }
+    ? // P2-3:恢复即清门字段(门身份只活在 awaiting-confirmation 期间)
+      { ...prior, status: "running", gate: undefined }
     : {
         id: runId,
         requestId: keyBase,
@@ -145,6 +157,28 @@ export async function runResearch(
           },
         }
       : {};
+  /**
+   * P2-3(KA5/D2):gates 下增量追问上下文——照 routes 层 resolveIncrementalBase 的输出形状
+   * 读基准 checkpoints(已答问题)与成果包(基准框架),直接序列化进 plan/outline 阶段输入。
+   */
+  const incrementalContext = async (): Promise<
+    { answeredQuestions: string[]; baseOutline: ReportOutline | null } | undefined
+  > => {
+    if (!options.gates || !incrementalOf || !baseBundle) return undefined;
+    const cps = await store.checkpoints(incrementalOf.runId);
+    const gatherCp = cps.find((c) => c.stage === "gather");
+    const planCp = cps.find((c) => c.stage === "plan");
+    const questions =
+      (gatherCp?.data as { questions?: Array<{ question: string; status: string }> } | undefined)?.questions ??
+      (planCp?.data as { questions?: Array<{ question: string; status: string }> } | undefined)?.questions ??
+      [];
+    return {
+      answeredQuestions: questions
+        .filter((q) => q.status === "answered" || q.status === "partially")
+        .map((q) => q.question),
+      baseOutline: baseBundle.outline ?? null,
+    };
+  };
   for (const cp of priorCheckpoints) {
     if (cp.stage === "plan") {
       state.questions = (cp.data as PlanOutput).questions;
@@ -193,6 +227,19 @@ export async function runResearch(
     const finished = ResearchRunSchema.parse(run);
     await store.saveRun(finished);
     return { run: finished, bundle: null };
+  };
+
+  /**
+   * P2-3 返回式门落盘:awaiting-confirmation + gate 身份后返回(R1-1:run.stage 保持 "plan",
+   * 门身份由 gate.kind 表达);confirm 重启管线续跑,暂停段不计 wallMs(每次入口重置 startedAt)。
+   */
+  const saveGate = async (kind: "plan" | "outline"): Promise<RunResult> => {
+    run.status = "awaiting-confirmation";
+    run.gate = { kind };
+    syncProgress();
+    const gated = ResearchRunSchema.parse(run);
+    await store.saveRun(gated);
+    return { run: gated, bundle: null };
   };
 
   // 恢复瞬间即落 running:服务端 resume 不再预落记录,可见性由这里兜底
@@ -397,9 +444,24 @@ export async function runResearch(
     if (tracker.overBudget()) {
       state.capped = true;
     } else {
+      // P2-3(KA5):gates 下的增量追问把基准已答问题注入 plan 输入,只为新问题生成计划
+      const incremental = await incrementalContext();
       const res = await model.runStage(
         "plan",
-        { goal: request.goal, scope: request.scope, questionFramework: moduleConfig.questionFramework },
+        {
+          goal: request.goal,
+          scope: request.scope,
+          questionFramework: moduleConfig.questionFramework,
+          ...(incremental
+            ? {
+                incremental: {
+                  answeredQuestions: incremental.answeredQuestions,
+                  newQuestionBudget: 6,
+                  note: "只为追问生成新问题,不重复基准研究已回答的问题",
+                },
+              }
+            : {}),
+        },
         `${keyBase}:plan:0`,
       );
       const plan = safeParse(
@@ -411,13 +473,51 @@ export async function runResearch(
         "计划输出不合格,已退回范围种子问题",
         state,
       );
+      // R1-8:增量追问 6 问上限(与预览端点同款截断)
+      if (incremental && plan.questions.length > 6) plan.questions = plan.questions.slice(0, 6);
       state.questions = plan.questions;
       await saveCp("plan", plan);
+      if (options.gates?.plan) return saveGate("plan");
     }
   } else {
     // P2-3(KA1):plan checkpoint append-only(confirm 追加编辑版),恢复取最新一版
     const planCp = priorCheckpoints.findLast((c) => c.stage === "plan");
     if (planCp) state.questions = (planCp.data as PlanOutput).questions;
+  }
+
+  // --- P2-3 outline 阶段(gates 下新增,plan 门确认后执行):输入=已确认问题(+增量上下文),
+  // 产出后落 outline 门返回;request.outline 已有(旧路径/outline 门确认后)则整段跳过
+  if (options.gates?.outline && !request.outline) {
+    if (cancelled()) return cancelRun();
+    const incremental = await incrementalContext();
+    const res = await model.runStage(
+      "outline",
+      {
+        goal: request.goal,
+        scope: request.scope,
+        questions: state.questions.map((q) => q.question),
+        reportTemplate: moduleConfig.reportTemplate,
+        ...(incremental
+          ? {
+              incremental: {
+                baseOutline: incremental.baseOutline,
+                answeredQuestions: incremental.answeredQuestions,
+                note: "基于基准研究框架生成增量框架:保留原有章节,标注新问题章节的插入位置",
+              },
+            }
+          : {}),
+      },
+      `${keyBase}:outline:0`,
+    );
+    const outline = safeParse(
+      OutlineOutputSchema,
+      res.output,
+      () => ({ title: request.goal, sections: [{ id: "s1", title: "正文", bullets: [] }] }),
+      "框架输出不合格,已退回单章节框架",
+      state,
+    );
+    await saveCp("outline", outline);
+    return saveGate("outline");
   }
 
   // --- 2.1 增量注入:基准证据/主张/快照原样并入(固定引用),限制沿用并披露采录时点 ---

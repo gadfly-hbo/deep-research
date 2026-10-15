@@ -194,6 +194,8 @@ export const ResearchRunSchema = z.object({
   interventions: z.array(InterventionSchema).optional(),
   /** 2.1 扩展:采证进度摘要。 */
   progress: RunProgressSchema.optional(),
+  /** P2-3:确认门身份(仅 awaiting-confirmation 期间存在;confirm 的 CAS 写清理)。 */
+  gate: z.object({ kind: z.enum(["plan", "outline"]) }).optional(),
 });
 export type ResearchRun = z.infer<typeof ResearchRunSchema>;
 
