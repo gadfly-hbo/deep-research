@@ -918,5 +918,25 @@
     "tags": [],
     "lifecycle": "ACTIVE",
     "createdAt": "2026-10-15T09:32:15.517Z"
+  },
+  "s-aa5eed60": {
+    "sourceId": "s-aa5eed60",
+    "title": "扫地机器人-新兴产业百科-三个皮匠报告网",
+    "url": "https://m.sgpjbg.com.cn/news/6846786.html",
+    "docType": "other",
+    "entityIds": [],
+    "tags": [],
+    "lifecycle": "ACTIVE",
+    "createdAt": "2026-10-15T14:57:56.369Z"
+  },
+  "s-936227de": {
+    "sourceId": "s-936227de",
+    "title": "IDC：前三季度中国市场扫地机器人出货量同比增长27.2%_腾讯新闻",
+    "url": "https://news.qq.com/rain/a/20251207A04O3E00",
+    "docType": "other",
+    "entityIds": [],
+    "tags": [],
+    "lifecycle": "ACTIVE",
+    "createdAt": "2026-10-15T14:58:01.186Z"
   }
 }

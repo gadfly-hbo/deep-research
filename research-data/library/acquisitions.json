@@ -1322,5 +1322,27 @@
     "readScope": "READ_FULL",
     "reuseScope": "PROJECT_ONLY",
     "rights": {}
+  },
+  "aq-00f27a2a": {
+    "acquisitionId": "aq-00f27a2a",
+    "versionId": "sv-d974a6a7d33d",
+    "projectId": "p-mv9nt9ca-tibnbc",
+    "acquiredAt": "2026-10-15T14:57:56.368Z",
+    "recordedAt": "2026-10-15T14:57:56.369Z",
+    "method": "research-fetch",
+    "readScope": "READ_FULL",
+    "reuseScope": "PROJECT_ONLY",
+    "rights": {}
+  },
+  "aq-a64f9249": {
+    "acquisitionId": "aq-a64f9249",
+    "versionId": "sv-7643b871ad93",
+    "projectId": "p-mv9nt9ca-tibnbc",
+    "acquiredAt": "2026-10-15T14:58:01.185Z",
+    "recordedAt": "2026-10-15T14:58:01.186Z",
+    "method": "research-fetch",
+    "readScope": "READ_FULL",
+    "reuseScope": "PROJECT_ONLY",
+    "rights": {}
   }
 }
