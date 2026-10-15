@@ -279,3 +279,83 @@ describe("确认门端点(P2-3 T2)", () => {
     expect(done.id).toBe(outlineRun.id); // 全程沿用原 runId
   }, 30_000);
 });
+
+describe("确认门恢复链路钉子(P2-3 T4)", () => {
+  const post = (base: string, path: string, body: unknown) =>
+    fetch(`${base}${path}`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
+  const waitRun = async (base: string, projectId: string, requestId: string, pred: (r: any) => boolean, label: string) => {
+    for (let i = 0; i < 200; i++) {
+      const d = (await (await fetch(`${base}/api/projects/${projectId}`)).json()) as any;
+      const run = d.runs.find((r: any) => r.requestId === requestId);
+      if (run && pred(run)) return run;
+      await new Promise((r) => setTimeout(r, 50));
+    }
+    throw new Error(`等待超时(${label})`);
+  };
+
+  it("awaiting 跨 server 重启仍可确认(durable 门;启动清扫只清 running)", async () => {
+    const dataDir = mkdtempSync(join(tmpdir(), "dr-gate-restart-"));
+    const searchQueries: string[] = [];
+    const mkSrv = () => startServer({ dataDir, makeAdapters: () => fakeAdapters(searchQueries) });
+    let srv = await mkSrv();
+    let base = `http://127.0.0.1:${srv.port}`;
+    try {
+      const created = await post(base, "/api/projects", { module: "industry", goal: "重启门", scope: { summary: "s", queries: [] } });
+      const id = ((await created.json()) as { id: string }).id;
+      const started = await post(base, `/api/projects/${id}/runs`, {
+        request: { id: "req-restart", module: "industry", goal: "重启门", scope: { summary: "s", queries: [] } },
+      });
+      expect(started.status).toBe(200);
+      const planGate = await waitRun(base, id, "req-restart", (r) => r.status === "awaiting-confirmation", "plan 门");
+
+      // 模拟进程重启:关旧起新(同 dataDir)
+      await srv.close();
+      srv = await mkSrv();
+      base = `http://127.0.0.1:${srv.port}`;
+
+      const gate = (await (await fetch(`${base}/api/projects/${id}/runs/${planGate.id}/gate`)).json()) as { kind: string };
+      expect(gate.kind).toBe("plan");
+      const confirm = await post(base, `/api/projects/${id}/runs/${planGate.id}/gate/confirm`, {
+        payload: { questions: [{ id: "q1", question: "重启后确认的问题", status: "open" }] },
+      });
+      expect(confirm.status).toBe(200);
+      // 确认后推进到框架门(重启后的管线健康)
+      await waitRun(base, id, "req-restart", (r) => r.status === "awaiting-confirmation" && r.gate?.kind === "outline", "outline 门");
+    } finally {
+      await srv.close();
+    }
+  }, 30_000);
+
+  it("gate/cancel 后 pending 指令经 resume 回灌仍被消费", async () => {
+    const dataDir = mkdtempSync(join(tmpdir(), "dr-gate-pending-"));
+    const searchQueries: string[] = [];
+    const srv = await startServer({ dataDir, makeAdapters: () => fakeAdapters(searchQueries) });
+    const base = `http://127.0.0.1:${srv.port}`;
+    try {
+      const created = await post(base, "/api/projects", { module: "industry", goal: "门内指令", scope: { summary: "s", queries: [] } });
+      const id = ((await created.json()) as { id: string }).id;
+      await post(base, `/api/projects/${id}/runs`, {
+        request: { id: "req-pending", module: "industry", goal: "门内指令", scope: { summary: "s", queries: [] } },
+      });
+      const awaiting = await waitRun(base, id, "req-pending", (r) => r.status === "awaiting-confirmation", "plan 门");
+
+      const cancel = await post(base, `/api/projects/${id}/runs/${awaiting.id}/gate/cancel`, {});
+      expect(cancel.status).toBe(200);
+
+      // 直写 pending(cancelled 的 run 仍可恢复,队列按 runId 落盘)
+      const store = FsProjectStore.open(join(dataDir, "projects", id));
+      await store.savePendingInstructions(awaiting.id, [
+        { id: "ins:pin1", submittedAt: new Date().toISOString(), instruction: { type: "skip-question", questionId: "q1" } },
+      ]);
+
+      // 旧路径 resume(不带 gates):plan checkpoint 已在,直进 gather 跑完
+      const confirmResume = await post(base, `/api/projects/${id}/runs/resume`, { requestId: "req-pending" });
+      expect(confirmResume.status).toBe(200);
+      const done = await waitRun(base, id, "req-pending", (r) => ["published", "limited"].includes(r.status), "完成");
+      expect(done.id).toBe(awaiting.id);
+      expect(await store.readPendingInstructions(awaiting.id)).toEqual([]); // 回灌后被 drain 消费
+    } finally {
+      await srv.close();
+    }
+  }, 30_000);
+});
