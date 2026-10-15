@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>P1-4 UI-GATE 原型 — PlanView 下沉 + formalReady 数据源切换(行为保持,逐像素不变)</title>
+<link rel="stylesheet" href="../../ui/styles.css">
+<style>
+  /* 仅本原型自身的陈列布局(分区标题/网格),不进入产品代码 */
+  body { background: var(--bg); margin: 0; padding: 24px 32px 80px; }
+  .gate-sec { max-width: 880px; margin: 0 auto 40px; }
+  .gate-h { font: 600 15px/1.4 Inter, system-ui, sans-serif; color: var(--text-2); letter-spacing: .04em; text-transform: uppercase; margin: 0 0 4px; }
+  .gate-note { font: 12px/1.6 Inter, system-ui, sans-serif; color: var(--text-3); margin: 0 0 12px; }
+  .gate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+  .gate-cell { border: 1px dashed var(--line-strong); border-radius: 8px; padding: 10px; }
+  .gate-cell > .gate-tag { font: 11px/1 Inter, system-ui; color: var(--accent-strong); display: block; margin-bottom: 8px; letter-spacing: .06em; }
+  .gate-cell .view, .gate-cell .card { margin: 0; box-shadow: none; }
+  .demo-toast { position: static; display: inline-block; margin-top: 8px; }
+  .fake-busy { display:flex; align-items:center; gap:8px; color: var(--text-2); font-size: 12px; }
+  .fake-busy .spinner { width:14px; height:14px; }
+</style>
+</head>
+<body>
+
+<section class="gate-sec">
+  <h1 style="font:600 18px/1.4 Inter,system-ui; margin:0 0 6px">P1-4 表面状态原型(静态,无 JS)</h1>
+  <p class="gate-note">样式直接加载仓库真实 <code>ui/styles.css</code>。每个分区对应 ui-contract.md 的一个表面/状态;本批为行为保持重构——这些状态与改造前逐像素一致,原型钉的是"不许变"。数据为合成示例(字段形状真实)。复用资产搜索块(R1-4 不在范围)未陈列。</p>
+</section>
+
+<section class="gate-sec">
+  <p class="gate-h">S2 · 研究向导(PlanView「新建研究运行」卡)— 请求编排下沉 planWizard 后视觉不变</p>
+  <div class="gate-grid">
+
+    <div class="gate-cell">
+      <span class="gate-tag">S2-a 第一步 · 空闲(目标空 → 生成按钮禁用)</span>
+      <div class="card">
+        <h2 class="card-h">新建研究运行 <span class="step-tag">第一步 · 研究目标</span></h2>
+        <label class="fld"><span class="fld-label">研究目标</span><input placeholder="研究目标"></label>
+        <label class="fld"><span class="fld-label">范围说明</span><input placeholder="对象、时间、单位等边界"></label>
+        <label class="fld"><span class="fld-label">附件(本机文件路径,文本 / PDF,每行一个,可空)</span><textarea rows="2"></textarea></label>
+        <div class="fld"><span class="fld-label">预算档位(决定资料量与耗时;不够可在采证页重跑升档)</span>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-sm" type="button">低</button>
+            <button class="btn btn-sm btn-primary" type="button">中</button>
+            <button class="btn btn-sm" type="button">高</button>
+          </div>
+        </div>
+        <div class="fld"><span class="fld-label">基于已完成研究追问(可选;延续其证据与主张,只为新问题采证)</span>
+          <select><option>— 全新研究(不追问) —</option><option>req-101 · 完整交付</option></select>
+        </div>
+        <button class="btn btn-primary" type="button" disabled>生成计划</button>
+      </div>
+    </div>
+
+    <div class="gate-cell">
+      <span class="gate-tag">S2-b busy · 生成计划中(按钮禁用 + busy 文案)</span>
+      <div class="card">
+        <h2 class="card-h">新建研究运行 <span class="step-tag">第一步 · 研究目标</span></h2>
+        <label class="fld"><span class="fld-label">研究目标</span><input value="中国咖啡连锁品牌竞争格局"></label>
+        <label class="fld"><span class="fld-label">范围说明</span><input value="2024-2025,中国大陆,门店数与营收口径"></label>
+        <p class="fake-busy"><span class="spinner" role="status"></span>生成计划中…通常 1-2 分钟</p>
+        <button class="btn btn-primary" type="button" disabled>生成计划</button>
+      </div>
+    </div>
+
+    <div class="gate-cell">
+      <span class="gate-tag">S2-c 第二步 · 计划已出(问题清单可编辑;增量变体带基准摘要)</span>
+      <div class="card">
+        <h2 class="card-h">新建研究运行 <span class="step-tag">第二步 · 确认研究计划</span></h2>
+        <div class="fld"><span class="fld-label">研究计划(可编辑;每条都会被采证并回答)</span>
+          <label><input type="checkbox" checked> 头部连锁门店数与市占率(2025)</label>
+          <label><input type="checkbox" checked> 加盟 vs 直营结构变化</label>
+          <label><input type="checkbox"> 价格带竞争与促销强度</label>
+        </div>
+        <p class="fine" style="margin:8px 0 0">基准研究已回答 6 问(证据 24 · 快照 18 · 主张 11),本次只为新问题采证。</p>
+        <button class="btn btn-primary" type="button">生成报告框架</button>
+      </div>
+    </div>
+
+    <div class="gate-cell">
+      <span class="gate-tag">S2-d 第三步 · 框架已出(启动可点)+ 失败态 toast</span>
+      <div class="card">
+        <h2 class="card-h">新建研究运行 <span class="step-tag">第三步 · 确认报告框架</span></h2>
+        <div class="fld"><span class="fld-label">报告框架预览</span>
+          <p class="fine" style="margin:0">《中国咖啡连锁竞争格局研究》— 市场规模口径 / 竞争结构与集中度 / 趋势与风险</p>
+        </div>
+        <div style="display:flex; gap:8px">
+          <button class="btn" type="button" disabled>生成报告框架</button>
+          <button class="btn btn-primary" type="button">启动研究</button>
+        </div>
+      </div>
+      <div class="toast demo-toast" role="status">请求失败:模型服务暂时不可用,请稍后重试(示例)</div>
+    </div>
+
+  </div>
+</section>
+
+<section class="gate-sec">
+  <p class="gate-h">S3 · 草稿阶段待采纳草案卡(DraftView)— formalReady 数据源切换后两态不变</p>
+  <div class="gate-grid">
+
+    <div class="gate-cell">
+      <span class="gate-tag">S3-a 未生成正式版(amber · 主操作=生成)</span>
+      <section class="draft-card" aria-label="待采纳报告草稿">
+        <div class="draft-heading">
+          <div class="draft-identity">
+            <div>
+              <p class="eyebrow">Pending draft · 待人审</p>
+              <h2>中国咖啡连锁品牌竞争格局</h2>
+              <p class="draft-source">来源运行 <span class="mono">req-101</span> · 主张 11 · 证据 24 · 快照 18</p>
+            </div>
+          </div>
+          <span class="state-badge amber">草稿 v1 · 未生成正式版</span>
+        </div>
+        <div class="draft-actions">
+          <button class="btn btn-ghost" type="button">打印</button>
+          <button class="btn btn-primary" type="button">人审通过,生成正式报告 →</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="gate-cell">
+      <span class="gate-tag">S3-b 已生成(adopted 绿 ✓ · 主操作=查看;刷新页面后此态保持 = D1/D2 派生)</span>
+      <section class="draft-card adopted" aria-label="待采纳报告草稿">
+        <div class="draft-heading">
+          <div class="draft-identity">
+            <span class="adopted-mark" aria-hidden="true">✓</span>
+            <div>
+              <p class="eyebrow">Pending draft · 待人审</p>
+              <h2>中国咖啡连锁品牌竞争格局</h2>
+              <p class="draft-source">来源运行 <span class="mono">req-101</span> · 主张 11 · 证据 24 · 快照 18</p>
+            </div>
+          </div>
+          <span class="state-badge green">正式版已生成 · v1</span>
+        </div>
+        <div class="draft-actions">
+          <button class="btn btn-ghost" type="button">打印</button>
+          <button class="btn btn-primary" type="button">查看正式产物 →</button>
+        </div>
+      </section>
+    </div>
+
+  </div>
+</section>
+
+<section class="gate-sec">
+  <p class="gate-h">S4 · 发布视图版本行(PublishView)— 同一数据源,两态文案不变</p>
+  <div class="gate-grid">
+    <div class="gate-cell">
+      <span class="gate-tag">S4-a v2 未生成 → 「生成正式报告」</span>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <div><strong>v2</strong> · 完整交付 · 2025-10-15</div>
+          <button class="btn btn-sm btn-primary" type="button">生成正式报告</button>
+        </div>
+      </div>
+    </div>
+    <div class="gate-cell">
+      <span class="gate-tag">S4-b v1 已生成(存量版本加载即正确)→ 查看产物;v2 生成中 busy 文案</span>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <div><strong>v1</strong> · 完整交付 · 2025-10-14</div>
+          <span style="display:flex;gap:8px">
+            <a class="btn btn-sm" href="#">HTML</a><a class="btn btn-sm" href="#">PPTX</a><a class="btn btn-sm" href="#">JSON</a>
+          </span>
+        </div>
+      </div>
+      <div class="card" style="margin-top:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <div><strong>v2</strong> · 完整交付 · 2025-10-15</div>
+          <button class="btn btn-sm btn-primary" type="button" disabled>生成中…</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<p class="gate-note" style="max-width:880px;margin:0 auto">负例(不得出现):向导新增字段/步骤;formalReady 回跳"已生成→未生成";存量已生成版本显示"未生成";列表页出现 formalGenerated。对应 ui-contract.md Negative cases。</p>
+
+</body>
+</html>
