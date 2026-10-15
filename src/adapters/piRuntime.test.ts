@@ -5,7 +5,8 @@ import { mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import type { ModelConfig, ModelReply, ModelRequest, ModelTransport } from "pi-agent-runtime";
+import type { JsonObject, ModelConfig, ModelReply, ModelRequest, ModelTransport } from "pi-agent-runtime";
+import type { AgentTool } from "./types.js";
 import { piRuntimeModel, type LiveModelConfig } from "./piRuntime.js";
 
 const M3: ModelConfig = {
@@ -130,8 +131,145 @@ describe("piRuntime runText 三分映射", () => {
   });
 });
 
-describe("(d) 无密钥候选跳过与真值表拒绝", () => {
-  const saved: Record<string, string | undefined> = {};
+const toolCallReply = (id: string, name: string, args: JsonObject): ModelReply => ({
+  content: [{ kind: "tool", id, name, arguments: args }],
+  stop: "tools",
+  usage: { inputTokens: 1, outputTokens: 1 },
+});
+
+describe("piRuntime runAgentRaw 工具循环(P2-4)", () => {
+  it("合成 transport 下工具循环跑通:executor 真实执行、终局文本透传、usage 汇总", async () => {
+    let executed = 0;
+    const transport: ModelTransport = async (req) => {
+      if (req.messages.some((m) => m.role === "tool")) return reply('{"sufficient":true,"note":"ok"}');
+      return toolCallReply("t1", "counter", { n: 1 });
+    };
+    const provider = piRuntimeModel([], {
+      auditPath,
+      candidates: [{ model: M3, transport }],
+    });
+    const res = await provider.runAgent!(
+      { prompt: "【研究问题】市场规模", taskId: "dr:req-a1:gather-agent:r0:q1", toolExecution: "parallel" },
+      [
+        {
+          name: "counter",
+          description: "计数工具",
+          effect: "read",
+          parameters: { type: "object", properties: { n: { type: "number" } }, required: ["n"] },
+          execute: async (args) => {
+            executed += Number(args.n);
+            return { ok: true };
+          },
+        },
+      ],
+      "req-a1:gather:r0:a:q1",
+    );
+    expect(res.status).toBe("succeeded");
+    expect(res.text).toBe('{"sufficient":true,"note":"ok"}');
+    expect(executed).toBe(1);
+    expect(res.usage.modelCalls).toBeGreaterThanOrEqual(2); // 工具轮 + 终局轮
+  });
+
+  it("并发两路异子 taskId 零互撞(C5 前半):各自 executor 只见自家参数,均在途重叠", async () => {
+    const seen: string[] = [];
+    let inFlight = 0;
+    let maxInFlight = 0;
+    const transport: ModelTransport = async (req) => {
+      inFlight += 1;
+      maxInFlight = Math.max(maxInFlight, inFlight);
+      await new Promise((r) => setTimeout(r, 15));
+      inFlight -= 1;
+      if (req.messages.some((m) => m.role === "tool")) return reply('{"sufficient":true,"note":"done"}');
+      return toolCallReply(`t-${Math.random().toString(36).slice(2, 8)}`, "note", { lane: "?" });
+    };
+    const mkTool = (lane: string): AgentTool => ({
+      name: "note",
+      description: "记名工具",
+      effect: "read",
+      parameters: { type: "object", properties: { lane: { type: "string" } }, required: ["lane"] },
+      execute: async (args: Record<string, unknown>) => {
+        seen.push(`${lane}:${String(args.lane)}`);
+        return { lane };
+      },
+    });
+    const provider = piRuntimeModel([], { auditPath, candidates: [{ model: M3, transport }] });
+    const [a, b] = await Promise.all([
+      provider.runAgent!(
+        { prompt: "甲任务", taskId: "dr:req-c1:gather-agent:r0:q1", toolExecution: "parallel" },
+        [mkTool("A")],
+        "req-c1:gather:r0:a:q1",
+      ),
+      provider.runAgent!(
+        { prompt: "乙任务", taskId: "dr:req-c2:gather-agent:r0:q2", toolExecution: "parallel" },
+        [mkTool("B")],
+        "req-c2:gather:r0:a:q2",
+      ),
+    ]);
+    expect(a.status).toBe("succeeded");
+    expect(b.status).toBe("succeeded");
+    expect([...seen].sort()).toEqual(["A:?", "B:?"]); // 同名工具各归各的闭包执行,零串线
+    expect(maxInFlight).toBeGreaterThan(1); // 并发真实发生
+  });
+
+  it("executor 抛错 → RunResult failed(TOOL_FAILED)不杀进程(C1 红侧:宿主 executor 必须 error-as-value)", async () => {
+    const transport: ModelTransport = async (req) => {
+      if (req.messages.some((m) => m.role === "tool")) return reply("不会再走到");
+      return toolCallReply("t1", "boom", {});
+    };
+    const provider = piRuntimeModel([], {
+      auditPath,
+      candidates: [{ model: M3, transport }],
+    });
+    const res = await provider.runAgent!(
+      { prompt: "p", taskId: "dr:req-e1:gather-agent:r0:q1", toolExecution: "parallel" },
+      [
+        {
+          name: "boom",
+          description: "抛错工具",
+          effect: "read",
+          parameters: { type: "object", properties: {} },
+          execute: async () => {
+            throw new Error("配额尽(抛错版)");
+          },
+        },
+      ],
+      "req-e1:gather:r0:a:q1",
+    );
+    expect(res.status).toBe("failed");
+    expect(res.reason).toBe("TOOL_FAILED");
+    expect(res.text).toBeNull();
+  });
+
+  it("终局截断(stop=length)→ status succeeded + text null(不抛错,后验解析兜底)", async () => {
+    const transport: ModelTransport = async (req) => {
+      if (req.messages.some((m) => m.role === "tool")) {
+        return { content: [{ kind: "text", text: "被截断的残文" }], stop: "length", usage: { inputTokens: 1, outputTokens: 1 } };
+      }
+      return toolCallReply("t1", "noop", {});
+    };
+    const provider = piRuntimeModel([], {
+      auditPath,
+      candidates: [{ model: M3, transport }],
+    });
+    const res = await provider.runAgent!(
+      { prompt: "p", taskId: "dr:req-e2:gather-agent:r0:q1", toolExecution: "parallel" },
+      [
+        {
+          name: "noop",
+          description: "空操作",
+          effect: "read",
+          parameters: { type: "object", properties: {} },
+          execute: async () => ({ ok: true }),
+        },
+      ],
+      "req-e2:gather:r0:a:q1",
+    );
+    expect(res.status).toBe("succeeded");
+    expect(res.text).toBeNull();
+  });
+});
+
+describe("(d) 无密钥候选跳过与真值表拒绝", () => {  const saved: Record<string, string | undefined> = {};
   beforeEach(() => {
     for (const k of ["MINIMAX_CN_API_KEY", "MINIMAX_API_KEY", "XIAOMI_TOKEN_PLAN_CN_API_KEY"]) {
       saved[k] = process.env[k];

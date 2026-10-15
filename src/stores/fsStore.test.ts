@@ -85,6 +85,29 @@ describe("FsProjectStore", () => {
     expect(await reopened.findRunByRequestId("nope")).toBeUndefined();
   });
 
+  it("P2-4:调查事件 append/read 增量,seq 跨实例续写单调(模拟进程重启/resume)", async () => {
+    const dir = tmp();
+    const store = FsProjectStore.create(dir, { module: "brand", goal: "g", scope: { summary: "s", queries: [] } });
+    const e1 = await store.appendInvestigation("run-1", { qid: "q1", kind: "query", summary: "市场规模", query: "市场规模" });
+    const e2 = await store.appendInvestigation("run-1", { qid: "q1", kind: "fetch", summary: "https://a/1", url: "https://a/1" });
+    expect(e1.seq).toBe(1);
+    expect(e2.seq).toBe(2);
+    expect(e1.at).toBeTruthy();
+
+    // 新实例续写:seq 接尾行 +1,不回卷(跨 resume 单调)
+    const reopened = FsProjectStore.open(dir);
+    const e3 = await reopened.appendInvestigation("run-1", { qid: "q1", kind: "verdict", summary: "充分", sufficient: true });
+    expect(e3.seq).toBe(3);
+
+    const all = await reopened.readInvestigation("run-1");
+    expect(all.map((e) => `${e.seq}:${e.kind}`)).toEqual(["1:query", "2:fetch", "3:verdict"]);
+    // 增量读回:since 游标 + limit 截断
+    expect((await reopened.readInvestigation("run-1", 1)).map((e) => e.seq)).toEqual([2, 3]);
+    expect((await reopened.readInvestigation("run-1", 0, 2)).map((e) => e.seq)).toEqual([1, 2]);
+    // 其他 run/不存在:空
+    expect(await reopened.readInvestigation("run-other")).toEqual([]);
+  });
+
   it("同一 requestId 多条 run 记录时按 mtime 取最新(恢复不误选旧记录)", async () => {
     const dir = tmp();
     const store = FsProjectStore.create(dir, { module: "brand", goal: "g", scope: { summary: "s", queries: [] } });

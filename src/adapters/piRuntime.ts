@@ -14,6 +14,8 @@ import {
   createRuntime,
   type AuditEvent,
   type AuditSink,
+  type JsonObject,
+  type JsonValue,
   type ModelConfig,
   type ModelTransport,
   type Runtime,
@@ -21,7 +23,7 @@ import {
 import { defaultDataDir } from "../app/dataDir.js";
 import type { StageName } from "../core/stages.js";
 import { buildExtractPrompt, buildStagePrompt, parseClaims, parseJsonLoose, draftFromText } from "./modelText.js";
-import type { ModelProvider } from "./types.js";
+import type { AgentTool, ModelProvider, RunAgentResult } from "./types.js";
 
 export interface LiveModelConfig {
   provider: string;
@@ -158,6 +160,12 @@ export interface PiRuntimeOptions {
 
 interface Channel {
   runTextRaw(prompt: string, callKey: string): Promise<{ text: string | null; usage: { modelCalls: number; outputTokens: number } }>;
+  /** P2-4(R1-2):plain runAgent 通道——完整 RunResult 透传,三分映射 agent 版(C1)。 */
+  runAgentRaw(
+    input: { prompt: string; taskId: string; toolExecution: "sequential" | "parallel" },
+    tools: AgentTool[],
+    callKey: string,
+  ): Promise<RunAgentResult>;
 }
 
 /** 调用计数重建阈值(P2-2 D5):子 taskId 唯一,丢弃整个 runtime/budget store 无语义损失,防 server 长跑 Map 线性膨胀。 */
@@ -243,6 +251,46 @@ function getChannel(configs: LiveModelConfig | LiveModelConfig[], opts: PiRuntim
       if (result.status === "failed" && result.reason === "INVALID_OUTPUT") return { text: null, usage };
       throw new Error(`模型调用失败(${result.reason})`);
     },
+    /** P2-4:runAgent 工具循环——executor 抛错=TOOL_FAILED 整问失败(C1:宿主 executor 一律 error-as-value);
+       taskId 为完整字面量(含轮次,R1-1),不与 callKey 拼接。 */
+    runAgentRaw: async (input, tools, callKey): Promise<RunAgentResult> => {
+      if (++callCount >= REBUILD_AFTER_CALLS) {
+        callCount = 0;
+        runtime = null;
+        lastProviderByTask.clear();
+      }
+      const startedAt = Date.now();
+      const result = await getRuntime().runAgent({
+        taskId: input.taskId,
+        prompt: input.prompt,
+        tools: tools.map((t) => ({
+          name: t.name,
+          description: t.description,
+          effect: t.effect,
+          parameters: t.parameters as JsonObject,
+          resourceUnits: 1,
+          execute: async (args: JsonObject, signal: AbortSignal) =>
+            (await t.execute(args as Record<string, unknown>, signal)) as JsonValue,
+        })),
+        toolExecution: input.toolExecution,
+        limits: buildLimits(),
+        modelRecovery: { extraAttempts: 1 },
+      });
+      const usage = { modelCalls: result.usage.modelCalls, outputTokens: result.usage.outputTokens };
+      if (process.env.DR_DEBUG) {
+        const secs = ((Date.now() - startedAt) / 1000).toFixed(1);
+        console.error(
+          `[model] agent ${callKey} ${secs}s ${result.status}${"reason" in result ? `:${result.reason}` : ""} ` +
+            `turns=${usage.modelCalls} tools=${result.usage.toolCalls}`,
+        );
+      }
+      if (result.status === "succeeded") return { status: "succeeded", text: result.value, usage };
+      // INVALID_OUTPUT(终局截断)不杀问:text=null 交编排器后验解析兜底(C1 裁决②)
+      if (result.status === "failed" && result.reason === "INVALID_OUTPUT") {
+        return { status: "succeeded", text: null, usage };
+      }
+      return { status: result.status === "blocked" ? "blocked" : "failed", text: null, reason: result.reason, usage };
+    },
   };
   channelCache.set(cacheKey, channel);
   return channel;
@@ -267,6 +315,7 @@ export function piRuntimeModel(configs: LiveModelConfig | LiveModelConfig[], opt
             : parseJsonLoose(text ?? ""),
         usage,
       })),
+    runAgent: (input, tools, callKey) => channel.runAgentRaw(input, tools, callKey),
   };
 }
 

@@ -5,7 +5,7 @@ import { parseHTML } from "linkedom";
 import { extractText } from "unpdf";
 import type { PageFetcher, DocParser, SearchProvider } from "./types.js";
 
-const FETCH_TIMEOUT_MS = 30_000;
+const FETCH_TIMEOUT_MS = 20_000;
 
 export interface HttpSearchConfig {
   endpoint: string;

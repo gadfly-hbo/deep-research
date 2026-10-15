@@ -13,7 +13,7 @@ import {
 import { basename, join } from "node:path";
 import { ResearchRunSchema } from "../contracts.js";
 import type { ResearchRequest, ResearchResultBundle, ResearchRun, SourceSnapshot } from "../contracts.js";
-import type { Checkpoint, ResearchStore } from "./types.js";
+import type { Checkpoint, InvestigationEvent, ResearchStore } from "./types.js";
 
 export interface VersionEntry {
   version: number;
@@ -376,8 +376,44 @@ export class FsProjectStore implements ResearchStore {
     return best?.run;
   }
 
+  /** 2.1:读回指定 run 的成果包;不存在返回 null。 */
   async readBundle(runId: string): Promise<ResearchResultBundle | null> {
     return this.readJson<ResearchResultBundle | null>(join("runs", runId, "bundle.json"), null);
+  }
+
+  /**
+   * P2-4(D4/R1-9):调查事件侧车——runs/<runId>/investigation.jsonl 续写(仿 pending 先例);
+   * seq 取文件尾行 +1,跨实例打开/跨 resume 保持单调。
+   */
+  async appendInvestigation(runId: string, event: Omit<InvestigationEvent, "seq" | "at">): Promise<InvestigationEvent> {
+    mkdirSync(join(this.dir, "runs", runId), { recursive: true });
+    const path = join(this.dir, "runs", runId, "investigation.jsonl");
+    const existing = await this.readInvestigation(runId);
+    const full: InvestigationEvent = {
+      seq: existing.length > 0 ? existing[existing.length - 1].seq + 1 : 1,
+      at: new Date().toISOString(),
+      ...event,
+    };
+    appendFileSync(path, `${JSON.stringify(full)}\n`);
+    return full;
+  }
+
+  async readInvestigation(runId: string, sinceSeq = 0, limit = Number.MAX_SAFE_INTEGER): Promise<InvestigationEvent[]> {
+    const path = join(this.dir, "runs", runId, "investigation.jsonl");
+    if (!existsSync(path)) return [];
+    const out: InvestigationEvent[] = [];
+    for (const line of readFileSync(path, "utf8").split("\n")) {
+      const t = line.trim();
+      if (!t) continue;
+      try {
+        const ev = JSON.parse(t) as InvestigationEvent;
+        if (ev.seq > sinceSeq) out.push(ev);
+      } catch {
+        /* 坏行跳过:侧车数据不阻断读回 */
+      }
+      if (out.length >= limit) break;
+    }
+    return out;
   }
 
   async listSnapshots(): Promise<SourceSnapshot[]> {
