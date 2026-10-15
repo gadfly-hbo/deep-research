@@ -658,7 +658,7 @@ export async function runResearch(
           { snapshot },
           `${keyBase}:gather:reuse:${binding.bindingId}`,
         );
-          attachExtraction(state, snapshot, extracted, {
+        attachExtraction(state, snapshot, extracted, {
           kind: "reuse",
           bindingId: binding.bindingId,
           versionId: binding.versionId,
