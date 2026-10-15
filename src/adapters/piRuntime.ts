@@ -107,8 +107,9 @@ function transportFor(cfg: ModelConfig): ModelTransport | null {
  * 宿主累计策略显式声明(P2-2 用户裁决"放开预算",标准 P4):uncapped——
  * 不设 modelCalls/token/墙钟累计上限;单次保护保留 modelTimeoutMs(300s 防挂死)与
  * maxOutputTokens(32k 防截断);tier→Limits 的静态硬顶映射被否(方案 B),动态预算属 P2-6。
+ * P2-3b:导出供 sessionRuntime 装配复用(会话任务同 limits 语义)。
  */
-const buildLimits = () => ({
+export const buildLimits = () => ({
   cumulative: "unlimited" as const,
   maxOutputTokens: 32_768,
   modelTimeoutMs: Number(process.env.DR_MODEL_TIMEOUT_MS ?? 300_000),
@@ -119,7 +120,8 @@ const buildLimits = () => ({
 /** 审计落盘:workspace 级 model-audit.jsonl(单行 JSON <4KB,O_APPEND 本地盘并发安全;无 fsync,断电可丢尾——名义审计可接受)。
  * 轮转(P2-2 D6):写前检查 >50MB → rename .1(覆盖旧 .1,两代合计上限 ~100MB);并发 append 中 rename 的竞窗最多丢 1-2 行,披露接受。 */
 const AUDIT_ROTATE_BYTES = 50 * 1024 * 1024;
-const makeAuditSink = (auditPath: string): AuditSink => ({
+/** P2-3b:导出供 sessionRuntime 装配复用(同一审计 sink 先例)。 */
+export const makeAuditSink = (auditPath: string): AuditSink => ({
   append: async (event: Readonly<AuditEvent>, signal: AbortSignal) => {
     await mkdir(dirname(auditPath), { recursive: true });
     if (signal.aborted) throw new Error("审计写入被取消");
