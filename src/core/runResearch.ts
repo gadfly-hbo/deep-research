@@ -141,6 +141,16 @@ export interface RunOptions {
   onRunComplete?: (result: RunResult) => Promise<void> | void;
   /** P2-5:既往研究纪要(K≤3,会话 tail 摘要;routes 在起跑前读一次注入)。 */
   sessionDigests?: string[];
+  /**
+   * P2-6(R1-1):运行中预算注册通道——编排器入口把本 run 的 Budget 对象交给调用方
+   * (server 挂 RunRegistry 键空间,加注端点同对象原地变异;KA2:禁引用替换)。
+   */
+  registerBudget?: (b: Budget) => void;
+  /**
+   * P2-6(R1-5):问内 refine 即时注入源(filtered take,仅 refine-direction;skip/add
+   * 留给问间隙 drain)。返回 null=当前无待注入改道。
+   */
+  takeRefinement?: () => Intervention | null;
 }
 
 export interface RunResult {
@@ -157,6 +167,8 @@ export async function runResearch(
   const started = Date.now();
   const sessionDigests = options.sessionDigests ?? [];
   const budget: Budget = resolveBudget(request);
+  // P2-6(R1-1):预算注册——tracker/executor 闭包引用同一对象,加注端点原地变异即可生效
+  options.registerBudget?.(budget);
   const moduleConfig = options.moduleConfig ?? getModuleConfig(request.module);
   const keyBase = request.id ?? randomUUID();
   const prior = request.id ? await store.findRunByRequestId(request.id) : undefined;
@@ -469,6 +481,8 @@ export async function runResearch(
   const gather = async (round: number, targets?: PlanQuestion[]): Promise<void> => {
     const questions = targets ?? state.questions.filter((q) => q.status === "open");
     activeGatherTargets = questions;
+    // P2-6(R1-4):加注评估点收集的重开问题——循环末尾递归补采(新一轮次 taskId)
+    const reopened: PlanQuestion[] = [];
     try {
       for (let qIdx = 0; qIdx < questions.length; qIdx++) {
         const q = questions[qIdx];
@@ -478,9 +492,24 @@ export async function runResearch(
         if (cancelled()) return;
         // 2.1:问题间隙消费干预指令(D2:问启动前 drain,skip/add/refine 零漂移)
         if (await consumeInstructions()) continue;
+        // P2-6(R1-4):加注评估点——capped 且余量已恢复(加注到达)→复位 capped,
+        // 配额饿死问题重标 open+清成因,循环末尾递归重开;墙钟延长但搜索配额尽→不重开(现语义)
+        if (state.capped && tracker.canSearch()) {
+          state.capped = false;
+          for (const starved of state.questions.filter(
+            (x) => x.status === "unanswered" && x.unansweredReason === "quota-starved",
+          )) {
+            starved.status = "open";
+            starved.unansweredReason = undefined;
+            reopened.push(starved);
+          }
+        }
         if (!tracker.canSearch()) {
           state.capped = true;
-          if (q.status === "open") q.status = "unanswered";
+          if (q.status === "open") {
+            q.status = "unanswered";
+            q.unansweredReason = "quota-starved";
+          }
           continue;
         }
         // 补采/重采前清掉该问题的旧主张与证据,受影响分支被重算(现状语义,D3)
@@ -531,6 +560,22 @@ export async function runResearch(
               return { error: "search-quota-exhausted", note: "全局搜索配额已用尽,请基于已有材料收束" };
             }
             try {
+              // P2-6(R1-5):问内 refine 即时注入——filtered take 只消费 refine-direction
+              // (skip/add 留队给问间隙 drain);三步:interventions 记录→directionNotes
+              // 沉淀(下一问任务卡)→工具返回值 prepend note(prompt 轮次注入)
+              let refineNote: string | undefined;
+              const refinement = options.takeRefinement?.() ?? null;
+              if (refinement && refinement.instruction.type === "refine-direction") {
+                const refineText = refinement.instruction.note;
+                (run.interventions ??= []).push({
+                  ...refinement,
+                  consumedAt: new Date().toISOString(),
+                  effect: "applied",
+                  detail: "问内即时注入",
+                });
+                directionNotes.push(refineText);
+                refineNote = `方向调整:${refineText}`;
+              }
               const hits = await adapters.search.search(
                 query,
                 `${keyBase}:gather:r${round}:a:${q.id}:search:${searchN}`,
@@ -544,7 +589,7 @@ export async function runResearch(
                 kind: "query",
                 summary: query,
                 query,
-                note: `命中 ${hits.length}${baseHits > 0 ? `(基准已有 ${baseHits},勿重抓)` : ""}`,
+                note: `命中 ${hits.length}${baseHits > 0 ? `(基准已有 ${baseHits},勿重抓)` : ""}${refineNote ? ` · ${refineNote}` : ""}`,
               });
               return {
                 hits: hits.map((h) => ({
@@ -553,6 +598,7 @@ export async function runResearch(
                   snippet: h.snippet,
                   ...(baseSnapshotUrls.has(h.url) ? { base: true } : {}),
                 })),
+                ...(refineNote ? { note: refineNote } : {}),
               };
             } catch (error) {
               addLimitation(state.limitations, `问题「${q.question}」的搜索调用失败:${errMsgOf(error)}`);
@@ -716,14 +762,18 @@ export async function runResearch(
           claimsForQ += attachGatherExtraction(state, snapshot, extracted, q.id, snapshotVersionMap.get(snapshot.id));
         }
 
-        // --- q.status 合成(D3:现状判定链的 agent 形态) ---
-        q.status = agentFailed
-          ? "unanswered"
-          : sufficient && claimsForQ > 0
-            ? "answered"
-            : claimsForQ > 0
-              ? "partially"
-              : "unanswered";
+        // --- q.status 合成(D3:现状判定链的 agent 形态;P2-6 R1-3:未答成因) ---
+        if (agentFailed) {
+          q.status = "unanswered";
+          q.unansweredReason = "insufficient";
+        } else if (sufficient && claimsForQ > 0) {
+          q.status = "answered";
+        } else if (claimsForQ > 0) {
+          q.status = "partially";
+        } else {
+          q.status = "unanswered";
+          q.unansweredReason = "insufficient";
+        }
         // 2.1 增量:检索命中全部为基准已采信源(未重复采证)的问题如实披露
         if (q.status === "unanswered" && allBaseHits && fetchedForQ === 0) {
           addLimitation(
@@ -737,6 +787,8 @@ export async function runResearch(
       activeGatherTargets = null;
       currentQuestion = undefined;
     }
+    // P2-6(R1-4):加注重开——新一轮次补采配额饿死问题(cancelled 提前 return 不重开)
+    if (reopened.length > 0) await gather(round + 1, reopened);
   };
 
   // --- plan(恢复时以 gather 检查点内的问题状态为准,不被 options.plan 覆盖)

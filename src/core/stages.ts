@@ -9,6 +9,8 @@ export const PlanQuestionSchema = z.object({
   question: z.string().min(1),
   method: z.string().optional(),
   status: z.enum(["open", "answered", "partially", "unanswered", "skipped"]).default("open"),
+  /** P2-6(R1-3):未答成因——quota-starved(配额饿死,加注后自动重开)/ insufficient(证据不足)。 */
+  unansweredReason: z.enum(["quota-starved", "insufficient"]).optional(),
 });
 export type PlanQuestion = z.infer<typeof PlanQuestionSchema>;
 

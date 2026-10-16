@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Chip from "../components/Chip";
 import Empty from "../components/Empty";
-import { api } from "../state/api";
+import { api, errMsg, post } from "../state/api";
 import { useProject } from "../state/projectDetail";
 import { snapshotTitle } from "../state/derive";
+import { useToast } from "../state/toast";
 import { STATUS, STATUS_DOT, TIER_BADGE, stageTitle, BUDGET_TIER_META, gateLabelOf } from "../state/types";
 import type { BudgetTier, InvestigationEventUI, Run, Tone } from "../state/types";
 
@@ -171,12 +172,17 @@ function InvestigationTimeline({
 export function GatherView() {
   const p = useProject();
   const navigate = useNavigate();
+  const toast = useToast();
   const focusRunId = p.activeRun?.id ?? p.detail?.runs[p.detail.runs.length - 1]?.id ?? null;
   const [reuse, setReuse] = useState<ReuseRow | null>(null);
   // 2.1 执行中干预表单
   const [newQ, setNewQ] = useState("");
   const [note, setNote] = useState("");
   const [src, setSrc] = useState("");
+  // P2-6(R1-8):运行中加注行内表单(只输入增量;不展示上限不前端校验)
+  const [addSearches, setAddSearches] = useState("");
+  const [addFetches, setAddFetches] = useState("");
+  const [addWallMin, setAddWallMin] = useState("");
 
   useEffect(() => {
     if (!focusRunId) return;
@@ -215,6 +221,25 @@ export function GatherView() {
       )}
     </div>
   );
+
+  // P2-6(R1-8):加注提交——只发正增量(0/空键忽略);服务端同对象原地变异
+  const topupReady = Number(addSearches) > 0 || Number(addFetches) > 0 || Number(addWallMin) > 0;
+  const submitTopup = async () => {
+    if (!run || !topupReady) return;
+    try {
+      await post(`/api/projects/${p.id}/runs/${run.id}/budget`, {
+        ...(Number(addSearches) > 0 ? { addSearches: Number(addSearches) } : {}),
+        ...(Number(addFetches) > 0 ? { addFetches: Number(addFetches) } : {}),
+        ...(Number(addWallMin) > 0 ? { extendWallMs: Math.round(Number(addWallMin) * 60_000) } : {}),
+      });
+      toast.show("已加注,配额饿死的问题将自动重开");
+      setAddSearches("");
+      setAddFetches("");
+      setAddWallMin("");
+    } catch (e) {
+      toast.show(errMsg(e));
+    }
+  };
 
   const usageLine = (r: Run) =>
     `搜索 ${r.usage.searches} · 抓取 ${r.usage.fetches} · 模型 ${r.usage.modelCalls} 次 · 输出 ${r.usage.outputTokens} tok · ${Math.round(r.usage.wallMs / 1000)}s`;
@@ -270,6 +295,39 @@ export function GatherView() {
                 {run.progress.skipped > 0 ? ` · 已跳过 ${run.progress.skipped}` : ""}
               </p>
             )}
+            {/* P2-6(D1/R1-8):运行中加注——用量条旁行内 fld;非 running 卡片不渲染即禁用 */}
+            <div className="fld" style={{ marginTop: 8 }}>
+              <span className="fld-label">运行中加注(只增不减;加注后配额饿死的问题将自动重开,恢复/重启后加注不延续)</span>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+                <input
+                  type="number"
+                  min={0}
+                  style={{ width: 120 }}
+                  placeholder="+搜索次数"
+                  value={addSearches}
+                  onChange={(e) => setAddSearches(e.target.value)}
+                />
+                <input
+                  type="number"
+                  min={0}
+                  style={{ width: 120 }}
+                  placeholder="+抓取次数"
+                  value={addFetches}
+                  onChange={(e) => setAddFetches(e.target.value)}
+                />
+                <input
+                  type="number"
+                  min={0}
+                  style={{ width: 120 }}
+                  placeholder="+墙钟(分钟)"
+                  value={addWallMin}
+                  onChange={(e) => setAddWallMin(e.target.value)}
+                />
+                <button className="btn btn-sm" type="button" disabled={!topupReady} onClick={() => void submitTopup()}>
+                  加注
+                </button>
+              </div>
+            </div>
             {run.stage === "gather" && (
               <div className="fld" style={{ marginTop: 8 }}>
                 <span className="fld-label">执行中干预(不打断进行中的调用,在当前问题完成后生效)</span>

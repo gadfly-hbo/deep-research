@@ -95,23 +95,28 @@ const drainAndPersist =
 /**
  * D4:launch/resume 同构骨架——acquire → void runOnProject(...) → catch(策略参数化) → finally release。
  * options 由各调用点自行构造(不对称保留:launch 传 runId,resume 不传——T12 钉住的现状)。
+ * P2-6(R1-1/R1-5):runId 挂账本键空间(registerBudget/takeRefinement 闭包注入),finally 注销。
  */
 const startPipeline = (
   ctx: Ctx,
   dir: string,
   request: ResearchRequest,
   options: RunOptions,
+  runId: string,
   onFailure: (error: unknown) => Promise<void>,
 ): void => {
   const controller = ctx.registry.acquire(request.id ?? "");
   void runOnProject(dir, request, ctx.makeAdapters(), {
     ...options,
     signal: controller.signal,
+    registerBudget: (b) => ctx.registry.registerBudget(runId, b),
+    takeRefinement: () => ctx.registry.takeRefinement(runId),
     ...(ctx.onRunComplete ? { onRunComplete: ctx.onRunComplete(dir) } : {}),
   })
     .catch(onFailure)
     .finally(() => {
       ctx.registry.release(request.id ?? "");
+      ctx.registry.unregisterBudget(runId);
     });
 };
 
@@ -173,6 +178,7 @@ const launchRun = async (
       pollInstructions: drainAndPersist(ctx, runId, dir),
       ...(sessionDigests?.length ? { sessionDigests } : {}),
     },
+    runId,
     async (error) => {
       // 失败不冒充完成:落一条 failed run 记录,带错误信息
       await FsProjectStore.open(dir).saveRun({
@@ -441,6 +447,49 @@ export const handleProjectsRoutes = async (
     return true;
   }
 
+  // ---- P2-6(D1/R1-2):运行中加注——同 Budget 对象原地变异(只增不减);per-project 锁外
+  //      (status 检查+变异的 TOCTOU 落空无害,instruct 先例);maxParallel 不可加注;无上限封顶 ----
+  const budgetMatch = rest.match(/^\/runs\/([^/]+)\/budget$/);
+  if (method === "POST" && budgetMatch) {
+    // listRuns 按 run.id 反查(regex 仿 gate)
+    const run = (await ctx.storeFor(id).listRuns()).find((r) => r.id === budgetMatch[1]);
+    if (!run || run.status !== "running") {
+      json(res, 409, { error: `没有正在运行的 run: ${budgetMatch[1]}` });
+      return true;
+    }
+    const topupSchema = z
+      .object({
+        addSearches: z.number().int().positive().optional(),
+        addFetches: z.number().int().positive().optional(),
+        extendWallMs: z.number().int().positive().optional(),
+      })
+      .refine(
+        (v) => v.addSearches !== undefined || v.addFetches !== undefined || v.extendWallMs !== undefined,
+        { message: "至少提供一项增量(addSearches/addFetches/extendWallMs)" },
+      );
+    const parsed = topupSchema.safeParse(body);
+    if (!parsed.success) {
+      json(res, 400, { error: "加注增量不合法(只增不减,各键须为正整数)", issues: parsed.error.issues.map((i) => i.message) });
+      return true;
+    }
+    const budget = ctx.registry.budgetOf(run.id);
+    if (!budget) {
+      json(res, 409, { error: "该运行的预算账本未注册(可能正在恢复或已收束),稍后重试" });
+      return true;
+    }
+    // KA2:同对象原地变异(禁引用替换)——executor 闸门/任务卡余量即时读到新值
+    if (parsed.data.addSearches) budget.maxSearches += parsed.data.addSearches;
+    if (parsed.data.addFetches) budget.maxFetches += parsed.data.addFetches;
+    if (parsed.data.extendWallMs) budget.maxWallMs += parsed.data.extendWallMs;
+    json(res, 200, {
+      topped: true,
+      runId: run.id,
+      budget: { maxSearches: budget.maxSearches, maxFetches: budget.maxFetches, maxWallMs: budget.maxWallMs },
+      note: "已加注,配额饿死的问题将自动重开;恢复/重启后加注不延续",
+    });
+    return true;
+  }
+
   if (method === "POST" && rest === "/runs/resume") {
     const request = await ctx.storeFor(id).readRequest(body.requestId);
     if (!request) {
@@ -466,6 +515,7 @@ export const handleProjectsRoutes = async (
         projectId: id,
         pollInstructions: drainAndPersist(ctx, prior.id, dir),
       },
+      prior.id,
       async (error) => {
         // 失败不冒充完成:更新原 run 记录为 failed,带错误信息
         const current = request.id ? await ctx.storeFor(id).findRunByRequestId(request.id) : undefined;
@@ -582,6 +632,7 @@ export const handleProjectsRoutes = async (
           projectId: id,
           pollInstructions: drainAndPersist(ctx, run.id, dir),
         },
+        run.id,
         onFailure,
       );
     } else {
@@ -596,6 +647,7 @@ export const handleProjectsRoutes = async (
           projectId: id,
           pollInstructions: drainAndPersist(ctx, run.id, dir),
         },
+        run.id,
         onFailure,
       );
     }

@@ -109,6 +109,37 @@ describe("RunRegistry 指令队列", () => {
   });
 });
 
+describe("RunRegistry 加注键空间与问内注入(P2-6)", () => {
+  it("registerBudget/budgetOf/unregisterBudget 生命周期:同对象引用透传", () => {
+    const registry = new RunRegistry();
+    const budget = { maxSearches: 10, maxFetches: 20, maxWallMs: 1000, maxParallel: 4 };
+    registry.registerBudget("run-b", budget);
+    expect(registry.budgetOf("run-b")).toBe(budget); // 同一引用(原地变异生效的前提)
+    budget.maxSearches += 5;
+    expect(registry.budgetOf("run-b")!.maxSearches).toBe(15);
+    registry.unregisterBudget("run-b");
+    expect(registry.budgetOf("run-b")).toBeUndefined();
+  });
+
+  it("takeRefinement filtered take:仅取 refine-direction(多次按序),skip/add 留队,空队列 null", () => {
+    const registry = new RunRegistry();
+    expect(registry.takeRefinement("run-t")).toBeNull(); // 无队列
+    registry.enqueue("run-t", mkIntervention("ins:s"));
+    registry.enqueue("run-t", { ...mkIntervention("ins-r1"), instruction: { type: "refine-direction", note: "看国内" } });
+    registry.enqueue("run-t", mkIntervention("ins:a"));
+    registry.enqueue("run-t", { ...mkIntervention("ins-r2"), instruction: { type: "refine-direction", note: "看出口" } });
+
+    const first = registry.takeRefinement("run-t");
+    expect(first?.id).toBe("ins-r1"); // 最早入队的 refine 先出(FIFO)
+    expect(first?.instruction).toMatchObject({ type: "refine-direction", note: "看国内" });
+    expect(registry.takeRefinement("run-t")?.id).toBe("ins-r2");
+    expect(registry.takeRefinement("run-t")).toBeNull(); // refine 已尽:不取 skip/add
+
+    const drained = registry.drain("run-t");
+    expect(drained.map((i) => i.id)).toEqual(["ins:s", "ins:a"]); // drain 不动语义:skip/add 完整交给问间隙
+  });
+});
+
 describe("RunRegistry 互斥锁(P2-3 R1-6)", () => {
   it("withGateLock 同 runId 串行:临界区不重叠;不同 runId 互不阻塞", async () => {
     const registry = new RunRegistry();

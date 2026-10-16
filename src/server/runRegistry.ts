@@ -1,4 +1,4 @@
-import { InterventionSchema, type Intervention } from "../contracts.js";
+import { InterventionSchema, type Budget, type Intervention } from "../contracts.js";
 
 /**
  * 运行态注册表(P1-3 D3,纯内存、无 I/O):封装原本散落在 server.ts 闭包里的两个裸 Map。
@@ -62,6 +62,38 @@ export class RunRegistry {
     if (!controller) return false;
     controller.abort();
     return true;
+  }
+
+  // ---- 键空间 C:P2-6(D1/R1-1)——runId → 运行中 Budget ----
+  // 加注端点经 budgetOf 拿到编排器注册的同一对象做原地变异(KA2:禁引用替换);
+  // 生命周期=流水线起止(startPipeline 注册/finally 注销);resume/gate-confirm 重启丢加注(新账,P2-3 已定)
+  private budgets = new Map<string, Budget>();
+
+  /** 流水线启动时注册(编排器入口经 RunOptions.registerBudget 透传到这里)。 */
+  registerBudget(runId: string, budget: Budget): void {
+    this.budgets.set(runId, budget);
+  }
+
+  /** 流水线收尾注销(finally;防长跑 Map 泄漏)。 */
+  unregisterBudget(runId: string): void {
+    this.budgets.delete(runId);
+  }
+
+  /** 加注端点读取(run 不在运行态时由路由层 409)。 */
+  budgetOf(runId: string): Budget | undefined {
+    return this.budgets.get(runId);
+  }
+
+  /**
+   * P2-6(D2/R1-5):问内 refine 即时注入的 filtered take——仅取 refine-direction,
+   * skip/add 留队列给问间隙 drain(共存分层);同步 peek+按谓词 splice,parallel 下无竞态。
+   */
+  takeRefinement(runId: string): Intervention | null {
+    const q = this.instructionQueues.get(runId);
+    if (!q) return null;
+    const idx = q.findIndex((i) => i.instruction.type === "refine-direction");
+    if (idx < 0) return null;
+    return q.splice(idx, 1)[0] ?? null;
   }
 
   // ---- 键空间 B:instructionQueues 按 run.id ----
