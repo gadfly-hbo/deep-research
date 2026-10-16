@@ -48,6 +48,8 @@ export interface GatherContext {
   cancelled(): boolean;
   pollInstructions?: RunOptions["pollInstructions"];
   takeRefinement?: RunOptions["takeRefinement"];
+  /** P2-6(F3):加注到达判据(装配层以运行起始预算基线快照比对同对象变异;缺省按未加注)。 */
+  wasToppedUp?: () => boolean;
   persistRun(stage?: ResearchRun["stage"]): Promise<void>;
   persistUsageThrottled(): Promise<void>;
   appendInvestigationSafe(event: Omit<InvestigationEvent, "seq" | "at">): Promise<void>;
@@ -236,6 +238,36 @@ const consumeInstructions = async (ctx: GatherContext): Promise<boolean> => {
   return skippedCurrent;
 };
 
+/** P2-6(F3/R1-4):加注评估点复位半段——真实加注到达(基线快照可证预算被增)+全量程预算
+ *  均有余量(容量已恢复)→复位 capped。R1-4 原文以 canSearch() 为准;REVIEW F3 收紧两处:
+ *  ①须有真实加注(v1 恢复的 capped 无配额成因,余量探测会误复位);②抓取触顶的 run 搜索
+ *  配额常仍有余量,canSearch-only 会误复位。墙钟延长但搜索配额尽→不复位(现语义)。 */
+export const resetCappedIfToppedUp = (
+  ctx: Pick<GatherContext, "state" | "tracker" | "budget" | "run" | "wasToppedUp">,
+): boolean => {
+  if (!ctx.state.capped) return false;
+  if (!ctx.wasToppedUp?.()) return false;
+  if (!ctx.tracker.canSearch()) return false;
+  if (ctx.run.usage.fetches >= ctx.budget.maxFetches) return false;
+  ctx.state.capped = false;
+  return true;
+};
+
+/** P2-6(F3/R1-4):同款扫描——复位 + 配额饿死问题重标 open+清成因并返回(调用方决定重开时机)。 */
+export const scanTopupReopen = (
+  ctx: Pick<GatherContext, "state" | "tracker" | "budget" | "run" | "wasToppedUp">,
+): PlanQuestion[] => {
+  if (!resetCappedIfToppedUp(ctx)) return [];
+  const starved = ctx.state.questions.filter(
+    (x) => x.status === "unanswered" && x.unansweredReason === "quota-starved",
+  );
+  for (const q of starved) {
+    q.status = "open";
+    q.unansweredReason = undefined;
+  }
+  return starved;
+};
+
 export const gather = async (ctx: GatherContext, round: number, targets?: PlanQuestion[]): Promise<void> => {
   const questions = targets ?? ctx.state.questions.filter((q) => q.status === "open");
   ctx.activeGatherTargets = questions;
@@ -250,18 +282,8 @@ export const gather = async (ctx: GatherContext, round: number, targets?: PlanQu
       if (ctx.cancelled()) return;
       // 2.1:问题间隙消费干预指令(D2:问启动前 drain,skip/add/refine 零漂移)
       if (await consumeInstructions(ctx)) continue;
-      // P2-6(R1-4):加注评估点——capped 且余量已恢复(加注到达)→复位 capped,
-      // 配额饿死问题重标 open+清成因,循环末尾递归重开;墙钟延长但搜索配额尽→不重开(现语义)
-      if (ctx.state.capped && ctx.tracker.canSearch()) {
-        ctx.state.capped = false;
-        for (const starved of ctx.state.questions.filter(
-          (x) => x.status === "unanswered" && x.unansweredReason === "quota-starved",
-        )) {
-          starved.status = "open";
-          starved.unansweredReason = undefined;
-          reopened.push(starved);
-        }
-      }
+      // P2-6(R1-4):加注评估点——复位 capped,配额饿死问题收集后循环末尾递归重开
+      reopened.push(...scanTopupReopen(ctx));
       if (!ctx.tracker.canSearch()) {
         ctx.state.capped = true;
         if (q.status === "open") {
@@ -310,7 +332,7 @@ export const gather = async (ctx: GatherContext, round: number, targets?: PlanQu
           if (ctx.tracker.overBudget()) {
             ctx.state.capped = true;
             await ctx.appendInvestigationSafe({ qid: q.id, kind: "query", summary: query, query, note: "配额已尽(墙钟),未执行" });
-            return { error: "ctx.budget-exhausted", note: "墙钟预算已到,请立即收束并输出结论" };
+            return { error: "budget-exhausted", note: "墙钟预算已到,请立即收束并输出结论" };
           }
           if (ctx.run.usage.searches >= ctx.budget.maxSearches) {
             ctx.state.capped = true;
@@ -374,7 +396,7 @@ export const gather = async (ctx: GatherContext, round: number, targets?: PlanQu
           if (ctx.tracker.overBudget()) {
             ctx.state.capped = true;
             await ctx.appendInvestigationSafe({ qid: q.id, kind: "fetch", summary: `抓取未执行:${url}`, url, note: "配额已尽(墙钟)" });
-            return { error: "ctx.budget-exhausted", note: "墙钟预算已到,请立即收束并输出结论" };
+            return { error: "budget-exhausted", note: "墙钟预算已到,请立即收束并输出结论" };
           }
           if (fetchedForQ >= perQuestion) {
             await ctx.appendInvestigationSafe({ qid: q.id, kind: "fetch", summary: `抓取未执行:${url}`, url, note: `本问上限 ${perQuestion} 次` });
@@ -545,6 +567,20 @@ export const gather = async (ctx: GatherContext, round: number, targets?: PlanQu
     ctx.activeGatherTargets = null;
     ctx.currentQuestion = undefined;
   }
-  // P2-6(R1-4):加注重开——新一轮次补采配额饿死问题(cancelled 提前 return 不重开)
-  if (reopened.length > 0) await gather(ctx, round + 1, reopened);
+  // P2-6(F3):循环末评估窗——末问 runAgent 中到达的加注在此同款复位+重开(问开始点之后唯一出口)
+  reopened.push(...scanTopupReopen(ctx));
+  // P2-6(R1-4):加注重开——新一轮次补采配额饿死问题(cancelled 提前 return 不重开);
+  // REVIEW B1:递归前过滤——本轮 targets 中被扫描重开的问题已在此轮推进状态,再递归会
+  // 双轮调查并清除其刚产出的主张/证据(gap 补采 targets∩starved 实证踩中);只补采仍为 open 的。
+  // REVIEW B1R:并按 id 去重——同一问可跨两次扫描重复入列(扫开→配额再耗尽重标 starved→
+  // 二次加注后再扫开),[X,X] 会在同一递归内双轮调查且共用同一 taskId
+  const seenReopen = new Set<string>();
+  const needReopen: PlanQuestion[] = [];
+  for (const q of reopened) {
+    if (q.status === "open" && !seenReopen.has(q.id)) {
+      seenReopen.add(q.id);
+      needReopen.push(q);
+    }
+  }
+  if (needReopen.length > 0) await gather(ctx, round + 1, needReopen);
 };

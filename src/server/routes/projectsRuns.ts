@@ -448,8 +448,8 @@ export const handleProjectsRoutes = async (
     return true;
   }
 
-  // ---- P2-6(D1/R1-2):运行中加注——同 Budget 对象原地变异(只增不减);per-project 锁外
-  //      (status 检查+变异的 TOCTOU 落空无害,instruct 先例);maxParallel 不可加注;无上限封顶 ----
+  // ---- P2-6(D1/R1-2):运行中加注——同 Budget 对象原地变异(只增不减);per-project 锁内
+  //      (proposal D1:账本查得与变异同临界区,与 launch/guard 消 TOCTOU);maxParallel 不可加注;无上限封顶 ----
   const budgetMatch = rest.match(/^\/runs\/([^/]+)\/budget$/);
   if (method === "POST" && budgetMatch) {
     // listRuns 按 run.id 反查(regex 仿 gate)
@@ -473,15 +473,19 @@ export const handleProjectsRoutes = async (
       json(res, 400, { error: "加注增量不合法(只增不减,各键须为正整数)", issues: parsed.error.issues.map((i) => i.message) });
       return true;
     }
-    const budget = ctx.registry.budgetOf(run.id);
+    // KA2:同对象原地变异(禁引用替换)——executor 闸门/任务卡余量即时读到新值
+    const budget = await ctx.registry.withProjectLock(id, async () => {
+      const b = ctx.registry.budgetOf(run.id);
+      if (!b) return null;
+      if (parsed.data.addSearches) b.maxSearches += parsed.data.addSearches;
+      if (parsed.data.addFetches) b.maxFetches += parsed.data.addFetches;
+      if (parsed.data.extendWallMs) b.maxWallMs += parsed.data.extendWallMs;
+      return b;
+    });
     if (!budget) {
       json(res, 409, { error: "该运行的预算账本未注册(可能正在恢复或已收束),稍后重试" });
       return true;
     }
-    // KA2:同对象原地变异(禁引用替换)——executor 闸门/任务卡余量即时读到新值
-    if (parsed.data.addSearches) budget.maxSearches += parsed.data.addSearches;
-    if (parsed.data.addFetches) budget.maxFetches += parsed.data.addFetches;
-    if (parsed.data.extendWallMs) budget.maxWallMs += parsed.data.extendWallMs;
     json(res, 200, {
       topped: true,
       runId: run.id,

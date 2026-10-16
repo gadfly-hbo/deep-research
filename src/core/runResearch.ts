@@ -35,7 +35,7 @@ import {
   type PlanQuestion,
 } from "./stages.js";
 import { emptyState, safeParse, type RunState } from "./runState.js";
-import { gather, type GatherContext } from "./gatherDomain.js";
+import { gather, scanTopupReopen, resetCappedIfToppedUp, type GatherContext } from "./gatherDomain.js";
 import { addLimitation } from "./limitations.js";
 import { snapshotFrom } from "./snapshotFrom.js";
 import { BudgetTracker } from "./budgetTracker.js";
@@ -116,6 +116,16 @@ export async function runResearch(
   const started = Date.now();
   const sessionDigests = options.sessionDigests ?? [];
   const budget: Budget = resolveBudget(request);
+  // P2-6(F3):加注到达判据——运行起始预算基线快照;同对象原地变异(KA2)后基线比对可证加注
+  const budgetBaseline = {
+    maxSearches: budget.maxSearches,
+    maxFetches: budget.maxFetches,
+    maxWallMs: budget.maxWallMs,
+  };
+  const wasToppedUp = () =>
+    budget.maxSearches > budgetBaseline.maxSearches ||
+    budget.maxFetches > budgetBaseline.maxFetches ||
+    budget.maxWallMs > budgetBaseline.maxWallMs;
   // P2-6(R1-1):预算注册——tracker/executor 闭包引用同一对象,加注端点原地变异即可生效
   options.registerBudget?.(budget);
   const moduleConfig = options.moduleConfig ?? getModuleConfig(request.module);
@@ -419,6 +429,7 @@ export async function runResearch(
     cancelled,
     ...(options.pollInstructions ? { pollInstructions: options.pollInstructions } : {}),
     ...(options.takeRefinement ? { takeRefinement: options.takeRefinement } : {}),
+    wasToppedUp,
     persistRun,
     persistUsageThrottled,
     appendInvestigationSafe,
@@ -675,6 +686,13 @@ export async function runResearch(
     await gather(gatherCtx, 0);
     if (cancelled()) return cancelRun();
     await saveCp("gather", { ...state });
+    // P2-6(F3):发布门评估前的加注评估窗——采证后到达的加注在此同款复位+重开补采
+    const lateReopened = scanTopupReopen(gatherCtx);
+    if (lateReopened.length > 0) {
+      await gather(gatherCtx, 2, lateReopened);
+      if (cancelled()) return cancelRun();
+      await saveCp("gather", { ...state });
+    }
     if (options.stopAfter === "gather") {
       const verdicts = verifyCitations(state.evidence, state.snapshots);
       run.stage = "publish";
@@ -801,6 +819,8 @@ export async function runResearch(
   }
 
   // --- polish(润色/扩写:只丰富表达与结构,严禁新增无证据事实;run 选项可关)
+  // P2-6(F3):analyze/draft 窗口的加注评估点——复位 capped,恢复 polish 回环(问题重开只在 gather 窗口)
+  resetCappedIfToppedUp({ state, tracker, budget, run, wasToppedUp });
   if (request.polish !== false && state.draftMd && !state.capped && !completedStages.has("polish")) {
     if (cancelled()) return cancelRun();
     await persistRun("draft");
@@ -832,6 +852,8 @@ export async function runResearch(
 
   // --- review + 修复回环(缺口补证 / 反例检查 / 受影响内容复核)
   const maxLoops = options.maxLoops ?? 2;
+  // P2-6(F3):同款加注评估点——复位 capped,恢复 review 回环
+  resetCappedIfToppedUp({ state, tracker, budget, run, wasToppedUp });
   if (!completedStages.has("review") && !state.capped) {
     await persistRun("review");
     let loopsUsed = 0;

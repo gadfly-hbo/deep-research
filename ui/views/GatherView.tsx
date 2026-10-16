@@ -183,6 +183,8 @@ export function GatherView() {
   const [addSearches, setAddSearches] = useState("");
   const [addFetches, setAddFetches] = useState("");
   const [addWallMin, setAddWallMin] = useState("");
+  const [topupBusy, setTopupBusy] = useState(false);
+  const [topupErr, setTopupErr] = useState<string | null>(null);
 
   useEffect(() => {
     if (!focusRunId) return;
@@ -222,10 +224,15 @@ export function GatherView() {
     </div>
   );
 
-  // P2-6(R1-8):加注提交——只发正增量(0/空键忽略);服务端同对象原地变异
-  const topupReady = Number(addSearches) > 0 || Number(addFetches) > 0 || Number(addWallMin) > 0;
+  // P2-6(R1-8):加注提交——0/空键忽略(R1-8),非正整数内联错误不提交(契约 C1);服务端同对象原地变异
+  const topupVals = [addSearches, addFetches, addWallMin];
+  const topupIgnored = (v: string) => v.trim() === "" || Number(v) === 0;
+  const topupFieldInvalid = (v: string) => !topupIgnored(v) && !(Number.isInteger(Number(v)) && Number(v) > 0);
+  const topupInvalid = topupVals.some(topupFieldInvalid);
+  const topupReady = topupVals.some((v) => !topupIgnored(v));
   const submitTopup = async () => {
-    if (!run || !topupReady) return;
+    if (!run || !topupReady || topupBusy || topupInvalid) return;
+    setTopupBusy(true);
     try {
       await post(`/api/projects/${p.id}/runs/${run.id}/budget`, {
         ...(Number(addSearches) > 0 ? { addSearches: Number(addSearches) } : {}),
@@ -236,8 +243,14 @@ export function GatherView() {
       setAddSearches("");
       setAddFetches("");
       setAddWallMin("");
+      setTopupErr(null);
     } catch (e) {
-      toast.show(errMsg(e));
+      const msg = errMsg(e);
+      // 契约 C1:400=加注增量不合法→input 内联错误;409/网络错误→toast
+      if (msg.includes("→ 400:")) setTopupErr("增量须为正整数");
+      else toast.show(msg);
+    } finally {
+      setTopupBusy(false);
     }
   };
 
@@ -295,38 +308,41 @@ export function GatherView() {
                 {run.progress.skipped > 0 ? ` · 已跳过 ${run.progress.skipped}` : ""}
               </p>
             )}
-            {/* P2-6(D1/R1-8):运行中加注——用量条旁行内 fld;非 running 卡片不渲染即禁用 */}
+            {/* P2-6(D1/R1-8):运行中加注——用量条旁行内 fld;非 running 卡片不渲染即禁用;契约 C1 三态 */}
             <div className="fld" style={{ marginTop: 8 }}>
               <span className="fld-label">运行中加注(只增不减;加注后配额饿死的问题将自动重开,恢复/重启后加注不延续)</span>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
                 <input
                   type="number"
                   min={0}
-                  style={{ width: 120 }}
+                  style={{ width: 120, ...(topupFieldInvalid(addSearches) ? { borderColor: "var(--fail-line)" } : undefined) }}
                   placeholder="+搜索次数"
                   value={addSearches}
-                  onChange={(e) => setAddSearches(e.target.value)}
+                  onChange={(e) => { setAddSearches(e.target.value); setTopupErr(null); }}
                 />
                 <input
                   type="number"
                   min={0}
-                  style={{ width: 120 }}
+                  style={{ width: 120, ...(topupFieldInvalid(addFetches) ? { borderColor: "var(--fail-line)" } : undefined) }}
                   placeholder="+抓取次数"
                   value={addFetches}
-                  onChange={(e) => setAddFetches(e.target.value)}
+                  onChange={(e) => { setAddFetches(e.target.value); setTopupErr(null); }}
                 />
                 <input
                   type="number"
                   min={0}
-                  style={{ width: 120 }}
+                  style={{ width: 120, ...(topupFieldInvalid(addWallMin) ? { borderColor: "var(--fail-line)" } : undefined) }}
                   placeholder="+墙钟(分钟)"
                   value={addWallMin}
-                  onChange={(e) => setAddWallMin(e.target.value)}
+                  onChange={(e) => { setAddWallMin(e.target.value); setTopupErr(null); }}
                 />
-                <button className="btn btn-sm" type="button" disabled={!topupReady} onClick={() => void submitTopup()}>
-                  加注
+                <button className="btn btn-sm" type="button" disabled={!topupReady || topupBusy} onClick={() => void submitTopup()}>
+                  确认加注
                 </button>
               </div>
+              {(topupInvalid || topupErr) && (
+                <p className="fine" style={{ margin: "6px 0 0", color: "var(--fail)" }}>{topupErr ?? "增量须为正整数"}</p>
+              )}
             </div>
             {run.stage === "gather" && (
               <div className="fld" style={{ marginTop: 8 }}>
