@@ -1,0 +1,3723 @@
+{
+  "runId": "d8b1913e-3546-40f1-8311-7cf5a95fe4ab",
+  "version": 0,
+  "reportMd": "# 中国现磨咖啡市场调研报告\n\n## 执行摘要\n\n1. **市场规模高速扩容，但口径分歧明显**：2025年中国咖啡市场规模约2181亿元，其中现磨咖啡约1880亿元；另有口径显示2026年上半年现磨咖啡规模突破3200亿元（艾媒咨询）、2019-2024年CAGR约22%。三组数据来源不同（产业报告、艾媒、企信），应分别作为短期和中期参考。\n\n2. **竞争格局\"一超多强、龙头集中\"**：截至2026年4月，瑞幸以31,205家门店断层式领先，约为库迪（16,324家）的1.9倍、星巴克（8,660家）的3.6倍；2025年现磨咖啡CR3仅25.84%、CR10仅36.48%，市场仍呈\"长尾化\"特征。\n\n3. **门店渠道占主导，外卖加速渗透**：现磨咖啡门店渠道占58%市场份额，外卖渠道占25%、自提占18%；到店消费占比由2019年65%降至2024年45%，\"外带+外卖\"合计达55%。\n\n4. **价格战与\"配件经济\"并行**：全国咖饮人均消费由2023年41元跌至2025年26元（降幅36%）；连锁客单价由2023年32-42元降至2025年25-27元。9.9元档位占2026年上半年销量62%（艾媒），但瑞幸9.9覆盖率已从80%门店收缩至30%。\n\n5. **下游分化、上游升级**：2024-2025年全渠道平均闭店率10.3%；2023年9月至2024年9月闭店超4.3万家；Seesaw 2026年6月被申请破产清算。与此同时，云南咖啡精品率2025年突破30%，上游品种结构升级明显。\n\n---\n\n## 一、市场规模与增长轨迹\n\n### 1.1 总量与增速\n\n中国现磨咖啡市场在不同口径下呈现\"短期高增速+中期高基数\"的双重特征。**《2025中国咖啡产业发展报告》（新京报转载，2026-01-13）**披露：2025年中国咖啡市场规模达2181亿元，现磨咖啡市场超1880亿元；门店数净增4万多家至21.5万家（年增25%），连锁化率从46%升至53%。\n\n**艾媒咨询《2026中国现磨咖啡行业报告》（虎嗅转载）**显示：2026年上半年中国现磨咖啡市场规模突破3200亿元，9.9元档位占62%销量。该口径较《产业报告》的1880亿元高出约70%，主要差异在半年vs全年、零售流水vs规模统计的口径不同。\n\n**中金企信发布（2026-2032报告）**给出口径：2019年1,200亿元增至2024年3,200亿元，CAGR约22%。该口径与艾媒2026上半年3200亿元相吻合，验证了2024-2026年仍处于高速扩容通道。\n\n| 指标 | 数值 | 口径时间 | 来源 | 数据性质 |\n|------|------|----------|------|----------|\n| 中国咖啡市场规模 | 2,181亿元 | 2025年 | 《2025中国咖啡产业发展报告》 | 推断/事实混合 |\n| 中国现磨咖啡市场规模 | 超1,880亿元 | 2025年 | 《2025中国咖啡产业发展报告》 | 事实 |\n| 中国现磨咖啡市场规模 | 1,515亿元 | 2023年 | 思瀚产业研究院 | 事实 |\n| 中国现磨咖啡市场规模 | 1,903亿元 | 2024年（预测） | 思瀚产业研究院 | 事实 |\n| 中国现磨咖啡市场规模 | 1,884亿元 | 2025年 | 观研报告网 | 事实 |\n| 中国现磨咖啡市场规模 | 超3,200亿元 | 2026年上半年 | 艾媒咨询 | 事实 |\n| 中国现磨咖啡市场规模 | 1,200亿→3,200亿元 | 2019-2024 | 中金企信 | 事实 |\n| 中国咖啡门店数 | 21.5万家 | 2025年 | 《2025中国咖啡产业发展报告》 | 事实 |\n| 连锁化率 | 46%→53% | 2023-2025 | 《2025中国咖啡产业发展报告》 | 事实 |\n| 现磨咖啡占咖啡市场比 | 38.3% | 2024年 | 观研报告网 | 事实 |\n\n### 1.2 消费侧指标\n\n人均咖啡消费量在两组来源间存在显著差异，需谨慎引用。\n\n| 指标 | 数值 | 口径时间 | 来源 | 备注 |\n|------|------|----------|------|------|\n| 中国人均咖啡年饮用量 | 15杯 | 2025年 | 《2025中国咖啡产业发展报告》（黑峪投资分析） | 推断 |\n| 中国咖啡人均年消费量 | 22.24杯 | 2024年 | 新华社/央视 | 事实 |\n| 中国现制饮品人均年消费量 | 约22杯 | 2023年 | 灼识咨询（思瀚转载） | 事实 |\n| 中国咖啡消费量预估 | 近40万吨 | 2025年 | 《2025中国咖啡产业发展报告》 | 推断 |\n| 中国咖啡消费量 | 近30万吨 | 2022年 | 界面新闻 | 事实 |\n\n两组\"人均消费量\"差异达约48%，可能源于\"咖啡消费\"vs\"现制饮品消费\"统计边界不同、以及CCTV/新华社的22.24杯统计是否包含即饮/速溶。从增量空间看，中国与日本（172杯）、英国（225杯）、美国（323杯）相比仍具显著扩容潜力。\n\n### 1.3 行业阶段判断\n\n世界中餐业联合会会长邢颖指出，中国咖啡市场已进入\"高速扩容\"与\"深度分化\"并行的新阶段。该判断与多源数据交叉印证：总量扩容（门店+25%、市场破千亿级）、结构分化（连锁化率升至53%vs独立店出清、9.9元占六成vs精品咖啡增长超20%）。\n\n---\n\n## 二、竞争格局与品牌结构\n\n### 2.1 市场集中度\n\n2025年现磨咖啡行业集中度仍处于较低水平，但头部已现断层。**观研报告网（2026-05-09）**数据显示：CR3为25.84%、CR5为33.25%、CR10为36.48%。该榜单显示的TOP3为瑞幸（14.26%）、库迪（7.65%）、幸运咖（3.93%）。\n\n| 指标 | 数值 | 口径时间 | 来源 |\n|------|------|----------|------|\n| 现磨咖啡CR3 | 25.84% | 2025年 | 观研报告网 |\n| 现磨咖啡CR5 | 33.25% | 2025年 | 观研报告网 |\n| 现磨咖啡CR10 | 36.48% | 2025年 | 观研报告网 |\n| 瑞幸全国市占率（按店数） | 9.5% | 界面新闻引用期（截至2023年） | 界面新闻 |\n| 星巴克/库迪全国市占率（按店数） | 超4% | 界面新闻引用期 | 界面新闻 |\n| 现制茶饮CR5 | 46.9% | 2023年 | 思瀚/灼识咨询 |\n\n茶饮行业CR5达46.9%，明显高于现磨咖啡的33.25%。原因可能是**咖啡成瘾属性带来更高的品牌忠诚度（推断）**，亦可能源于现磨咖啡品类创新活跃、玩家更多。\n\n### 2.2 头部品牌门店规模演变（2023→2026.4）\n\n| 品牌 | 2023年门店 | 2025年12月门店 | 2026年4月门店 | 增长特征 |\n|------|------------|----------------|---------------|----------|\n| 瑞幸 | 16,196家 | 30,612家 | 31,205家 | 持续扩张，断层式领先 |\n| 库迪 | 7,064家 | 16,414家 | 16,324家 | 2023年增速8,019%（行业最高），2025年小幅收缩 |\n| 星巴克（中国） | 未披露 | 8,012家 | 8,660家 | 稳步增长 |\n| 幸运咖 | 2,781家 | 8,437家 | 8,493家 | 蜜雪供应链加持下快速扩张 |\n| NOWWA | 未披露 | 7,903家 | 6,675家 | 2025-2026年小幅收缩 |\n| 肯悦咖啡 | 未披露 | 2,326家 | 2,615家 | 增长 |\n| Manner | 未披露 | 2,367家 | 2,503家 | 微增 |\n| Tims天好 | 未披露 | 997家 | 908家 | 持续收缩 |\n| M Stand | 未披露 | 未披露 | 612家 | — |\n| 沪咖 | 未披露 | 645家 | 未披露 | — |\n\n数据来源：壹览商业（2023年）、观研报告网（2025-12）、窄门餐眼+国泰海通证券（2026-04）。**2026年4月数据较2025年12月微调，反映行业进入存量优化期**。\n\n### 2.3 跨赛道竞争：茶饮品牌跨界咖啡\n\n2026年上半年，茶饮头部集体跨界平价咖啡：甜啦啦美式2.9元、沪上阿姨美式4.9元、古茗美式7.9元。**这与《2025中国咖啡产业发展报告》中\"非专业背景玩家凭借存量渠道优势跨界进入\"的判断一致**——非咖啡原生玩家通过茶饮门店密度、供应链摊薄成本，实现对专业玩家的\"降维打击\"（推断）。\n\n### 2.4 出清与破产案例\n\n| 事件 | 时间 | 规模 | 来源 |\n|------|------|------|------|\n| 全国咖啡全渠道平均闭店率 | 2024-2025年 | 10.3% | NCBD餐宝典 |\n| 咖啡闭店总量 | 2023.9-2024.9 | 超4.3万家 | 窄门餐眼 |\n| Seesaw破产清算申请 | 2026年6月 | 涉诉债务1,646.3万元，门店从135家缩至34家 | 虎嗅 |\n| Tims天好中国全年净亏损 | 全年 | 4.4亿元 | 虎嗅 |\n| 库迪关店率 | 2026上半年 | 21% | 虎嗅 |\n\n---\n\n## 三、渠道结构与消费场景\n\n### 3.1 渠道分布（2024年）\n\n| 渠道 | 占比 | 备注 | 来源 |\n|------|------|------|------|\n| 现磨咖啡门店渠道 | 58% | 绝对主渠道 | 中金企信 |\n| 外卖渠道 | 25% | 美团、饿了么为核心入口 | 中金企信 |\n| 自提渠道 | 18% | 瑞幸\"线上下单+到店自提\"模式跑通后被跟进 | 中金企信 |\n\n### 3.2 消费场景迁移\n\n2019-2024年到店消费占比由65%降至45%，\"外带+外卖\"占比提升至55%。**艾媒咨询数据显示，47.89%的中国消费者在日常学习/工作时喝咖啡**，验证了功能性、便利性消费场景的崛起。\n\n| 消费场景 | 2019年占比 | 2024年占比 | 来源 |\n|----------|------------|------------|------|\n| 到店消费 | 65% | 45% | 中金企信 |\n| 外带+外卖 | 35% | 55% | 中金企信 |\n\n### 3.3 连锁品牌的渠道策略分化\n\n- **瑞幸**：以2万+门店领跑，加盟占比超60%；线上下单+到店自提模式被星巴克、库迪跟进。\n- **星巴克**：坚持直营，7,000家门店聚焦一二线城市核心商圈；通过外卖平台折扣触达9.9-20元价格带。\n- **库迪**：门店分布约1/3一线超一线、1/3二三线、1/3四五线城市，加盟占比超80%；价格战主力。\n- **幸运咖**：依托蜜雪冰城供应链，单杯成本3.8元、定价6.6元，比9.9元还低3.3元。\n\n---\n\n## 四、价格战与\"配件经济\"\n\n### 4.1 价格战时间线\n\n| 时间 | 事件 | 关键数字 |\n|------|------|----------|\n| 2023年初 | 库迪率先推出\"全场9.9元不限量\" | 首月订单增长超300% |\n| 2023年 | 瑞幸推出\"每周9.9\"轮换策略 | 单季度新增用户超800万 |\n| 2023年底 | 超60%消费者将9.9元视为心理价位 | 行业平均利润率21.4%（思瀚数据） |\n| 2024年Q1 | 瑞幸经营亏损0.65亿元 | 2022Q3以来首次亏损 |\n| 2024年Q2-Q4 | 瑞幸缩减9.9元券投放约30% | 每周3天、限定基础款 |\n| 2025年 | 瑞幸9.9元覆盖率从80%门店降至30% | 阶梯定价：基础款9.9元、特调款12-15元 |\n| 2025年 | 库迪取消全场9.9元 | 涨幅最高40%，大部分产品回调至11.9-16.9元 |\n| 2025年 | 市场监管总局约谈，禁止低于成本价倾销 | 政策干预 |\n| 2026年上半年 | 9.9元档位占62%销量 | 艾媒咨询 |\n\n### 4.2 单杯经济模型对比\n\n| 品牌 | 单杯成本 | 9.9元售价毛利 | 毛利率 | 2026上半年业绩 |\n|------|----------|---------------|--------|----------------|\n| 瑞幸 | 5.2元 | 4.7元 | 47% | 盈利 |\n| 库迪 | 7.1元 | -2.2元（亏损） | 负值 | 营收+120%、净亏18亿元、关店率21% |\n| 幸运咖 | 3.8元 | 2.8元（定价6.6元） | 42% | 门店突破8,200家、营收+210% |\n\n来源：虎嗅（2026年7月）。**瑞幸与库迪的1.3元成本差**主要源于：1）瑞幸云南咖啡豆直采+自建烘焙厂；2）瑞幸1.8万家门店规模摊薄租金、人工成本。\n\n### 4.3 \"配件经济\"现象\n\n虎嗅报道揭示了咖啡行业的\"配件经济\"：瑞幸益生菌吸管成本0.8元（规模化采购压低），售价2元，毛利1.2元，利润率150%；**吸管利润率是咖啡（47%）的3.2倍**。据北京朝阳区门店实测，30%用户会加购吸管，单店日均增收200元；按全国1.8万家门店30%加购率测算，吸管年增收可超13亿元（推断）。\n\n### 4.4 客单价下滑趋势\n\n| 指标 | 数值 | 口径时间 | 来源 |\n|------|------|----------|------|\n| 连锁咖啡客单价 | 32-42元 | 2023年 | 《2025中国咖啡产业发展报告》 |\n| 连锁咖啡客单价 | 25-27元 | 2025年 | 《2025中国咖啡产业发展报告》 |\n| 全国咖饮人均消费 | 41元 | 2023年 | 红餐大数据 |\n| 全国咖饮人均消费 | 26元 | 2025年 | 红餐大数据 |\n| 降幅 | 36% | 2023-2025 | 红餐大数据 |\n\n---\n\n## 五、上游供给与产业链价值分布\n\n### 5.1 上游：咖啡豆成本与品种结构\n\n| 指标 | 数值 | 口径时间 | 来源 |\n|------|------|----------|------|\n| 云南咖啡豆占总产量 | 卡蒂姆品种占80%以上 | 2025年 | 《2025中国咖啡产业发展报告》 |\n| 精品品种种植面积 | 瑰夏、铁皮卡、波邦/黄波邦大幅扩张 | 2025年 | 《2025中国咖啡产业发展报告》 |\n| 咖啡精品率 | 超30% | 2025年 | 《2025中国咖啡产业发展报告》（推断） |\n| 云南咖啡种植园面积 | 100万余亩 | 未明确 | 新华社/央视 |\n| 全球阿拉比卡咖啡豆期货价 | 突破437美分/磅 | 47年新高 | 虎嗅 |\n| 云南咖啡生豆综合平均价同比 | +13.8% | 同比 | 咖啡金融网 |\n\n**上游成本压力**：全球阿拉比卡豆期货47年新高叠加国内云南豆同比+13.8%，挤压中下游利润空间。\n\n### 5.2 产业链利润分配\n\n| 环节 | 成本/毛利率 | 来源 |\n|------|-------------|------|\n| 咖啡豆成本占现磨咖啡售价 | 15-20% | 中金企信 |\n| 咖啡液原材料成本占比 | 25-30% | 中金企信 |\n| 云南咖啡豆替代进口的成本优势 | 20-30% | 中金企信 |\n| 精品烘焙豆溢价 | 可达50% | 中金企信 |\n| 现磨咖啡门店毛利率 | 60-65% | 中金企信 |\n| 咖啡液毛利率 | 50-55% | 中金企信 |\n| 麦当劳全球毛利率 | 约60% | 虎嗅 |\n| 星巴克毛利率 | 约67% | 虎嗅 |\n| **瑞幸 9.9元咖啡毛利率** | **47%** | **虎嗅** |\n\n**对比发现**：瑞幸9.9元咖啡47%毛利率与麦当劳全球、星巴克相比属\"健康水平\"；库迪因供应链劣势（同款豆成本高近2元）导致9.9元售价下亏损。\n\n---\n\n## 六、人均消费与下沉空间\n\n### 6.1 下沉市场现状\n\n| 指标 | 数值 | 口径时间 | 来源 |\n|------|------|----------|------|\n| 三线及以下城市现制茶饮市场规模 | 732亿元 | 2022年 | 灼识咨询 |\n| 一线城市现磨咖啡市场规模 | 333亿元 | 2022年 | 灼识咨询 |\n| 新一线城市现磨咖啡市场规模 | 379亿元 | 2022年 | 灼识咨询 |\n| 一线/新一线现磨咖啡CAGR | 42.3% | 2017-2022 | 灼识咨询 |\n| 二线及以下城市茶饮门店密度 | 1.22家/万人 | 截至发稿时 | 思瀚/灼识 |\n| 一线及新一线城市茶饮门店密度 | 2.14家/万人 | 截至发稿时 | 思瀚/灼识 |\n| 中国一线城市人均现制饮品年消耗量 | 70杯 | 未明确 | 灼识咨询 |\n| 中国二线及以下城市人均现制饮品年消耗量 | 16杯 | 未明确 | 灼识咨询 |\n\n**下沉市场扩张瓶颈包括**现磨咖啡品类教育不足、客单价承受能力弱、门店密度低于茶饮，但库迪\"1/3四五线\"的布局已抢占先发优势。\n\n### 6.2 人均消费增长空间\n\n艾媒咨询数据显示，47.89%中国消费者在日常学习/工作时喝咖啡，佐证功能性消费已具基础。但与日本（172杯）、英国（225杯）、美国（323杯）相比仍有数倍差距，**未来3-5年下沉市场为关键增量池（推断）**。\n\n---\n\n## 七、茶饮行业对比参照\n\n现磨咖啡与现制茶饮同属现制饮品赛道，但茶饮行业增速已显著放缓，可作为现磨咖啡的参照系。\n\n| 指标 | 现制茶饮 | 现磨咖啡 | 来源 |\n|------|----------|----------|------|\n| 市场规模 | 2,585亿元（2023年） | 超1,880亿元（2025年） | 思瀚/产业报告 |\n| 18-23 CAGR | 19.0% | 37.1% | 思瀚 |\n| 2025E市场规模增速预测 | 12.4%（骤降） | 仍高速扩容 | 中国连锁经营协会 |\n| 行业CR5 | 46.9% | 33.25% | 思瀚/观研 |\n| 平均利润率 | 21.4%→14.7%（2023-2024） | 持续承压 | 思瀚/虎嗅 |\n| 大众价格带门店人均客单价占比 | 65.1%（11-20元） | 9.9元档占62%销量 | 红餐大数据/艾媒 |\n\n**结论（推断）**：咖啡正处于茶饮2018-2020年的爆发期，价格战、闭店潮、行业洗牌将逐一上演；茶饮行业利润率从21.4%降至14.7%的轨迹，可预演咖啡行业未来1-2年的利润压缩幅度。\n\n---\n\n## 八、行业政策与外部环境\n\n1. **市场监管约谈**（2025年）：市场监管总局约谈外卖平台与咖啡商家，禁止以低于成本价倾销咖啡。\n2. **企业注册加速**：全国咖啡相关企业现存量超25万家，仅2025年前10个月的注册量就超过2024年全年。\n3. **跨境产业集聚**：江苏昆山凭借制造业基础，打造具有全球影响力的千亿级咖啡产业。\n4. **文化与场景创新**：上海\"咖啡+音乐\"、云南\"咖啡+文旅\"、贵州\"咖啡+悬崖体验\"等场景延伸；冬阴功美式、黑松露Dirty、甘草\"中药特调\"等风味创新。\n\n---\n\n## 启示与建议\n\n以下建议基于本报告发现推断得出（标注[推断]），需结合企业自身资源验证：\n\n1. **价格带分层布局**[推断]：参考幸运咖6.6元定价模型与瑞幸9.9元引流+12-15元利润款策略，新入局者应避免单一价格带定位，采用\"引流款+利润款\"组合。\n\n2. **供应链是9.9元可持续的关键**[部分事实+推断]：瑞幸与库迪的1.3元单杯成本差、幸运咖与蜜雪供应链共用案例均表明，云南直采+自建烘焙厂+规模摊薄是平价咖啡可持续性的三大要素。\n\n3. **下沉市场需差异化产品**[推断]：参考蜜雪冰城57.4%三线及以下门店占比与库迪\"1/3四五线\"布局，下沉市场不宜简单复制一二线SKU，应开发适合低客单价、高频次消费的产品组合。\n\n4. **配件经济作为利润补充**[推断]：瑞幸吸管150%利润率案例提示，门店可通过加料、定制杯、自带杯减免等配件运营提升单店利润，但需关注消费者投诉风险（黑猫投诉案例显示\"9.9元两杯\"文字游戏存在合规问题）。\n\n5. **渠道结构：门店+外卖+自提三轨并行**[事实+推断]：门店渠道58%、外卖25%、自提18%的格局显示，纯线下或纯外卖单一渠道均存在结构性风险，建议三轨并行并根据城市线级动态调整。\n\n6. **精品化是结构性机会**[事实]：精品咖啡市场2022年增速超20%，远高于传统品牌；云南精品率2025年突破30%，上游供给升级为下游精品化提供基础。建议关注精品咖啡连锁业态。\n\n7. **跨品类联名与场景创新**[事实+推断]：瑞幸×茅台酱香拿铁上市首日销量542万杯、销售额1亿元的案例显示，强IP联名可短期拉升品牌势能；\"咖啡+文旅\"\"咖啡+非遗\"等场景延伸可构建差异化壁垒。\n\n8. **关注闭店率与单店模型**[事实]：2024-2025年咖啡全渠道闭店率10.3%，县域咖啡回本周期由12-18个月拉长至2-4年。新店投资前应进行单店模型压力测试，特别是原料涨价（云南生豆+13.8%）+客单价下行（连锁客单价降7-15元）双向挤压情景。\n\n---\n\n## 口径与局限披露\n\n### 数据口径差异\n\n1. **现磨咖啡市场规模**：存在三组主流口径：\n   - 《2025中国咖啡产业发展报告》/观研报告网：1,880-1,884亿元（2025年）\n   - 艾媒咨询：超3,200亿元（2026年上半年）\n   - 中金企信：1,200亿→3,200亿元（2019-2024年）\n   \n   三组口径差异源于：年度vs时段、零售流水vs规模统计、纳入边界（是否含咖啡液、RTD咖啡等）。引用时须明确口径。\n\n2. **人均咖啡消费量**：\n   - 《2025中国咖啡产业发展报告》（黑峪投资分析）：15杯/人/年（2025年）\n   - 新华社/央视：22.24杯/人/年（2024年）\n   \n   差异约48%，可能源于\"咖啡消费\"vs\"现制饮品消费\"统计边界不同。\n\n3. **现磨咖啡市场份额**（2025年）：\n   - 观研报告网：瑞幸14.26%、库迪7.65%、幸运咖3.93%（CR3=25.84%）\n   - 思瀚产业研究院（2023年）：瑞幸21.8%\n   \n   两者口径与年份均不同，不可直接对比。\n\n4. **门店数据时点**：壹览商业（2023）、观研报告网（2025-12）、窄门餐眼（2026-04）三个时点的门店数存在差异，反映行业处于快速变动期。\n\n### 证据不足项\n\n以下议题现有证据不足以展开：\n\n1. **现磨咖啡消费者画像**：未检索到2024-2026年权威消费者调研报告（性别、年龄、城市分布、饮用场景的完整画像）；仅有艾媒\"47.89%消费者在学习/工作时喝咖啡\"单一指标。\n\n2. **外卖平台咖啡类目总GMV**：美团、饿了么未单独披露咖啡品类GMV，外卖渠道占25%的数据来源为中金企信单一来源，未交叉验证。\n\n3. **原料价格对终端售价的传导系数**：云南生豆同比+13.8%、阿拉比卡期货47年新高，但终端售价反而下降，价格传导断裂点与时长未量化。\n\n4. **独立咖啡馆2025-2026年最新数据**：仅有上海独立咖啡占比由60.1%跌至55%（2023年）一组数据，2024-2026年全国独立咖啡店变化趋势未覆盖。\n\n5. **跨境出海表现**：除界面新闻提及\"Intelligentsia Coffee\"\"Verve Coffee Roasters\"等海外案例外，中国现磨咖啡品牌出海数据缺失。\n\n6. **瑞幸\"1.8万家门店\"与30,612家/31,205家门店数据**：虎嗅引用\"1.8万家\"与观研/窄门餐眼数据存在显著差距（28,000+ vs 18,000），可能源于统计时点或统计口径（\"在营\"vs\"累计\"）差异，需进一步澄清。\n\n7. **幸运咖蜜雪供应链共用的具体机制**：虎嗅提及\"共用供应链、仓储、门店网络、杯子供应商\"，但具体的成本节约测算与法律结构未披露。\n\n### 推断属性说明\n\n本报告中标注 [推断] 的内容包括：人均消费增长空间、下沉市场增量池判断、价格带分层布局建议、配件经济利润补充建议、跨品类联名势能判断建议等，均为基于现有数据的合理推断，需结合企业自身场景验证。\n\n## 口径冲突披露\n- 口径混用:瑞幸(未指定)出现多种单位:元/杯 / 元(主张 cl:q4:snap:https://www.huxiu.com/article/4880665.html:1、cl:q4:snap:https://www.huxiu.com/article/4880665.html:10、cl:q4:snap:https://www.huxiu.com/article/4880665.html:11、cl:q4:snap:https://www.huxiu.com/article/4880665.html:13、cl:q4:snap:https://www.huxiu.com/article/4880665.html:3)\n\n## 主张状态与引用判定\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2023年中国现制茶饮市场规模为2585亿元，占现制饮品市场规模的50%。\n- [unverified|置信度:low / quote-mismatch(C级信源)] 2018-2023年中国现制茶饮市场规模CAGR为19.0%，处于高速成长期。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2023年中国现制饮品人均年消费量约为22杯，远低于美国323杯、英国225杯及日本172杯。\n- [fact|置信度:low / quote-hit(蕴涵:weak,C级信源)] 2023年大众现制茶饮市场规模为1086亿元，占比51.3%，在三种价格带中处于领先地位。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2023年中国现制茶饮市场下沉城市（三线/四线及以下）增速分别为29.8%和32.1%，高于一线城市18.1%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 下沉市场现制茶饮渗透率从2019年的23%提升至2023年的41%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 二线及以下城市茶饮门店密度为1.22家/万人，仍低于一线及新一线城市的2.14家/万人。\n- [fact|置信度:low / quote-hit(蕴涵:weak,C级信源)] 2023年中国现制茶饮行业CR5为46.9%，行业集中度较高。\n- [fact|置信度:low / quote-hit(蕴涵:weak,C级信源)] 2023年古茗在中国大众现制茶饮店市场的GMV市场份额为17.7%，位列第一。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 中国大众现制茶饮店市场规模由2018年的364亿元增至2023年的1086亿元，CAGR为24.4%。\n- [unverified|置信度:low / quote-hit(蕴涵:fail,C级信源)] 截至2024年蜜雪冰城国内门店数量约为41584家，三线及以下城市占比57.4%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 茶饮行业平均利润率从2023年的21.4%降至2024年的14.7%，价格战压缩利润空间。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2024年古茗单店GMV同比减少4.29%，茶百道净利润同比下降58.55%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 中国连锁经营协会预测2025年新茶饮市场规模增速将从2023年的44.3%骤降至12.4%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2023年中国现磨咖啡市场规模为1515亿元，CAGR达37.1%，预计2024年达1903亿元。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2023年瑞幸咖啡终端零售额达330亿元，占现磨咖啡市场份额21.8%。\n- [fact|置信度:low / quote-hit(蕴涵:weak,C级信源)] 蜜雪冰城按饮品出杯量计市场份额高达49.6%，远超其他头部品牌。\n- [inference|置信度:medium / quote-hit(蕴涵:fail,C级信源)] 2023年古茗终端零售额市场份额为9.1%，按门店数计为1.9%，门店效率较高。\n- [inference|置信度:low / quote-hit(蕴涵:weak,C级信源)] 2024年四季度起现制茶饮价格战逐渐趋缓，行业进入差异化竞争阶段。\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 中国品牌咖啡门店总数已接近5万家,成为全球拥有品牌咖啡门店最多的国家\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 过去12个月中国品牌咖啡门店数量增长58%至49691家,超过美国9000多家\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 2023年瑞幸净增8025家门店,门店规模增速98.21%,门店数达16196家\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 2023年库迪咖啡净增6977家门店,增速达8019.54%,门店达7064家\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 2023年幸运咖净增976家门店,增速54.07%,现有门店2781家\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 2023年瑞幸成为中国本土门店数量破万的咖啡品牌\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 2022年我国现制茶饮行业规模超2100亿元,现磨咖啡行业规模超1300亿元\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 截至2023年9月近一年新开咖啡门店77083家但净增长仅42450家,近3.5万家门店退出\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 2022年我国现磨咖啡赛道1000家以上品牌门店占比由2020年12%提升至16%\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 上海独立咖啡店数量首次出现减少,在咖啡总店数中占比由60.1%跌至55%\n- [unverified|置信度:low / quote-hit(蕴涵:fail,B级信源)] 我国现磨咖啡门店约17万家,top5品牌市占率约21%,top10约23%;瑞幸全国市占率9.5%,星巴克和库迪超4%\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 我国现制茶饮门店超38万家,top5品牌市占率约15%,top10约20%\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 2022年我国三线及以下城市现制茶饮终端零售市场规模约732亿元\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 2022年我国一线/新一线城市现磨咖啡市场规模分别约333亿元和379亿元,2017-2022年CAGR均为42.3%\n- [fact|置信度:medium / quote-hit(蕴涵:weak,B级信源)] 库迪咖啡门店分布约1/3一线超一线、1/3二三线、1/3四五线城市\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 各咖啡品牌价格战定价:库迪8.8元/杯、瑞幸9.9元/杯、幸运咖5元/杯、星巴克经优惠券降至20元以内\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 2022年中国咖啡消费量近30万吨\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 酱香拿铁上市首日销量突破542万杯,单品首日销售额突破1亿元\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 精品咖啡市场在2022年增长超过20%,远高于传统咖啡品牌\n- [inference|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 咖啡已成为现制饮品赛道中增长最迅猛的细分品类\n- [inference|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 咖啡行业集中度高于茶饮,源于咖啡的成瘾属性带来更高的消费者品牌忠诚度\n- [inference|置信度:medium / quote-hit(蕴涵:fail,B级信源)] 未来下沉市场将成为咖啡的重要增量空间,县域市场仍有广阔开拓机会\n- [fact|置信度:medium / quote-hit(蕴涵:weak,B级信源)] 现磨咖啡在中国咖啡市场中占比约为38.3%，是主要细分市场之一。\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 2025年我国现磨咖啡市场规模约为1884亿元，2021至2025年持续增长。\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 2025年我国现磨咖啡行业CR3、CR5、CR10市场份额分别为25.84%、33.25%、36.48%，市场集中度较低，竞争激烈。\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 2025年我国现磨咖啡市场份额最高的是瑞幸咖啡，占比约14.26%。\n- [fact|置信度:medium / quote-hit(蕴涵:weak,B级信源)] 2025年库迪咖啡在我国现磨咖啡市场份额约为7.65%，排名第二。\n- [fact|置信度:medium / quote-hit(蕴涵:weak,B级信源)] 2025年幸运咖在我国现磨咖啡市场份额约为3.93%，排名第三。\n- [unverified|置信度:low / quote-hit(蕴涵:fail,B级信源)] 截至2025年12月，瑞幸咖啡现磨咖啡营业门店数为30612家，位居行业第一。\n- [unverified|置信度:low / quote-hit(蕴涵:fail,B级信源)] 截至2025年12月，库迪咖啡现磨咖啡营业门店数为16414家，排名第二。\n- [unverified|置信度:low / quote-hit(蕴涵:fail,B级信源)] 截至2025年12月，幸运咖现磨咖啡营业门店数为8437家，排名第三。\n- [unverified|置信度:low / quote-hit(蕴涵:fail,B级信源)] 截至2025年12月，星巴克现磨咖啡营业门店数为8012家。\n- [unverified|置信度:low / quote-hit(蕴涵:fail,B级信源)] 截至2025年12月，NOWWA现磨咖啡营业门店数为7903家。\n- [unverified|置信度:low / quote-hit(蕴涵:fail,B级信源)] 截至2025年12月，Manner Coffee现磨咖啡营业门店数为2367家。\n- [unverified|置信度:low / quote-hit(蕴涵:fail,B级信源)] 截至2025年12月，肯悦咖啡现磨咖啡营业门店数为2326家。\n- [unverified|置信度:low / quote-hit(蕴涵:fail,B级信源)] 截至2025年12月，Tims天好咖啡现磨咖啡营业门店数为997家。\n- [unverified|置信度:low / quote-hit(蕴涵:fail,B级信源)] 截至2025年12月，沪咖现磨咖啡营业门店数为645家。\n- [unverified|置信度:low / quote-hit(蕴涵:fail,B级信源)] 截至2025年12月，小幸运现磨咖啡营业门店数为620家。\n- [unverified|置信度:low / quote-hit(蕴涵:fail,C级信源)] 截至2026年4月，瑞幸咖啡以31,205家门店断层式领先中国现磨咖啡行业。\n- [fact|置信度:low / quote-hit(蕴涵:weak,C级信源)] 截至2026年4月，库迪咖啡门店数为16,324家，居行业第二。\n- [unverified|置信度:low / quote-hit(蕴涵:fail,C级信源)] 截至2026年4月，星巴克以8,660家门店位列中国现磨咖啡品牌第三。\n- [unverified|置信度:low / quote-hit(蕴涵:fail,C级信源)] 截至2026年4月，幸运咖门店数为8,493家，排名第四。\n- [unverified|置信度:low / quote-mismatch(C级信源)] 截至2026年4月，挪瓦咖啡门店数为6,675家；肯悦咖啡为2,615家；Manner为2,503家；Tims为908家；M Stand为612家。\n- [inference|置信度:low / quote-hit(蕴涵:weak,C级信源)] 截至2026年4月，瑞幸咖啡门店数约为第二名库迪咖啡的1.9倍、星巴克的3.6倍。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 数据来源于窄门餐眼（2026.4）与国泰海通证券研究。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 中国现磨咖啡市场规模从2019年的1,200亿元增长至2024年的3,200亿元，年均复合增长率达22%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 瑞幸咖啡门店突破2万家，星巴克中国门店突破7,000家。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 到店消费占比从2019年的65%下降至2024年的45%，外带+外卖占比提升至55%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 现磨咖啡门店渠道占据58%市场份额，是绝对主渠道。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 瑞幸以2万+门店领跑，加盟占比超60%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 星巴克坚持直营，7,000家门店聚焦一二线城市核心商圈。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 外卖渠道占比达25%，美团、饿了么成为核心入口。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 自提占比提升至18%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 咖啡豆成本占现磨咖啡售价的15-20%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 云南咖啡豆替代进口，成本优势20-30%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 精品烘焙豆溢价可达50%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 现磨咖啡门店毛利率约60-65%，咖啡液毛利率约50-55%。\n- [fact|置信度:medium / quote-hit(蕴涵:strong,A级信源)] 自2010年起，中國的咖啡消費量以年均超15%的速度增長，遠超過全球年均約2%的增長率。\n- [fact|置信度:medium / quote-hit(蕴涵:strong,A级信源)] 目前全國咖啡相關企業現存量超25萬家，僅今年前10個月的註冊量就超過去年全年。\n- [fact|置信度:medium / quote-hit(蕴涵:strong,A级信源)] 2024年中國咖啡産業規模超過3000億元。\n- [fact|置信度:medium / quote-hit(蕴涵:strong,A级信源)] 2024年中國咖啡人均年消費量達到22.24杯。\n- [fact|置信度:medium / quote-hit(蕴涵:strong,A级信源)] 雲南擁有綿延百萬餘畝的咖啡種植園。\n- [inference|置信度:medium / quote-hit(蕴涵:strong,A级信源)] 改革開放以來中國商品消費經歷了排浪式發展，人均GDP連續攀升，國內需求正由物質型消費轉向服務型、體驗型消費。\n- [inference|置信度:medium / quote-hit(蕴涵:strong,A级信源)] 中國咖啡産業正在實現從早期跟跑到更多領域並跑，再到細分賽道領跑的重大跨越。\n- [unverified|置信度:low / quote-mismatch(A级信源)] 江蘇昆山聚豆成鏈打造具有全球影響力的千億級咖啡産業。\n- [inference|置信度:medium / quote-hit(蕴涵:strong,A级信源)] 中國有14億多人民對美好生活的嚮往，正轉化為推動經濟高質量發展的動能。\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 艾媒咨询《2026中国现磨咖啡行业报告》显示，2026年上半年中国现磨咖啡市场规模突破3200亿元，9.9元档位占62%销量\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 瑞幸单杯成本5.2元，9.9元售价毛利4.7元，毛利率47%\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 库迪单杯成本7.1元，9.9元售价每杯亏2.2元；2026上半年营收增长120%、净亏18亿元、关店率21%\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 瑞幸单杯原料成本比库迪低1.3元，门店数1.8万家\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 幸运咖单杯成本3.8元、定价6.6元、毛利2.8元，门店突破8200家、营收增长210%\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 库迪美式在外卖平台曾低至3.33元，饿了么生椰拿铁活动后仅1.99元\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 瑞幸2024年一季度经营亏损0.65亿元，为2022年三季度以来首次亏损；并缩减优惠券投放约30%、9.9元从每周7天改为每周3天且仅基础款参与；2025年9.9覆盖率从80%门店降至30%\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 百亿补贴下外卖平台咖啡价曾低至2.9元一杯；肯德基肯跃咖啡定价6元一杯仍能盈利\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 瑞幸益生菌吸管加2元换购，原成本约1.2元，规模化采购压至0.8元，利润1.2元，利润率150%\n- [unverified|置信度:low / quote-hit(蕴涵:fail,B级信源)] 吸管利润率（150%）是咖啡（47%）的3.2倍\n- [inference|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 北京朝阳区瑞幸门店实测：30%用户会加购吸管，单店日均增收200元/年增收约7.3万元；按全国1.8万家门店30%加购率测算，仅吸管年增收可超13亿元\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 瑞幸9.9元活动覆盖门店从高峰八百余家缩减至不足两百；小黄油拿铁调至12.16元，燕麦拿铁、香草拿铁等调至11元以上\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 库迪小程序生椰拿铁9.9元，外卖平台自提11.9元；锡兰金杯牛乳茶小程序11.9元、外卖平台17.99元，差价6元\n- [unverified|置信度:low / quote-hit(蕴涵:fail,B级信源)] 黑猫投诉案例：所谓瑞幸\"9.9元两杯饮品兑换券\"实际是先花9.9元买会员卡、下单再付9.9元，两杯实花29.7元\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 瑞幸2025年阶梯定价：基础款9.9元、特调款12至15元\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 库迪取消全场9.9元后大部分产品回调至11.9至16.9元，涨幅最高40%\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 全国超1.7万家咖啡门店上线\"自带杯\"服务，自带杯减免2至8元（中国质量报）\n- [unverified|置信度:low / quote-hit(蕴涵:fail,B级信源)] 全球阿拉比卡咖啡豆期货价格突破437美分/磅，创47年新高\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 云南咖啡生豆综合平均价同比上涨约13.8%（咖啡金融网）\n- [unverified|置信度:low / quote-mismatch(B级信源)] 库迪加盟店占比超80%，单杯补贴最高3元；县域咖啡回本周期从12至18个月拉长至2至4年\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] NCBD餐宝典：2024至2025年国内咖啡全渠道平均闭店率10.3%；窄门餐眼：2023年9月至2024年9月全年咖啡闭店总量超4.3万家\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 红餐大数据：全国咖饮人均消费从2023年的41元跌到2025年的26元，降幅36%\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] Seesaw巅峰时期全国135家门店，2026年5月仅剩34家，涉诉债务1646.3万元，2026年6月被申请破产清算\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] Tims天好中国全年净亏损4.4亿元\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 2025年市场监管总局约谈相关企业，禁止以低于成本价倾销咖啡\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 艾媒咨询：中国消费者日常学习/工作时喝咖啡比例达47.89%\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 蜜雪冰城、古茗等茶饮品牌2026上半年集体跨界平价咖啡：甜啦啦美式2.9元、沪上阿姨美式4.9元、古茗美式7.9元\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 麦当劳全球毛利率约60%，星巴克约67%\n- [fact|置信度:medium / quote-hit(蕴涵:strong,B级信源)] 库迪宣布补贴政策延长至2028年底，并新增\"高房租、低杯量\"专项补贴\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 《2025中国咖啡产业发展报告》于2026年1月13日正式发布\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2025年中国咖啡市场规模达2181亿元\n- [fact|置信度:low / quote-hit(蕴涵:weak,C级信源)] 2025年中国现磨咖啡市场规模超1880亿元\n- [inference|置信度:medium / quote-hit(蕴涵:strong,C级信源)] 2025年中国咖啡消费量预估突破40万吨\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2025年中国咖啡门店数净增4万多家，达到21.5万家，增幅25%\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 中国咖啡连锁化率从46%提升至53%\n- [fact|置信度:low / quote-hit(蕴涵:weak,C级信源)] 连锁咖啡客单价由2023年的32—42元区间下滑至2025年的25—27元区间\n- [inference|置信度:medium / quote-hit(蕴涵:strong,C级信源)] 2025年中国的咖啡豆总消耗量近40万吨\n- [inference|置信度:medium / quote-hit(蕴涵:strong,C级信源)] 中国人均咖啡年饮用量仅15杯\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 云南咖啡80%以上为卡蒂姆品种\n- [inference|置信度:medium / quote-hit(蕴涵:fail,C级信源)] 2025年咖啡精品率超过30%\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 世界中餐业联合会会长邢颖指出中国咖啡市场已进入'高速扩容'与'深度分化'并行的新阶段\n\n\n## 限制\n- 问题「现磨咖啡连锁品牌竞争格局如何」的调查结论无法解析,按未充分处理\n- 问题「现磨咖啡人均消费与增长驱动」的调查结论无法解析,按未充分处理\n- 核心摘要中'2025年中国现磨咖啡市场规模约1880–1884亿元'与'若按艾媒口径，2026年上半年规模已突破3200亿元'并列陈述，且1880亿（2025全年）与3200亿（2026上半年）并存于同一执行摘要——两者口径单位差异（年度 vs 上半年）、统计边界（现磨vs咖啡总规模）混用，未明确标注差异原因，容易让读者直接得出'半年增长70%'的错误推论。执行摘要应单独说明两数据不可直接比较。\n- 同一'现磨咖啡市场规模'指标并存多套数据：2025年新京报/观研天下1880—1884亿元、2023年思瀚1515亿元、2019—2024中金企信1200→3200亿元、2026上半年艾媒3200亿元——这些数据使用了明显不同的统计口径（是否含咖啡液、是否全渠道、是否含RTD）与时间窗口，但报告未在执行摘要中清晰区分；'2025年2181亿'和'2026上半年突破3200亿'并排出现容易让读者误以为是同口径年度数据。\n- '中国人均咖啡年饮用量15杯（2025黑峪投资/新京报）'与'中国咖啡人均年消费量22.24杯（2024新华社/央视）'差近50%，但报告未在执行摘要或人均消费表中注明两组口径差异（现磨咖啡 vs 全品类咖啡含速溶/RTD）；22.24杯被用于与美国323杯、英国225杯、日本172杯对比，若属全口径咖啡，跨国对比存在严重口径错配，会夸大'人均差距数量级'的论断。\n- 门店渠道占58% / 外卖25% / 自提18%三项相加为101%，存在口径重叠或四舍五入误差；且'到店消费65%→45%'与'外带+外卖合计55%'在年份（2019→2024）与上节渠道占比（2024年口径）不严格对应，存在跨年份拼接问题。\n- 瑞幸9.9元活动'门店覆盖率从80%降至30%'与'活动门店从高峰800余家缩至不足200家'两个数字逻辑关系不明确：若覆盖率以全国门店为分母，则1.8万家门店×30%=5400家，与'不足200家'差27倍，说明两个数字使用了不同分母（活动SKU覆盖门店 vs 主推活动门店），但报告未澄清，容易被误读为同一指标。\n- 六条核心建议中除第1条基于三个证据外，其余多条依赖单点信息（如'瑞幸吸管利润率150%、年增收13亿'基于30%加购率的推算、'回本周期2—4年'仅有结论性数据），未在'启示与建议'章节前置披露证据基础；多项推断（如'非典型性爆发'、'配件经济独立性'、'跨界持续性'）被作为建议而非假设呈现。\n- 以下主张引用核查未通过,已降级为未验证:cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:1、cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:4、cl:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:7、cl:q4:snap:https://www.huxiu.com/article/4880665.html:19\n- 以下主张的引句不支持其转述(语义蕴涵未通过),已降级为未验证:cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:10、cl:q2:snap:https://www.jiemian.com/article/10738059.html:10、cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:6、cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:7、cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:8、cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:9、cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:10、cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:11、cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:12、cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:13、cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:14、cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:15、cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:0、cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:2、cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:3、cl:q4:snap:https://www.huxiu.com/article/4880665.html:9、cl:q4:snap:https://www.huxiu.com/article/4880665.html:13、cl:q4:snap:https://www.huxiu.com/article/4880665.html:17\n- 以下主张仅有 C 级信源(社媒/自媒体/未知来源)支撑,置信度低:cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:0、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:2、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:3、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:4、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:5、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:6、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:7、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:8、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:9、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:11、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:12、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:13、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:14、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:15、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:16、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:17、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:18、cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:1、cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:5、cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:6、cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:0、cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:1、cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:2、cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:3、cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:4、cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:5、cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:6、cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:7、cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:8、cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:9、cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:10、cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:11、cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:0、cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:1、cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:2、cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:3、cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:4、cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:5、cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:6、cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:7、cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:8、cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:9、cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:10、cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:11\n- 存在引用/蕴涵/数值核查未通过的关键结论\n- 模块质量检查未通过:缺必备章节「市场口径表」;缺必备章节「行业结构」;缺必备章节「趋势与风险」;主题未覆盖「行业边界」;主题未覆盖「产业链」;numeric-claims-calibrated: 数值主张缺口径(对象/时间/单位) \"2024年四季度起现制茶饮价格战逐渐趋缓，行业进入差异化竞争阶段。\"(cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:18);numeric-claims-calibrated: 数值主张缺口径(对象/时间/单位) \"截至2026年4月，瑞幸咖啡以31,205家门店断层式领先中国现磨咖啡行业。\"(cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:0);numeric-claims-calibrated: 数值主张缺口径(对象/时间/单位) \"截至2026年4月，瑞幸咖啡门店数约为第二名库迪咖啡的1.9倍、星巴克的3.6倍。\"(cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:5);numeric-claims-calibrated: 数值主张缺口径(对象/时间/单位) \"数据来源于窄门餐眼（2026.4）与国泰海通证券研究。\"(cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:6);numeric-claims-calibrated: 数值主张缺口径(对象/时间/单位) \"瑞幸咖啡门店突破2万家，星巴克中国门店突破7,000家。\"(cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:1);numeric-claims-calibrated: 数值主张缺口径(对象/时间/单位) \"瑞幸以2万+门店领跑，加盟占比超60%。\"(cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:4);numeric-claims-calibrated: 数值主张缺口径(对象/时间/单位) \"星巴克坚持直营，7,000家门店聚焦一二线城市核心商圈。\"(cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:5);numeric-claims-calibrated: 数值主张缺口径(对象/时间/单位) \"中國有14億多人民對美好生活的嚮往，正轉化為推動經濟高質量發展的動能。\"(cl:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:8);numeric-claims-calibrated: 数值主张缺口径(对象/时间/单位) \"《2025中国咖啡产业发展报告》于2026年1月13日正式发布\"(cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:0);numeric-claims-calibrated: 数值主张缺口径(对象/时间/单位) \"云南咖啡80%以上为卡蒂姆品种\"(cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:9)\n",
+  "claims": [
+    {
+      "id": "cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:0",
+      "statement": "2023年中国现制茶饮市场规模为2585亿元，占现制饮品市场规模的50%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:0"
+      ],
+      "calibration": {
+        "entity": "中国现制茶饮市场",
+        "period": "2023年",
+        "unit": "亿元"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:1",
+      "statement": "2018-2023年中国现制茶饮市场规模CAGR为19.0%，处于高速成长期。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:1"
+      ],
+      "calibration": {
+        "entity": "中国现制茶饮市场",
+        "period": "2018-2023年",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:2",
+      "statement": "2023年中国现制饮品人均年消费量约为22杯，远低于美国323杯、英国225杯及日本172杯。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:2"
+      ],
+      "calibration": {
+        "entity": "人均年消费量",
+        "period": "2023年",
+        "unit": "杯"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:3",
+      "statement": "2023年大众现制茶饮市场规模为1086亿元，占比51.3%，在三种价格带中处于领先地位。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:3"
+      ],
+      "calibration": {
+        "entity": "大众现制茶饮市场",
+        "period": "2023年",
+        "unit": "亿元"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:4",
+      "statement": "2023年中国现制茶饮市场下沉城市（三线/四线及以下）增速分别为29.8%和32.1%，高于一线城市18.1%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:4"
+      ],
+      "calibration": {
+        "entity": "现制茶饮市场",
+        "period": "2023年",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:5",
+      "statement": "下沉市场现制茶饮渗透率从2019年的23%提升至2023年的41%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:5"
+      ],
+      "calibration": {
+        "entity": "下沉市场渗透率",
+        "period": "2019-2023年",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:6",
+      "statement": "二线及以下城市茶饮门店密度为1.22家/万人，仍低于一线及新一线城市的2.14家/万人。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:6"
+      ],
+      "calibration": {
+        "entity": "茶饮门店密度",
+        "period": "截至发稿时",
+        "unit": "家/万人"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:7",
+      "statement": "2023年中国现制茶饮行业CR5为46.9%，行业集中度较高。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:7"
+      ],
+      "calibration": {
+        "entity": "现制茶饮行业",
+        "period": "2023年",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:8",
+      "statement": "2023年古茗在中国大众现制茶饮店市场的GMV市场份额为17.7%，位列第一。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:8"
+      ],
+      "calibration": {
+        "entity": "大众现制茶饮市场份额",
+        "period": "2023年",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:9",
+      "statement": "中国大众现制茶饮店市场规模由2018年的364亿元增至2023年的1086亿元，CAGR为24.4%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:9"
+      ],
+      "calibration": {
+        "entity": "大众现制茶饮店市场",
+        "period": "2018-2023年",
+        "unit": "亿元"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:10",
+      "statement": "截至2024年蜜雪冰城国内门店数量约为41584家，三线及以下城市占比57.4%。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:10"
+      ],
+      "calibration": {
+        "entity": "蜜雪冰城门店数",
+        "period": "截至2024年",
+        "unit": "家"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:11",
+      "statement": "茶饮行业平均利润率从2023年的21.4%降至2024年的14.7%，价格战压缩利润空间。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:11"
+      ],
+      "calibration": {
+        "entity": "茶饮行业平均利润率",
+        "period": "2023-2024年",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:12",
+      "statement": "2024年古茗单店GMV同比减少4.29%，茶百道净利润同比下降58.55%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:12"
+      ],
+      "calibration": {
+        "entity": "头部品牌业绩",
+        "period": "2024年",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:13",
+      "statement": "中国连锁经营协会预测2025年新茶饮市场规模增速将从2023年的44.3%骤降至12.4%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:13"
+      ],
+      "calibration": {
+        "entity": "新茶饮市场规模增速",
+        "period": "2025年",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:14",
+      "statement": "2023年中国现磨咖啡市场规模为1515亿元，CAGR达37.1%，预计2024年达1903亿元。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:14"
+      ],
+      "calibration": {
+        "entity": "中国现磨咖啡市场",
+        "period": "2023年",
+        "unit": "亿元"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:15",
+      "statement": "2023年瑞幸咖啡终端零售额达330亿元，占现磨咖啡市场份额21.8%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:15"
+      ],
+      "calibration": {
+        "entity": "现磨咖啡市场份额",
+        "period": "2023年",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:16",
+      "statement": "蜜雪冰城按饮品出杯量计市场份额高达49.6%，远超其他头部品牌。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:16"
+      ],
+      "calibration": {
+        "entity": "现制茶饮出杯量份额",
+        "period": "2023年",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:17",
+      "statement": "2023年古茗终端零售额市场份额为9.1%，按门店数计为1.9%，门店效率较高。",
+      "kind": "inference",
+      "evidenceIds": [
+        "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:17"
+      ],
+      "calibration": {
+        "entity": "古茗市场份额",
+        "period": "2023年",
+        "unit": "%"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:18",
+      "statement": "2024年四季度起现制茶饮价格战逐渐趋缓，行业进入差异化竞争阶段。",
+      "kind": "inference",
+      "evidenceIds": [
+        "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:18"
+      ],
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:https://www.jiemian.com/article/10738059.html:0",
+      "statement": "中国品牌咖啡门店总数已接近5万家,成为全球拥有品牌咖啡门店最多的国家",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.jiemian.com/article/10738059.html:0"
+      ],
+      "calibration": {
+        "entity": "中国品牌咖啡门店总数",
+        "period": "截至报告发布时(过去12个月)",
+        "unit": "家"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://www.jiemian.com/article/10738059.html:1",
+      "statement": "过去12个月中国品牌咖啡门店数量增长58%至49691家,超过美国9000多家",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.jiemian.com/article/10738059.html:1"
+      ],
+      "calibration": {
+        "entity": "中国品牌咖啡门店数量",
+        "period": "过去12个月",
+        "unit": "家"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://www.jiemian.com/article/10738059.html:2",
+      "statement": "2023年瑞幸净增8025家门店,门店规模增速98.21%,门店数达16196家",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.jiemian.com/article/10738059.html:2"
+      ],
+      "calibration": {
+        "entity": "瑞幸门店",
+        "period": "2023年",
+        "unit": "家"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://www.jiemian.com/article/10738059.html:3",
+      "statement": "2023年库迪咖啡净增6977家门店,增速达8019.54%,门店达7064家",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.jiemian.com/article/10738059.html:3"
+      ],
+      "calibration": {
+        "entity": "库迪咖啡门店",
+        "period": "2023年",
+        "unit": "家"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://www.jiemian.com/article/10738059.html:4",
+      "statement": "2023年幸运咖净增976家门店,增速54.07%,现有门店2781家",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.jiemian.com/article/10738059.html:4"
+      ],
+      "calibration": {
+        "entity": "幸运咖门店",
+        "period": "2023年",
+        "unit": "家"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://www.jiemian.com/article/10738059.html:5",
+      "statement": "2023年瑞幸成为中国本土门店数量破万的咖啡品牌",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.jiemian.com/article/10738059.html:5"
+      ],
+      "calibration": {
+        "entity": "瑞幸门店",
+        "period": "2023年",
+        "unit": "家"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://www.jiemian.com/article/10738059.html:6",
+      "statement": "2022年我国现制茶饮行业规模超2100亿元,现磨咖啡行业规模超1300亿元",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.jiemian.com/article/10738059.html:6"
+      ],
+      "calibration": {
+        "entity": "现制饮品市场",
+        "period": "2022年",
+        "unit": "亿元"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://www.jiemian.com/article/10738059.html:7",
+      "statement": "截至2023年9月近一年新开咖啡门店77083家但净增长仅42450家,近3.5万家门店退出",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.jiemian.com/article/10738059.html:7"
+      ],
+      "calibration": {
+        "entity": "咖啡门店",
+        "period": "截至2023年9月近一年",
+        "unit": "家"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://www.jiemian.com/article/10738059.html:8",
+      "statement": "2022年我国现磨咖啡赛道1000家以上品牌门店占比由2020年12%提升至16%",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.jiemian.com/article/10738059.html:8"
+      ],
+      "calibration": {
+        "entity": "现磨咖啡1000家以上品牌门店占比",
+        "period": "2022年",
+        "unit": "%"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://www.jiemian.com/article/10738059.html:9",
+      "statement": "上海独立咖啡店数量首次出现减少,在咖啡总店数中占比由60.1%跌至55%",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.jiemian.com/article/10738059.html:9"
+      ],
+      "calibration": {
+        "entity": "上海独立咖啡店占比",
+        "period": "2023年(今年)",
+        "unit": "%"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://www.jiemian.com/article/10738059.html:10",
+      "statement": "我国现磨咖啡门店约17万家,top5品牌市占率约21%,top10约23%;瑞幸全国市占率9.5%,星巴克和库迪超4%",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.jiemian.com/article/10738059.html:10"
+      ],
+      "calibration": {
+        "entity": "现磨咖啡行业",
+        "period": "当前(文中)",
+        "unit": "%/万家"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:https://www.jiemian.com/article/10738059.html:11",
+      "statement": "我国现制茶饮门店超38万家,top5品牌市占率约15%,top10约20%",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.jiemian.com/article/10738059.html:11"
+      ],
+      "calibration": {
+        "entity": "现制茶饮行业",
+        "period": "当前(文中)",
+        "unit": "%/万家"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://www.jiemian.com/article/10738059.html:12",
+      "statement": "2022年我国三线及以下城市现制茶饮终端零售市场规模约732亿元",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.jiemian.com/article/10738059.html:12"
+      ],
+      "calibration": {
+        "entity": "三线及以下城市现制茶饮市场",
+        "period": "2022年",
+        "unit": "亿元"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://www.jiemian.com/article/10738059.html:13",
+      "statement": "2022年我国一线/新一线城市现磨咖啡市场规模分别约333亿元和379亿元,2017-2022年CAGR均为42.3%",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.jiemian.com/article/10738059.html:13"
+      ],
+      "calibration": {
+        "entity": "一线/新一线现磨咖啡市场",
+        "period": "2022年",
+        "unit": "亿元/%"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://www.jiemian.com/article/10738059.html:14",
+      "statement": "库迪咖啡门店分布约1/3一线超一线、1/3二三线、1/3四五线城市",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.jiemian.com/article/10738059.html:14"
+      ],
+      "calibration": {
+        "entity": "库迪咖啡门店分布",
+        "period": "李颖波受访时",
+        "unit": "比例"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://www.jiemian.com/article/10738059.html:15",
+      "statement": "各咖啡品牌价格战定价:库迪8.8元/杯、瑞幸9.9元/杯、幸运咖5元/杯、星巴克经优惠券降至20元以内",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.jiemian.com/article/10738059.html:15"
+      ],
+      "calibration": {
+        "entity": "主要咖啡品牌定价",
+        "period": "2023年",
+        "unit": "元/杯"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://www.jiemian.com/article/10738059.html:16",
+      "statement": "2022年中国咖啡消费量近30万吨",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.jiemian.com/article/10738059.html:16"
+      ],
+      "calibration": {
+        "entity": "中国咖啡消费量",
+        "period": "2022年",
+        "unit": "万吨"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://www.jiemian.com/article/10738059.html:17",
+      "statement": "酱香拿铁上市首日销量突破542万杯,单品首日销售额突破1亿元",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.jiemian.com/article/10738059.html:17"
+      ],
+      "calibration": {
+        "entity": "酱香拿铁",
+        "period": "上市首日",
+        "unit": "万杯/亿元"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://www.jiemian.com/article/10738059.html:18",
+      "statement": "精品咖啡市场在2022年增长超过20%,远高于传统咖啡品牌",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.jiemian.com/article/10738059.html:18"
+      ],
+      "calibration": {
+        "entity": "精品咖啡市场增速",
+        "period": "2022年",
+        "unit": "%"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://www.jiemian.com/article/10738059.html:19",
+      "statement": "咖啡已成为现制饮品赛道中增长最迅猛的细分品类",
+      "kind": "inference",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.jiemian.com/article/10738059.html:19"
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://www.jiemian.com/article/10738059.html:20",
+      "statement": "咖啡行业集中度高于茶饮,源于咖啡的成瘾属性带来更高的消费者品牌忠诚度",
+      "kind": "inference",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.jiemian.com/article/10738059.html:20"
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://www.jiemian.com/article/10738059.html:21",
+      "statement": "未来下沉市场将成为咖啡的重要增量空间,县域市场仍有广阔开拓机会",
+      "kind": "inference",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.jiemian.com/article/10738059.html:21"
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:0",
+      "statement": "现磨咖啡在中国咖啡市场中占比约为38.3%，是主要细分市场之一。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:0"
+      ],
+      "calibration": {
+        "entity": "我国咖啡市场",
+        "period": "2024年",
+        "unit": "%"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:1",
+      "statement": "2025年我国现磨咖啡市场规模约为1884亿元，2021至2025年持续增长。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:1"
+      ],
+      "calibration": {
+        "entity": "我国现磨咖啡市场",
+        "period": "2025年",
+        "unit": "亿元"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:2",
+      "statement": "2025年我国现磨咖啡行业CR3、CR5、CR10市场份额分别为25.84%、33.25%、36.48%，市场集中度较低，竞争激烈。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:2"
+      ],
+      "calibration": {
+        "entity": "我国现磨咖啡行业",
+        "period": "2025年",
+        "unit": "%"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:3",
+      "statement": "2025年我国现磨咖啡市场份额最高的是瑞幸咖啡，占比约14.26%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:3"
+      ],
+      "calibration": {
+        "entity": "瑞幸咖啡",
+        "period": "2025年",
+        "unit": "%"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:4",
+      "statement": "2025年库迪咖啡在我国现磨咖啡市场份额约为7.65%，排名第二。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:4"
+      ],
+      "calibration": {
+        "entity": "库迪咖啡",
+        "period": "2025年",
+        "unit": "%"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:5",
+      "statement": "2025年幸运咖在我国现磨咖啡市场份额约为3.93%，排名第三。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:5"
+      ],
+      "calibration": {
+        "entity": "幸运咖",
+        "period": "2025年",
+        "unit": "%"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:6",
+      "statement": "截至2025年12月，瑞幸咖啡现磨咖啡营业门店数为30612家，位居行业第一。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:6"
+      ],
+      "calibration": {
+        "entity": "瑞幸咖啡",
+        "period": "2025年12月",
+        "unit": "家"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:7",
+      "statement": "截至2025年12月，库迪咖啡现磨咖啡营业门店数为16414家，排名第二。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:7"
+      ],
+      "calibration": {
+        "entity": "库迪咖啡",
+        "period": "2025年12月",
+        "unit": "家"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:8",
+      "statement": "截至2025年12月，幸运咖现磨咖啡营业门店数为8437家，排名第三。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:8"
+      ],
+      "calibration": {
+        "entity": "幸运咖",
+        "period": "2025年12月",
+        "unit": "家"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:9",
+      "statement": "截至2025年12月，星巴克现磨咖啡营业门店数为8012家。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:9"
+      ],
+      "calibration": {
+        "entity": "星巴克",
+        "period": "2025年12月",
+        "unit": "家"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:10",
+      "statement": "截至2025年12月，NOWWA现磨咖啡营业门店数为7903家。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:10"
+      ],
+      "calibration": {
+        "entity": "NOWWA",
+        "period": "2025年12月",
+        "unit": "家"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:11",
+      "statement": "截至2025年12月，Manner Coffee现磨咖啡营业门店数为2367家。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:11"
+      ],
+      "calibration": {
+        "entity": "Manner Coffee",
+        "period": "2025年12月",
+        "unit": "家"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:12",
+      "statement": "截至2025年12月，肯悦咖啡现磨咖啡营业门店数为2326家。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:12"
+      ],
+      "calibration": {
+        "entity": "肯悦咖啡",
+        "period": "2025年12月",
+        "unit": "家"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:13",
+      "statement": "截至2025年12月，Tims天好咖啡现磨咖啡营业门店数为997家。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:13"
+      ],
+      "calibration": {
+        "entity": "Tims天好咖啡",
+        "period": "2025年12月",
+        "unit": "家"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:14",
+      "statement": "截至2025年12月，沪咖现磨咖啡营业门店数为645家。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:14"
+      ],
+      "calibration": {
+        "entity": "沪咖",
+        "period": "2025年12月",
+        "unit": "家"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:15",
+      "statement": "截至2025年12月，小幸运现磨咖啡营业门店数为620家。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:15"
+      ],
+      "calibration": {
+        "entity": "小幸运",
+        "period": "2025年12月",
+        "unit": "家"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:0",
+      "statement": "截至2026年4月，瑞幸咖啡以31,205家门店断层式领先中国现磨咖啡行业。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:0"
+      ],
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:1",
+      "statement": "截至2026年4月，库迪咖啡门店数为16,324家，居行业第二。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:1"
+      ],
+      "calibration": {
+        "entity": "库迪咖啡",
+        "period": "2026年4月",
+        "unit": "家"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:2",
+      "statement": "截至2026年4月，星巴克以8,660家门店位列中国现磨咖啡品牌第三。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:2"
+      ],
+      "calibration": {
+        "entity": "星巴克",
+        "period": "2026年4月",
+        "unit": "家"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:3",
+      "statement": "截至2026年4月，幸运咖门店数为8,493家，排名第四。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:3"
+      ],
+      "calibration": {
+        "entity": "幸运咖",
+        "period": "2026年4月",
+        "unit": "家"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:4",
+      "statement": "截至2026年4月，挪瓦咖啡门店数为6,675家；肯悦咖啡为2,615家；Manner为2,503家；Tims为908家；M Stand为612家。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:4"
+      ],
+      "calibration": {
+        "entity": "相关品牌",
+        "period": "2026年4月",
+        "unit": "家"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:5",
+      "statement": "截至2026年4月，瑞幸咖啡门店数约为第二名库迪咖啡的1.9倍、星巴克的3.6倍。",
+      "kind": "inference",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:5"
+      ],
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:6",
+      "statement": "数据来源于窄门餐眼（2026.4）与国泰海通证券研究。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:6"
+      ],
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:0",
+      "statement": "中国现磨咖啡市场规模从2019年的1,200亿元增长至2024年的3,200亿元，年均复合增长率达22%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:0"
+      ],
+      "calibration": {
+        "entity": "中国现磨咖啡市场规模",
+        "period": "2019-2024",
+        "unit": "亿元"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:1",
+      "statement": "瑞幸咖啡门店突破2万家，星巴克中国门店突破7,000家。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:1"
+      ],
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:2",
+      "statement": "到店消费占比从2019年的65%下降至2024年的45%，外带+外卖占比提升至55%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:2"
+      ],
+      "calibration": {
+        "entity": "现磨咖啡消费场景占比",
+        "period": "2019-2024",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:3",
+      "statement": "现磨咖啡门店渠道占据58%市场份额，是绝对主渠道。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:3"
+      ],
+      "calibration": {
+        "entity": "现磨咖啡门店渠道市场份额",
+        "period": "2024",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:4",
+      "statement": "瑞幸以2万+门店领跑，加盟占比超60%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:4"
+      ],
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:5",
+      "statement": "星巴克坚持直营，7,000家门店聚焦一二线城市核心商圈。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:5"
+      ],
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:6",
+      "statement": "外卖渠道占比达25%，美团、饿了么成为核心入口。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:6"
+      ],
+      "calibration": {
+        "entity": "现磨咖啡外卖渠道占比",
+        "period": "2024",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:7",
+      "statement": "自提占比提升至18%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:7"
+      ],
+      "calibration": {
+        "entity": "现磨咖啡自提渠道占比",
+        "period": "2024",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:8",
+      "statement": "咖啡豆成本占现磨咖啡售价的15-20%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:8"
+      ],
+      "calibration": {
+        "entity": "咖啡豆成本占现磨咖啡售价",
+        "period": "2024",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:9",
+      "statement": "云南咖啡豆替代进口，成本优势20-30%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:9"
+      ],
+      "calibration": {
+        "entity": "云南咖啡豆成本优势",
+        "period": "2024",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:10",
+      "statement": "精品烘焙豆溢价可达50%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:10"
+      ],
+      "calibration": {
+        "entity": "精品烘焙豆溢价",
+        "period": "2024",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:11",
+      "statement": "现磨咖啡门店毛利率约60-65%，咖啡液毛利率约50-55%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:11"
+      ],
+      "calibration": {
+        "entity": "现磨咖啡门店毛利率",
+        "period": "2024",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:0",
+      "statement": "自2010年起，中國的咖啡消費量以年均超15%的速度增長，遠超過全球年均約2%的增長率。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:0"
+      ],
+      "calibration": {
+        "entity": "中國咖啡消費量增長率",
+        "period": "自2010年起",
+        "unit": "%/年"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:1",
+      "statement": "目前全國咖啡相關企業現存量超25萬家，僅今年前10個月的註冊量就超過去年全年。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:1"
+      ],
+      "calibration": {
+        "entity": "全國咖啡相關企業現存量",
+        "period": "截至文章發表時",
+        "unit": "家"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:2",
+      "statement": "2024年中國咖啡産業規模超過3000億元。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:2"
+      ],
+      "calibration": {
+        "entity": "中國咖啡産業規模",
+        "period": "2024年",
+        "unit": "億元"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:3",
+      "statement": "2024年中國咖啡人均年消費量達到22.24杯。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:3"
+      ],
+      "calibration": {
+        "entity": "中國咖啡人均年消費量",
+        "period": "2024年",
+        "unit": "杯/人/年"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:4",
+      "statement": "雲南擁有綿延百萬餘畝的咖啡種植園。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:4"
+      ],
+      "calibration": {
+        "entity": "雲南咖啡種植園面積",
+        "period": "未明確",
+        "unit": "萬餘畝"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:5",
+      "statement": "改革開放以來中國商品消費經歷了排浪式發展，人均GDP連續攀升，國內需求正由物質型消費轉向服務型、體驗型消費。",
+      "kind": "inference",
+      "evidenceIds": [
+        "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:5"
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:6",
+      "statement": "中國咖啡産業正在實現從早期跟跑到更多領域並跑，再到細分賽道領跑的重大跨越。",
+      "kind": "inference",
+      "evidenceIds": [
+        "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:6"
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:7",
+      "statement": "江蘇昆山聚豆成鏈打造具有全球影響力的千億級咖啡産業。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:7"
+      ],
+      "calibration": {
+        "entity": "昆山咖啡産業規模",
+        "period": "未明確",
+        "unit": "千億元"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:8",
+      "statement": "中國有14億多人民對美好生活的嚮往，正轉化為推動經濟高質量發展的動能。",
+      "kind": "inference",
+      "evidenceIds": [
+        "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:8"
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:0",
+      "statement": "艾媒咨询《2026中国现磨咖啡行业报告》显示，2026年上半年中国现磨咖啡市场规模突破3200亿元，9.9元档位占62%销量",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:0"
+      ],
+      "calibration": {
+        "entity": "中国现磨咖啡市场",
+        "period": "2026年上半年",
+        "unit": "亿元"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:1",
+      "statement": "瑞幸单杯成本5.2元，9.9元售价毛利4.7元，毛利率47%",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:1"
+      ],
+      "calibration": {
+        "entity": "瑞幸",
+        "period": "未指定",
+        "unit": "元/杯"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:2",
+      "statement": "库迪单杯成本7.1元，9.9元售价每杯亏2.2元；2026上半年营收增长120%、净亏18亿元、关店率21%",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:2"
+      ],
+      "calibration": {
+        "entity": "库迪",
+        "period": "2026上半年",
+        "unit": "亿元"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:3",
+      "statement": "瑞幸单杯原料成本比库迪低1.3元，门店数1.8万家",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:3"
+      ],
+      "calibration": {
+        "entity": "瑞幸",
+        "period": "未指定",
+        "unit": "元/杯（成本差）"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:4",
+      "statement": "幸运咖单杯成本3.8元、定价6.6元、毛利2.8元，门店突破8200家、营收增长210%",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:4"
+      ],
+      "calibration": {
+        "entity": "幸运咖",
+        "period": "未指定",
+        "unit": "元/杯（成本与定价）"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:5",
+      "statement": "库迪美式在外卖平台曾低至3.33元，饿了么生椰拿铁活动后仅1.99元",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:5"
+      ],
+      "calibration": {
+        "entity": "库迪美式/饿了么生椰拿铁",
+        "period": "未指定",
+        "unit": "元/杯"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:6",
+      "statement": "瑞幸2024年一季度经营亏损0.65亿元，为2022年三季度以来首次亏损；并缩减优惠券投放约30%、9.9元从每周7天改为每周3天且仅基础款参与；2025年9.9覆盖率从80%门店降至30%",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:6"
+      ],
+      "calibration": {
+        "entity": "瑞幸",
+        "period": "2024年一季度",
+        "unit": "亿元"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:7",
+      "statement": "百亿补贴下外卖平台咖啡价曾低至2.9元一杯；肯德基肯跃咖啡定价6元一杯仍能盈利",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:7"
+      ],
+      "calibration": {
+        "entity": "外卖平台咖啡/肯跃咖啡",
+        "period": "未指定",
+        "unit": "元/杯"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:8",
+      "statement": "瑞幸益生菌吸管加2元换购，原成本约1.2元，规模化采购压至0.8元，利润1.2元，利润率150%",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:8"
+      ],
+      "calibration": {
+        "entity": "瑞幸益生菌吸管",
+        "period": "未指定",
+        "unit": "元/根"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:9",
+      "statement": "吸管利润率（150%）是咖啡（47%）的3.2倍",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:9"
+      ],
+      "calibration": {
+        "entity": "瑞幸吸管 vs 瑞幸咖啡",
+        "period": "未指定",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:10",
+      "statement": "北京朝阳区瑞幸门店实测：30%用户会加购吸管，单店日均增收200元/年增收约7.3万元；按全国1.8万家门店30%加购率测算，仅吸管年增收可超13亿元",
+      "kind": "inference",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:10"
+      ],
+      "calibration": {
+        "entity": "瑞幸",
+        "period": "未指定",
+        "unit": "元"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:11",
+      "statement": "瑞幸9.9元活动覆盖门店从高峰八百余家缩减至不足两百；小黄油拿铁调至12.16元，燕麦拿铁、香草拿铁等调至11元以上",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:11"
+      ],
+      "calibration": {
+        "entity": "瑞幸",
+        "period": "未指定",
+        "unit": "元/杯"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:12",
+      "statement": "库迪小程序生椰拿铁9.9元，外卖平台自提11.9元；锡兰金杯牛乳茶小程序11.9元、外卖平台17.99元，差价6元",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:12"
+      ],
+      "calibration": {
+        "entity": "库迪生椰拿铁/锡兰金杯牛乳茶",
+        "period": "未指定",
+        "unit": "元/杯"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:13",
+      "statement": "黑猫投诉案例：所谓瑞幸\"9.9元两杯饮品兑换券\"实际是先花9.9元买会员卡、下单再付9.9元，两杯实花29.7元",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:13"
+      ],
+      "calibration": {
+        "entity": "瑞幸",
+        "period": "未指定",
+        "unit": "元"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:14",
+      "statement": "瑞幸2025年阶梯定价：基础款9.9元、特调款12至15元",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:14"
+      ],
+      "calibration": {
+        "entity": "瑞幸",
+        "period": "2025年",
+        "unit": "元/杯"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:15",
+      "statement": "库迪取消全场9.9元后大部分产品回调至11.9至16.9元，涨幅最高40%",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:15"
+      ],
+      "calibration": {
+        "entity": "库迪",
+        "period": "未指定",
+        "unit": "元/杯"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:16",
+      "statement": "全国超1.7万家咖啡门店上线\"自带杯\"服务，自带杯减免2至8元（中国质量报）",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:16"
+      ],
+      "calibration": {
+        "entity": "全国咖啡门店",
+        "period": "未指定",
+        "unit": "元（减免）"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:17",
+      "statement": "全球阿拉比卡咖啡豆期货价格突破437美分/磅，创47年新高",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:17"
+      ],
+      "calibration": {
+        "entity": "阿拉比卡咖啡豆期货",
+        "period": "未指定",
+        "unit": "美分/磅"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:18",
+      "statement": "云南咖啡生豆综合平均价同比上涨约13.8%（咖啡金融网）",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:18"
+      ],
+      "calibration": {
+        "entity": "云南咖啡生豆综合平均价",
+        "period": "未指定",
+        "unit": "%"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:19",
+      "statement": "库迪加盟店占比超80%，单杯补贴最高3元；县域咖啡回本周期从12至18个月拉长至2至4年",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:19"
+      ],
+      "calibration": {
+        "entity": "库迪加盟/县域咖啡门店",
+        "period": "未指定",
+        "unit": "月（回本周期）"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:20",
+      "statement": "NCBD餐宝典：2024至2025年国内咖啡全渠道平均闭店率10.3%；窄门餐眼：2023年9月至2024年9月全年咖啡闭店总量超4.3万家",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:20"
+      ],
+      "calibration": {
+        "entity": "国内咖啡全渠道",
+        "period": "2024-2025",
+        "unit": "%（闭店率）"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:21",
+      "statement": "红餐大数据：全国咖饮人均消费从2023年的41元跌到2025年的26元，降幅36%",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:21"
+      ],
+      "calibration": {
+        "entity": "全国咖饮人均消费",
+        "period": "2023-2025",
+        "unit": "元"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:22",
+      "statement": "Seesaw巅峰时期全国135家门店，2026年5月仅剩34家，涉诉债务1646.3万元，2026年6月被申请破产清算",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:22"
+      ],
+      "calibration": {
+        "entity": "Seesaw",
+        "period": "2026年5月",
+        "unit": "家（门店）"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:23",
+      "statement": "Tims天好中国全年净亏损4.4亿元",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:23"
+      ],
+      "calibration": {
+        "entity": "Tims天好中国",
+        "period": "全年",
+        "unit": "亿元"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:24",
+      "statement": "2025年市场监管总局约谈相关企业，禁止以低于成本价倾销咖啡",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:24"
+      ],
+      "calibration": {
+        "entity": "外卖平台与咖啡商家",
+        "period": "2025年",
+        "unit": "—"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:25",
+      "statement": "艾媒咨询：中国消费者日常学习/工作时喝咖啡比例达47.89%",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:25"
+      ],
+      "calibration": {
+        "entity": "中国消费者",
+        "period": "未指定",
+        "unit": "%"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:26",
+      "statement": "蜜雪冰城、古茗等茶饮品牌2026上半年集体跨界平价咖啡：甜啦啦美式2.9元、沪上阿姨美式4.9元、古茗美式7.9元",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:26"
+      ],
+      "calibration": {
+        "entity": "甜啦啦/沪上阿姨/古茗美式",
+        "period": "2026年上半年",
+        "unit": "元/杯"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:27",
+      "statement": "麦当劳全球毛利率约60%，星巴克约67%",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:27"
+      ],
+      "calibration": {
+        "entity": "麦当劳全球/星巴克",
+        "period": "未指定",
+        "unit": "%"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q4:snap:https://www.huxiu.com/article/4880665.html:28",
+      "statement": "库迪宣布补贴政策延长至2028年底，并新增\"高房租、低杯量\"专项补贴",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q4:snap:https://www.huxiu.com/article/4880665.html:28"
+      ],
+      "calibration": {
+        "entity": "库迪",
+        "period": "至2028年底",
+        "unit": "—"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:0",
+      "statement": "《2025中国咖啡产业发展报告》于2026年1月13日正式发布",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:0"
+      ],
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:1",
+      "statement": "2025年中国咖啡市场规模达2181亿元",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:1"
+      ],
+      "calibration": {
+        "entity": "中国咖啡市场",
+        "period": "2025年",
+        "unit": "亿元"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:2",
+      "statement": "2025年中国现磨咖啡市场规模超1880亿元",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:2"
+      ],
+      "calibration": {
+        "entity": "中国现磨咖啡市场",
+        "period": "2025年",
+        "unit": "亿元"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:3",
+      "statement": "2025年中国咖啡消费量预估突破40万吨",
+      "kind": "inference",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:3"
+      ],
+      "calibration": {
+        "entity": "中国咖啡消费量",
+        "period": "2025年",
+        "unit": "万吨"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:4",
+      "statement": "2025年中国咖啡门店数净增4万多家，达到21.5万家，增幅25%",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:4"
+      ],
+      "calibration": {
+        "entity": "中国咖啡门店数",
+        "period": "2025年",
+        "unit": "万家"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:5",
+      "statement": "中国咖啡连锁化率从46%提升至53%",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:5"
+      ],
+      "calibration": {
+        "entity": "中国咖啡连锁化率",
+        "period": "2023—2025年",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:6",
+      "statement": "连锁咖啡客单价由2023年的32—42元区间下滑至2025年的25—27元区间",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:6"
+      ],
+      "calibration": {
+        "entity": "连锁咖啡客单价",
+        "period": "2023—2025年",
+        "unit": "元"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:7",
+      "statement": "2025年中国的咖啡豆总消耗量近40万吨",
+      "kind": "inference",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:7"
+      ],
+      "calibration": {
+        "entity": "中国咖啡豆总消耗量",
+        "period": "2025年",
+        "unit": "万吨"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:8",
+      "statement": "中国人均咖啡年饮用量仅15杯",
+      "kind": "inference",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:8"
+      ],
+      "calibration": {
+        "entity": "人均咖啡年饮用量",
+        "period": "2025年",
+        "unit": "杯/人/年"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:9",
+      "statement": "云南咖啡80%以上为卡蒂姆品种",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:9"
+      ],
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:10",
+      "statement": "2025年咖啡精品率超过30%",
+      "kind": "inference",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:10"
+      ],
+      "calibration": {
+        "entity": "咖啡精品率",
+        "period": "2025年",
+        "unit": "%"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:11",
+      "statement": "世界中餐业联合会会长邢颖指出中国咖啡市场已进入'高速扩容'与'深度分化'并行的新阶段",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:11"
+      ],
+      "confidence": "low"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:0",
+      "snapshotId": "snap:http://chinasihan.com/news/cyzx/20886.html",
+      "quote": "2023年现制茶饮市场规模达2585亿元，占现制饮品市场规模的50%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-6fa8ed13b8fd"
+    },
+    {
+      "id": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:1",
+      "snapshotId": "snap:http://chinasihan.com/news/cyzx/20886.html",
+      "quote": "2023年中国现制茶饮市场规模为5175亿元，18-23年CAGR为22.5%，其中2023年现制茶饮市场规模达2585亿元，占现制饮品市场规模的50%，18-23年CAGR达19.0%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-6fa8ed13b8fd"
+    },
+    {
+      "id": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:2",
+      "snapshotId": "snap:http://chinasihan.com/news/cyzx/20886.html",
+      "quote": "2023年中国的现制饮品人均年消费量约为22杯，而美国、英国及日本分别为323杯、225杯及172杯",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-6fa8ed13b8fd"
+    },
+    {
+      "id": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:3",
+      "snapshotId": "snap:http://chinasihan.com/news/cyzx/20886.html",
+      "quote": "2023年平价现制茶饮店/大众现制茶饮/高价现制茶饮店的市场规模分别为749/1086/280亿，分别占比35.4%/51.3%/13.2%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-6fa8ed13b8fd"
+    },
+    {
+      "id": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:4",
+      "snapshotId": "snap:http://chinasihan.com/news/cyzx/20886.html",
+      "quote": "2023年中国现制茶饮市场规模一线/新一线/二线/三线/四线及以下城市分别为340/410/405/436/523亿元，同比增长18.1%/21.7%/25.4%/29.8%/32.1%，下沉市场增速更快",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-6fa8ed13b8fd"
+    },
+    {
+      "id": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:5",
+      "snapshotId": "snap:http://chinasihan.com/news/cyzx/20886.html",
+      "quote": "渗透率从2019年的23%提升至2023年的41%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-6fa8ed13b8fd"
+    },
+    {
+      "id": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:6",
+      "snapshotId": "snap:http://chinasihan.com/news/cyzx/20886.html",
+      "quote": "二线及以下城市茶饮门店密度（1.22家/万人）仍低于一线及新一线城市（2.14家/万人）",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-6fa8ed13b8fd"
+    },
+    {
+      "id": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:7",
+      "snapshotId": "snap:http://chinasihan.com/news/cyzx/20886.html",
+      "quote": "2023年行业CR5达46.9%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-6fa8ed13b8fd"
+    },
+    {
+      "id": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:8",
+      "snapshotId": "snap:http://chinasihan.com/news/cyzx/20886.html",
+      "quote": "以2023年GMV计前五大品牌为古茗/茶百道/沪上阿姨/书亦烧仙草/CoCo都可，市场份额占比分别为17.7%/15.6%/9.7%/8.9%/8.0%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-6fa8ed13b8fd"
+    },
+    {
+      "id": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:9",
+      "snapshotId": "snap:http://chinasihan.com/news/cyzx/20886.html",
+      "quote": "中国大众现制茶饮店市场的GMV由2018年的364亿元增至2023年的1086亿元，CAGR为24.4%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-6fa8ed13b8fd"
+    },
+    {
+      "id": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:10",
+      "snapshotId": "snap:http://chinasihan.com/news/cyzx/20886.html",
+      "quote": "截至2024年奈雪的茶/喜茶/霸王茶姬/Coco都可/茶百道/沪上阿姨/古茗/蜜雪冰城国内门店数量分别约为1453/4333/6284/3519/8395/9176/9914/41584家",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-6fa8ed13b8fd"
+    },
+    {
+      "id": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:11",
+      "snapshotId": "snap:http://chinasihan.com/news/cyzx/20886.html",
+      "quote": "行业平均利润率从2023年的21.4%降至2024年的14.7%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-6fa8ed13b8fd"
+    },
+    {
+      "id": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:12",
+      "snapshotId": "snap:http://chinasihan.com/news/cyzx/20886.html",
+      "quote": "2024年古茗单店GMV下滑10.57万元，同比减少4.29%，茶百道净利润 4.72 亿元，同比下降 58.55%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-6fa8ed13b8fd"
+    },
+    {
+      "id": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:13",
+      "snapshotId": "snap:http://chinasihan.com/news/cyzx/20886.html",
+      "quote": "中国连锁经营协会预测，2025年新茶饮市场规模增速将从2023年的44.3%骤降至12.4%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-6fa8ed13b8fd"
+    },
+    {
+      "id": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:14",
+      "snapshotId": "snap:http://chinasihan.com/news/cyzx/20886.html",
+      "quote": "市场规模从2018年的313亿增长至2023年的1515亿元，CAGR达37.1%，预计2024年规模达1903亿元",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-6fa8ed13b8fd"
+    },
+    {
+      "id": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:15",
+      "snapshotId": "snap:http://chinasihan.com/news/cyzx/20886.html",
+      "quote": "2023年瑞幸咖啡/星巴克/库迪咖啡/Manner咖啡/幸运咖终端零售额达330/250/55/25/19亿元，分别占据21.8%/16.5%/3.6%/1.7/1.3%的市场份额",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-6fa8ed13b8fd"
+    },
+    {
+      "id": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:16",
+      "snapshotId": "snap:http://chinasihan.com/news/cyzx/20886.html",
+      "quote": "按饮品出杯量计，蜜雪冰城/古茗/茶百道/沪上阿姨/CoCo占比分别为49.6%/9.1%/7.5%/4.5%/4.5%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-6fa8ed13b8fd"
+    },
+    {
+      "id": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:17",
+      "snapshotId": "snap:http://chinasihan.com/news/cyzx/20886.html",
+      "quote": "按终端零售额计，2023年行业CR5达46.9%，蜜雪冰城/古茗/茶百道/霸王茶姬/沪上阿姨分别为20%/9.1%/8.0%/5.0%/4.6%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-6fa8ed13b8fd"
+    },
+    {
+      "id": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:18",
+      "snapshotId": "snap:http://chinasihan.com/news/cyzx/20886.html",
+      "quote": "因此从2024年四季度开始价格战逐渐缓和",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-6fa8ed13b8fd"
+    },
+    {
+      "id": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:0",
+      "snapshotId": "snap:https://www.jiemian.com/article/10738059.html",
+      "quote": "中国品牌咖啡门店总数已接近5万家，成为全球拥有品牌咖啡门店最多的国家。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-b22264e98bad"
+    },
+    {
+      "id": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:1",
+      "snapshotId": "snap:https://www.jiemian.com/article/10738059.html",
+      "quote": "过去12个月中，中国品牌咖啡门店的数量增长了58%，达到创纪录的49691家，超美国9000多家",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-b22264e98bad"
+    },
+    {
+      "id": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:2",
+      "snapshotId": "snap:https://www.jiemian.com/article/10738059.html",
+      "quote": "2023年瑞幸净增8025家门店，门店规模增速为98.21%，现有门店数达到16196家",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-b22264e98bad"
+    },
+    {
+      "id": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:3",
+      "snapshotId": "snap:https://www.jiemian.com/article/10738059.html",
+      "quote": "库迪咖啡则净增6977家门店，增速达到8019.54%，现有门店达到7064家",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-b22264e98bad"
+    },
+    {
+      "id": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:4",
+      "snapshotId": "snap:https://www.jiemian.com/article/10738059.html",
+      "quote": "幸运咖则净增976家门店，增速为54.07%，现有门店为2781家",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-b22264e98bad"
+    },
+    {
+      "id": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:5",
+      "snapshotId": "snap:https://www.jiemian.com/article/10738059.html",
+      "quote": "2023年，瑞幸的第10000家门店落地，成为了第一家本土门店数量破万的咖啡品牌。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-b22264e98bad"
+    },
+    {
+      "id": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:6",
+      "snapshotId": "snap:https://www.jiemian.com/article/10738059.html",
+      "quote": "2022年，我国现制茶饮行业规模2100+亿元，是现制饮品中占比最大的细分赛道，而我国现磨咖啡行业规模1300+亿元",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-b22264e98bad"
+    },
+    {
+      "id": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:7",
+      "snapshotId": "snap:https://www.jiemian.com/article/10738059.html",
+      "quote": "截至2023年9月，近一年新开咖啡门店77083家，但净增长的门店只有42450家。也就是说，有近3.5万家门店",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-b22264e98bad"
+    },
+    {
+      "id": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:8",
+      "snapshotId": "snap:https://www.jiemian.com/article/10738059.html",
+      "quote": "2022年我国现磨咖啡赛道1000家以上品牌门店占比提升明显，由2020年的12%提升至2022年的16%。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-b22264e98bad"
+    },
+    {
+      "id": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:9",
+      "snapshotId": "snap:https://www.jiemian.com/article/10738059.html",
+      "quote": "今年独立咖啡店的数量首次出现了减少，在咖啡总店数中的占比由去年的60.1%跌至55%。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-b22264e98bad"
+    },
+    {
+      "id": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:10",
+      "snapshotId": "snap:https://www.jiemian.com/article/10738059.html",
+      "quote": "目前我国现磨咖啡门店约17万家，拥有连锁品牌超百家，top5品牌 （门店数计）市占率约21% ，top10品牌市占率约23%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-b22264e98bad"
+    },
+    {
+      "id": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:11",
+      "snapshotId": "snap:https://www.jiemian.com/article/10738059.html",
+      "quote": "目前我国现制茶饮门店超38万家，拥有连锁品牌破三千家，top5品牌市占率约15%，top10品牌市占率约20%。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-b22264e98bad"
+    },
+    {
+      "id": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:12",
+      "snapshotId": "snap:https://www.jiemian.com/article/10738059.html",
+      "quote": "以终端零售额计，2022年我国三线及以下城市现制茶饮市场规模约732亿元，是现制茶饮赛道中占比最高增速最快的市场",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-b22264e98bad"
+    },
+    {
+      "id": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:13",
+      "snapshotId": "snap:https://www.jiemian.com/article/10738059.html",
+      "quote": "2022年我国一线/新一线现磨咖啡市场规模约333/379亿元，2017-2022年CAGR均为42.3%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-b22264e98bad"
+    },
+    {
+      "id": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:14",
+      "snapshotId": "snap:https://www.jiemian.com/article/10738059.html",
+      "quote": "目前门店的分布大致会是1/3在一线超一线城市，1/3在二三线城市，1/3在四五线城市。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-b22264e98bad"
+    },
+    {
+      "id": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:15",
+      "snapshotId": "snap:https://www.jiemian.com/article/10738059.html",
+      "quote": "库迪8.8元/杯，瑞幸9.9元/杯，幸运咖5元/杯，星巴克则通过各种优惠券将单杯价格降到了20元以内",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-b22264e98bad"
+    },
+    {
+      "id": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:16",
+      "snapshotId": "snap:https://www.jiemian.com/article/10738059.html",
+      "quote": "2022年，中国人喝掉了近30万吨咖啡",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-b22264e98bad"
+    },
+    {
+      "id": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:17",
+      "snapshotId": "snap:https://www.jiemian.com/article/10738059.html",
+      "quote": "上市首日，酱香拿铁销量突破542万杯，单品首日销售额突破1亿元",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-b22264e98bad"
+    },
+    {
+      "id": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:18",
+      "snapshotId": "snap:https://www.jiemian.com/article/10738059.html",
+      "quote": "精品咖啡市场在2022年增长了超过20%，远高于传统咖啡品牌。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-b22264e98bad"
+    },
+    {
+      "id": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:19",
+      "snapshotId": "snap:https://www.jiemian.com/article/10738059.html",
+      "quote": "在现制饮品赛道中，咖啡已经成为增长最迅猛的细分品类。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-b22264e98bad"
+    },
+    {
+      "id": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:20",
+      "snapshotId": "snap:https://www.jiemian.com/article/10738059.html",
+      "quote": "咖啡行业集中度高，或源于咖啡品类成瘾属性加持下消费者的品牌忠诚度更高。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-b22264e98bad"
+    },
+    {
+      "id": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:21",
+      "snapshotId": "snap:https://www.jiemian.com/article/10738059.html",
+      "quote": "未来，下沉市场也将是咖啡的另一增量池。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-b22264e98bad"
+    },
+    {
+      "id": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:0",
+      "snapshotId": "snap:https://m.chinabaogao.com/detail/793029.html",
+      "quote": "在2024年我国咖啡市场中现磨咖啡占比约为38.3%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-a4b0a47e964f"
+    },
+    {
+      "id": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:1",
+      "snapshotId": "snap:https://m.chinabaogao.com/detail/793029.html",
+      "quote": "2021年到2025年我国现磨咖啡市场规模持续增长，到2025年我国现磨咖啡市场规模约为1884亿元",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-a4b0a47e964f"
+    },
+    {
+      "id": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:2",
+      "snapshotId": "snap:https://m.chinabaogao.com/detail/793029.html",
+      "quote": "2025年我国现磨咖啡行业CR3、CR5、CR10市场份额占比分别为25.84%、33.25%、36.48%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-a4b0a47e964f"
+    },
+    {
+      "id": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:3",
+      "snapshotId": "snap:https://m.chinabaogao.com/detail/793029.html",
+      "quote": "2025年我国现磨咖啡市场份额占比最高的为瑞幸咖啡，占比约为14.26%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-a4b0a47e964f"
+    },
+    {
+      "id": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:4",
+      "snapshotId": "snap:https://m.chinabaogao.com/detail/793029.html",
+      "quote": "其次为库迪咖啡，市场份额占比约为7.65%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-a4b0a47e964f"
+    },
+    {
+      "id": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:5",
+      "snapshotId": "snap:https://m.chinabaogao.com/detail/793029.html",
+      "quote": "第三为幸运咖，市场份额占比约为3.93%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-a4b0a47e964f"
+    },
+    {
+      "id": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:6",
+      "snapshotId": "snap:https://m.chinabaogao.com/detail/793029.html",
+      "quote": "营业门店数分别为30612家、16414家、8437家",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-a4b0a47e964f"
+    },
+    {
+      "id": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:7",
+      "snapshotId": "snap:https://m.chinabaogao.com/detail/793029.html",
+      "quote": "营业门店数分别为30612家、16414家、8437家",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-a4b0a47e964f"
+    },
+    {
+      "id": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:8",
+      "snapshotId": "snap:https://m.chinabaogao.com/detail/793029.html",
+      "quote": "营业门店数分别为30612家、16414家、8437家",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-a4b0a47e964f"
+    },
+    {
+      "id": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:9",
+      "snapshotId": "snap:https://m.chinabaogao.com/detail/793029.html",
+      "quote": "星巴克\n\t\t\t\t\n\t\t\t\t8012",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-a4b0a47e964f"
+    },
+    {
+      "id": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:10",
+      "snapshotId": "snap:https://m.chinabaogao.com/detail/793029.html",
+      "quote": "NOWWA\n\t\t\t\t\n\t\t\t\t7903",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-a4b0a47e964f"
+    },
+    {
+      "id": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:11",
+      "snapshotId": "snap:https://m.chinabaogao.com/detail/793029.html",
+      "quote": "Manner Coffee\n\t\t\t\t\n\t\t\t\t2367",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-a4b0a47e964f"
+    },
+    {
+      "id": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:12",
+      "snapshotId": "snap:https://m.chinabaogao.com/detail/793029.html",
+      "quote": "肯悦咖啡\n\t\t\t\t\n\t\t\t\t2326",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-a4b0a47e964f"
+    },
+    {
+      "id": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:13",
+      "snapshotId": "snap:https://m.chinabaogao.com/detail/793029.html",
+      "quote": "Tims天好咖啡\n\t\t\t\t\n\t\t\t\t997",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-a4b0a47e964f"
+    },
+    {
+      "id": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:14",
+      "snapshotId": "snap:https://m.chinabaogao.com/detail/793029.html",
+      "quote": "沪咖\n\t\t\t\t\n\t\t\t\t645",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-a4b0a47e964f"
+    },
+    {
+      "id": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:15",
+      "snapshotId": "snap:https://m.chinabaogao.com/detail/793029.html",
+      "quote": "小幸运\n\t\t\t\t\n\t\t\t\t620",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-a4b0a47e964f"
+    },
+    {
+      "id": "ev:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:0",
+      "snapshotId": "snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html",
+      "quote": "瑞幸咖啡以31,205家的绝对规模断层式领先全行业",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-4ca9bdf416b1"
+    },
+    {
+      "id": "ev:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:1",
+      "snapshotId": "snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html",
+      "quote": "其门店数几乎是第二名库迪咖啡（16,324家）的两倍。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-4ca9bdf416b1"
+    },
+    {
+      "id": "ev:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:2",
+      "snapshotId": "snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html",
+      "quote": "星巴克以8,660家门店位列第三",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-4ca9bdf416b1"
+    },
+    {
+      "id": "ev:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:3",
+      "snapshotId": "snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html",
+      "quote": "幸运咖以8,493家紧随其后",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-4ca9bdf416b1"
+    },
+    {
+      "id": "ev:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:4",
+      "snapshotId": "snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html",
+      "quote": "挪瓦咖啡 6,675 肯悦咖啡 2,615 Manner 2,503 Tims 908 M Stand 612",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-4ca9bdf416b1"
+    },
+    {
+      "id": "ev:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:5",
+      "snapshotId": "snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html",
+      "quote": "瑞幸咖啡门店数高达31,205家，是第二名库迪咖啡（16,324家）的约1.9倍，更是星巴克（8,660家）的3.6倍",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-4ca9bdf416b1"
+    },
+    {
+      "id": "ev:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:6",
+      "snapshotId": "snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html",
+      "quote": "数据来源：窄门餐眼（2026.4），国泰海通证券研究",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-4ca9bdf416b1"
+    },
+    {
+      "id": "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:0",
+      "snapshotId": "snap:https://www.bjzjqx.com/IndustryInner/532944.html",
+      "quote": "中国现磨咖啡市场规模从2019年的1,200亿元增长至2024年的3,200亿元，年均复合增长率达22%。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-786eee100ab1"
+    },
+    {
+      "id": "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:1",
+      "snapshotId": "snap:https://www.bjzjqx.com/IndustryInner/532944.html",
+      "quote": "瑞幸咖啡门店突破2万家，星巴克中国门店突破7,000家，行业进入万店竞争时代。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-786eee100ab1"
+    },
+    {
+      "id": "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:2",
+      "snapshotId": "snap:https://www.bjzjqx.com/IndustryInner/532944.html",
+      "quote": "\"到店消费\"占比从2019年的65%下降至2024年的45%，\"外带+外卖\"占比提升至55%，便利性需求超越空间体验。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-786eee100ab1"
+    },
+    {
+      "id": "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:3",
+      "snapshotId": "snap:https://www.bjzjqx.com/IndustryInner/532944.html",
+      "quote": "现磨咖啡门店渠道占据58%市场份额，是绝对主渠道。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-786eee100ab1"
+    },
+    {
+      "id": "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:4",
+      "snapshotId": "snap:https://www.bjzjqx.com/IndustryInner/532944.html",
+      "quote": "瑞幸以2万+门店领跑，加盟占比超60%。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-786eee100ab1"
+    },
+    {
+      "id": "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:5",
+      "snapshotId": "snap:https://www.bjzjqx.com/IndustryInner/532944.html",
+      "quote": "星巴克坚持直营，7,000家门店聚焦一二线城市核心商圈。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-786eee100ab1"
+    },
+    {
+      "id": "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:6",
+      "snapshotId": "snap:https://www.bjzjqx.com/IndustryInner/532944.html",
+      "quote": "外卖渠道占比达25%，美团、饿了么成为核心入口。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-786eee100ab1"
+    },
+    {
+      "id": "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:7",
+      "snapshotId": "snap:https://www.bjzjqx.com/IndustryInner/532944.html",
+      "quote": "自提占比提升至18%，降低履约成本。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-786eee100ab1"
+    },
+    {
+      "id": "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:8",
+      "snapshotId": "snap:https://www.bjzjqx.com/IndustryInner/532944.html",
+      "quote": "咖啡豆成本占现磨咖啡售价的15-20%，咖啡液原材料成本占比25-30%。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-786eee100ab1"
+    },
+    {
+      "id": "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:9",
+      "snapshotId": "snap:https://www.bjzjqx.com/IndustryInner/532944.html",
+      "quote": "云南咖啡豆替代进口，成本优势20-30%。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-786eee100ab1"
+    },
+    {
+      "id": "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:10",
+      "snapshotId": "snap:https://www.bjzjqx.com/IndustryInner/532944.html",
+      "quote": "精品烘焙豆溢价可达50%，冷萃/闪萃技术使咖啡液价值倍增。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-786eee100ab1"
+    },
+    {
+      "id": "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:11",
+      "snapshotId": "snap:https://www.bjzjqx.com/IndustryInner/532944.html",
+      "quote": "现磨咖啡门店毛利率约60-65%，咖啡液毛利率约50-55%。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-786eee100ab1"
+    },
+    {
+      "id": "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:0",
+      "snapshotId": "snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml",
+      "quote": "自2010年起，中國的咖啡消費量以年均超15%的速度增長，遠超過全球年均約2%的增長率",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-cde5b1ae712e"
+    },
+    {
+      "id": "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:1",
+      "snapshotId": "snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml",
+      "quote": "目前，全國咖啡相關企業現存量超25萬家，僅今年前10個月的註冊量就超過去年全年",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-cde5b1ae712e"
+    },
+    {
+      "id": "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:2",
+      "snapshotId": "snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml",
+      "quote": "2024年中國咖啡産業規模超過3000億元",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-cde5b1ae712e"
+    },
+    {
+      "id": "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:3",
+      "snapshotId": "snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml",
+      "quote": "咖啡人均年消費量達到22.24杯",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-cde5b1ae712e"
+    },
+    {
+      "id": "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:4",
+      "snapshotId": "snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml",
+      "quote": "從雲南綿延百萬餘畝的咖啡種植園，到上海梧桐樹下香氣氤氳的創意特調",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-cde5b1ae712e"
+    },
+    {
+      "id": "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:5",
+      "snapshotId": "snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml",
+      "quote": "改革開放以來，我國的商品消費經歷了排浪式發展。隨着人均GDP連續攀升，國內需求正從“物質型”消費，轉向更注重提升生活品質的“服務型”和“體驗型”消費",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-cde5b1ae712e"
+    },
+    {
+      "id": "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:6",
+      "snapshotId": "snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml",
+      "quote": "中國咖啡産業正在實現從早期“跟跑”到更多領域“並跑”，再到細分賽道“領跑”的重大跨越",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-cde5b1ae712e"
+    },
+    {
+      "id": "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:7",
+      "snapshotId": "snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml",
+      "quote": "江蘇昆山憑藉強大的製造業基礎，聚“豆”成“鏈”打造具有全球影響力的千億級咖啡產業",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-cde5b1ae712e"
+    },
+    {
+      "id": "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:8",
+      "snapshotId": "snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml",
+      "quote": "14億多人民對美好生活的嚮往，正通過一杯杯咖啡、一次次消費，轉化為推動經濟高質量發展的澎湃動能",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-cde5b1ae712e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:0",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "据艾媒咨询《2026中国现磨咖啡行业报告》，2026年上半年，中国现磨咖啡市场规模突破3200亿元。其中9.9元档位占了62%的销量。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:1",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "瑞幸单杯成本5.2元，9.9元售价，毛利4.7元。毛利率47%。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:2",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "库迪呢？单杯成本7.1元，9.9元售价，每杯亏2.2元。库迪确实在亏。2026上半年营收增长120%，但净亏18亿元，关店率21%。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:3",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "瑞幸靠云南咖啡豆直采加自建烘焙厂，单杯原料成本比库迪低1.3元。1.8万家门店的密度",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:4",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "单杯成本3.8元。定价6.6元，比9.9还低3.3元。毛利2.8元，全线盈利。门店突破8200家，营收增长210%。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:5",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "外卖平台上，库迪美式曾经低至3.33元，饿了么上生椰拿铁活动后仅1.99元。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:6",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "2024年，瑞幸就扛不住了。持续大力度优惠导致一季度经营亏损0.65亿元。这是自2022年三季度连续盈利后的首次亏损。瑞幸迅速收缩——缩减优惠券投放量约30%，9.9元活动从每周7天改为每周3天，限定仅基础款参与。2025年进一步收紧，9.9元覆盖率从80%门店降至30%。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:7",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "外卖平台又添了一把火。百亿补贴、大额神券轮番上阵，咖啡价格直接跳水到2.9元一杯。肯德基旗下肯跃咖啡甚至把价格压到6元一杯，还能盈利。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:8",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "瑞幸推出的益生菌吸管，加2元换购。单根吸管成本原本大约1.2元，瑞幸靠规模化采购压到0.8元。售价2元。利润1.2元。利润率150%。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:9",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "吸管的利润率是咖啡的3.2倍。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:10",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "据北京朝阳区门店实测数据，30%的用户会顺带给饮品加购吸管。单店日均增收200元。一年就是7.3万元。全国1.8万家门店，如果按30%的加购率算，仅吸管一项，年增收可能超过13亿元。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:11",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "瑞幸。9.9元活动覆盖门店从高峰期的八百余家缩减至不足两百家。大部分门店的9.9元只是\"特价专区\"少数几款饮品。此前长期9.9元的小黄油拿铁，当前售价已调至12.16元。燕麦拿铁、香草拿铁等经典单品也上调至11元以上。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:12",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "据新浪财经报道，达州消费者发现，库迪取消全场9.9元后，经典生椰拿铁官方小程序直购价9.9元。但在某外卖平台下单自提则需11.9元。新品锡兰金杯牛乳茶的渠道差异更离谱——小程序11.9元，外卖平台17.99元。同款饮品，不同渠道，差价6元。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:13",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "黑猫投诉平台上，一位消费者投诉瑞幸\"9.9元两杯饮品兑换券\"的文字游戏。会员卡页面显示\"9.9元两杯饮品兑换券\"。实际是——先花9.9元买会员卡，然后下单时还要再付9.9元。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:14",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "瑞幸2025年推出阶梯定价策略：基础款9.9元，特调款12到15元。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:15",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "库迪更直接。取消全场9.9元后，大部分产品回调到11.9至16.9元，涨幅最高达40%。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:16",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "据中国质量报报道，全国已有超过1.7万家咖啡门店上线\"自带杯\"服务，消费者自带杯具可享2至8元减免。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:17",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "全球阿拉比卡咖啡豆期货价格突破437美分/磅。创下四十七年来的历史新高。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:18",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "据咖啡金融网数据，云南咖啡生豆综合平均价同比上涨约13.8%。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:19",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "库迪的加盟店占比超过80%。为了维持加盟商的积极性，库迪给单杯补贴最高3元。意味着每卖一杯9.9元的咖啡，公司要倒贴1到2元。……县域咖啡门店的回本周期，从此前的12到18个月拉长到2至4年。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:20",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "据NCBD餐宝典统计，2024至2025年国内咖啡全渠道平均闭店率10.3%。窄门餐眼数据显示，2023年9月至2024年9月全年咖啡闭店总量超4.3万家。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:21",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "红餐大数据显示，全国咖饮人均消费从2023年的41元跌到了2025年的26元。降幅36%。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:22",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "2026年6月，精品咖啡品牌Seesaw正式被申请破产清算。据搜狐报道，Seesaw巅峰时期全国门店135家，截至2026年5月仅剩34家。涉诉债务1646.3万元。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:23",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "Tims天好中国全年净亏损4.4亿元。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:24",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "2025年，市场监管总局出手了。约谈相关企业，禁止外卖平台和商家以低于成本的价格倾销咖啡。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:25",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "艾媒咨询数据显示，中国消费者在日常学习或工作时喝咖啡的比例已达47.89%。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:26",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "2026年上半年，蜜雪冰城、古茗、甜啦啦、茶百道、沪上阿姨等头部新茶饮品牌集体跨界切入平价咖啡。甜啦啦美式2.9元，沪上阿姨美式4.9元，古茗美式7.9元。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:27",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "麦当劳全球毛利率约60%，星巴克约67%。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:28",
+      "snapshotId": "snap:https://www.huxiu.com/article/4880665.html",
+      "quote": "库迪宣布将补贴政策延长至2028年底。并新增\"高房租、低杯量\"专项补贴。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-c0d9ee89042e"
+    },
+    {
+      "id": "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:0",
+      "snapshotId": "snap:https://m.bjnews.com.cn/detail/1768309547168863.html",
+      "quote": "1月13日，新京报记者了解到，《2025中国咖啡产业发展报告》正式发布",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-1b0845c7d0bf"
+    },
+    {
+      "id": "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:1",
+      "snapshotId": "snap:https://m.bjnews.com.cn/detail/1768309547168863.html",
+      "quote": "根据报告，2025年中国咖啡市场规模达2181亿元",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-1b0845c7d0bf"
+    },
+    {
+      "id": "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:2",
+      "snapshotId": "snap:https://m.bjnews.com.cn/detail/1768309547168863.html",
+      "quote": "其中现磨咖啡市场超1880亿",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-1b0845c7d0bf"
+    },
+    {
+      "id": "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:3",
+      "snapshotId": "snap:https://m.bjnews.com.cn/detail/1768309547168863.html",
+      "quote": "中国咖啡消费量2025年预估突破40万吨",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-1b0845c7d0bf"
+    },
+    {
+      "id": "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:4",
+      "snapshotId": "snap:https://m.bjnews.com.cn/detail/1768309547168863.html",
+      "quote": "2025年中国咖啡门店数净增4万多家，达到21.5万家，增幅25%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-1b0845c7d0bf"
+    },
+    {
+      "id": "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:5",
+      "snapshotId": "snap:https://m.bjnews.com.cn/detail/1768309547168863.html",
+      "quote": "连锁化率也从46%提升至53%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-1b0845c7d0bf"
+    },
+    {
+      "id": "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:6",
+      "snapshotId": "snap:https://m.bjnews.com.cn/detail/1768309547168863.html",
+      "quote": "由2023年32元—42元的客单价区间，到2025年25元—27元的客单价",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-1b0845c7d0bf"
+    },
+    {
+      "id": "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:7",
+      "snapshotId": "snap:https://m.bjnews.com.cn/detail/1768309547168863.html",
+      "quote": "2025年中国的咖啡豆总消耗量近40万吨",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-1b0845c7d0bf"
+    },
+    {
+      "id": "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:8",
+      "snapshotId": "snap:https://m.bjnews.com.cn/detail/1768309547168863.html",
+      "quote": "中国的人均咖啡年饮用量仅15杯",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-1b0845c7d0bf"
+    },
+    {
+      "id": "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:9",
+      "snapshotId": "snap:https://m.bjnews.com.cn/detail/1768309547168863.html",
+      "quote": "云南咖啡80%以上是卡蒂姆",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-1b0845c7d0bf"
+    },
+    {
+      "id": "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:10",
+      "snapshotId": "snap:https://m.bjnews.com.cn/detail/1768309547168863.html",
+      "quote": "品质提升（精品率30%+）",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-1b0845c7d0bf"
+    },
+    {
+      "id": "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:11",
+      "snapshotId": "snap:https://m.bjnews.com.cn/detail/1768309547168863.html",
+      "quote": "中国咖啡市场已进入“高速扩容”与“深度分化”并行的新阶段",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-1b0845c7d0bf"
+    }
+  ],
+  "snapshots": [
+    {
+      "id": "snap:https://www.zgswcn.com/news.html?aid=224787",
+      "url": "https://www.zgswcn.com/news.html?aid=224787",
+      "title": "https://www.zgswcn.com/news.html?aid=224787",
+      "fetchedAt": "2026-10-16T07:22:18.023Z",
+      "bodyText": "\r\n                    \r\n                    \r\n                    \r\n\r\n\r\n                    编辑：{{content.editor1}}\r\n\r\n                    \r\n                    \r\n                        \r\n                            声明:本文为广告推广信息，不代表本网观点，如有违规或您认为该页面内容侵犯您的权益，请联系我们，我们将及时处理!。\r\n\r\n                        中国商报网版权及免责声明\r\n                        \r\n                            凡本网注明“来源：中国商报”或“来源：中国商报网”的所有作品，版权均属中国商报网（本网另有声明的除外）；未经本网授权，任何单位及个人不得转载、摘编或以其它方式使用上述作品；已经与本网签署相关授权使用协议的单位及个人，应注意该等作品中是否有相应的授权使用限制声明，不得违反该等限制声明，且在授权范围内使用时应注明“来源：中国商报”或“来源：中国商报网”。违反前述声明者，本网将追究其相关法律责任。\r\n                    \r\n                    \r\n                        中国商报网版权及免责声明\r\n                        \r\n                            凡本网注明“来源：中国商报”或“来源：中国商报网”的所有作品，版权均属中国商报网（本网另有声明的除外）；未经本网授权，任何单位及个人不得转载、摘编或以其它方式使用上述作品；已经与本网签署相关授权使用协议的单位及个人，应注意该等作品中是否有相应的授权使用限制声明，不得违反该等限制声明，且在授权范围内使用时应注明“来源：中国商报”或“来源：中国商报网”。违反前述声明者，本网将追究其相关法律责任。\r\n                    \r\n                ",
+      "parseStatus": "ok",
+      "contentType": "text/html",
+      "tier": "C"
+    },
+    {
+      "id": "snap:https://m.bjnews.com.cn/detail/1768309547168863.html",
+      "url": "https://m.bjnews.com.cn/detail/1768309547168863.html",
+      "title": "咖啡产业报告：消费量预估突破40万吨，市场规模2181亿元",
+      "fetchedAt": "2026-10-16T07:22:18.142Z",
+      "bodyText": "\n            咖啡产业报告：消费量预估突破40万吨，市场规模2181亿元\n            \n            \n            \n                2026-01-13 21:05            \n            \n                    \n                    订阅\n                \n\n                        \n            \n                            \n            \n                新京报讯（记者王子扬）1月13日，新京报记者了解到，《2025中国咖啡产业发展报告》正式发布，该报告兼具权威数据梳理与未来趋势研判，深入剖析了咖啡产业价值链、中国咖啡消费市场等关键领域。根据报告，2025年中国咖啡市场规模达2181亿元，其中现磨咖啡市场超1880亿。根据报告，中国咖啡种植正从扩面转向提质，从单一走向多样，云南咖啡80%以上是卡蒂姆，2025年，品种多样化进程显著加快。瑰夏、铁皮卡（Typica）、波邦和黄波邦等精品品种种植面积大幅增加。受市场行情、品质提升（精品率30%+），以及精深加工的发展，咖啡产值飙升。中国咖啡消费量2025年预估突破40万吨。此外，中国咖啡赛道正经历“非典型性爆发”，非专业背景玩家通过存量渠道优势，实现场景的跨界降维打击。2025年中国咖啡门店数净增4万多家，达到21.5万家，增幅25%；连锁化率也从46%提升至53%。不过，由于咖啡的普及以及外卖平台的补贴，2023年—2025年连锁咖啡客单价正在持续下滑，由2023年32元—42元的客单价区间，到2025年25元—27元的客单价。黑峪投资分析，2025年中国的咖啡豆总消耗量近40万吨，虽然已进入全球十大咖啡消费国，但与美国、欧盟和日本等咖啡产业已相对成熟的市场相比体量仍然较小。结合各个国家和地区的人口数量，中国的人均咖啡年饮用量仅15杯，与全球的平均水平还存在较大差距，与日韩等亚洲国家相比差距更大，具有很大的发展空间。随着头部咖啡品牌的发展，人们消费咖啡的场景和选择越来越多，未来咖啡消费仍将保持高速发展。世界中餐业联合会会长邢颖在发言中指出，中国咖啡市场已进入“高速扩容”与“深度分化”并行的新阶段。要进一步加强中国咖啡产业市场呈现出量价齐升、竞争白热化特征的研究，进一步加强驱动产业格局重塑核心力量并购重组的研究，进一步加强咖啡产区与消费中心协同演进的研究，进一步加强精细化、数字化、多元化的咖啡厅运营研究，进一步加强中国咖啡文化与顾客需求及结构的研究。编辑 唐峥校对 柳宝庆\n                \n                \n                                    \n                \n            \n            \n                                    \n                    \n                        来阅读我的更多文章吧\n                        \n                            \n                                \n                                    \n                                \n                            \n                            \n                        \n                    \n                                \n        \n                \n            \n            \n            \n                \n                    \n                    .btn {\n                        width: 100%;\n                        height: 45px;\n                        line-height: 45px;\n                        text-align: center;\n                        font-size: 16px;\n                        border: none;\n                        border-radius: 4px;\n                        color: #000;\n                        background: #D02D2D;\n                        color: #FFFFFF;\n                        }\n                    \n                    打开新京报APP 阅读更多精彩资讯\n                \n            \n            \n        ",
+      "parseStatus": "ok",
+      "contentType": "text/html; charset=UTF-8",
+      "tier": "C"
+    },
+    {
+      "id": "snap:https://www.mdpi.com/2304-8158/15/18/3240",
+      "url": "https://www.mdpi.com/2304-8158/15/18/3240",
+      "title": "https://www.mdpi.com/2304-8158/15/18/3240",
+      "fetchedAt": "2026-10-16T07:22:21.648Z",
+      "bodyText": "     ",
+      "parseStatus": "failed",
+      "contentType": "text/html",
+      "tier": "C"
+    },
+    {
+      "id": "snap:http://chinasihan.com/news/cyzx/20886.html",
+      "url": "http://chinasihan.com/news/cyzx/20886.html",
+      "title": "大众茶饮赛道扩容，下沉市场红利释放 - 产业资讯 - 行业新闻",
+      "fetchedAt": "2026-10-16T07:23:03.510Z",
+      "bodyText": "\r\n        大众茶饮赛道扩容，下沉市场红利释放思瀚产业研究院    2025-05-29\r\n        \r\n\t现制茶饮高速增长，下沉市场与大众茶饮规模领先\r\n\r\n\r\n\t现制饮品行业处于高速成长期，2023年现制茶饮市场规模达2585亿元，占现制饮品市场规模的50%。现制饮品指现场制作、可立即饮用的饮品，包括茶饮、咖啡饮品以及其他饮品（如果汁及酸奶饮品）。\r\n\r\n\r\n\t根据灼识咨询报告，2023年中国的现制饮品人均年消费量约为22杯，而美国、英国及日本分别为323杯、225杯及172杯，中国现制饮品市场仍有巨大扩张潜力。\r\n\r\n\r\n\t2023年中国现制饮品市场规模为5175亿元，18-23年CAGR为22.5%，其中2023年现制茶饮市场规模达2585亿元，占现制饮品市场规模的50%，18-23年CAGR达19.0%, 处于高速成长期，预期2028年市场规模达5732亿元，24-28年CAGR达16.4%。基于中国人对传统茶文化的喜爱，现制茶饮是目前中国现制饮品中市场规模最大的细分品类，增长空间大。\r\n\r\n\r\n\t茶饮行业大众现制饮品规模领先，下沉市场推动规模扩张。按价格带划分，2023年平价现制茶饮店/大众现制茶饮/高价现制茶饮店的市场规模分别为749/1086/280亿，分别占比35.4%/51.3%/13.2%，预计24-28年CAGR分别达20.1%/20.8%/9.4%，大众现制茶饮在市场规模上处于领先地位且成长性高。\r\n\r\n\r\n\t以古茗为例，大众现制茶饮品牌一般使用新鲜水果及鲜奶等优质原料，相较于平价现制茶饮品牌更能满足消费者对饮品质量的追求，同时相较于高价现制茶饮品牌高于20元的平均售价，又以亲民的价格满足消费者需求。\r\n\r\n\r\n\t按城市线级划分，2023年中国现制茶饮市场规模一线/新一线/二线/三线/四线及以下城市分别为340/410/405/436/523亿元，同比增长18.1%/21.7%/25.4%/29.8%/32.1%，下沉市场增速更快。从需求端来看，低线城市消费升级红利释放，现制茶饮替代传统冲泡奶茶/瓶装饮料，渗透率从2019年的23%提升至2023年的41%，从供给端来看，低线城市租金/人力成本具备优势，加盟模式单店投资回收期短，预计下沉市场将持续渗透。\r\n\r\n\r\n\t目前二线及以下城市茶饮门店密度（1.22家/万人）仍低于一线及新一线城市（2.14家/万人），根据灼识咨询数据，中国一线城市人均现制饮品年消耗量为70杯，二线及以下城市为16杯提升空间大，预计24-28年二线/三线/四线及以下城市现制茶饮市场规模CAGR将达18.5%/21.3/22.9%%，高于一线/新一线城市的14.5%/15.5%。\r\n\r\n\r\n\t现制茶饮竞争激烈，差异化竞争成为主旋律\r\n\r\n\r\n\t现制茶饮行业高度集中，CR5占比46.9%，头部品牌大众价格带竞争激烈。现制茶饮行业头部品牌主导，按终端零售额计，2023年行业CR5达46.9%，蜜雪冰城/古茗/茶百道/霸王茶姬/沪上阿姨分别为20%/9.1%/8.0%/5.0%/4.6%；按饮品出杯量计，蜜雪冰城/古茗/茶百道/沪上阿姨/CoCo占比分别为49.6%/9.1%/7.5%/4.5%/4.5%；按门店数计，蜜雪冰城/古茗/茶百道/沪上阿姨/书亦烧仙草分别为6.5%/1.9%/1.7%/1.7%/1.5%。\r\n\r\n\r\n\t除蜜雪冰城主打平价外，其余头部品牌主要产品价格带均分布在10-20元间，红餐大数据显示，截至2024年底全国茶饮在营品牌中有65.1%的门店人均客单价在11-20元之间。大众现制茶饮竞争激烈，古茗脱颖而出位列第一。此外现制茶饮行业长尾效应显著，剩余市场份额由超50个区域品牌及新兴品牌瓜分，单品牌市占率普遍低于1%（按终端零售额计）。\r\n\r\n\r\n\t大众现制茶饮竞争激烈，古茗领跑该价格带。根据灼识咨询数据，中国大众现制茶饮店市场的GMV由2018年的364亿元增至2023年的1086亿元，CAGR为24.4%，预计2028年增至2809亿元，24-28年CAGR为20.8%，市场份额将增至54.1%。\r\n\r\n\r\n\t大众现制茶饮竞争激烈，预估行业门店数量约30万家，以2023年GMV计前五大品牌为古茗/茶百道/沪上阿姨/书亦烧仙草/CoCo都可，市场份额占比分别为17.7%/15.6%/9.7%/8.9%/8.0%,以2023年末门店数量计前五大品牌为古茗/茶百道/霸王茶姬/沪上阿姨/CoCo都可，门店数量分别为9001/7801/7800/7000/4300。\r\n\r\n\r\n\t目前大众现制茶饮竞争呈现出多足鼎立的格局：古茗凭借优质产品和区域加密策略处于领先地位；茶百道快速加盟扩张稳居第二；沪上阿姨“北方包围南方”策略卓有成效；书亦烧仙草主打小料爆火崛起；霸王茶姬以“原叶茶+东方文化”附加品牌价值；CoCo都可则作为老牌茶饮代表保持发展。\r\n\r\n\r\n\t对比行业龙头茶饮品牌，呈现多维能力比拼，概述如下：\r\n\r\n\r\n\t（1）从价格带分层来看：以喜茶、奈雪的茶为代表的高端茶饮品牌核心竞争力在于产品创新、品牌溢价与门店体验，聚焦二线以上城市，门店密度低但客单价高；以古茗、茶百道、沪上阿姨、CoCo、书亦烧仙草为代表的中端茶饮店主打高性价比，通过快速加盟扩张市场，覆盖全线城市，出杯量与单杯利润相对平衡；以蜜雪冰城、甜啦啦为代表的平价奶茶店则追求极致性价比、供应链整合以及下沉市场渗透，门店数量多，单店模型依赖高周转。\r\n\r\n\r\n\t（2）从产品来看：中高端品牌强化研发壁垒，注重产品创新及品质，如喜茶推出“真茶现萃”工艺，奈雪首创“鲜果茶+软欧包”双品类模式，产品迭代周期缩短至15天；中端品牌主打区域性爆品，如沪上阿姨“血糯米奶茶”北方市占率超25%，茶百道“杨枝甘露”年销量破亿杯；平价品牌以基础款叠加引流品（如蜜雪冰城“2元”冰淇淋），精简SKU至30个以内，标准化程度高。\r\n\r\n\r\n\t（3）从门店分布来看：截至2024年奈雪的茶/喜茶/霸王茶姬/Coco都可/茶百道/沪上阿姨/古茗/蜜雪冰城国内门店数量分别约为1453/4333/6284/3519/8395/9176/9914/41584家，三线及以下城市占比分别为9.63%/36.14%/39.43%/30.37%/44.88%/50.40%/50.35%/57.4%。高价茶饮品牌聚焦二线及以上城市，大众茶饮品牌覆盖全线城市抢占市场，平价茶饮品牌渗透下沉市场吸引低消费客群。\r\n\r\n\r\n\t（4）从开店区域来看：喜茶/奈雪的茶门店集中于广东省，门店数量分别为926/491家,其余门店在华东、华南地区较为密集；霸王茶姬门店集中苏浙粤三省均超600家，云川两省超300家；古茗门店以浙江为中心向四周扩散，浙江门店超2000家，赣闽粤三省约1000家；茶百道门店集中于四川省与华东地区，川苏浙粤四省门店均超600家；蜜雪冰城河南门店突破3000家，江苏、山东等七省超1800家。\r\n\r\n\r\n\t（5）从竞争策略来看：霸王茶姬主动删减菜单，从全品类走向专注轻乳茶，为扩张和出海蓄势；古茗采取地域加密策略，实行根据地式扩张，通过规模效应降本增效，用优质产品抢占下沉市场；茶百道着力于快速加盟扩张，提高运营周转效率；蜜雪冰城则占据10元以下平价价格带，通过低价和标准化出品快速下沉；喜茶和奈雪的茶为适应价格战，陆续放开加盟降低产品价格。\r\n\r\n\r\n\t（6）从供应链来看：霸王茶姬有2700亩自家茶山直采、24 小时牧场鲜奶供应、39个果园基地直送；古茗搭建“两日一配”冷链体系，鲜果次日达门店比例达95%；茶百道智能订货系统将加盟商补货效率提升30%；沪上阿姨拥有八大仓储物流基地等庞大仓储网络，每周可多次为门店送新鲜食材；书亦烧仙草通过AI销量预测系统降低15%原料损耗；蜜雪冰城具备原材料自产规模优势，自建13万平方米中央工厂，覆盖70%核心原料；甜啦啦以“自产 + 核心产区采购”模式，在多地设分仓。\r\n\r\n\r\n\t现制茶饮行业竞争降温，价格战有望趋缓\r\n\r\n\r\n\t茶饮行业高速发展，竞争白热化迎来价格战。2016-2023年茶饮行业经历高速发展，2019年起头部品牌开店加速，2019-2024年蜜雪/古茗/茶百道/沪上阿姨/霸王茶姬门店净增门店约3.8/0.8/0.8/0.7/0.5万家，2023年全年新增门店超14万家，行业门店总数突破41万家。\r\n\r\n\r\n\t门店数量快速增长加剧供给过剩，叠加消费降级大环境使得现制茶饮行业竞争激烈迎来价格战，喜茶、奈雪的茶纷纷降价，沪上阿姨推出“茶瀑布”副品牌爆款瀑布茉白6.9元/杯，茶百道在团购平台上推出“5.9元十选一”等，古茗同样推出“9.9元原叶·鲜奶茶”和“0.9元起畅饮”等活动。自2020年起，除本就主打低价的蜜雪冰城外，主要现制茶饮品牌均受影响，高价现制茶饮品牌平均客单价下降超10元，大众现制茶饮品牌平均客单价下降约1元，行业平均利润率从2023年的21.4%降至2024年的14.7%。\r\n\r\n\r\n\t窄门餐眼数据显示，截至2025年1月15日，奶茶饮品行业近一年新开门店数为11.1万家，净减少门店3.9万家，近一年有近15万家店闭店，中国连锁经营协会预测，2025年新茶饮市场规模增速将从2023年的44.3%骤降至12.4%。\r\n\r\n\r\n\t现制茶饮行业竞争降温，价格战有望趋缓。2024年古茗单店GMV下滑10.57万元，同比减少4.29%，茶百道净利润 4.72 亿元，同比下降 58.55%， 奈雪的茶净利润 -9.17 亿元，出现亏损难抵高昂运营成本。许多品牌意识到价格战并不能有效提升销量，反而会导致单杯毛利损失，因此从2024年四季度开始价格战逐渐缓和，瑞幸咖啡自2025年初将部分产品上涨3元左右，同时缩减9.9元优惠券的适用范围，喜茶也于2025年初宣布暂停加盟，并表示拒绝“价格战与规模内卷”。目前茶饮市场各品牌正通过差异化增强竞争力，蜜雪冰城主打平价产品，依托成本优势覆盖下沉市场，古茗通过自建冷链地域加密，降本增效占领平价现制茶饮市场，霸王茶姬专注轻乳茶，结合特色文化积累忠实客群。2025年Q1价格战趋缓效果显现，行业平均利润率预计回升至16.2%。\r\n\r\n\r\n\t现磨咖啡行业：下沉市场快速发展，本土品牌强势崛起\r\n\r\n\r\n\t预计2024年中国现磨咖啡行业规模达1903亿元，三线及以下城市增速更快。中国现磨咖啡行业近年来呈现爆发式增长，市场规模从2018年的313亿增长至2023年的1515亿元，CAGR达37.1%，预计2024年规模达1903亿元，同比增长25.6%，过去高速增长主要受高线城市拉动，当前一线/新一线贡献59%的市场份额，但近几年来下沉市场渗透，三线及以下城市增速更快，2023年一线/新一线/二线/三线及以下城市同比增长22.8%/29.6%/29.7%/33.6%，预计23-28年三线及以下城市CAGR达24.7%，领跑高线城市。相较茶饮行业2022/2023年的连锁化率44%/49%,咖啡行业2022/2023年的连锁化率仅为25%/31%，咖啡连锁品牌仍有通过扩张门店提升市场份额的空间。\r\n\r\n\r\n\t中国现磨咖啡市场呈现本土品牌强势崛起的竞争态势。以终端零售额计，2023年瑞幸咖啡/星巴克/库迪咖啡/Manner咖啡/幸运咖终端零售额达330/250/55/25/19亿元，分别占据21.8%/16.5%/3.6%/1.7/1.3%的市场份额。从价格带来看，星巴克主要占据20元以上产品，聚焦品质与体验，门店集中于核心商圈；瑞幸、Manner主要价格带在10-20元之间，瑞幸主要以高性价比+数字化运营快速扩张以及产品快速迭代抢占份额，Manner主打精品咖啡，通过差异化定位抢占市场；\r\n\r\n\r\n\t库迪、幸运咖处于10元以下价格带，主打下沉市场与高周转模型， 2023年瑞幸咖啡/星巴克/库迪咖啡/Manner咖啡/幸运咖门店数量分别约为16200/7000/6800/1100/2900家，其中三线及以下城市门店数量分别为4600/1000/2600/不足100/1800家，幸运咖在三线及以下城市门店数仅次于瑞幸和库迪。目前行业价格战趋缓，如瑞幸咖啡自2025年初将部分产品上涨3元左右，同时缩减9.9元优惠券的适用范围，主打平价的幸运咖将在下沉市场更具竞争力。\r\n\r\n\r\n\t更多行业研究分析请参考思瀚产业研究院官网，同时思瀚产业研究院亦提供行研报告、可研报告（立项审批备案、银行贷款、投资决策、集团上会）、产业规划、园区规划、商业计划书（股权融资、招商合资、内部决策）、专项调研、建筑设计、境外投资报告等相关咨询服务方案。\r\n\t\t\t\t\t\t\t\t\r\n        \r\n            免责声明：\r\n            1.本站部分文章为转载，其目的在于传播更多信息，我们不对其准确性、完整性、及时性、有效性和适用性等任何的陈述和保证。本文仅代表作者本人观点，并不代表本网赞同其观点和对其真实性负责。\r\n            2.思瀚研究院一贯高度重视知识产权保护并遵守中国各项知识产权法律。如涉及文章内容、版权等问题，我们将及时沟通与处理。\r\n        \r\n     ",
+      "parseStatus": "ok",
+      "contentType": "text/html",
+      "tier": "C"
+    },
+    {
+      "id": "snap:https://www.jiemian.com/article/10738059.html",
+      "url": "https://www.jiemian.com/article/10738059.html",
+      "title": "咖啡行业2024前瞻：龙头企业集中、市场下沉、赛道细分|界面新闻 · JMedia",
+      "fetchedAt": "2026-10-16T07:23:03.706Z",
+      "bodyText": "\r\n文|伯虎财经（bohuFN）灵灵\r\n\r\n\r\n01 2023年，咖啡行业“加速奔跑”\r\n\r\n过去的2023年，咖啡赛道一派“热火朝天”。\r\n\r\nAllegra Group旗下研究机构World Coffee Portal发布报告显示，中国品牌咖啡门店总数已接近5万家，成为全球拥有品牌咖啡门店最多的国家。\r\n\r\n过去12个月中，中国品牌咖啡门店的数量增长了58%，达到创纪录的49691家，超美国9000多家，而同期美国品牌咖啡门店的数量仅增长了4%。\r\n\r\n具体到品牌的发展，据壹览商业统计，2023年瑞幸净增8025家门店，门店规模增速为98.21%，现有门店数达到16196家；库迪咖啡则净增6977家门店，增速达到8019.54%，现有门店达到7064家；幸运咖则净增976家门店，增速为54.07%，现有门店为2781家。\r\n\r\n2023年，瑞幸的第10000家门店落地，成为了第一家本土门店数量破万的咖啡品牌。库迪咖啡则野蛮生长，一年时间开店近7000家。\r\n\r\n我国现制饮品市场主要分为现制茶饮市场、现磨咖啡市场和其他现制饮品（现制果饮、冰淇淋&酸奶等）市场。在现制饮品赛道中，咖啡已经成为增长最迅猛的细分品类。\r\n\r\n2022年，我国现制茶饮行业规模2100+亿元，是现制饮品中占比最大的细分赛道，而我国现磨咖啡行业规模1300+亿元，是现制饮品中增速最快的细分赛道。\r\n\r\n当然，加速奔跑之下，也是更加激烈的竞争。此前，窄门餐眼曾统计过，截至2023年9月，近一年新开咖啡门店77083家，但净增长的门店只有42450家。也就是说，有近3.5万家门店，在竞争中关闭、退场。\r\n\r\n咖啡赛道，正在经历汹涌的潮涨潮落，起起伏伏，最终总会留下一批弄潮儿。\r\n\r\n02 2024年，咖啡继续“进击”\r\n\r\n结合咖啡过往的发展、相关调研报告分析，伯虎财经总结，2024年咖啡赛道将呈现几大趋势，即龙头集中趋势、下沉趋势、品类细分趋势。\r\n\r\n（1）呈现龙头集中趋势，拼供应链\r\n\r\n从相关调研来看，未来几年，咖啡赛道的增速依然乐观，参与者有着充分的机会。但同时，并不是所有品牌都能“沾光”。\r\n\r\n龙头企业依然会在竞争中占据极大优势，获得更多红利。同时，会有一些潜力品牌，在发展中逐渐向“龙头”集中。\r\n\r\n2022年我国现磨咖啡赛道1000家以上品牌门店占比提升明显，由2020年的12%提升至2022年的16%。在现磨咖啡赛道，10家以内门店数占比同样锐减，下降超5个百分点。\r\n\r\n根据分析，一方面，品牌门店实现了品牌、产品、渠道各方面的升级，逐步形成对杂牌门店的降维打击。以瑞幸为例，其已经构建具备显著优势的供应链体系。如，为了确保产品质量和稳定供应，瑞幸咖啡与多家国内外优质供应商建立长期合作关系。此外，在采购过程中，瑞幸通过建立完善的监控系统来跟踪原材料来源，确保符合相关法规和标准。强大的供应链能力，让瑞幸与其他竞争者拉开明显差距。\r\n\r\n另一方面，近几年黑天鹅事件的爆发加速了这一进程，加速了没有规模、资金、品牌优势的杂牌门店的出清。据美团统计，在全球咖啡馆数量最多的上海，今年独立咖啡店的数量首次出现了减少，在咖啡总店数中的占比由去年的60.1%跌至55%。\r\n\r\n除此之外，咖啡的行业集中度较高，也决定了已经实现稳定运营与发展的咖啡企业，更有可能抢占更多份额。\r\n\r\n目前我国现磨咖啡门店约17万家，拥有连锁品牌超百家，top5品牌 （门店数计）市占率约21% ，top10品牌市占率约23%。全国整体来看，瑞幸/星巴克/库迪遥遥领先。按店数计，瑞幸全国市占率9.5%，星巴克/库迪全国市占率超过4%。\r\n\r\n相对而言，茶饮品牌的行业集中度偏低。目前我国现制茶饮门店超38万家，拥有连锁品牌破三千家，top5品牌市占率约15%，top10品牌市占率约20%。\r\n\r\n据分析，咖啡行业集中度高，或源于咖啡品类成瘾属性加持下消费者的品牌忠诚度更高。\r\n\r\n这也意味着，一旦品牌打开了市场，获得消费者的信任，并且能够持续稳定输出，在赛道中的发展前景会较为理想。\r\n\r\n（2）下沉市场，依然是咖啡的重要舞台\r\n\r\n过去一年，“县城咖啡”一词的出镜率颇高。但直到现在，留给县城咖啡的空间仍然十分可观。\r\n\r\n据灼识咨询调查统计，以终端零售额计，2022年我国三线及以下城市现制茶饮市场规模约732亿元，是现制茶饮赛道中占比最高增速最快的市场。\r\n\r\n相比之下，咖啡的主要战场仍然在一线和新一线城市，规模占比均约30%。据灼识咨询调查统计，以终端零售额计，2022年我国一线/新一线现磨咖啡市场规模约333/379亿元，2017-2022年CAGR均为42.3%。参考茶饮的发展逻辑，未来，下沉市场也将是咖啡的另一增量池。\r\n\r\n事实上，咖啡品牌早已摩拳擦掌，盯紧下沉市场。\r\n\r\n库迪咖啡，自成立以来便持续发力下沉市场。库迪咖啡首席策略官李颖波曾表示，目前门店的分布大致会是1/3在一线超一线城市，1/3在二三线城市，1/3在四五线城市。“中国的咖啡市场不会只是一二线城市的市场，其实中国的咖啡城市和市场是从一二线到四五线都是有非常广阔的一个接受度的。所以从一开始我们的门店就是朝着这样去布局的。”\r\n\r\n咖啡品牌在价格战方面的努力，同样人尽皆知。库迪8.8元/杯，瑞幸9.9元/杯，幸运咖5元/杯，星巴克则通过各种优惠券将单杯价格降到了20元以内……努力打价格战的咖啡玩家们，显然将“决战”的尽头指向县城市场。\r\n\r\n2022年，中国人喝掉了近30万吨咖啡，这在5年前几乎难以想象。眼下，中国有2000多个县城，对于咖啡行业而言，可开拓的空间依然巨大。\r\n\r\n（3）细分赛道中寻机会\r\n\r\n诺大的市场规模下，转战独特的定位，在创新中分一杯羹，这将成为更多玩家获取流量、份额的突围方式。\r\n\r\n2023年，茶咖就成为许多品牌的发力方向之一。3月，包括星巴克在内的多个咖啡品牌，陆续推出“山茶花拿铁”，用山茶花乌龙搭配咖啡。此后，茶颜悦色旗下的鸳央咖啡，定位“新中式咖啡&茶”，推出多款茶咖产品，进一步将“茶咖”热度推高。\r\n\r\n此外，一些城市更是结合地域特色，推出限定咖啡，也引发了一些关注，如广州的“凉茶咖啡”、山西的“煤球咖啡”、重庆的“花椒咖啡”。\r\n\r\n瑞幸与茅台推出的酱香拿铁，成为这一年的联名“顶流”。瑞幸官方数据显示，上市首日，酱香拿铁销量突破542万杯，单品首日销售额突破1亿元，刷新瑞幸单品纪录。\r\n\r\n随着咖啡的受众面越来越广，为了吸引更多消费者驻足、选择，咖啡品牌也开始变着花样，推出创新品类。接下来，势必还会有更多新的咖啡细分品类涌现，并跑出一些被消费者口口相传的爆款，进而持续激发咖啡赛道的消费生命力。\r\n\r\n此外，大众咖啡、平价咖啡之外，精品咖啡或许也有机会在行业中找到一片生存空间。根据行业数据，精品咖啡市场在2022年增长了超过20%，远高于传统咖啡品牌。咖啡的质量与口感、门店的独特体验等特色，使得精品咖啡品牌能够建立起一批忠实的顾客。\r\n\r\n据统计，不少全球范围内的精品咖啡连锁店，实现了可观的盈利，如“Intelligentsia Coffee”和“Verve Coffee Roasters”。未来，在中国咖啡市场，或将涌现一批精品咖啡连锁玩家。\r\n\r\n咖啡赛道仍在加速奔跑，只不过机会并不属于所有人。如何成为消费者追随的咖啡品牌，实现稳定的增长与发展，是一个需要参与者好好琢磨的课题。这门课，有人得高分，也不断有人垫底、退场。\r\n",
+      "parseStatus": "ok",
+      "contentType": "text/html; charset=utf-8",
+      "tier": "B"
+    },
+    {
+      "id": "snap:https://m.chinabaogao.com/detail/793029.html",
+      "url": "https://m.chinabaogao.com/detail/793029.html",
+      "title": "我国现磨咖啡行业集中度较低 瑞幸咖啡营业门店数量最多 市场份额最大_观研报告网",
+      "fetchedAt": "2026-10-16T07:23:07.211Z",
+      "bodyText": "\r\n      \r\n        我国现磨咖啡行业集中度较低 瑞幸咖啡营业门店数量最多 市场份额最大\r\n        2026-05-09 10:19\r\n        \r\n        \r\n        \r\n          \n\t现磨咖啡是指‌将新鲜烘焙的咖啡豆在冲煮前现场研磨成粉，并立即进行萃取制成的咖啡‌。\n\n\n\n\t现磨咖啡是咖啡主要细分市场之一。数据显示，在2024年我国咖啡市场中现磨咖啡占比约为38.3%。\n\n\n\n\t\n\n\n\t数据来源：公开资料、观研天下整理\n\n\n\n\t市场规模来看，2021年到2025年我国现磨咖啡市场规模持续增长，到2025年我国现磨咖啡市场规模约为1884亿元。\n\n\n\n\t\n\n\n\t数据来源：公开资料、观研天下整理\n\n\n\n\t市场集中度来看，2025年我国现磨咖啡行业CR3、CR5、CR10市场份额占比分别为25.84%、33.25%、36.48%。整体来看，我国现磨咖啡市场集中度较低，竞争较为激烈。\n\n\n\n\t\n\n\n\t数据来源：公开资料、观研天下整理\n\n\n\n\t具体来看，2025年我国现磨咖啡市场份额占比最高的为瑞幸咖啡，占比约为14.26%；其次为库迪咖啡，市场份额占比约为7.65%；第三为幸运咖，市场份额占比约为3.93%。\n\n\n\n\t\n\n\n\t数据来源：公开资料、观研天下整理\n\n\n\n\t营业门店数来看，截止2025年12月我国现磨咖啡营业门店数前三的品牌分别为瑞幸咖啡、库迪咖啡、幸运咖；营业门店数分别为30612家、16414家、8437家。\n\n\n\n\t截至2025年12月我国现磨咖啡营业门店数TOP10品牌\n\n\n\t\n\t\t\n\t\t\t\n\t\t\t\t品牌\n\t\t\t\n\t\t\t\n\t\t\t\t营业门店数（家）\n\t\t\t\n\t\t\n\t\t\n\t\t\t\n\t\t\t\t瑞幸咖啡\n\t\t\t\n\t\t\t\n\t\t\t\t30612\n\t\t\t\n\t\t\n\t\t\n\t\t\t\n\t\t\t\t库迪咖啡\n\t\t\t\n\t\t\t\n\t\t\t\t16414\n\t\t\t\n\t\t\n\t\t\n\t\t\t\n\t\t\t\t幸运咖\n\t\t\t\n\t\t\t\n\t\t\t\t8437\n\t\t\t\n\t\t\n\t\t\n\t\t\t\n\t\t\t\t星巴克\n\t\t\t\n\t\t\t\n\t\t\t\t8012\n\t\t\t\n\t\t\n\t\t\n\t\t\t\n\t\t\t\tNOWWA\n\t\t\t\n\t\t\t\n\t\t\t\t7903\n\t\t\t\n\t\t\n\t\t\n\t\t\t\n\t\t\t\tManner Coffee\n\t\t\t\n\t\t\t\n\t\t\t\t2367\n\t\t\t\n\t\t\n\t\t\n\t\t\t\n\t\t\t\t肯悦咖啡\n\t\t\t\n\t\t\t\n\t\t\t\t2326\n\t\t\t\n\t\t\n\t\t\n\t\t\t\n\t\t\t\tTims天好咖啡\n\t\t\t\n\t\t\t\n\t\t\t\t997\n\t\t\t\n\t\t\n\t\t\n\t\t\t\n\t\t\t\t沪咖\n\t\t\t\n\t\t\t\n\t\t\t\t645\n\t\t\t\n\t\t\n\t\t\n\t\t\t\n\t\t\t\t小幸运\n\t\t\t\n\t\t\t\n\t\t\t\t620\n\t\t\t\n\t\t\n\t\n\n\n\t数据来源：公开资料、观研天下整理（XD）\n\n\n\t\t观研天下®专注行业分析十四年，专业提供各行业涵盖现状解读、竞争分析、前景研判、趋势展望、策略建议等内容的研究报告。更多本行业研究详见《中国现磨咖啡行业发展现状研究与投资前景分析报告（2026-2033年）》。\n\t\n\t\n\t\t\t\n\t\t\n\t\n\n\r\n\r\n          \r\n\r\n          更多好文每日分享，欢迎关注公众号\r\n            \r\n          \r\n          【版权提示】观研报告网倡导尊重与保护知识产权。未经许可，任何人不得复制、转载、或以其他方式使用本网站的内容。如发现本站文章存在版权问题，烦请提供版权疑问、身份证明、版权证明、联系方式等发邮件至kf@chinabaogao.com，我们将及时沟通与处理。\r\n        \r\n      \r\n\r\n      \r\n      \r\n\r\n    ",
+      "parseStatus": "ok",
+      "contentType": "text/html; charset=UTF-8",
+      "tier": "B"
+    },
+    {
+      "id": "snap:https://www.fxbaogao.com/detail/5557561",
+      "url": "https://www.fxbaogao.com/detail/5557561",
+      "title": "未知机构:《弘则研究渠道新声 第1351期头部咖啡品牌经营近况调研2》-发现报告",
+      "fetchedAt": "2026-10-16T07:24:39.082Z",
+      "bodyText": "\n                    \n                             2026-07-23   未知机构  李艺华🌸\n                            \n                            \n                            \n\n                                \n                            \n                            \n                        \n                    \n                            你可能感兴趣\n                            \n                        \n                ",
+      "parseStatus": "ok",
+      "contentType": "text/html; charset=UTF-8",
+      "tier": "C"
+    },
+    {
+      "id": "snap:https://www.bjzjqx.com/IndustryInner/532944.html",
+      "url": "https://www.bjzjqx.com/IndustryInner/532944.html",
+      "title": "中国现磨咖啡行业市场环境分析及区域细分市场调研2026-2032-中金企信发布",
+      "fetchedAt": "2026-10-16T07:24:39.852Z",
+      "bodyText": "一、现磨咖啡市场规模与增长1、市场规模与增长轨迹中国现磨咖啡市场规模从2019年的1,200亿元增长至2024年的3,200亿元，年均复合增长率达22%。瑞幸咖啡门店突破2万家，星巴克中国门店突破7,000家，行业进入万店竞争时代。从消费场景看，\"到店消费\"占比从2019年的65%下降至2024年的45%，\"外带+外卖\"占比提升至55%，便利性需求超越空间体验。 数据整理：中金企信国际咨询2、现磨咖啡渠道分布（1）门店渠道：直营与加盟的双轨扩张现磨咖啡门店渠道占据58%市场份额，是绝对主渠道。瑞幸以2万+门店领跑，加盟占比超60%。星巴克坚持直营，7,000家门店聚焦一二线城市核心商圈。（2）外卖与自提：效率驱动的渠道变革外卖渠道占比达25%，美团、饿了么成为核心入口。瑞幸\"线上下单+到店自提\"模式跑通后，星巴克、库迪纷纷跟进。自提占比提升至18%，降低履约成本。二、产业链价值分布 数据整理：中金企信国际咨询（1）上游：原材料成本占比咖啡豆成本占现磨咖啡售价的15-20%，咖啡液原材料成本占比25-30%。云南咖啡豆替代进口，成本优势20-30%。（2）中游：加工环节价值提升烘焙和萃取环节通过技术升级提升附加值。精品烘焙豆溢价可达50%，冷萃/闪萃技术使咖啡液价值倍增。（3）下游：渠道利润分配现磨咖啡门店毛利率约60-65%，咖啡液毛利率约50-55%。品牌方、渠道方、终端各分一杯羹。第1章 现磨咖啡行业发展概况1.1 现磨咖啡行业市场综述及趋势1.1.1 行业市场发展综述1.1.2 行业市场发展趋势1.2 现磨咖啡行业主要竞争企业发展概述第2章 现磨咖啡行业市场环境分析 2.1 行业政策环境分析 2.1.1 行业相关政策动向 2.1.2 现磨咖啡行业发展规划 2.2 行业经济环境分析 2.2.1 国家宏观经济环境分析 2.2.2 行业宏观经济环境分析 2.3 行业社会需求环境分析 2.3.1 行业需求特征分析 2.3.2 行业需求趋势分析 2.4 行业产品技术环境分析 2.4.1 行业技术水平发展现状 2.4.2 行业技术水平发展趋势 第3章 2020-2025年中国现磨咖啡行业经营情况分析3.1 现磨咖啡行业发展概况分析3.1.1 行业发展历程回顾3.1.2 行业发展特点分析3.2 现磨咖啡行业供给态势分析3.2.1 现磨咖啡行业企业数量分析3.2.2 现磨咖啡行业企业所有制结构分析3.2.3 现磨咖啡行业企业注册资本情况3.2.4 现磨咖啡行业企业区域分布情况3.3 现磨咖啡行业消费态势分析3.3.1 中国现磨咖啡行业消费情况3.3.2 中国现磨咖啡行业消费区域分布3.4 现磨咖啡行业消费价格水平分析第4章 中国现磨咖啡行业市场竞争格局分析 4.1 中国现磨咖啡行业历史竞争格局概况 4.1.1 现磨咖啡行业集中度分析 4.1.2 现磨咖啡行业竞争程度分析 4.2 中国现磨咖啡行业竞争分析 4.2.1 现磨咖啡行业竞争概况 4.2.2 中国现磨咖啡产业集群分析 4.2.3 中外现磨咖啡企业竞争力比较 4.2.4 现磨咖啡行业品牌竞争分析 4.3 中国现磨咖啡行业市场竞争格局分析4.3.1 2020-2025年国内外现磨咖啡竞争分析 4.3.2 2020-2025年我国现磨咖啡市场竞争分析4.3.3 2020-2025年品牌竞争情况分析第5章 中国现磨咖啡行业上游产业剖析5.1 上游产业发展现状5.1.2 上游产业发展趋势5.1.3 上游产业对现磨咖啡行业影响分析第6章 中国现磨咖啡行业下游市场剖析6.1 下游领域发展概况6.2 下游领域发展趋势6.3 下游市场对现磨咖啡行业影响分析第7章 中金企信国际咨询中国现磨咖啡行业区域细分市场调研 7.1 行业总体区域结构特征及变化 7.1.1 行业区域结构总体特征7.1.2 行业区域集中度分析 7.1.3 行业区域分布特点分析 7.1.4 行业规模指标区域分布分析 7.1.5 行业效益指标区域分布分析 7.1.6 行业企业数的区域分布分析 7.2 现磨咖啡区域市场分析7.2.1 东北地区现磨咖啡市场分析7.2.2 华北地区现磨咖啡市场分析 7.2.3 华东地区现磨咖啡市场分析 7.2.4 华南地区现磨咖啡市场分析7.2.5 华中地区现磨咖啡市场分析 7.2.6 西南地区现磨咖啡市场分析7.2.6 西北地区现磨咖啡市场分析 7.3 2020-2025年现磨咖啡市场容量研究分析7.3.1 2020-2025年中国现磨咖啡市场容量分析7.3.2 2020-2025年不同企业现磨咖啡市场占有率分析7.3.3 2020-2025年不同地区现磨咖啡市场容量分析第8章 2020-2025年中国现磨咖啡行业重点企业经营情况分析8.1 公司18.1.1 企业简介8.1.2 企业经营状况8.1.3 企业竞争力分析8.1.4 产品/服务特色8.2 公司28.2.1 企业简介8.2.2 企业经营状况8.2.3 企业竞争力分析8.2.4 产品/服务特色8.3 公司38.3.1 企业简介8.3.2 企业经营状况8.3.3 企业竞争力分析8.3.4 产品/服务特色8.4 公司48.4.1 企业简介8.4.2 企业经营状况8.4.3 企业竞争力分析8.4.4 产品/服务特色8.5 公司58.4.1 企业简介8.4.2 企业经营状况8.4.3 企业竞争力分析8.5.4 产品/服务特色第9章 2026-2032年中国现磨咖啡行业前景调研中金企信国际咨询9.1 现磨咖啡行业投资现状分析9.1.1 现磨咖啡行业投资规模分析 9.1.2 现磨咖啡行业投资资金来源构成 9.1.3 现磨咖啡行业投资主体构成分析 9.2 现磨咖啡行业投资特性分析 9.2.1 现磨咖啡行业进入壁垒分析9.2.2 现磨咖啡行业盈利模式分析9.2.3 现磨咖啡行业盈利因素分析 9.3 现磨咖啡行业投资机会分析 9.4 现磨咖啡行业投资前景分析 9.4.1 行业政策风险 9.4.2 宏观经济风险 9.4.3 市场竞争风险 9.4.4 关联产业风险 9.4.5 产品结构风险 9.4.6 技术研发风险 9.4.6 其他投资前景中金企信国际咨询相关报告推荐（2025-2026）《“十五五”中国椰子水行业市场全景调研与投资前景展望分析（2026）-中金企信发布》《中国低温鲜奶行业企业竞争力、区域运行分析及前景展望（2026版）-中金企信发布》《2026年中国功能饮料行业市场规模全景分析与“十五五”投资前景展望报告-中金企信发布》《2026-2032年中国营养补充剂行业市场环境分析及市场前景评估报告-中金企信发布》《2025-2031年全球及中国婴幼儿配方羊奶粉市场发展战略研究及投资可行性预测咨询报告》",
+      "parseStatus": "ok",
+      "contentType": "text/html; charset=utf-8",
+      "tier": "C"
+    },
+    {
+      "id": "snap:https://en.hzinsights.com/v2/articles/13120",
+      "url": "https://en.hzinsights.com/v2/articles/13120",
+      "title": "HorizonInsights",
+      "fetchedAt": "2026-10-16T07:24:41.769Z",
+      "bodyText": "",
+      "parseStatus": "failed",
+      "contentType": "text/html; charset=utf-8",
+      "tier": "C"
+    },
+    {
+      "id": "snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml",
+      "url": "https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml",
+      "title": "一杯咖啡裏的中國大市場",
+      "fetchedAt": "2026-10-16T07:25:23.387Z",
+      "bodyText": "\r\n                    \r\n                        　　新華社北京11月13日電 題：新華社經濟隨筆：一杯咖啡裏的中國大市場　　新華社記者王雨蕭、周蕊　　一杯咖啡，能勾勒出怎樣的經濟圖景？　　從雲南綿延百萬餘畝的咖啡種植園，到上海梧桐樹下香氣氤氳的創意特調；從昆山智慧工廠裏精準控制的烘焙曲線，到“Z世代”社交平台上跳躍的咖啡文化……這杯最初的西方“舶來品”，已深度融入國人日常生活，折射出中國大市場的萬千氣象。　　一杯咖啡，可以窺見中國市場潛力之大。　　自2010年起，中國的咖啡消費量以年均超15%的速度增長，遠超過全球年均約2%的增長率。目前，全國咖啡相關企業現存量超25萬家，僅今年前10個月的註冊量就超過去年全年。　　市場之“大”，不僅體現在增速，更在廣闊的空間。相關數據顯示，2024年中國咖啡産業規模超過3000億元，咖啡人均年消費量達到22.24杯。和歐美、日韓等市場相比，我國咖啡人均消費量還存在一定差距，這也意味着未來國內咖啡消費市場有較大的增長潛力和空間。　　“中國的咖啡市場潛力巨大。在中國市場站穩腳跟，就有更多機會被世界看見。”不久前在上海舉行的第八屆進博會上，一名來自巴西的咖啡商這樣評價。　　今天，漫步在中國城市街頭，既有星巴克等國際咖啡巨頭，也能看到瑞幸、庫迪、Manner等咖啡“新勢力”。除了隨處可見的連鎖品牌，風格迥異、主打個性化的主理人咖啡館和精品咖啡館，也如雨後春筍般涌現。冬陰功美式、黑松露Dirty、甘草“中藥特調”……層出不窮的風味創新，精準捕捉着多元化消費需求，也彰顯供給端的創新活力。　　創新不止於産品本身，也意味着消費場景向多元延伸。　　在上海徐匯，咖啡館白天是可以閒聊聚會的“第三空間”，夜晚則變身為Live band清吧；在雲南保山，游客專程前來打卡，只為體驗芒寬“火燒咖啡”的獨特儀式感；在貴州省荔波縣，你可以坐在200多米高的懸崖邊，一邊品咖啡一邊俯瞰原始森林……一杯咖啡，正與更多場景相融，重構消費的時空和內容。　　咖啡業態向“新”，背後是中國消費結構的深刻轉變。　　改革開放以來，我國的商品消費經歷了排浪式發展。隨着人均GDP連續攀升，國內需求正從“物質型”消費，轉向更注重提升生活品質的“服務型”和“體驗型”消費。人們越來越關注商品和服務所承載的文化內涵、社交體驗和情感共鳴。　　“咖啡+音樂”“咖啡+文旅”“咖啡+運動”“咖啡+非遺”……人們購買的不只是一杯咖啡，更是一段情緒體驗、一個文化符號、一種生活方式。這也啟示我們：未來，精準洞察消費“心”需求，推動更深層次的場景創新和服務升級，既能更好滿足人民日益增長的美好生活需要，也能激活潛在消費意願，為內需增長注入新動能。　　消費端擴容升級，正不斷帶動國內咖啡産業體系日益成熟和不斷拓展。　　走進位於上海的虹橋國際咖啡港，生産、研發、直播、設計等全生命周期企業，構建起“從種子到杯子”的完整産業生態；江蘇昆山憑藉強大的製造業基礎，聚“豆”成“鏈”打造具有全球影響力的千億級咖啡産業；在跨境電商平台，産自中國的智慧咖啡機等産品暢銷海外……　　從消費終端到全鏈協同，從原料産地到創意中心，中國咖啡産業正在實現從早期“跟跑”到更多領域“並跑”，再到細分賽道“領跑”的重大跨越。　　不只是咖啡經濟。放眼全國，從首發經濟、冰雪經濟，到賞花經濟、銀發經濟，不斷升級的消費期待，正催生更多新業態、新藍海；LABUBU風靡全球、《哪吒2》掀起觀影熱、“蘇超”“浙BA”點燃文旅新動能……供給側的持續創新，進一步激發更為廣闊的消費需求。“供”與“需”之間的良性互動，正在更多行業和領域生動上演，不斷增強國內大循環的內生動力。　　小小一杯咖啡，映照出中國大市場的蓬勃活力和廣闊空間。從“有沒有”到“好不好”，從“夠不夠”到“優不優”，14億多人民對美好生活的嚮往，正通過一杯杯咖啡、一次次消費，轉化為推動經濟高質量發展的澎湃動能。 \r\n                    \r\n                ",
+      "parseStatus": "ok",
+      "contentType": "text/html;charset=utf-8",
+      "tier": "A"
+    },
+    {
+      "id": "snap:https://www.huxiu.com/article/4880665.html",
+      "url": "https://www.huxiu.com/article/4880665.html",
+      "title": "9.9元咖啡的真相：吸管利润率150%，配件经济收割消费者",
+      "fetchedAt": "2026-10-16T07:25:23.504Z",
+      "bodyText": "你花9.9买了一杯咖啡。觉得占了大便宜。然后店员问你，要不要加一根益生菌吸管，只要2元。你想了想，9.9都花了，2元算什么。于是你的\"9.9元咖啡\"变成了11.9元。涨了20%。但你不知道的是——那根吸管的成本是0.8元。你花2元买的东西，品牌赚了1.2元。利润率150%。而你的9.9元咖啡，品牌赚4.7元。利润率47%。吸管的利润率，是咖啡的3.2倍。这不是一个偶然的营销小聪明。这是整个咖啡行业正在玩的\"配件经济\"。把主产品压到地板价当诱饵，靠配件、加料、会员、换购来完成真正的收割。你以为9.9是福利。9.9只是入场券。一、9.9的算术题：不是亏本价，是精心定价先看一组数据。据艾媒咨询《2026中国现磨咖啡行业报告》，2026年上半年，中国现磨咖啡市场规模突破3200亿元。其中9.9元档位占了62%的销量。也就是说，每卖出三杯咖啡，将近两杯是9.9元。你可能觉得，9.9元这么便宜，品牌肯定在亏本补贴。恰恰相反。瑞幸单杯成本5.2元，9.9元售价，毛利4.7元。毛利率47%。这个数字放在餐饮行业，不算低。麦当劳全球毛利率约60%，星巴克约67%。瑞幸的47%已经是一个健康水平。那库迪呢？单杯成本7.1元，9.9元售价，每杯亏2.2元。库迪确实在亏。2026上半年营收增长120%，但净亏18亿元，关店率21%。库迪的9.9是真亏本。瑞幸的9.9是精心定价。同一价格，两种命运。区别在哪？瑞幸靠云南咖啡豆直采加自建烘焙厂，单杯原料成本比库迪低1.3元。1.8万家门店的密度，把租金和人工这些固定成本摊到极薄。哪怕9.9卖，靠翻台率照样赚。库迪咖啡豆要从巴西进口，奶源没谈下长期协议，单杯成本比瑞幸高近2元。加上疯狂补贴，每卖一杯亏两块多，全靠融资续命。还有一家更狠的——幸运咖。背靠蜜雪冰城，直接共用供应链、仓储、门店网络。连杯子都是蜜雪的供应商。单杯成本3.8元。定价6.6元，比9.9还低3.3元。毛利2.8元，全线盈利。门店突破8200家，营收增长210%。9.9不是底线。6.6才是。但6.6也不是底线——外卖平台上，库迪美式曾经低至3.33元，饿了么上生椰拿铁活动后仅1.99元。2块钱一杯现磨咖啡。比一瓶矿泉水还便宜。这场价格战，要追溯到2023年初。库迪率先打出\"全场9.9元不限量\"，首月订单增长超300%。瑞幸迅速应战，推出\"每周9.9\"轮换策略，单季度新增用户超过800万。二线品牌纷纷跟进——Tims发放9.9元专属券，挪瓦咖啡试点\"新客0.1元尝鲜\"，蜜雪冰城旗下幸运咖推出\"双杯9.9元\"。连一向高冷的星巴克也通过外卖平台叠加折扣，实现过\"两杯19.9元\"的限时特惠。到2023年底，超过60%的消费者已经把9.9元视为咖啡的心理价位标准。但2024年，瑞幸就扛不住了。持续大力度优惠导致一季度经营亏损0.65亿元。这是自2022年三季度连续盈利后的首次亏损。瑞幸迅速收缩——缩减优惠券投放量约30%，9.9元活动从每周7天改为每周3天，限定仅基础款参与。2025年进一步收紧，9.9元覆盖率从80%门店降至30%。然后外卖平台又添了一把火。百亿补贴、大额神券轮番上阵，咖啡价格直接跳水到2.9元一杯。肯德基旗下肯跃咖啡甚至把价格压到6元一杯，还能盈利。2.9元的现磨咖啡，比瓶装矿泉水还便宜。这不是市场竞争的结果。这是平台补贴大战的产物。咖啡成了外卖平台拉新的\"钩子产品\"。用亏本价引流，用配件和加价收割。二、吸管经济学：一根管子，3倍利润回到那根吸管。瑞幸推出的益生菌吸管，加2元换购。单根吸管成本原本大约1.2元，瑞幸靠规模化采购压到0.8元。售价2元。利润1.2元。利润率150%。拿这个数字跟咖啡比一下。瑞幸一杯9.9元的咖啡，毛利4.7元，利润率47%。一根2元的吸管，毛利1.2元，利润率150%。吸管的利润率是咖啡的3.2倍。更关键的是——吸管几乎不增加额外成本。咖啡需要咖啡豆、牛奶、杯子、杯盖、水电、人工、租金。吸管只需要一根塑料管。0.8元的成本，2元的价格。不用开店，不用雇人，不用交租。就放在那里，有人买就赚，没人买也不亏。据北京朝阳区门店实测数据，30%的用户会顺带给饮品加购吸管。单店日均增收200元。一年就是7.3万元。全国1.8万家门店，如果按30%的加购率算，仅吸管一项，年增收可能超过13亿元。这不是小钱。这是一条独立的利润线。这就是\"配件经济\"的精髓。跟打印机一个逻辑——打印机亏本卖，墨盒赚钱。剃须刀便宜卖，刀片贵。游戏主机亏本卖，游戏软件赚钱。咖啡9.9卖给你，吸管2元赚回来。区别在于，打印机和游戏主机至少告诉你配件要花钱。咖啡品牌不会告诉你。它只会问一句：\"要加一根益生菌吸管吗？\"\"只要2元哦。\"语气温柔得像在帮你省钱。三、9.9的暗坑：你以为的便宜，只是你没算清楚9.9元的咖啡，真正能9.9买到的人，越来越少。先看瑞幸。9.9元活动覆盖门店从高峰期的八百余家缩减至不足两百家。大部分门店的9.9元只是\"特价专区\"少数几款饮品。此前长期9.9元的小黄油拿铁，当前售价已调至12.16元。燕麦拿铁、香草拿铁等经典单品也上调至11元以上。据新浪财经报道，达州消费者发现，库迪取消全场9.9元后，经典生椰拿铁官方小程序直购价9.9元。但在某外卖平台下单自提则需11.9元。新品锡兰金杯牛乳茶的渠道差异更离谱——小程序11.9元，外卖平台17.99元。同款饮品，不同渠道，差价6元。9.9元还是那个9.9元。但能买到9.9元的路径，被设计得越来越窄。瑞幸的9.9券限区域、限品类。核心商圈店不参与，新品基本不参与。想喝厚乳拿铁？得加3块。想喝生酪拿铁？也得加。再看一个更骚的操作。黑猫投诉平台上，一位消费者投诉瑞幸\"9.9元两杯饮品兑换券\"的文字游戏。会员卡页面显示\"9.9元两杯饮品兑换券\"。实际是——先花9.9元买会员卡，然后下单时还要再付9.9元。一杯生椰拿铁原价13元，买完9.9元会员卡后，下单还需付9.9元。所谓的\"9.9元两杯\"，变成了\"9.9元会员费加9.9元一杯\"。两杯实际花了29.7元。这不是9.9元的咖啡。这是9.9元的算术题。你算不过品牌。四、配件收割链：不只是一根吸管吸管只是配件经济的冰山一角。完整的收割链条，远比你想象的精密。加浓——3元。换燕麦奶——3元。加奶油顶——2到5元。加小料——2到5元。加浓加奶加料加顶，一杯9.9元的美式，分分钟变成18元的特调。瑞幸2025年推出阶梯定价策略：基础款9.9元，特调款12到15元。9.9是引流款，12到15才是利润款。你以为你在买9.9的咖啡，其实你最后下单的是15元的特调。因为9.9的那几款，要么不在你附近的店，要么不在你能用券的时间段。库迪更直接。取消全场9.9元后，大部分产品回调到11.9至16.9元，涨幅最高达40%。但还是保留了几款9.9元的特价饮品——放在页面最显眼的位置。你被9.9吸引进来了。然后你发现9.9的那几款，不是你今天想喝的。你点了一杯15.9元的。你以为你还是省了钱。因为原来喝星巴克要30多。这就是配件经济的底层逻辑——低价不是目的，低价是手段。9.9元的咖啡不是产品，是广告。它广告的是\"我很便宜\"这个心智。一旦你信了，你就会走进来。走进来之后，品牌有一百种方式让你多花钱。甚至杯子都要钱。据中国质量报报道，全国已有超过1.7万家咖啡门店上线\"自带杯\"服务，消费者自带杯具可享2至8元减免。反过来理解——如果你不带杯，你就在为那个一次性杯子买单。杯子值多少钱？没人告诉你。但它一定在咖啡的价格里。五、咖啡豆疯了：上游在涨，终端在压配件经济能玩转的前提，是主产品价格被压得足够低。但压价这件事，越来越难了。全球阿拉比卡咖啡豆期货价格突破437美分/磅。创下四十七年来的历史新高。国内主产区云南的咖啡生豆价格也在飙升。据咖啡金融网数据，云南咖啡生豆综合平均价同比上涨约13.8%。上游原料在暴涨。终端售价在压价。中间的空间，被两头挤压。谁在扛这个压力？库迪的答案是——扛不住。库迪取消全场9.9元，本质上就是扛不住原料涨价的信号。门店店员表示，咖啡豆、牛奶等原料成本持续上涨，全品类长期维持9.9元已难以支撑。瑞幸的答案是——靠供应链硬扛。云南直采加自建烘焙厂，把中间商的利润空间挤掉。1.8万家门店的规模效应，把固定成本摊薄。但即便如此，瑞幸也在收缩9.9的范围。9.9元门店从800多家缩到不足200家。这不是偶然，是必然。更极端的情况发生在2.9元时代。当外卖平台把咖啡价格压到2.9元一杯时，一杯普通美式的原料成本至少3元。终端售价比原料成本还低。怎么办？据多家媒体报道，商家的应对方式是——偷工减料。廉价拼配豆取代精品豆。植脂末替代鲜奶。用甜腻口感掩盖焦苦味。2.9元的咖啡喝起来只剩香精味。这不是消费降级。这是消费降质。你以为你省了钱。其实你只是买了一杯更差的咖啡。库迪的品控也在肉眼可见地下滑。有消费者反映，喝到一杯有焦糊味的拿铁，店员说\"豆子烘过了\"。转头就见店长在跟供应商吵架。价格压到一定程度，品质必然牺牲。这不是选择，是物理定律。人力也在被压榨。低价带来的是销量暴增，单店日销能冲到500到700杯。店员在几平米的操作间里，一分钟就要出一杯咖啡。高峰期连喝水的时间都没有，还要承受骑手催促、顾客投诉的双重压力。离职率居高不下。加盟商更惨。库迪的加盟店占比超过80%。为了维持加盟商的积极性，库迪给单杯补贴最高3元。意味着每卖一杯9.9元的咖啡，公司要倒贴1到2元。不少加盟商投入五十万本金，在价格战中血本无归。县域咖啡门店的回本周期，从此前的12到18个月拉长到2到4年。投资回报周期翻倍，创业风险显著抬升。据NCBD餐宝典统计，2024至2025年国内咖啡全渠道平均闭店率10.3%。窄门餐眼数据显示，2023年9月至2024年9月全年咖啡闭店总量超4.3万家。这些关掉的店里，有多少是因为9.9元？没人统计。但答案不言而喻。六、低价的连锁反应：谁在死去价格战的最大受害者，不是参与战争的品牌。是被战争波及的旁观者。红餐大数据显示，全国咖饮人均消费从2023年的41元跌到了2025年的26元。降幅36%。消费者的心理价位被彻底焊死在低位。一旦你习惯了9.9元，30元的咖啡就成了\"抢钱\"。这个心智变化，杀死了精品咖啡。2026年6月，精品咖啡品牌Seesaw正式被申请破产清算。据搜狐报道，Seesaw巅峰时期全国门店135家，截至2026年5月仅剩34家。涉诉债务1646.3万元。这个曾经估值10亿、获得喜茶投资的品牌，在9.9的洪流中轰然倒塌。Seesaw不是个例。Tims天好中国全年净亏损4.4亿元。皮爷咖啡2025年多家门店关停。整个精品咖啡赛道，几乎全线溃退。它们的死因很简单——重资产、大空间、高品质。门店面积大，租金高。全直营，成本由总部承担。精品豆、鲜奶、专业咖啡师，原料和人力成本远高于连锁快取店。当瑞幸用40平的小店、全自动机器把单杯成本压到5.2元时，Seesaw的30元精品咖啡就成了\"太贵\"。Seesaw也尝试过降价。原本三十元一杯的精品咖啡，电商团购只需十元左右。但这种降价完全是在用利润空间换销量。成本高企，利润又低得可怕，注定坚持不了多久。调性不再高端，消费者也不再认可所谓精品咖啡的溢价。两头不讨好，新客户抓不住，老客户不断流失。9.9元杀死的不是库迪。库迪还有融资续命。9.9元杀死的是那些认真做咖啡的人。他们的成本降不下来，因为品质就是他们的成本。更残酷的是劣币驱逐良币。低价咖啡用甜腻口感掩盖劣质原料的焦苦味，悄悄改变了消费者对咖啡的口味认知。喝惯了9.9元甜拿铁的人，再喝一杯30元的手冲单品，第一反应是\"太苦了，不值\"。品质的标杆被拉低。好咖啡的生存空间被挤压。最后剩下的，只有最便宜的。更荒诞的是，连茶饮品牌都来跨界收割。2026年上半年，蜜雪冰城、古茗、甜啦啦、茶百道、沪上阿姨等头部新茶饮品牌集体跨界切入平价咖啡。甜啦啦美式2.9元，沪上阿姨美式4.9元，古茗美式7.9元。它们不需要新开门店——在现有茶饮店里加一台咖啡机就行。零新增租金，零装修成本。原料共享，渠道复用。它们不是来卖咖啡的，是来用咖啡给茶饮引流的。咖啡在它们手里，也是\"配件\"。七、谁的9.9：补贴退潮后的真相2025年，市场监管总局出手了。约谈相关企业，禁止外卖平台和商家以低于成本的价格倾销咖啡。2.9元一杯的癫狂时代，终于被行政力量叫停。但9.9的惯性还在。艾媒咨询数据显示，中国消费者在日常学习或工作时喝咖啡的比例已达47.89%。咖啡已从社交消费彻底转变为功能明确的日常消费。习惯已成。只是\"便宜\"的标准正在被重新定义。库迪宣布将补贴政策延长至2028年底。并新增\"高房租、低杯量\"专项补贴。这是在告诉市场——我还能亏三年。但库迪2026上半年净亏18亿，关店率21%。融资能烧多久，是个问号。瑞幸在走另一条路。开出420平米的旗舰店，手冲、SOE豆子一应俱全。提出\"无限场景\"战略——楼下快取店卖9.9元的解困咖啡，楼上旗舰店卖30元的手冲。甚至收购了蓝瓶咖啡来占位高端。在存量用户里做消费升级。反正人都在我这儿，喝贵点也行。库迪也在效仿。在南宁开出双层挑高、带沙发区的精品店，一天营业23小时，单杯价格摸到20元区间。但问题来了——消费者一旦认定你是卖便宜货的，你就很难再让他们相信你值高价。沙县小吃突然卖起牛排大餐，食客第一反应不是牛排好不好吃，而是这店是不是疯了。这种认知惯性，不是换几次装修就能扭转的。瑞幸靠全自动机器打下了江山，但要玩转手冲和特调，还得补太多的课。库迪在这方面的基础更弱。它们试图用快餐店的运营模式去切精品咖啡的蛋糕。中间隔着的不只是价格，还有厚厚的专业护城河。9.9元塑造的心智，比9.9元本身更难改变。品牌可以涨价，但心智不能。你可以把9.9的招牌撤下来，但消费者心里的那个9.9，已经焊死了。还有一个更深的矛盾——效率悖论。瑞幸和库迪过去是靠小店快取、高周转才活下来的。现在开大店，租金翻倍，人员增多，装修烧钱。这些刚性成本怎么填？星巴克做\"第三空间\"做了二十多年都开始喊疼。瑞幸库迪拿着更低的定价，背着更重的资产，想跑通盈利模型难度极大。况且，真正愿意坐下来慢慢喝咖啡的人，在目前的市场占比并不高。大部分人还是买了就走。大店开了，人流不够，成本反而更高。所以瑞幸和库迪的精品化转型，本质上也是另一种\"配件经济\"。9.9的快取店负责引流和现金流。旗舰店负责拉高品牌调性和客单价。你以为瑞幸开旗舰店是为了让你喝好咖啡。它开旗舰店是为了让你觉得瑞幸值20元。旗舰店也是配件——品牌的配件。八、你才是那个配件回到最开始的问题。9.9元的咖啡，吸管单卖2元。你觉得荒谬吗？其实不荒谬。因为从一开始，9.9就不是这杯咖啡的价格。9.9是让你走进门的广告费。吸管是第一次加价。加浓是第二次。换奶是第三次。会员卡是第四次。外卖配送费是第五次。每一步都在测试你的价格敏感度。每一步都在告诉你——\"都花了9.9了，再加2元算什么？\"你一步一步加下去，最后发现你花了一杯星巴克的钱，喝了一杯比星巴克差很多的咖啡。但你不会觉得亏。因为你记得你\"省了钱\"。你记得你买的是\"9.9的咖啡\"。你不是在为咖啡买单，你是在为\"便宜\"这个感觉买单。这就是配件经济最精妙的地方——它收割的不是你的钱包，是你的注意力。当你的注意力被\"9.9\"锁定时，你就看不见那些2元、3元、5元的小额加价。每笔都不多，加起来不少。你以为你薅了羊毛。其实你就是那只羊。这不是嘲笑消费者。这是一套精密的心理设计。心理学上有个概念叫\"锚定效应\"——你看到9.9元的第一眼，心里就已经锚定了\"这杯咖啡值9.9元\"。之后所有的加价，你都会拿9.9去对比。\"加2元吸管，也就贵了20%，可以接受。\"\"加3元换燕麦奶，也就贵了30%，还行。\"\"加5元奶油顶，也就贵了50%，偶尔奢侈一下。\"每一次对比，你都觉得\"才贵了一点点\"。但你忘了，9.9本身就是被设计出来的锚。它不是一个真实的价格，它是一个让你觉得其他价格都\"不算贵\"的参照物。这就是为什么品牌永远不会把9.9彻底取消。库迪取消了全场9.9，但保留了几款特价9.9。瑞幸缩减了9.9的覆盖范围，但从不彻底下架。9.9是锚。锚不能拔。拔了，消费者就会发现一杯15元的咖啡，其实并不便宜。最后的话9.9元的咖啡，不是一个价格，是一个陷阱。它用最低的门槛把你引进来，然后用配件、加料、会员、换购一层一层加回去。品牌不靠9.9赚钱，品牌靠9.9之后的每一笔加价赚钱。那根2元的吸管，成本0.8元，利润率150%——是咖啡利润率的3.2倍。这不是巧合，是算计。整个行业正在从\"卖咖啡\"变成\"卖配件\"，主产品是诱饵，配件才是生意。上游咖啡豆涨到47年新高，品牌扛不住就把成本转嫁到配件上。消费者盯着9.9的标价，看不见每一项加购的真实利润。你以为你在喝全世界最便宜的咖啡。其实你喝的是全世界最贵的吸管。价格战的终局不是谁更便宜，而是谁能在\"便宜\"的幻觉里，收更多的钱。9.9不是终点。9.9只是起点。",
+      "parseStatus": "ok",
+      "contentType": "text/html;charset=utf-8",
+      "tier": "B"
+    },
+    {
+      "id": "snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html",
+      "url": "https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html",
+      "title": "瑞幸咖啡门店数断层领先，2026年4月达31,205家-行业数据-三个皮匠报告",
+      "fetchedAt": "2026-10-16T07:27:08.274Z",
+      "bodyText": "\r\n            \r\n                您的当前位置：首页\r\n                > 行业数据\r\n                >\r\n                瑞幸咖啡门店数断层领先，2026年4月达31,205家\r\n            \r\n        \r\n        \r\n        \r\n            截至2026年4月，中国现磨咖啡品牌门店数量呈现出“一超多强”的竞争格局。瑞幸咖啡以31,205家的绝对规模断层式领先全行业，其门店数几乎是第二名库迪咖啡（16,324家）的两倍。星巴克以8,660家门店位列第三，幸运咖以8,493家紧随其后，头部阵营的门店规模梯度差异极为显著。数据来源：窄门餐眼（2026.4），国泰海通证券研究\r\n        \r\n        \r\n        \r\n            \n\n  2026年4月主要现磨咖啡品牌门店数量排名\n  \n    \n      排名\n      品牌名称\n      门店数（家）\n    \n  \n  \n    \n      1\n      瑞幸咖啡\n      31,205\n    \n    \n      2\n      库迪咖啡\n      16,324\n    \n    \n      3\n      星巴克\n      8,660\n    \n    \n      4\n      幸运咖\n      8,493\n    \n    \n      5\n      挪瓦咖啡\n      6,675\n    \n    \n      6\n      肯悦咖啡\n      2,615\n    \n    \n      7\n      Manner\n      2,503\n    \n    \n      8\n      Tims\n      908\n    \n    \n      9\n      M Stand\n      612\n    \n  \n\n\n\n数据来源：窄门餐眼（2026.4），国泰海通证券研究\n\r\n        \r\n        \r\n        \r\n        \r\n            从现磨咖啡品牌门店数的分布情况来看，可以提炼出三个关键判断：瑞幸咖啡呈现断层式领先优势。 数据显示，瑞幸咖啡门店数高达31,205家，是第二名库迪咖啡（16,324家）的约1.9倍，更是星巴克（8,660家）的3.6倍。其门店规模的绝对碾压使其在便利性覆盖和渠道触达方面占据先发制人的战略高地。第二梯队内部竞争胶着。 库迪咖啡（16,324家）、星巴克（8,660家）、幸运咖（8,493家）和挪瓦咖啡（6,675家）构成了品牌门店数的第二梯队。它们在6000至16000家门店区间内形成了差异化卡位，与瑞幸的差距短期内难以弥合。长尾品牌规模差距显著。 肯悦咖啡、Manner、Tims及M Stand均处于3000家门店以下的区间。高端、精品或特定场景定位限制了这些品牌的规模化开店速度，其门店数量与头部梯队呈现出数量级的巨大鸿沟。\r\n        \r\n        \r\n    ",
+      "parseStatus": "ok",
+      "contentType": "text/html; charset=utf-8",
+      "tier": "C"
+    }
+  ],
+  "limitations": [
+    "问题「现磨咖啡连锁品牌竞争格局如何」的调查结论无法解析,按未充分处理",
+    "问题「现磨咖啡人均消费与增长驱动」的调查结论无法解析,按未充分处理",
+    "核心摘要中'2025年中国现磨咖啡市场规模约1880–1884亿元'与'若按艾媒口径，2026年上半年规模已突破3200亿元'并列陈述，且1880亿（2025全年）与3200亿（2026上半年）并存于同一执行摘要——两者口径单位差异（年度 vs 上半年）、统计边界（现磨vs咖啡总规模）混用，未明确标注差异原因，容易让读者直接得出'半年增长70%'的错误推论。执行摘要应单独说明两数据不可直接比较。",
+    "同一'现磨咖啡市场规模'指标并存多套数据：2025年新京报/观研天下1880—1884亿元、2023年思瀚1515亿元、2019—2024中金企信1200→3200亿元、2026上半年艾媒3200亿元——这些数据使用了明显不同的统计口径（是否含咖啡液、是否全渠道、是否含RTD）与时间窗口，但报告未在执行摘要中清晰区分；'2025年2181亿'和'2026上半年突破3200亿'并排出现容易让读者误以为是同口径年度数据。",
+    "'中国人均咖啡年饮用量15杯（2025黑峪投资/新京报）'与'中国咖啡人均年消费量22.24杯（2024新华社/央视）'差近50%，但报告未在执行摘要或人均消费表中注明两组口径差异（现磨咖啡 vs 全品类咖啡含速溶/RTD）；22.24杯被用于与美国323杯、英国225杯、日本172杯对比，若属全口径咖啡，跨国对比存在严重口径错配，会夸大'人均差距数量级'的论断。",
+    "门店渠道占58% / 外卖25% / 自提18%三项相加为101%，存在口径重叠或四舍五入误差；且'到店消费65%→45%'与'外带+外卖合计55%'在年份（2019→2024）与上节渠道占比（2024年口径）不严格对应，存在跨年份拼接问题。",
+    "瑞幸9.9元活动'门店覆盖率从80%降至30%'与'活动门店从高峰800余家缩至不足200家'两个数字逻辑关系不明确：若覆盖率以全国门店为分母，则1.8万家门店×30%=5400家，与'不足200家'差27倍，说明两个数字使用了不同分母（活动SKU覆盖门店 vs 主推活动门店），但报告未澄清，容易被误读为同一指标。",
+    "六条核心建议中除第1条基于三个证据外，其余多条依赖单点信息（如'瑞幸吸管利润率150%、年增收13亿'基于30%加购率的推算、'回本周期2—4年'仅有结论性数据），未在'启示与建议'章节前置披露证据基础；多项推断（如'非典型性爆发'、'配件经济独立性'、'跨界持续性'）被作为建议而非假设呈现。",
+    "以下主张引用核查未通过,已降级为未验证:cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:1、cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:4、cl:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:7、cl:q4:snap:https://www.huxiu.com/article/4880665.html:19",
+    "以下主张的引句不支持其转述(语义蕴涵未通过),已降级为未验证:cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:10、cl:q2:snap:https://www.jiemian.com/article/10738059.html:10、cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:6、cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:7、cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:8、cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:9、cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:10、cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:11、cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:12、cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:13、cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:14、cl:q2:snap:https://m.chinabaogao.com/detail/793029.html:15、cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:0、cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:2、cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:3、cl:q4:snap:https://www.huxiu.com/article/4880665.html:9、cl:q4:snap:https://www.huxiu.com/article/4880665.html:13、cl:q4:snap:https://www.huxiu.com/article/4880665.html:17",
+    "以下主张仅有 C 级信源(社媒/自媒体/未知来源)支撑,置信度低:cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:0、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:2、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:3、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:4、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:5、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:6、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:7、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:8、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:9、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:11、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:12、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:13、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:14、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:15、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:16、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:17、cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:18、cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:1、cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:5、cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:6、cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:0、cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:1、cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:2、cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:3、cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:4、cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:5、cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:6、cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:7、cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:8、cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:9、cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:10、cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:11、cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:0、cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:1、cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:2、cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:3、cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:4、cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:5、cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:6、cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:7、cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:8、cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:9、cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:10、cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:11",
+    "存在引用/蕴涵/数值核查未通过的关键结论",
+    "模块质量检查未通过:缺必备章节「市场口径表」;缺必备章节「行业结构」;缺必备章节「趋势与风险」;主题未覆盖「行业边界」;主题未覆盖「产业链」;numeric-claims-calibrated: 数值主张缺口径(对象/时间/单位) \"2024年四季度起现制茶饮价格战逐渐趋缓，行业进入差异化竞争阶段。\"(cl:q2:snap:http://chinasihan.com/news/cyzx/20886.html:18);numeric-claims-calibrated: 数值主张缺口径(对象/时间/单位) \"截至2026年4月，瑞幸咖啡以31,205家门店断层式领先中国现磨咖啡行业。\"(cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:0);numeric-claims-calibrated: 数值主张缺口径(对象/时间/单位) \"截至2026年4月，瑞幸咖啡门店数约为第二名库迪咖啡的1.9倍、星巴克的3.6倍。\"(cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:5);numeric-claims-calibrated: 数值主张缺口径(对象/时间/单位) \"数据来源于窄门餐眼（2026.4）与国泰海通证券研究。\"(cl:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:6);numeric-claims-calibrated: 数值主张缺口径(对象/时间/单位) \"瑞幸咖啡门店突破2万家，星巴克中国门店突破7,000家。\"(cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:1);numeric-claims-calibrated: 数值主张缺口径(对象/时间/单位) \"瑞幸以2万+门店领跑，加盟占比超60%。\"(cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:4);numeric-claims-calibrated: 数值主张缺口径(对象/时间/单位) \"星巴克坚持直营，7,000家门店聚焦一二线城市核心商圈。\"(cl:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:5);numeric-claims-calibrated: 数值主张缺口径(对象/时间/单位) \"中國有14億多人民對美好生活的嚮往，正轉化為推動經濟高質量發展的動能。\"(cl:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:8);numeric-claims-calibrated: 数值主张缺口径(对象/时间/单位) \"《2025中国咖啡产业发展报告》于2026年1月13日正式发布\"(cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:0);numeric-claims-calibrated: 数值主张缺口径(对象/时间/单位) \"云南咖啡80%以上为卡蒂姆品种\"(cl:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:9)"
+  ],
+  "unresolved": [],
+  "verdicts": [
+    {
+      "evidenceId": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:0",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:1",
+      "verdict": "quote-mismatch",
+      "entailment": "na",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:2",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:3",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:4",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:5",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:6",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:7",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:8",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:9",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:10",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:11",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:12",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:13",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:14",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:15",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:16",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:17",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:http://chinasihan.com/news/cyzx/20886.html:18",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:0",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:1",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:2",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:3",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:4",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:5",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:6",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:7",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:8",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:9",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:10",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:11",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:12",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:13",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:14",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:15",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:16",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:17",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:18",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:19",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:20",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.jiemian.com/article/10738059.html:21",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:0",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:1",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:2",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:3",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:4",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:5",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:6",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:7",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:8",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:9",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:10",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:11",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:12",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:13",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:14",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://m.chinabaogao.com/detail/793029.html:15",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:0",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:1",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:2",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:3",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:4",
+      "verdict": "quote-mismatch",
+      "entailment": "na",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:5",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q2:snap:https://www.sgpjbg.com.cn/hyshuju/7507f6b638f284dccfee68a463d456e9.html:6",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:0",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:1",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:2",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:3",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:4",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:5",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:6",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:7",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:8",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:9",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:10",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q3:snap:https://www.bjzjqx.com/IndustryInner/532944.html:11",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:0",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "A"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:1",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "A"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:2",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "A"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:3",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "A"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:4",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "A"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:5",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "A"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:6",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "A"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:7",
+      "verdict": "quote-mismatch",
+      "entailment": "na",
+      "numeric": "na",
+      "tier": "A"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://big5.cctv.com/gate/big5/jingji.cctv.cn/2025/11/14/ARTItzdiRaNdw2p12gxTLMhB251114.shtml:8",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "A"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:0",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:1",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:2",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:3",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:4",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:5",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:6",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:7",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:8",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:9",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:10",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:11",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:12",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:13",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:14",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:15",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:16",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:17",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:18",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:19",
+      "verdict": "quote-mismatch",
+      "entailment": "na",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:20",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:21",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:22",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:23",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:24",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:25",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:26",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:27",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q4:snap:https://www.huxiu.com/article/4880665.html:28",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "B"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:0",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:1",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:2",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:3",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:4",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:5",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:6",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:7",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:8",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:9",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:10",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.bjnews.com.cn/detail/1768309547168863.html:11",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    }
+  ]
+}

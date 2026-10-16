@@ -1,0 +1,18 @@
+{
+  "id": "req-smoke-p26-1792135330133",
+  "module": "industry",
+  "goal": "中国现磨咖啡市场调研",
+  "scope": {
+    "summary": "中国现磨咖啡市场规模、竞争格局与渠道结构",
+    "queries": [
+      "现磨咖啡 市场规模"
+    ]
+  },
+  "attachments": [],
+  "budget": {
+    "maxSearches": 2,
+    "maxFetches": 12,
+    "maxWallMs": 1800000,
+    "maxParallel": 2
+  }
+}

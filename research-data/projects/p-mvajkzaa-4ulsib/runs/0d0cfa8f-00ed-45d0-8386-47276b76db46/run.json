@@ -1,0 +1,33 @@
+{
+  "id": "0d0cfa8f-00ed-45d0-8386-47276b76db46",
+  "requestId": "req-p26",
+  "stage": "publish",
+  "status": "limited",
+  "checkpoints": [],
+  "usage": {
+    "searches": 6,
+    "fetches": 12,
+    "modelCalls": 30,
+    "outputTokens": 33164,
+    "wallMs": 303271
+  },
+  "interventions": [
+    {
+      "id": "ins:46cf3b39",
+      "submittedAt": "2026-10-16T05:46:26.359Z",
+      "instruction": {
+        "type": "refine-direction",
+        "note": "重点看线上渠道与价格带竞争"
+      },
+      "consumedAt": "2026-10-16T05:46:32.192Z",
+      "effect": "applied",
+      "detail": "方向附注已注入剩余问题的搜索"
+    }
+  ],
+  "progress": {
+    "answered": 3,
+    "open": 0,
+    "skipped": 0,
+    "total": 3
+  }
+}

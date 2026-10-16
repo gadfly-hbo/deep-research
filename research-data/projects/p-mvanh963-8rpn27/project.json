@@ -1,0 +1,14 @@
+{
+  "id": "p-mvanh963-8rpn27",
+  "module": "industry",
+  "goal": "中国现磨咖啡市场调研(冒烟 v2)",
+  "scope": {
+    "summary": "中国现磨咖啡市场规模、竞争格局与渠道结构",
+    "queries": [
+      "现磨咖啡 市场规模"
+    ]
+  },
+  "createdAt": "2026-10-16T07:32:40.491Z",
+  "updatedAt": "2026-10-16T07:32:40.491Z",
+  "versions": []
+}

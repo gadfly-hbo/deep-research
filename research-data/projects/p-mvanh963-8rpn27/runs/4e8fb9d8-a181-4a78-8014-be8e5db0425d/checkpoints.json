@@ -1,0 +1,1987 @@
+[
+  {
+    "runId": "4e8fb9d8-a181-4a78-8014-be8e5db0425d",
+    "stage": "gather",
+    "data": {
+      "questions": [
+        {
+          "id": "q1",
+          "question": "中国现磨咖啡整体市场规模有多大(请分轮检索:先查整体口径,再核实头部品牌的营收口径)",
+          "status": "answered"
+        },
+        {
+          "id": "q2",
+          "question": "现磨咖啡连锁品牌竞争格局如何(请分轮检索:先看市场份额,再核实门店数)",
+          "status": "partially"
+        },
+        {
+          "id": "q3",
+          "question": "现磨咖啡渠道结构与外卖占比如何",
+          "status": "unanswered",
+          "unansweredReason": "quota-starved"
+        },
+        {
+          "id": "q4",
+          "question": "现磨咖啡人均消费与增长驱动因素",
+          "status": "unanswered",
+          "unansweredReason": "quota-starved"
+        },
+        {
+          "id": "q5",
+          "question": "现磨咖啡下沉市场渗透率与开店速度",
+          "status": "unanswered",
+          "unansweredReason": "quota-starved"
+        }
+      ],
+      "snapshots": [
+        {
+          "id": "snap:https://www.zgswcn.com/news.html?aid=224787",
+          "url": "https://www.zgswcn.com/news.html?aid=224787",
+          "title": "https://www.zgswcn.com/news.html?aid=224787",
+          "bodyText": "\r\n                    \r\n                    \r\n                    \r\n\r\n\r\n                    编辑：{{content.editor1}}\r\n\r\n                    \r\n                    \r\n                        \r\n                            声明:本文为广告推广信息，不代表本网观点，如有违规或您认为该页面内容侵犯您的权益，请联系我们，我们将及时处理!。\r\n\r\n                        中国商报网版权及免责声明\r\n                        \r\n                            凡本网注明“来源：中国商报”或“来源：中国商报网”的所有作品，版权均属中国商报网（本网另有声明的除外）；未经本网授权，任何单位及个人不得转载、摘编或以其它方式使用上述作品；已经与本网签署相关授权使用协议的单位及个人，应注意该等作品中是否有相应的授权使用限制声明，不得违反该等限制声明，且在授权范围内使用时应注明“来源：中国商报”或“来源：中国商报网”。违反前述声明者，本网将追究其相关法律责任。\r\n                    \r\n                    \r\n                        中国商报网版权及免责声明\r\n                        \r\n                            凡本网注明“来源：中国商报”或“来源：中国商报网”的所有作品，版权均属中国商报网（本网另有声明的除外）；未经本网授权，任何单位及个人不得转载、摘编或以其它方式使用上述作品；已经与本网签署相关授权使用协议的单位及个人，应注意该等作品中是否有相应的授权使用限制声明，不得违反该等限制声明，且在授权范围内使用时应注明“来源：中国商报”或“来源：中国商报网”。违反前述声明者，本网将追究其相关法律责任。\r\n                    \r\n                ",
+          "parseStatus": "ok",
+          "contentType": "text/html",
+          "tier": "C",
+          "fetchedAt": "2026-10-16T07:32:47.384Z"
+        },
+        {
+          "id": "snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647",
+          "url": "https://www.jingjiribao.cn/static/detail.jsp?id=586647",
+          "title": "2025虹桥国际咖啡文化节开幕",
+          "bodyText": "\n        2025虹桥国际咖啡文化节开幕式暨全球咖啡产业发展虹桥论坛日前在上海市闵行区新虹街道虹桥品汇举办。据悉，作为上海国际咖啡文化节产业端的重要组成部分，会上发布了《2025中国城市咖啡发展报告》。报告显示，2024年，中国咖啡产业规模达3133亿元，同比增长18.1%；全国人均年咖啡消费已达22.24杯。咖啡豆进口5年增长近3倍，咖啡机出口达174.6亿元；全国咖啡外卖超3亿杯；云南咖啡豆出口额13.6亿元。    2024年，上海以9115家的咖啡馆数量继续“遥遥领先”，成为全球咖啡馆最多的城市，而其中近半数咖啡豆均来自于已构建起“从种子到杯子完整产业生态”的虹桥国际咖啡港，“上下楼”就是“上下游”。目前，虹桥国际咖啡港汇聚了来自60个国家的咖啡产品，47个“一带一路”共建国家、15个“丝路电商”伙伴国的咖啡豆通过该平台集散进入中国，入驻商户超过200家，囊括了生产、研发、直播、金融、设计等全生命周期企业，形成了“从种子到杯子”的完整产业生态。虹桥国际咖啡港已在中国咖啡产业内确立起全周期、全链条的核心地位，截至目前已考核认证超7000名专业咖啡师，虹桥国际中央商务区核心区“咖啡+”文化场景层出不穷。    开幕式上，8家来自长三角的咖啡上下游企业共同发起倡议的“虹桥国际咖啡产业联盟”正式成立。据悉，该联盟将以虹桥国际咖啡港为核心平台，联动闵行区全域产业资源，构建咖啡产业高质量发展新格局，加快形成咖啡产业集群，着力培养咖啡专业技能人才，增强本土品牌竞争力。此外，活动中，闵行区人社局、闵行区总工会及妇联共同授予虹桥品汇“闵行区生育友好岗职业培训基地”称号。据介绍，虹桥品汇目前已推出“宝妈职业赋能计划”，通过开设“宝妈短视频带货训练营”“社区微创业团长孵化班”及咖啡师技能培训等特色课程，累计培训学员超过500人次，已为数十位全职妈妈提供了社区咖啡师岗位。虹桥品汇相关负责人表示，未来计划推出更多元化的职业技能培训项目，并配套完善的就业创业指导体系，全方位助力育龄群体实现职业成长与家庭生活的良性互动。一杯咖啡，有时也能让全职妈妈有了“家门口”逐梦的更多可能。    另据了解，云南旅游规划研究院与虹桥品汇达成战略合作，共同发布“2025沪滇啡尝之旅精品咖游计划”，围绕打造特色咖啡主题旅游线路这一新赛道，构建两地交流新空间，推动东西部协作深化升级。据悉，该主题旅游线路将涵盖参与者深度体验云南咖啡的完整产业链，包括庄园研学考察及咖啡豆采摘体验等特色活动。    上海市闵行区相关负责人表示，本届虹桥国际咖啡文化节将以“咖啡+”为核心理念，依托虹桥国际咖啡港的产业集聚优势，通过“1+2+X”多元活动架构，融合产业论坛、消费体验、文化跨界等16场重点活动及多场子活动，通过多维场景为虹桥国际中央商务区核心区注入兼具国际视野与城市温度的咖啡文化新活力，推动优质营商环境与文化氛围同频共振，共同携手“将理想照进现实”。（经济日报记者唐一路）    \n    ",
+          "parseStatus": "ok",
+          "contentType": "text/html;charset=UTF-8",
+          "tier": "C",
+          "fetchedAt": "2026-10-16T07:32:47.840Z"
+        },
+        {
+          "id": "snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml",
+          "url": "https://news.bjd.com.cn/2024/10/25/10946754.shtml",
+          "title": "中国咖啡产业报告：现磨咖啡市场规模超1200亿元_京报网",
+          "bodyText": "\r\n                        10月25日记者获悉，世界中餐业联合会与黑峪投资联合发布《中国咖啡产业报告2024》。统计显示，2023年中国咖啡出口量缩减至2万吨，达历史最低水平，进口量15万吨，增速超过20%，金额近60亿元。近10年中国咖啡消耗量达35万吨，环比增长167%，显示出市场对咖啡日益增长的需求。\n报告显示，中国咖啡消费市场经历了从速溶咖啡主导到多元化消费场景的演变，如今的消费市场主要包含现磨咖啡和零售咖啡两大类。其中，现磨咖啡市场规模超过1200亿元，整体市场规模达到1500亿元。预计现磨咖啡将快速成为消费主流，市场份额将从不足40%提升至超过80%。\n此外，现磨咖啡的消费场景日益丰富。除了专业咖啡连锁店和独立咖啡店数量快速增长，还出现在越来越多快餐、茶饮、便利店等场景之中，咖啡自助机也正在投放市场。\n在地域分布上，上海、广州、北京、成都和深圳，是全国咖啡门店数量最多的前五座城市。与此同时，三、四、五线城市的咖啡市场渗透率正在提升。2022年9月，上述五城咖啡门店数量在全国占比达23%，2024年9月这一比例已经不足19%。\n分品牌来看，瑞幸咖啡、星巴克、库迪、Manner等行业前十咖啡品牌门店占比达27%，其中瑞幸在所有城市等级处于绝对领先位置，星巴克、幸运咖、Manner等品牌也均在快速开店扩张。\n从全球范围来看，产业价值链涵盖从种植到消费终端的多个环节，已形成一个庞大的产业链条。全球咖啡年产量约为1000万吨，近十年增长约15%。然而，受全球通胀影响，咖啡豆价格已达到高位，全球咖啡烘焙市场相对分散，CR10不足40%。在中国，咖啡种植主要集中在云南，年产量略超过10万吨，且在近十年内保持稳定。\n报告提出，尽管中国咖啡市场发展迅速，但人均消费水平仍与日韩、欧美等成熟市场存在较大差距，显示出巨大的发展空间。咖啡的成瘾性和提神功能使得消费者形成了饮用习惯，未来市场潜力巨大。同时，资本对于咖啡企业仍保持着很大的关注度，他们的助力将进一步推动咖啡产业的快速发展。来源：北京日报客户端记者：杨天悦                                                \r\n                            如遇作品内容、版权等问题，请在相关文章刊发之日起30日内与本网联系。版权侵权联系电话：010-85202353\r\n                        \r\n                                            ",
+          "parseStatus": "ok",
+          "contentType": "text/html; charset=utf8",
+          "tier": "C",
+          "fetchedAt": "2026-10-16T07:32:50.167Z"
+        },
+        {
+          "id": "snap:https://www.chinadailyhk.com/article/596504",
+          "url": "https://www.chinadailyhk.com/article/596504",
+          "title": "Coffee market bubbles as brands tweak strategy",
+          "bodyText": "Partnerships with retailers, investing in supply chains to support faster outlet expansionA contestant checks coffee beans during a coffee processing contest in Kunming, Yunnan province, on Oct 15, 2024. (PHOTO / CHINA NEWS SERVICE)Major players in China's growing coffee market are pivoting their strategies in order to stay competitive.Shifting away from price-focused tactics to a quality-driven approach, brands like Cotti Coffee, Luckin Coffee, Tims China and Starbucks are finding unique ways to capture market share in a rapidly expanding sector.The World Federation of Chinese Catering Industry recently released its \"China Coffee Industry Report 2024\", highlighting the robust growth of the nation's coffee market and its shifting consumption patterns.READ MORE: Aroma of Yunnan beans attracts coffee lovers in metropolisCoffee cultivation in China is centered in Yunnan province, producing just over 100,000 metric tons annually. However, with demand outstripping domestic supply, coffee imports saw a 20 percent year-on-year growth in 2023, totaling 150,000 tons valued at nearly 6 billion yuan ($840.6 million).According to the report, China's coffee consumption has surged by 167 percent over the past decade, reaching 350,000 tons. Freshly ground and retail coffee has emerged as leading categories, with freshly ground coffee accounting for a market value of over 120 billion yuan and the total coffee market exceeding 150 billion yuan.This growth aligns with an increasing shift toward freshly ground coffee, which is expected to rise from a 40 percent market share to over 80 percent in the near future.Cotti Coffee, one of the fastest-growing coffee chains in China, recently announced an ambitious expansion plan to operate 50,000 stores by 2025, up from the current 10,000.To reach this milestone, the chain aims to open 40,000 new locations within the next 18 months. This massive scale-up depends heavily on collaborations with 51 local retailers and catering partners, including convenience store operator Meiyijia, which had operated more than 33,000 chain stores in the country by 2023, burger and chicken restaurant chain Wallace, electronics store Suning, and budget hospitality chain Home Inn.These partners bring more than 100,000 retail locations across the country into the fold, helping Cotti gain significant reach in both urban and rural markets.In addition to partnerships, Cotti Coffee is investing in its supply chain infrastructure to support this rapid expansion. The company is building factories and enhancing store operations systems to ensure scalability and consistent service quality.According to CEO Li Yingbo, Cotti plans to stick with its low-price strategy for at least three years, hoping to capture a larger share of the Chinese market by appealing to budget-conscious consumers.\"The 9.9 yuan strategy will remain at least for three years,\" Li told Foodic, a food and beverage sector portal.However, Cotti stands nearly alone in embracing this low-cost model even as other brands shift toward a quality-first approach.This shift underscores the difficulty of sustaining profit margins through low pricing alone, especially given the high operational costs associated with coffee production and retail.\"The low-price strategy is difficult for coffee companies to sustain. Without profits, there's no room for service, innovation, or customer engagement, which ultimately means no sales or margins,\" said Zhu Danpeng, an independent food and beverage analyst.Luckin Coffee, once known for its aggressive pricing, is now moving toward quality-focused operations.The company quickly captured market attention with quality coffee priced at 9.9 yuan, significantly below market rates. This strategy helped Luckin become one of China's largest coffee chains, with \"cheap and delicious\" becoming a catchphrase among consumers.View of a Tims coffee shop in Taizhou, Zhejiang province, in January 2024. (PROVIDED TO CHINA DAILY)However, as Luckin's footprint grew and market competition intensified, the brand started feeling the financial strain of its low-price model.Luckin's second quarter financial results highlighted these changes. Net revenue reached 8.403 billion yuan, marking a 35.5 percent increase year-on-year.However, the brand faced challenges with a same-store sales decline of 20.9 percent for self-operated stores. This reflects the impact of shifting away from a low-price strategy in an increasingly competitive market.Realizing that price cuts could only drive growth for so long, Luckin has begun to scale back on its low-price promotions. Instead, the company is refining its supply chain and quality control to position itself as a high-quality, value-driven brand.To support this transition, Luckin has invested heavily in its sourcing network.In July 2024, it opened its 20,000th store in Beijing. The company sources coffee beans from top-producing regions worldwide, including Brazil, Ethiopia and Yunnan, ensuring that customers receive a consistent and high-quality product.In June, Luckin signed agreements to purchase 120,000 tons of coffee beans from Brazil through 2025.Luckin has also strengthened its processing capabilities, with a Green Coffee Bean Processing Plant in Baoshan, Yunnan, and roasting plants in Jiangsu and Fujian provinces that give it an annual roasting capacity of 45,000 tons. With a 3 billion yuan investment in a new Innovation and Production Center in Qingdao, Shandong province, Luckin plans to further expand its roasting capacity to 55,000 tons, integrating its supply chain to fuel long-term growth.While Luckin and Cotti rely on rapid expansion, Tims China has opted to stay out of the pricing battle, focusing instead on quality and value-driven combo offers. With 907 stores across 71 cities, Tims China provides a value proposition through set meal offerings that combine coffee with freshly prepared food, said the company.\"We offer a high-value product with every meal, creating an edge in a crowded market,\" said CEO Lu Yongchen. \"We prioritize quality over quantity, building our brand without blindly chasing expansion.\"Tims China had attracted 21.4 million members as of its second-quarter results. Lu said that Tims will not follow the industry's \"involution\", or the race to the bottom on pricing, instead focusing on sustainability and quality for long-term success.As the coffee industry leader in China, Starbucks has embraced local partnerships and sustainability initiatives to strengthen its brand.According to its preliminary fourth quarter results, China comparable store sales declined 14 percent, driven by an 8 percent decline in average ticket, compounded by a 6 percent decline in comparable transactions, weighed down by intensified competition and a soft macro environment that impacted consumer spending.\"Our fourth quarter performance makes it clear that we need to fundamentally change our strategy so we can get back to growth and that's exactly what we are doing with our 'Back to Starbucks' plan,\" said Brian Niccol, chairman and chief executive officer.Its efforts to gain more customers in China have been intensified with its expansion into university campuses, including new stores in Fudan University in Shanghai, University of International Business and Economics in Beijing and Guangzhou College of Commerce.The company aims to operate 9,000 stores across 300 cities by 2025, a goal that aligns with its broader strategy of supporting China's coffee-growing regions and creating new jobs.ALSO READ: Coffee shops brew new growth with tea drinksRecently, Starbucks enhanced its local supply chain with a supplier convention in Yunnan. Around 1,500 coffee bean growers attended the event, where Starbucks China CEO Liu Wenjuan announced that every cup of Starbucks classic espresso coffee sold on the Chinese mainland would be made from Yunnan-grown beans.This partnership reflects Starbucks' commitment to sustainability and quality. The company's Farmer Support Center in Pu'er, Yunnan, has been operating for over a decade, training over 36,800 farmers and certifying 3,411 farms through its C.A.F.E. Practices, a program aimed at responsible sourcing. Over the past 12 years, Starbucks has purchased more than 65,000 tons of coffee from Yunnan.Starbucks is also focusing on leadership to drive growth, with Molly Liu, or Liu Wenjuan, recently promoted to global executive vice-president and co-CEO of Starbucks China. Under her leadership, the company continues to innovate in store management, quality control, and customer experience. Chairwoman and CEO Belinda Wong, who has led Starbucks China's growth since 2011, remains at the helm, aiming to create over 10,000 jobs annually by 2025.\"As these brands redefine their strategies, China's coffee market is evolving from a battleground of low prices to a space where quality, brand reputation and innovation are becoming increasingly important,\" said Zhu, the analyst. \"The overall number of coffee consumers is ever expanding, contributing to a more diversified and dynamic coffee experience.\"wangzhuoqiong@chinadaily.com.cn",
+          "parseStatus": "ok",
+          "contentType": "text/html;charset=utf-8",
+          "tier": "C",
+          "fetchedAt": "2026-10-16T07:32:53.574Z"
+        },
+        {
+          "id": "snap:user-text:ins:21d0aa77",
+          "url": "user-text://ins:21d0aa77",
+          "title": "口径说明",
+          "bodyText": "补充材料口径:2024 年中国现磨咖啡指现磨现制咖啡饮品,不含速溶与即饮。",
+          "parseStatus": "ok",
+          "contentType": "text/plain",
+          "fetchedAt": "2026-10-16T07:34:35.011Z"
+        },
+        {
+          "id": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "url": "https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "title": "2024连锁咖啡品牌门店规模：瑞幸2.2万店，库迪9304店｜GeoQ智图-三个皮匠报告",
+          "bodyText": "\r\n                                截至2024年底，瑞幸门店22007家、库迪9304家、星巴克7787家、幸运咖3396家、肯悦2041家、Manner1622家。连锁咖啡品牌门店规模格局如何演变？品牌门店规模排名TOP10品牌在GeoQ Data收录的连锁咖啡品牌中，瑞幸2024年底门店超过2.2万家，门店数稳居第一；库迪以9304家门店位居第二；星巴克门店数约7787家；幸运咖3396家；肯悦咖啡2041家；挪瓦咖啡1899家；Manner咖啡1622家；Tims咖啡979家；M Stand 564家；COSTA 337家。2024年年初库迪门店发展放缓，但年底采用“寄生开店”模式后，门店数又开始快速拉升。星巴克2024年仍保持稳步扩张状态。2024年底连锁咖啡品牌在营门店TOP10排名品牌门店总数1瑞幸咖啡220072库迪咖啡93043星巴克77874幸运咖33965肯悦咖啡20416挪瓦咖啡18997Manner咖啡16228Tims咖啡9799M Stand56410COSTA337瑞幸2.2万店瑞幸2024年底门店总数达22007家，覆盖31个省份332座城市，在广东省门店数最多，达3248家，其次是浙江省和江苏省，门店数均超过2000家。从城市等级看，瑞幸在高线城市门店数多于中低线城市，但中低线门店占比也有34%，新一线城市门店数占比最高约26%。2024年仍是瑞幸快速扩张的一年，新增门店近7000家，约占总门店数的32%。品牌城市分布库迪与肯悦库迪2024年底门店总数超9300家，覆盖31个省份342座城市，在浙江省门店数最多约892家，其次是广东省和江苏省。从城市等级看，库迪在高线城市门店数占比约60%，新一线城市占比最高约28%；中低线门店占比约40%，高于瑞幸。肯悦咖啡2024年底门店数约2000家，覆盖31个省份270座城市，广东省门店数最多约407家。高线城市门店数占比约64%，新一线城市占比最高约25%。幸运咖与Manner幸运咖2024年底门店数超过3300家，覆盖30个省份308座城市，北方省市门店多于南方，中低线城市门店数占比达67%，三线城市和四线城市占比分别为25%和24%。Manner咖啡2024年底门店数超1600家，均为直营门店，覆盖25个省份60座城市，上海门店达618家；一线城市和新一线城市门店数占比高达89%，其中一线城市占比达66%，五线城市暂未开店。扩张策略高线加密与下沉2024年，典型连锁咖啡品牌在高线城市的开店数占比更高，达63%。其中新一线城市开店数占比约25%，二线城市21%，三线城市15%，四线城市13%，五线城市9%。四线和五线城市开店占比约21%，连锁咖啡在下沉市场还有发展空间。规模战与运营2024年对多数连锁咖啡品牌而言仍是“收获”之年，75%的品牌实现门店扩增。但不能忽视的是，开闭店比从2023年的11.65下降到2024年的4.1，整体扩增速度放缓，闭店率却在提升。随着国内咖啡市场越来越成熟、多元，规模战、产品战以及价格战都更加激烈。咖啡品牌们也持续通过下沉、出海寻找更广阔的发展空间。连锁咖啡品牌门店规模的核心结论是：瑞幸2.2万店领跑，库迪9304店紧随，星巴克7787店稳增。高线加密与下沉拓展并行，规模战、产品战、价格战更加激烈，数字化与运营能力成为关键。\r\n                            ",
+          "parseStatus": "ok",
+          "contentType": "text/html; charset=utf-8",
+          "tier": "C",
+          "fetchedAt": "2026-10-16T07:34:44.964Z"
+        },
+        {
+          "id": "snap:https://thepaper.cn/newsDetail_forward_30854533",
+          "url": "https://thepaper.cn/newsDetail_forward_30854533",
+          "title": "业绩回暖了，但星巴克中国却更着急了？_澎湃号·湃客_澎湃新闻-The Paper",
+          "bodyText": "文/窦文雪编辑/子夜一份关键指标表现良好的成绩单，似乎让星巴克加速了出售中国区业务股权的进程。近日，一篇报道称星巴克将开始出售其在中国的股份，消息人士称，星巴克本周通过一位财务顾问向几位潜在投资者发出了信函，征求他们对中国业务及其发展方向的意见，相关资产估值或达到数十亿美元。而在此之前，星巴克中国刚刚公布了一份亮眼的成绩单，公司在2025年第二季度的营业收入、同店交易量以及利润率均取得同比增长。图源星巴克官网当前的星巴克中国，十分需要这样业绩指标增长的好消息。去年以来，星巴克屡屡表态，称星巴克中国业务将继续探索战略合作伙伴关系，使得市场中，有关星巴克将出售中国业务股权的猜测甚嚣尘上。如今的这份第二季度业绩报告，或许可以被视为星巴克中国仍有发展潜力的信号，能让星巴克中国找到更好的合作伙伴，将股权“卖”个好价钱。如果把时间拉回到2017年-2018年，星巴克中国不需要努力给自己找出路，彼时的它没有什么对手，在中国的市场占有率超过50%。但随着更多竞争对手入局，国内现制饮料品牌们之间的价格战打了一轮又一轮，行业玩家们纷纷加速扩张，产品创新越做越好，新颖的营销方式层出不穷。如今，消费者对星巴克的宠爱早已被分散。就算只看现制咖啡品牌，就已经有瑞幸、库迪、挪瓦、比星、Tims、M Stand可以与星巴克抢市场，还有蜜雪冰城等现制茶饮品牌也推出了咖啡产品，销量十分可观。星巴克中国也在近期“入乡随俗”，推出鲜奶茶产品；成为第一个与京东秒送全面打通会员体系的品牌，试图在平台补贴的帮助下降价拉客。国内茶饮品牌的高速扩张法——开放加盟，也有很大的概率将被星巴克借鉴，如今的星巴克不仅需要更多投资者的帮助，也需要更多加盟商的加入。曾经，几乎所有的现制饮料企业都说自己要对标星巴克，如今，星巴克中国真的要向“后生”学习了。1、财报刚回暖，星巴克就着急卖中国业务股权从星巴克刚刚有为中国区业务寻找合作伙伴的打算，到如今的这篇报道，已经过去了一年。早在2024年第二季度财报之时，时任星巴克全球CEO的纳思瀚（Laxman Narasimhan）就曾在财报电话会上对中国市场的竞争态势做出过评价，并透露星巴克正处于探索战略合作伙伴关系的早期阶段。随后，即便是经历了换帅，都没有改变星巴克即将继续为中国业务探索合作伙伴关系的决定。星巴克新任CEO布莱恩（Brian Niccol）曾对分析师表示，他正在努力更好地了解公司在中国的运营情况，并指出中国的竞争环境似乎“非常激烈”，宏观环境也很“严峻”。“星巴克需要弄清楚如何拓展中国市场，并将继续探索能够长期帮助星巴克的战略合作伙伴关系。”图源星巴克官网但长久以来，星巴克中国业务股权的出售进度，一直停留在“寻找战略合作伙伴关系”的阶段，在去年11月的报道中也是如此。彼时的消息称，星巴克正研究中国业务的各种选择，包括出售股权的可能性，而星巴克已非正式地评估了潜在投资者的兴趣，其中包括中国国内的私募股权公司。此后，市场中也传出过意向收购方的信息。比如今年3月，星巴克宣布了一次大裁员，随后就有媒体报道称KKR、FountainVest（方源资本）、PAG（太盟投资集团）等多家私募基金有意收购星巴克中国业务股权。当时的报道还称，华润集团与美团亦被纳入潜在买家名单。星巴克执行副总裁兼首席财务官Rachel Ruggeri预计将于未来几周随高管团队访华，参与出售谈判。再看最近的这次报道，“星巴克本周通过一位财务顾问向几位潜在投资者发出了信函，征求他们对中国业务及其发展方向的意见……”从“探索可能性”到“向潜在买家发出问询”，这意味着，星巴克变得更主动，并已经为寻找中国区业务合作伙伴的事宜按下了“加速键”。这或许与星巴克中国在2025第二季度的业绩表现良好有关。财报显示，星巴克中国在该报告期内实现营业收入约7.4亿美元，同比增长5%；在稳固的运营基础与强劲韧性的支撑下，门店经营利润率始终保持两位数，公司利润率取得同比增长。与上一季度相比，在各类商圈、不同城市层级、各个营业时段，同店交易量同比攀升星巴克中国门店的同店可比交易量同比攀升，实现4%的增长，同店销售额继续大幅改善。而相比星巴克其他地区的数据，星巴克中国的表现出色。星巴克全球可比门店销售额下降1%，可比交易量下降2%。其中，北美同店销售额下降1%，可比交易量下降4%。但对于星巴克而言，出售中国业务股权迫在眉睫。连线Insight此前在文章《星巴克中国的焦虑，走“麦当劳模式”能解？》中分析，星巴克或将采取“麦当劳模式”，出售部分股权以找到战略合作伙伴一起耕耘中国市场，这或将让星巴克在中国的运营更为本土化。另一方面，星巴克北美的业务压力愈发沉重，出售部分中国区业务后，公司可以将工作的重心转回北美市场。图源星巴克官网更重要的是，星巴克中国区当前的良好业绩是公司发展前景的体现，这或许能让星巴克中国的股权卖个好价钱。2、激烈竞争中，星巴克难回巅峰尽管一份向好的业绩拉高了星巴克中国的估值，但这距离其巅峰期还有很大的差距。这家自1999年就进入中国市场的海外品牌，在国内吃尽了“第三空间”理念和率先入场的红利。2017年-2018年，是星巴克中国的巅峰期。欧睿国际数据显示，2017年，星巴克在中国市场的份额占到了58.6%，门店数量更是占了连锁咖啡总数的61%。在那段时间，国内一有新咖啡品牌出现，瞄准的行业标杆一定是星巴克。图源星巴克官方微博但随着竞争对手的增加，星巴克一直被对标，也逐渐被超越。咖啡品牌中有瑞幸咖啡推出9.9元咖啡、Manner采用小店高坪效的模式快速抢占市场。资本的视线也在2018年向国内咖啡品牌倾斜。比如2018年，瑞幸先后完成AB轮融资，线下门店总数突破2000家；2018年，今日资本创始人徐新注意到Manner咖啡，并投资8000万元，助推其进入高速扩张期。而一直定位中高端的星巴克，彼时多数产品的定价还在30元左右。再加上后续疫情暴发期间，线下消费业态几乎停滞，星巴克由于过于依赖消费者到店消费，客流量急剧下降。但与此同时，瑞幸、Manner等品牌则凭借外卖业务，实现了逆势增长。2022年，另一家来势汹汹的咖啡品牌库迪成立，库迪一经成立就对上了瑞幸咖啡，双方的价格战打了一轮又一轮，库迪的扩张也是迅速的，其成立不到一年就开出了6000家门店，创下了行业最快扩张记录。而这些“战争”中，星巴克并没有积极应战，国内消费者的视线也早就被星巴克之外的许多品牌吸引。比如成立于加拿大的Tims咖啡、成立于2017年的M Stand、成立于2019年的挪瓦咖啡、成立于2022年的比星咖啡等等，都在国内有自己的受众群。除此之外，在产品创新能力、行业风向的敏感度上，星巴克实则都不及竞争对手。瑞幸咖啡除了此前的现象级产品生椰拿铁外，还有樱花拿铁、西瓜拿铁、草莓拿铁、茉莉花香拿铁、橙C美式、小黄油拿铁等产品也受到了消费者喜爱；营销行业的经典案例——酱香拿铁也出自瑞幸之手；霸王茶姬爆火时，瑞幸还推出轻乳茶系列，紧跟潮流。库迪咖啡也建立了丰富的产品线，同时推出了很多特色产品，比如五常米乳拿铁、潘帕斯生酪茉莉拿铁等；在《哪吒2》热播之后，库迪还推出魔丸灵珠系列产品以及周边。而星巴克已经很少有新的爆款产品出现，在新任CEO上任后，其还提出过简化菜单、调整营销策略、优化移动订单、重新布局门店、减少频繁的折扣和促销活动、专注品牌高端形象等改进措施。但这些举措对于中国业务的拉升效果有限。虽然星巴克也曾在去年推出过轻乳茶系列产品，但仍然晚了一步，相关产品的销量和声量都不及对手瑞幸。此前，星巴克中国的业绩表现也一直不佳。根据星巴克发布的2024财年第四财季财报，星巴克中国在第四财季实现营收7.84亿美元，同比下滑7%。可比门店销售额下降14%，客单价下滑8%，订单数量下降6%。时至今日，瑞幸咖啡已经走出了低价内卷的时期，开始谋求涨价，而星巴克则是才跟上同行的步伐。比如此前京东开放秒送通道，进军外卖领域，星巴克就是第一个与京东秒送全面打通会员体系的餐饮品牌。图源星巴克官网但在如今国内的咖啡市场中，星巴克只放下身段或许也远远不够。目前，现制咖啡产品的新品类几乎已经被各大厂商开发殆尽。有关咖啡与茶、咖啡与奶、咖啡与果味，甚至咖啡与白酒的排列组合都已经被竞争对手开发过。星巴克若想突出重围，不仅要在价格策略上做出改变，还要在新品研发上加大投入，真正做出既好喝又实惠的产品。3、下沉扩张是必然，星巴克急需帮手除了丰富产品线、降价促销，还有一件迫在眉睫的事需要星巴克解决——规模扩张。如今，星巴克已经丢掉了国内市场份额第一的光环，门店增长速度缓慢。据深圳中证投资发布的报告，2024年，瑞幸咖啡凭借其35.1%的门店数量占比，稳居市场领先地位。紧随其后的是星巴克和库迪咖啡，分别以13.58%和12.44%的市场份额占据市场第二和第三的位置。图源星巴克官网而国内现制饮料市场的现状是，在价格下滑、毛利率较低的情况下，只有加快门店扩张，占领更多市场，才有望保证利润的增长。瑞幸在2024年全年净增6092家门店，总数来到22340家；库迪咖啡也在快速奔跑，还计划推出“触手可及”计划，推出便利店型，并表示计划在2025年底达到5万家门店终端。多数新茶饮品牌的布局策略也是加速门店的扩张和下沉。比如截至2024年底，霸王茶姬从3000多家门店飙升至6440家；蜜雪冰城的全球门店数量突破4.5万家；茶百道新增594家门店，门店总数为8409家；古茗新增门店913家，门店数目为9914家；沪上阿姨全国门店总数为9176家，较上年增长了780家。这些品牌的扩张速度之所以如此快，加盟店在其中扮演着重要的角色。比如瑞幸咖啡有超过30%的门店为加盟店，霸王茶姬有98%的门店都是加盟店；蜜雪冰城有99.8%为加盟店；沪上阿姨有99.7%为加盟店；古茗有99%以上的门店为加盟店。而加盟店也能为品牌带来不错的收益。以瑞幸咖啡为例，2024年全年，瑞幸咖啡的总净收入达到344.75亿元人民币，同比增长38.4%；其中，自营门店贡献255.92亿元，同比增长43.1%，占比74%；联营门店收入77.45亿元，同比增长24.4%，占比提升至35%，收入结构得到优化。但星巴克的门店扩张速度一直不快，这或许是由于其至今仍然在保持自营的原因。自营门店虽然有更方便品牌管理、对服务有更好把控的优点，但扩张能力不及加盟店。星巴克如果想要加速扩张、进入下沉市场，开放加盟店是一个不错的选择。实际上，早在2022年，星巴克就想快点扩张门店了。在彼时的全球投资者交流会上，星巴克提出“2025中国战略愿景”：未来3年，星巴克将以每9个小时新开一家的速度，将3000家新门店铺到300个中国城市。图源星巴克官网想要实现这个扩张目标，或许只有开放加盟才能做到。要开放加盟，星巴克就急需一位熟悉国内经营环境的“帮手”，就像曾经的麦当劳与肯德基一样。2016年前后，麦当劳将中国内地和香港共计约2700家麦当劳餐厅的20年特许经营权，以总对价最高20.8亿美元的价格，出售给中信集团与凯雷；百胜集团与春华资本及蚂蚁金服达成协议，二者共同向百胜中国投资4.60亿美元，同时百胜餐饮集团与百胜中国进行了分拆。不管是出售特许经营权，还是完成业务拆分，都分别给麦当劳中国和肯德基中国带来了良好的结果。两家品牌均实现了更完善的本土化运作，门店数目实现增长、业绩情况也出现了明显回暖。如今，星巴克中国已经拿出了一份回暖的成绩单，或许这个能拯救星巴克中国、帮助其在国内市场加速扩张的“白衣骑士”，很快就会出现。（本文 头图来源于星巴克官方微博。 ）",
+          "parseStatus": "ok",
+          "contentType": "text/html; charset=utf-8",
+          "tier": "B",
+          "fetchedAt": "2026-10-16T07:34:45.260Z"
+        },
+        {
+          "id": "snap:https://www.toutiao.com/article/7371402667291148834",
+          "url": "https://www.toutiao.com/article/7371402667291148834",
+          "title": "https://www.toutiao.com/article/7371402667291148834",
+          "bodyText": "",
+          "parseStatus": "failed",
+          "contentType": "text/html",
+          "tier": "C",
+          "fetchedAt": "2026-10-16T07:34:47.829Z"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:0",
+          "snapshotId": "snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647",
+          "quote": "2025虹桥国际咖啡文化节开幕式暨全球咖啡产业发展虹桥论坛日前在上海市闵行区新虹街道虹桥品汇举办。",
+          "versionId": "sv-6a4ee77eb56a",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:1",
+          "snapshotId": "snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647",
+          "quote": "会上发布了《2025中国城市咖啡发展报告》。",
+          "versionId": "sv-6a4ee77eb56a",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:2",
+          "snapshotId": "snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647",
+          "quote": "2024年，中国咖啡产业规模达3133亿元，同比增长18.1%",
+          "versionId": "sv-6a4ee77eb56a",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:3",
+          "snapshotId": "snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647",
+          "quote": "全国人均年咖啡消费已达22.24杯",
+          "versionId": "sv-6a4ee77eb56a",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:4",
+          "snapshotId": "snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647",
+          "quote": "咖啡豆进口5年增长近3倍",
+          "versionId": "sv-6a4ee77eb56a",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:5",
+          "snapshotId": "snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647",
+          "quote": "咖啡机出口达174.6亿元",
+          "versionId": "sv-6a4ee77eb56a",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:6",
+          "snapshotId": "snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647",
+          "quote": "全国咖啡外卖超3亿杯",
+          "versionId": "sv-6a4ee77eb56a",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:7",
+          "snapshotId": "snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647",
+          "quote": "云南咖啡豆出口额13.6亿元",
+          "versionId": "sv-6a4ee77eb56a",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:8",
+          "snapshotId": "snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647",
+          "quote": "2024年，上海以9115家的咖啡馆数量继续“遥遥领先”，成为全球咖啡馆最多的城市",
+          "versionId": "sv-6a4ee77eb56a",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:9",
+          "snapshotId": "snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647",
+          "quote": "而其中近半数咖啡豆均来自于已构建起“从种子到杯子完整产业生态”的虹桥国际咖啡港",
+          "versionId": "sv-6a4ee77eb56a",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:10",
+          "snapshotId": "snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647",
+          "quote": "虹桥国际咖啡港汇聚了来自60个国家的咖啡产品",
+          "versionId": "sv-6a4ee77eb56a",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:11",
+          "snapshotId": "snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647",
+          "quote": "入驻商户超过200家",
+          "versionId": "sv-6a4ee77eb56a",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:12",
+          "snapshotId": "snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647",
+          "quote": "截至目前已考核认证超7000名专业咖啡师",
+          "versionId": "sv-6a4ee77eb56a",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:13",
+          "snapshotId": "snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647",
+          "quote": "开幕式上，8家来自长三角的咖啡上下游企业共同发起倡议的“虹桥国际咖啡产业联盟”正式成立。",
+          "versionId": "sv-6a4ee77eb56a",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:14",
+          "snapshotId": "snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647",
+          "quote": "累计培训学员超过500人次",
+          "versionId": "sv-6a4ee77eb56a",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:15",
+          "snapshotId": "snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647",
+          "quote": "云南旅游规划研究院与虹桥品汇达成战略合作，共同发布“2025沪滇啡尝之旅精品咖游计划”",
+          "versionId": "sv-6a4ee77eb56a",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:16",
+          "snapshotId": "snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647",
+          "quote": "本届虹桥国际咖啡文化节将以“咖啡+”为核心理念，依托虹桥国际咖啡港的产业集聚优势，通过“1+2+X”多元活动架构，融合产业论坛、消费体验、文化跨界等16场重点活动及多场子活动",
+          "versionId": "sv-6a4ee77eb56a",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:17",
+          "snapshotId": "snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647",
+          "quote": "形成了“从种子到杯子”的完整产业生态。",
+          "versionId": "sv-6a4ee77eb56a",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:0",
+          "snapshotId": "snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml",
+          "quote": "2023年中国咖啡出口量缩减至2万吨，达历史最低水平",
+          "versionId": "sv-40aaecd7ed27",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:1",
+          "snapshotId": "snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml",
+          "quote": "进口量15万吨，增速超过20%，金额近60亿元",
+          "versionId": "sv-40aaecd7ed27",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:2",
+          "snapshotId": "snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml",
+          "quote": "近10年中国咖啡消耗量达35万吨，环比增长167%",
+          "versionId": "sv-40aaecd7ed27",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:3",
+          "snapshotId": "snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml",
+          "quote": "其中，现磨咖啡市场规模超过1200亿元，整体市场规模达到1500亿元",
+          "versionId": "sv-40aaecd7ed27",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:4",
+          "snapshotId": "snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml",
+          "quote": "市场份额将从不足40%提升至超过80%",
+          "versionId": "sv-40aaecd7ed27",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:5",
+          "snapshotId": "snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml",
+          "quote": "上海、广州、北京、成都和深圳，是全国咖啡门店数量最多的前五座城市",
+          "versionId": "sv-40aaecd7ed27",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:6",
+          "snapshotId": "snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml",
+          "quote": "2022年9月，上述五城咖啡门店数量在全国占比达23%，2024年9月这一比例已经不足19%",
+          "versionId": "sv-40aaecd7ed27",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:7",
+          "snapshotId": "snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml",
+          "quote": "瑞幸咖啡、星巴克、库迪、Manner等行业前十咖啡品牌门店占比达27%",
+          "versionId": "sv-40aaecd7ed27",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:8",
+          "snapshotId": "snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml",
+          "quote": "其中瑞幸在所有城市等级处于绝对领先位置，星巴克、幸运咖、Manner等品牌也均在快速开店扩张",
+          "versionId": "sv-40aaecd7ed27",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:9",
+          "snapshotId": "snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml",
+          "quote": "全球咖啡年产量约为1000万吨，近十年增长约15%",
+          "versionId": "sv-40aaecd7ed27",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:10",
+          "snapshotId": "snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml",
+          "quote": "全球咖啡烘焙市场相对分散，CR10不足40%",
+          "versionId": "sv-40aaecd7ed27",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:11",
+          "snapshotId": "snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml",
+          "quote": "在中国，咖啡种植主要集中在云南，年产量略超过10万吨，且在近十年内保持稳定",
+          "versionId": "sv-40aaecd7ed27",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:12",
+          "snapshotId": "snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml",
+          "quote": "中国咖啡消费市场经历了从速溶咖啡主导到多元化消费场景的演变，如今的消费市场主要包含现磨咖啡和零售咖啡两大类",
+          "versionId": "sv-40aaecd7ed27",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:13",
+          "snapshotId": "snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml",
+          "quote": "尽管中国咖啡市场发展迅速，但人均消费水平仍与日韩、欧美等成熟市场存在较大差距，显示出巨大的发展空间",
+          "versionId": "sv-40aaecd7ed27",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:14",
+          "snapshotId": "snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml",
+          "quote": "除了专业咖啡连锁店和独立咖啡店数量快速增长，还出现在越来越多快餐、茶饮、便利店等场景之中，咖啡自助机也正在投放市场",
+          "versionId": "sv-40aaecd7ed27",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.chinadailyhk.com/article/596504:0",
+          "snapshotId": "snap:https://www.chinadailyhk.com/article/596504",
+          "quote": "Coffee cultivation in China is centered in Yunnan province, producing just over 100,000 metric tons annually.",
+          "versionId": "sv-482cb989c6dc",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.chinadailyhk.com/article/596504:1",
+          "snapshotId": "snap:https://www.chinadailyhk.com/article/596504",
+          "quote": "coffee imports saw a 20 percent year-on-year growth in 2023, totaling 150,000 tons valued at nearly 6 billion yuan ($840.6 million).",
+          "versionId": "sv-482cb989c6dc",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.chinadailyhk.com/article/596504:2",
+          "snapshotId": "snap:https://www.chinadailyhk.com/article/596504",
+          "quote": "China's coffee consumption has surged by 167 percent over the past decade, reaching 350,000 tons.",
+          "versionId": "sv-482cb989c6dc",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.chinadailyhk.com/article/596504:3",
+          "snapshotId": "snap:https://www.chinadailyhk.com/article/596504",
+          "quote": "freshly ground coffee accounting for a market value of over 120 billion yuan and the total coffee market exceeding 150 billion yuan.",
+          "versionId": "sv-482cb989c6dc",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.chinadailyhk.com/article/596504:4",
+          "snapshotId": "snap:https://www.chinadailyhk.com/article/596504",
+          "quote": "This growth aligns with an increasing shift toward freshly ground coffee, which is expected to rise from a 40 percent market share to over 80 percent in the near future.",
+          "versionId": "sv-482cb989c6dc",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.chinadailyhk.com/article/596504:5",
+          "snapshotId": "snap:https://www.chinadailyhk.com/article/596504",
+          "quote": "Cotti Coffee, one of the fastest-growing coffee chains in China, recently announced an ambitious expansion plan to operate 50,000 stores by 2025, up from the current 10,000.",
+          "versionId": "sv-482cb989c6dc",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.chinadailyhk.com/article/596504:6",
+          "snapshotId": "snap:https://www.chinadailyhk.com/article/596504",
+          "quote": "These partners bring more than 100,000 retail locations across the country into the fold, helping Cotti gain significant reach in both urban and rural markets.",
+          "versionId": "sv-482cb989c6dc",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.chinadailyhk.com/article/596504:7",
+          "snapshotId": "snap:https://www.chinadailyhk.com/article/596504",
+          "quote": "The 9.9 yuan strategy will remain at least for three years,",
+          "versionId": "sv-482cb989c6dc",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.chinadailyhk.com/article/596504:8",
+          "snapshotId": "snap:https://www.chinadailyhk.com/article/596504",
+          "quote": "Net revenue reached 8.403 billion yuan, marking a 35.5 percent increase year-on-year.",
+          "versionId": "sv-482cb989c6dc",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.chinadailyhk.com/article/596504:9",
+          "snapshotId": "snap:https://www.chinadailyhk.com/article/596504",
+          "quote": "In July 2024, it opened its 20,000th store in Beijing.",
+          "versionId": "sv-482cb989c6dc",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.chinadailyhk.com/article/596504:10",
+          "snapshotId": "snap:https://www.chinadailyhk.com/article/596504",
+          "quote": "In June, Luckin signed agreements to purchase 120,000 tons of coffee beans from Brazil through 2025.",
+          "versionId": "sv-482cb989c6dc",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.chinadailyhk.com/article/596504:11",
+          "snapshotId": "snap:https://www.chinadailyhk.com/article/596504",
+          "quote": "With a 3 billion yuan investment in a new Innovation and Production Center in Qingdao, Shandong province, Luckin plans to further expand its roasting capacity to 55,000 tons",
+          "versionId": "sv-482cb989c6dc",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.chinadailyhk.com/article/596504:12",
+          "snapshotId": "snap:https://www.chinadailyhk.com/article/596504",
+          "quote": "With 907 stores across 71 cities, Tims China provides a value proposition through set meal offerings that combine coffee with freshly prepared food, said the company.",
+          "versionId": "sv-482cb989c6dc",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.chinadailyhk.com/article/596504:13",
+          "snapshotId": "snap:https://www.chinadailyhk.com/article/596504",
+          "quote": "China comparable store sales declined 14 percent, driven by an 8 percent decline in average ticket, compounded by a 6 percent decline in comparable transactions",
+          "versionId": "sv-482cb989c6dc",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.chinadailyhk.com/article/596504:14",
+          "snapshotId": "snap:https://www.chinadailyhk.com/article/596504",
+          "quote": "The company aims to operate 9,000 stores across 300 cities by 2025, a goal that aligns with its broader strategy",
+          "versionId": "sv-482cb989c6dc",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.chinadailyhk.com/article/596504:15",
+          "snapshotId": "snap:https://www.chinadailyhk.com/article/596504",
+          "quote": "The company's Farmer Support Center in Pu'er, Yunnan, has been operating for over a decade, training over 36,800 farmers and certifying 3,411 farms through its C.A.F.E. Practices",
+          "versionId": "sv-482cb989c6dc",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.chinadailyhk.com/article/596504:16",
+          "snapshotId": "snap:https://www.chinadailyhk.com/article/596504",
+          "quote": "Over the past 12 years, Starbucks has purchased more than 65,000 tons of coffee from Yunnan.",
+          "versionId": "sv-482cb989c6dc",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q1:snap:https://www.chinadailyhk.com/article/596504:17",
+          "snapshotId": "snap:https://www.chinadailyhk.com/article/596504",
+          "quote": "aiming to create over 10,000 jobs annually by 2025.",
+          "versionId": "sv-482cb989c6dc",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:0",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "瑞幸2024年底门店超过2.2万家，门店数稳居第一",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:1",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "库迪以9304家门店位居第二",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:2",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "星巴克门店数约7787家",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:3",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "幸运咖3396家",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:4",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "肯悦咖啡2041家",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:5",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "挪瓦咖啡1899家",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:6",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "Manner咖啡1622家",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:7",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "Tims咖啡979家",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:8",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "M Stand564家",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:9",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "COSTA337",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:10",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "2024年年初库迪门店发展放缓，但年底采用“寄生开店”模式后，门店数又开始快速拉升",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:11",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "星巴克2024年仍保持稳步扩张状态",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:12",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "2024年仍是瑞幸快速扩张的一年，新增门店近7000家，约占总门店数的32%",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:13",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "覆盖31个省份332座城市",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:14",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "在广东省门店数最多，达3248家，其次是浙江省和江苏省，门店数均超过2000家",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:15",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "瑞幸在高线城市门店数多于中低线城市，但中低线门店占比也有34%，新一线城市门店数占比最高约26%",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:16",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "覆盖31个省份342座城市，在浙江省门店数最多约892家，其次是广东省和江苏省",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:17",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "库迪在高线城市门店数占比约60%，新一线城市占比最高约28%；中低线门店占比约40%",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:18",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "覆盖31个省份270座城市，广东省门店数最多约407家。高线城市门店数占比约64%，新一线城市占比最高约25%",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:19",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "幸运咖2024年底门店数超过3300家，覆盖30个省份308座城市，北方省市门店多于南方，中低线城市门店数占比达67%，三线城市和四线城市占比分别为25%和24%",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:20",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "Manner咖啡2024年底门店数超1600家，均为直营门店，覆盖25个省份60座城市，上海门店达618家",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:21",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "一线城市和新一线城市门店数占比高达89%，其中一线城市占比达66%，五线城市暂未开店",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:22",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "典型连锁咖啡品牌在高线城市的开店数占比更高，达63%。其中新一线城市开店数占比约25%，二线城市21%，三线城市15%，四线城市13%，五线城市9%",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:23",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "四线和五线城市开店占比约21%，连锁咖啡在下沉市场还有发展空间",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:24",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "75%的品牌实现门店扩增",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:25",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "开闭店比从2023年的11.65下降到2024年的4.1",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        },
+        {
+          "id": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:26",
+          "snapshotId": "snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html",
+          "quote": "整体扩增速度放缓，闭店率却在提升",
+          "versionId": "sv-e23d2f9c9eca",
+          "revision": 1,
+          "extractionCheck": "UNCHECKED"
+        }
+      ],
+      "claims": [
+        {
+          "id": "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:0",
+          "statement": "2025虹桥国际咖啡文化节开幕式暨全球咖啡产业发展虹桥论坛在上海市闵行区新虹街道虹桥品汇举办。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:0"
+          ]
+        },
+        {
+          "id": "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:1",
+          "statement": "会上发布了《2025中国城市咖啡发展报告》。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:1"
+          ]
+        },
+        {
+          "id": "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:2",
+          "statement": "2024年中国咖啡产业规模达3133亿元，同比增长18.1%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:2"
+          ],
+          "calibration": {
+            "entity": "中国咖啡产业规模",
+            "period": "2024年",
+            "unit": "亿元"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:3",
+          "statement": "全国人均年咖啡消费已达22.24杯。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:3"
+          ],
+          "calibration": {
+            "entity": "全国人均年咖啡消费",
+            "period": "近期（2024年报告）",
+            "unit": "杯/年"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:4",
+          "statement": "咖啡豆进口5年增长近3倍。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:4"
+          ],
+          "calibration": {
+            "entity": "中国咖啡豆进口",
+            "period": "5年",
+            "unit": "倍"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:5",
+          "statement": "咖啡机出口达174.6亿元。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:5"
+          ],
+          "calibration": {
+            "entity": "中国咖啡机出口",
+            "period": "近期（2024年报告）",
+            "unit": "亿元"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:6",
+          "statement": "全国咖啡外卖超3亿杯。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:6"
+          ],
+          "calibration": {
+            "entity": "全国咖啡外卖",
+            "period": "近期（2024年报告）",
+            "unit": "亿杯"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:7",
+          "statement": "云南咖啡豆出口额13.6亿元。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:7"
+          ],
+          "calibration": {
+            "entity": "云南咖啡豆出口额",
+            "period": "近期（2024年报告）",
+            "unit": "亿元"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:8",
+          "statement": "2024年上海以9115家咖啡馆数量继续位居全球咖啡馆最多的城市。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:8"
+          ]
+        },
+        {
+          "id": "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:9",
+          "statement": "上海近半数咖啡豆来自虹桥国际咖啡港。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:9"
+          ]
+        },
+        {
+          "id": "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:10",
+          "statement": "虹桥国际咖啡港汇聚了来自60个国家的咖啡产品。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:10"
+          ],
+          "calibration": {
+            "entity": "虹桥国际咖啡港汇聚咖啡产品来源国",
+            "period": "当前",
+            "unit": "个国家"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:11",
+          "statement": "虹桥国际咖啡港入驻商户超过200家。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:11"
+          ],
+          "calibration": {
+            "entity": "虹桥国际咖啡港入驻商户",
+            "period": "当前",
+            "unit": "家"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:12",
+          "statement": "虹桥国际咖啡港已考核认证超7000名专业咖啡师。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:12"
+          ],
+          "calibration": {
+            "entity": "已认证专业咖啡师数量",
+            "period": "截至目前",
+            "unit": "名"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:13",
+          "statement": "开幕式上8家长三角咖啡上下游企业发起成立“虹桥国际咖啡产业联盟”。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:13"
+          ]
+        },
+        {
+          "id": "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:14",
+          "statement": "虹桥品汇的“宝妈职业赋能计划”累计培训学员超过500人次。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:14"
+          ],
+          "calibration": {
+            "entity": "虹桥品汇宝妈职业赋能计划累计培训学员",
+            "period": "已开展累计",
+            "unit": "人次"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:15",
+          "statement": "云南旅游规划研究院与虹桥品汇达成战略合作，共同发布“2025沪滇啡尝之旅精品咖游计划”。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:15"
+          ]
+        },
+        {
+          "id": "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:16",
+          "statement": "本届虹桥国际咖啡文化节以“咖啡+”为核心理念，采用“1+2+X”架构，包含16场重点活动及多场子活动。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:16"
+          ],
+          "calibration": {
+            "entity": "重点活动数量",
+            "period": "本届",
+            "unit": "场"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:17",
+          "statement": "虹桥国际咖啡港已形成“从种子到杯子”的完整产业生态。",
+          "kind": "inference",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:17"
+          ]
+        },
+        {
+          "id": "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:0",
+          "statement": "2023年中国咖啡出口量缩减至2万吨,为历史最低水平",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:0"
+          ],
+          "calibration": {
+            "entity": "中国咖啡出口量",
+            "period": "2023年",
+            "unit": "万吨"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:1",
+          "statement": "2023年中国咖啡进口量为15万吨,增速超过20%,金额近60亿元",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:1"
+          ],
+          "calibration": {
+            "entity": "中国咖啡进口量",
+            "period": "2023年",
+            "unit": "万吨"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:2",
+          "statement": "近10年中国咖啡消耗量达35万吨,环比增长167%",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:2"
+          ],
+          "calibration": {
+            "entity": "中国咖啡消耗量",
+            "period": "近10年",
+            "unit": "万吨"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:3",
+          "statement": "中国现磨咖啡市场规模超过1200亿元,整体咖啡市场规模达到1500亿元",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:3"
+          ],
+          "calibration": {
+            "entity": "中国现磨咖啡市场规模/整体咖啡市场规模",
+            "period": "2024年报告",
+            "unit": "亿元"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:4",
+          "statement": "现磨咖啡市场份额预计将从不足40%提升至超过80%",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:4"
+          ],
+          "calibration": {
+            "entity": "现磨咖啡市场份额",
+            "period": "未来预测",
+            "unit": "%"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:5",
+          "statement": "上海、广州、北京、成都和深圳是全国咖啡门店数量最多的前五座城市",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:5"
+          ]
+        },
+        {
+          "id": "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:6",
+          "statement": "上述五城咖啡门店数量在全国的占比从2022年9月的23%下降至2024年9月的不足19%",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:6"
+          ],
+          "calibration": {
+            "entity": "前五城咖啡门店数量全国占比",
+            "period": "2022年9月至2024年9月",
+            "unit": "%"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:7",
+          "statement": "瑞幸、咖啡、星巴克、库迪、Manner等行业前十咖啡品牌门店占比达27%",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:7"
+          ],
+          "calibration": {
+            "entity": "前十咖啡品牌门店占比",
+            "period": "报告发布时",
+            "unit": "%"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:8",
+          "statement": "瑞幸在所有城市等级处于绝对领先位置,星巴克、幸运咖、Manner等品牌均在快速扩张",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:8"
+          ]
+        },
+        {
+          "id": "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:9",
+          "statement": "全球咖啡年产量约为1000万吨,近十年增长约15%",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:9"
+          ],
+          "calibration": {
+            "entity": "全球咖啡年产量",
+            "period": "近十年",
+            "unit": "万吨"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:10",
+          "statement": "全球咖啡烘焙市场CR10不足40%",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:10"
+          ],
+          "calibration": {
+            "entity": "全球咖啡烘焙市场集中度",
+            "period": "报告发布时",
+            "unit": "%"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:11",
+          "statement": "中国咖啡种植主要集中在云南,年产量略超过10万吨,近十年内保持稳定",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:11"
+          ],
+          "calibration": {
+            "entity": "中国(云南)咖啡年产量",
+            "period": "近十年",
+            "unit": "万吨"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:12",
+          "statement": "中国咖啡消费市场已从速溶咖啡主导演变为多元化消费场景,以现磨咖啡和零售咖啡两大类为主",
+          "kind": "inference",
+          "evidenceIds": [
+            "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:12"
+          ]
+        },
+        {
+          "id": "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:13",
+          "statement": "中国咖啡人均消费水平仍与日韩、欧美等成熟市场存在较大差距,显示巨大发展空间",
+          "kind": "inference",
+          "evidenceIds": [
+            "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:13"
+          ]
+        },
+        {
+          "id": "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:14",
+          "statement": "现磨咖啡正快速进入快餐、茶饮、便利店等新场景,咖啡自助机也在投放市场",
+          "kind": "inference",
+          "evidenceIds": [
+            "ev:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:14"
+          ]
+        },
+        {
+          "id": "cl:q1:snap:https://www.chinadailyhk.com/article/596504:0",
+          "statement": "中国咖啡产量约10万吨/年,以云南为中心",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.chinadailyhk.com/article/596504:0"
+          ],
+          "calibration": {
+            "entity": "China coffee production",
+            "period": "annual",
+            "unit": "metric tons"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.chinadailyhk.com/article/596504:1",
+          "statement": "2023年中国咖啡进口量同比增长20%,总量15万吨,价值近60亿元人民币(8.406亿美元)",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.chinadailyhk.com/article/596504:1"
+          ],
+          "calibration": {
+            "entity": "China coffee imports",
+            "period": "2023",
+            "unit": "tons / yuan"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.chinadailyhk.com/article/596504:2",
+          "statement": "过去十年中国咖啡消费量增长167%,达到35万吨",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.chinadailyhk.com/article/596504:2"
+          ],
+          "calibration": {
+            "entity": "China coffee consumption",
+            "period": "past decade",
+            "unit": "tons"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.chinadailyhk.com/article/596504:3",
+          "statement": "现磨咖啡市场规模超过1200亿元人民币,整个咖啡市场规模超过1500亿元人民币",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.chinadailyhk.com/article/596504:3"
+          ],
+          "calibration": {
+            "entity": "China coffee market",
+            "period": "2024",
+            "unit": "billion yuan"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.chinadailyhk.com/article/596504:4",
+          "statement": "现磨咖啡市场份额预计将从40%上升至超过80%",
+          "kind": "inference",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.chinadailyhk.com/article/596504:4"
+          ],
+          "calibration": {
+            "entity": "freshly ground coffee market share",
+            "period": "near future",
+            "unit": "percent"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.chinadailyhk.com/article/596504:5",
+          "statement": "Cotti Coffee计划到2025年门店扩张至50,000家,从目前10,000家增加40,000家门店",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.chinadailyhk.com/article/596504:5"
+          ],
+          "calibration": {
+            "entity": "Cotti Coffee stores",
+            "period": "by 2025",
+            "unit": "stores"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.chinadailyhk.com/article/596504:6",
+          "statement": "Cotti Coffee与51家本地零售及餐饮合作伙伴合作,带来超过100,000家零售网点",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.chinadailyhk.com/article/596504:6"
+          ],
+          "calibration": {
+            "entity": "Cotti partner retail locations",
+            "period": "current",
+            "unit": "locations"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.chinadailyhk.com/article/596504:7",
+          "statement": "Cotti CEO李颖博表示9.9元策略将至少维持三年",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.chinadailyhk.com/article/596504:7"
+          ],
+          "calibration": {
+            "entity": "Cotti 9.9 yuan strategy",
+            "period": "at least 3 years",
+            "unit": "yuan per cup"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.chinadailyhk.com/article/596504:8",
+          "statement": "瑞幸咖啡第二季度净收入84.03亿元人民币,同比增长35.5%,同店销售额下降20.9%",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.chinadailyhk.com/article/596504:8"
+          ],
+          "calibration": {
+            "entity": "Luckin Q2 net revenue",
+            "period": "Q2",
+            "unit": "billion yuan"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.chinadailyhk.com/article/596504:9",
+          "statement": "瑞幸咖啡2024年7月在北京开设第20,000家门店",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.chinadailyhk.com/article/596504:9"
+          ],
+          "calibration": {
+            "entity": "Luckin stores",
+            "period": "July 2024",
+            "unit": "stores"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.chinadailyhk.com/article/596504:10",
+          "statement": "瑞幸咖啡签署协议于2025年前从巴西购买12万吨咖啡豆",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.chinadailyhk.com/article/596504:10"
+          ],
+          "calibration": {
+            "entity": "Luckin Brazil coffee bean purchase",
+            "period": "through 2025",
+            "unit": "tons"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.chinadailyhk.com/article/596504:11",
+          "statement": "瑞幸咖啡年烘焙产能45,000吨,在青岛投资30亿元后计划扩大至55,000吨",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.chinadailyhk.com/article/596504:11"
+          ],
+          "calibration": {
+            "entity": "Luckin roasting capacity",
+            "period": "after Qingdao investment",
+            "unit": "tons"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.chinadailyhk.com/article/596504:12",
+          "statement": "Tims China在71个城市运营907家门店,会员数达2,140万",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.chinadailyhk.com/article/596504:12"
+          ],
+          "calibration": {
+            "entity": "Tims China stores",
+            "period": "current",
+            "unit": "stores"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.chinadailyhk.com/article/596504:13",
+          "statement": "星巴克中国第四季度同店销售额下降14%,平均客单价下降8%,交易量下降6%",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.chinadailyhk.com/article/596504:13"
+          ],
+          "calibration": {
+            "entity": "Starbucks China same-store sales",
+            "period": "Q4",
+            "unit": "percent"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.chinadailyhk.com/article/596504:14",
+          "statement": "星巴克计划到2025年在300个城市开设9,000家门店",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.chinadailyhk.com/article/596504:14"
+          ],
+          "calibration": {
+            "entity": "Starbucks China store target",
+            "period": "by 2025",
+            "unit": "stores"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.chinadailyhk.com/article/596504:15",
+          "statement": "星巴克在云南普洱的农民支持中心运营超10年,培训36,800名农民,认证3,411个农场",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.chinadailyhk.com/article/596504:15"
+          ],
+          "calibration": {
+            "entity": "Starbucks Farmer Support Center",
+            "period": "past decade+",
+            "unit": "farmers / farms"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.chinadailyhk.com/article/596504:16",
+          "statement": "星巴克过去12年从云南采购超过65,000吨咖啡",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.chinadailyhk.com/article/596504:16"
+          ],
+          "calibration": {
+            "entity": "Starbucks Yunnan coffee purchases",
+            "period": "past 12 years",
+            "unit": "tons"
+          }
+        },
+        {
+          "id": "cl:q1:snap:https://www.chinadailyhk.com/article/596504:17",
+          "statement": "星巴克中国计划到2025年每年创造超过10,000个新工作岗位",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q1:snap:https://www.chinadailyhk.com/article/596504:17"
+          ],
+          "calibration": {
+            "entity": "Starbucks China job creation",
+            "period": "annual by 2025",
+            "unit": "jobs"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:0",
+          "statement": "2024年底瑞幸门店22007家，居连锁咖啡品牌门店数第一。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:0"
+          ],
+          "calibration": {
+            "entity": "瑞幸咖啡",
+            "period": "2024年底",
+            "unit": "家"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:1",
+          "statement": "2024年底库迪门店9304家，居第二。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:1"
+          ],
+          "calibration": {
+            "entity": "库迪咖啡",
+            "period": "2024年底",
+            "unit": "家"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:2",
+          "statement": "2024年底星巴克门店约7787家，居第三。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:2"
+          ],
+          "calibration": {
+            "entity": "星巴克",
+            "period": "2024年底",
+            "unit": "家"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:3",
+          "statement": "2024年底幸运咖门店3396家，居第四。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:3"
+          ],
+          "calibration": {
+            "entity": "幸运咖",
+            "period": "2024年底",
+            "unit": "家"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:4",
+          "statement": "2024年底肯悦咖啡门店约2041家，居第五。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:4"
+          ],
+          "calibration": {
+            "entity": "肯悦咖啡",
+            "period": "2024年底",
+            "unit": "家"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:5",
+          "statement": "2024年底挪瓦咖啡门店1899家，居第六。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:5"
+          ],
+          "calibration": {
+            "entity": "挪瓦咖啡",
+            "period": "2024年底",
+            "unit": "家"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:6",
+          "statement": "2024年底Manner咖啡门店1622家，居第七。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:6"
+          ],
+          "calibration": {
+            "entity": "Manner咖啡",
+            "period": "2024年底",
+            "unit": "家"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:7",
+          "statement": "2024年底Tims咖啡门店979家，居第八。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:7"
+          ],
+          "calibration": {
+            "entity": "Tims咖啡",
+            "period": "2024年底",
+            "unit": "家"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:8",
+          "statement": "2024年底M Stand门店564家，居第九。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:8"
+          ],
+          "calibration": {
+            "entity": "M Stand",
+            "period": "2024年底",
+            "unit": "家"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:9",
+          "statement": "2024年底COSTA门店337家，居第十。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:9"
+          ],
+          "calibration": {
+            "entity": "COSTA",
+            "period": "2024年底",
+            "unit": "家"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:10",
+          "statement": "2024年初库迪门店发展放缓，但年底采用“寄生开店”模式后门店数快速拉升。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:10"
+          ],
+          "calibration": {
+            "entity": "库迪咖啡",
+            "period": "2024年",
+            "unit": "—"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:11",
+          "statement": "星巴克2024年保持稳步扩张状态。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:11"
+          ],
+          "calibration": {
+            "entity": "星巴克",
+            "period": "2024年",
+            "unit": "—"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:12",
+          "statement": "2024年仍是瑞幸快速扩张的一年，新增门店近7000家，约占总门店数的32%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:12"
+          ],
+          "calibration": {
+            "entity": "瑞幸咖啡",
+            "period": "2024年",
+            "unit": "家/百分比"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:13",
+          "statement": "瑞幸2024年底覆盖31个省份332座城市。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:13"
+          ],
+          "calibration": {
+            "entity": "瑞幸咖啡",
+            "period": "2024年底",
+            "unit": "省份/座城市"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:14",
+          "statement": "瑞幸门店数最多的省份是广东省，达3248家；其次是浙江省和江苏省，门店数均超过2000家。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:14"
+          ],
+          "calibration": {
+            "entity": "瑞幸咖啡",
+            "period": "2024年底",
+            "unit": "家"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:15",
+          "statement": "瑞幸在高线城市门店数多于中低线城市，中低线门店占比34%，新一线城市门店占比约26%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:15"
+          ],
+          "calibration": {
+            "entity": "瑞幸咖啡",
+            "period": "2024年底",
+            "unit": "百分比"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:16",
+          "statement": "库迪2024年底覆盖31个省份342座城市，浙江省门店数最多约892家，其次是广东省和江苏省。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:16"
+          ],
+          "calibration": {
+            "entity": "库迪咖啡",
+            "period": "2024年底",
+            "unit": "省份/座城市/家"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:17",
+          "statement": "库迪在高线城市门店数占比约60%，新一线城市占比约28%，中低线门店占比约40%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:17"
+          ],
+          "calibration": {
+            "entity": "库迪咖啡",
+            "period": "2024年底",
+            "unit": "百分比"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:18",
+          "statement": "肯悦咖啡2024年底覆盖31个省份270座城市，广东省门店数最多约407家，高线城市门店占比约64%，新一线城市占比约25%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:18"
+          ],
+          "calibration": {
+            "entity": "肯悦咖啡",
+            "period": "2024年底",
+            "unit": "省份/座城市/家/百分比"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:19",
+          "statement": "幸运咖2024年底门店超过3300家，覆盖30个省份308座城市，北方省市门店多于南方，中低线城市门店数占比达67%，三线和四线城市分别占25%和24%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:19"
+          ],
+          "calibration": {
+            "entity": "幸运咖",
+            "period": "2024年底",
+            "unit": "家/省份/座城市/百分比"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:20",
+          "statement": "Manner咖啡2024年底门店超1600家，均为直营门店，覆盖25个省份60座城市，上海门店达618家。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:20"
+          ],
+          "calibration": {
+            "entity": "Manner咖啡",
+            "period": "2024年底",
+            "unit": "家/省份/座城市"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:21",
+          "statement": "Manner一线城市和新一线城市门店占比高达89%，其中一线城市占比66%，五线城市暂未开店。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:21"
+          ],
+          "calibration": {
+            "entity": "Manner咖啡",
+            "period": "2024年底",
+            "unit": "百分比"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:22",
+          "statement": "2024年典型连锁咖啡品牌在高线城市开店数占比达63%；新一线占约25%、二线21%、三线15%、四线13%、五线9%。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:22"
+          ],
+          "calibration": {
+            "entity": "典型连锁咖啡品牌",
+            "period": "2024年",
+            "unit": "百分比"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:23",
+          "statement": "四线和五线城市开店占比约21%，连锁咖啡在下沉市场还有发展空间。",
+          "kind": "inference",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:23"
+          ],
+          "calibration": {
+            "entity": "连锁咖啡品牌",
+            "period": "2024年",
+            "unit": "百分比"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:24",
+          "statement": "2024年75%的连锁咖啡品牌实现门店扩增。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:24"
+          ],
+          "calibration": {
+            "entity": "连锁咖啡品牌",
+            "period": "2024年",
+            "unit": "百分比"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:25",
+          "statement": "开闭店比从2023年的11.65下降到2024年的4.1。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:25"
+          ],
+          "calibration": {
+            "entity": "连锁咖啡品牌",
+            "period": "2023-2024年",
+            "unit": "比值"
+          }
+        },
+        {
+          "id": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:26",
+          "statement": "2024年整体扩增速度放缓，闭店率提升。",
+          "kind": "fact",
+          "evidenceIds": [
+            "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:26"
+          ],
+          "calibration": {
+            "entity": "连锁咖啡品牌",
+            "period": "2024年",
+            "unit": "—"
+          }
+        }
+      ],
+      "claimQuestions": {
+        "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:0": "q1",
+        "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:1": "q1",
+        "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:2": "q1",
+        "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:3": "q1",
+        "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:4": "q1",
+        "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:5": "q1",
+        "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:6": "q1",
+        "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:7": "q1",
+        "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:8": "q1",
+        "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:9": "q1",
+        "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:10": "q1",
+        "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:11": "q1",
+        "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:12": "q1",
+        "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:13": "q1",
+        "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:14": "q1",
+        "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:15": "q1",
+        "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:16": "q1",
+        "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:17": "q1",
+        "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:0": "q1",
+        "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:1": "q1",
+        "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:2": "q1",
+        "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:3": "q1",
+        "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:4": "q1",
+        "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:5": "q1",
+        "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:6": "q1",
+        "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:7": "q1",
+        "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:8": "q1",
+        "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:9": "q1",
+        "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:10": "q1",
+        "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:11": "q1",
+        "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:12": "q1",
+        "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:13": "q1",
+        "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:14": "q1",
+        "cl:q1:snap:https://www.chinadailyhk.com/article/596504:0": "q1",
+        "cl:q1:snap:https://www.chinadailyhk.com/article/596504:1": "q1",
+        "cl:q1:snap:https://www.chinadailyhk.com/article/596504:2": "q1",
+        "cl:q1:snap:https://www.chinadailyhk.com/article/596504:3": "q1",
+        "cl:q1:snap:https://www.chinadailyhk.com/article/596504:4": "q1",
+        "cl:q1:snap:https://www.chinadailyhk.com/article/596504:5": "q1",
+        "cl:q1:snap:https://www.chinadailyhk.com/article/596504:6": "q1",
+        "cl:q1:snap:https://www.chinadailyhk.com/article/596504:7": "q1",
+        "cl:q1:snap:https://www.chinadailyhk.com/article/596504:8": "q1",
+        "cl:q1:snap:https://www.chinadailyhk.com/article/596504:9": "q1",
+        "cl:q1:snap:https://www.chinadailyhk.com/article/596504:10": "q1",
+        "cl:q1:snap:https://www.chinadailyhk.com/article/596504:11": "q1",
+        "cl:q1:snap:https://www.chinadailyhk.com/article/596504:12": "q1",
+        "cl:q1:snap:https://www.chinadailyhk.com/article/596504:13": "q1",
+        "cl:q1:snap:https://www.chinadailyhk.com/article/596504:14": "q1",
+        "cl:q1:snap:https://www.chinadailyhk.com/article/596504:15": "q1",
+        "cl:q1:snap:https://www.chinadailyhk.com/article/596504:16": "q1",
+        "cl:q1:snap:https://www.chinadailyhk.com/article/596504:17": "q1",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:0": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:1": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:2": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:3": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:4": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:5": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:6": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:7": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:8": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:9": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:10": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:11": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:12": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:13": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:14": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:15": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:16": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:17": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:18": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:19": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:20": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:21": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:22": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:23": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:24": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:25": "q2",
+        "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:26": "q2"
+      },
+      "findings": [],
+      "draftMd": null,
+      "limitations": [
+        "问题「现磨咖啡连锁品牌竞争格局如何(请分轮检索:先看市场份额,再核实门店数)」的调查结论无法解析,按未充分处理"
+      ],
+      "unresolved": [],
+      "counterexampleChecked": false,
+      "capped": true
+    },
+    "completedAt": "2026-10-16T07:36:06.322Z"
+  },
+  {
+    "runId": "4e8fb9d8-a181-4a78-8014-be8e5db0425d",
+    "stage": "analyze",
+    "data": {
+      "findings": [
+        {
+          "questionId": "q1",
+          "summary": "整体层面：2024年中国咖啡产业规模3133亿元（同比+18.1%），整体咖啡市场规模超1500亿元，其中现磨咖啡市场规模超1200亿元；现磨咖啡市场份额预计从不足40%提升至超80%。需求端：全国人均年咖啡消费22.24杯，咖啡外卖超3亿杯。供给端：2023年进口15万吨（+20%），进口额近60亿元；咖啡豆进口5年增长近3倍；咖啡机出口174.6亿元；云南咖啡豆出口13.6亿元；中国咖啡消耗量近10年35万吨（+167%）。头部品牌营收口径：瑞幸Q2净收入84.03亿元（+35.5%），同店销售-20.9%；星巴克中国Q4同店-14%、客单价-8%、交易量-6%；Tims中国在71城907店，会员2140万；Luckin年烘焙产能4.5万吨（青岛投资后拟扩至5.5万吨）、签约至2025年从巴西采购12万吨豆。",
+          "claimIds": [
+            "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:2",
+            "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:3",
+            "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:4",
+            "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:5",
+            "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:6",
+            "cl:q1:snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647:7",
+            "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:1",
+            "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:2",
+            "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:3",
+            "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:4",
+            "cl:q1:snap:https://www.chinadailyhk.com/article/596504:1",
+            "cl:q1:snap:https://www.chinadailyhk.com/article/596504:2",
+            "cl:q1:snap:https://www.chinadailyhk.com/article/596504:3",
+            "cl:q1:snap:https://www.chinadailyhk.com/article/596504:4",
+            "cl:q1:snap:https://www.chinadailyhk.com/article/596504:8",
+            "cl:q1:snap:https://www.chinadailyhk.com/article/596504:9",
+            "cl:q1:snap:https://www.chinadailyhk.com/article/596504:10",
+            "cl:q1:snap:https://www.chinadailyhk.com/article/596504:11",
+            "cl:q1:snap:https://www.chinadailyhk.com/article/596504:12",
+            "cl:q1:snap:https://www.chinadailyhk.com/article/596504:13"
+          ]
+        },
+        {
+          "questionId": "q2",
+          "summary": "竞争格局：2024年底门店榜——瑞幸22007家（第1）、库迪9304家（第2）、星巴克约7787家（第3）、幸运咖3396家（第4）、肯悦咖啡约2041家（第5）、挪瓦咖啡1899家（第6）、Manner咖啡1622家（第7）、Tims咖啡979家（第8）、M Stand 564家（第9）、COSTA 337家（第10）。前十品牌门店占比27%。瑞幸2024年新增近7000家（约占总店数32%），覆盖31省332城，广东省最多3248家；库迪下半年以“寄生开店”模式拉升门店至9304家；星巴克保持稳步扩张；幸运咖中低线城市占比67%。城市层级分布：典型连锁63%门店在高线，Manner一线+新一线占89%，Tims进入71城。趋势面：2024年75%连锁品牌扩增，开闭店比从2023年11.65降至2024年4.1，整体扩增速度放缓、闭店率提升。",
+          "claimIds": [
+            "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:7",
+            "cl:q1:snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml:8",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:0",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:1",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:2",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:3",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:4",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:5",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:6",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:7",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:8",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:9",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:10",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:11",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:12",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:13",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:14",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:15",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:16",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:17",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:18",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:19",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:20",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:21",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:22",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:24",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:25",
+            "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:26"
+          ]
+        }
+      ],
+      "gaps": [
+        {
+          "questionId": "q3",
+          "reason": "已登记主张仅披露全国咖啡外卖总量超3亿杯，未提供现磨咖啡品类内堂食/外带/外卖的结构占比与各品牌外卖占比。"
+        },
+        {
+          "questionId": "q4",
+          "reason": "已登记主张仅给出全国人均年咖啡消费22.24杯、星巴克Q4平均客单价-8%等零散数据，缺少现磨咖啡分品牌人均消费、杯单价及增长驱动因素的量化信息。"
+        },
+        {
+          "questionId": "q5",
+          "reason": "已登记主张仅涉及连锁品牌整体在城市层级分布（高线63%、四/五线约21%）及幸运咖、瑞幸等的城市分布数据，未直接给出下沉市场渗透率与开店速度的测算口径。"
+        }
+      ]
+    },
+    "completedAt": "2026-10-16T07:46:47.300Z"
+  },
+  {
+    "runId": "4e8fb9d8-a181-4a78-8014-be8e5db0425d",
+    "stage": "draft",
+    "data": {
+      "reportMd": "# 中国现磨咖啡市场调研报告\n\n## 执行摘要\n\n1. **市场规模量级**：2024年中国咖啡产业规模3133亿元（同比+18.1%），其中现磨咖啡市场规模超1200亿元，整体咖啡市场超1500亿元；2025年咖啡市场规模进一步增至2181亿元，现磨咖啡占比超86%（规模超1880亿元），全产业链口径达3549亿元（同比+13.3%）。\n2. **门店格局已演化为\"四足鼎立\"**：截至2025年11月，瑞幸30,219家、库迪16,127家、星巴克8,121家、幸运咖与挪瓦咖啡各突破1万家；2025年中国咖啡门店总数21.5万家（净增4万+，增幅25%），连锁化率从2024年46%提升至2025年53%。\n3. **消费端高速扩容但客单价持续下移**：人均年咖啡消费量从2023年16.74杯→2024年22.24杯→2025年28.57杯，三年增长70%；现磨咖啡平均客单价从2023年22.1元降至2025年16.3元（降幅26%），连锁咖啡客单价区间从32-42元下移至25-27元。\n4. **渠道结构呈现\"门店主导、自提崛起\"**：现磨咖啡门店渠道占57.59%份额，外卖约25%、自提约17.72%；2025年外卖佣金率15-20%，自提近乎零成本，\"线上下单+到店自提\"模式成为头部品牌共同选择。\n5. **供给侧国产化加速**：云南占全国咖啡产量98%以上，2025年种植面积146.3万亩、生豆产量13.89万吨（同比+16.9%）、农业产值86.6亿元（同比+77.8%），精品率从2021年8%跃升至2025年41.7%；2025年全国烘焙总产能预计突破50万吨，但进口生豆约22.38万吨（约为云南产量的1.6倍），进口额增速达432%。\n\n## 一、市场口径表\n\n本节梳理报告涉及的关键市场规模与口径差异，便于跨数据源对比。\n\n| 指标 | 数值 | 口径时间 | 统计边界 | 来源 |\n|---|---|---|---|---|\n| 中国咖啡产业规模 | 3133亿元（同比+18.1%） | 2024年 | 全产业链 | 经济日报引《2025中国城市咖啡发展报告》 |\n| 整体咖啡市场规模 | 超1500亿元 | 2024年报告 | 消费口径 | 北京日报、中国日报 |\n| 现磨咖啡市场规模 | 超1200亿元 | 2024年报告 | 消费口径 | 北京日报、中国日报 |\n| 现磨咖啡市场份额 | 从不足40%→超80% | 未来预期 | 占咖啡整体 | 北京日报（fact）、中国日报（inference） |\n| 中国咖啡市场规模 | 2181亿元（现磨超1880亿元，占比>86%） | 2025年 | 消费口径 | 《2025中国咖啡产业发展报告》 |\n| 中国咖啡产业规模（全链条） | 3549亿元（同比+13.3%） | 2025年 | 全产业链 | 《2026中国城市咖啡发展报告》 |\n| 中国现磨咖啡市场规模 | 1200亿→3200亿元（CAGR 22%） | 2019-2024年 | 消费口径 | 勤策消费研究 |\n| 中国现磨咖啡行业市场规模 | 313亿→1515亿→1903亿元（CAGR 37.1%，预计2024同比+25.6%） | 2018-2024年 | 消费口径 | 灼识咨询引述 |\n| 中国咖啡消耗量 | 35万吨（10年+167%）；2025年预估突破40万吨 | 近10年/2025年 | 物量 | 北京日报、报告 |\n| 全国人均年咖啡消费量 | 16.74→22.24→28.57杯 | 2023/2024/2025 | 人均杯数 | 报告 |\n\n注：现磨咖啡市场规模在不同来源中存在显著口径差异——2024年报告口径为1200亿元（vs 整体咖啡1500亿元，占比约80%），而勤策消费研究给出2024年3200亿元；2025年《报告》口径为1880亿元（占比超86%）。各口径在统计边界（是否含咖啡液/即饮/零售）与数据来源上存在差异，需在引用时明确口径。\n\n## 二、行业结构\n\n### 2.1 产业链价值分布\n\n中国现磨咖啡产业链利润分配呈\"上游薄、中游稳、下游厚\"的特征：上游种植利润率仅约5%，中游加工约15%，下游门店净利率10-15%；现磨咖啡门店毛利率约60-65%，咖啡液毛利率约50-55%。原材料成本中，咖啡豆占现磨咖啡售价的15-20%，咖啡液原材料成本占比25-30%；精品烘焙豆溢价可达50%，云南咖啡豆替代进口具备20-30%成本优势。\n\n| 产业链环节 | 关键指标 | 数值 | 口径时间 | 来源 |\n|---|---|---|---|---|\n| 上游种植 | 全球产区集中度 | 巴西40%、越南20%、哥伦比亚/印尼/埃塞俄比亚合计25%；中国云南占全球约1% | 2024年 | 勤策消费研究 |\n| 上游种植 | 云南占全国产量 | 98%以上 | 2025年 | 《2025中国咖啡产业发展报告》 |\n| 上游种植 | 云南种植面积 | 146.3万亩（同比+15.4%） | 2025年 | 同上 |\n| 上游种植 | 云南生豆产量 | 13.89万吨（同比+16.9%） | 2025年 | 同上 |\n| 上游种植 | 云南农业产值 | 86.6亿元（同比+77.8%） | 2025年 | 同上 |\n| 上游种植 | 云南精品率 | 41.7%（2021年为8%） | 2025年 | 同上 |\n| 上游种植 | 云南精深加工率 | 85%（五年前为20%） | 2025年 | 同上 |\n| 上游种植 | 云南出口量 | 3.25万吨（同比+358%） | 2025年 | 同上 |\n| 中游加工 | 全国烘焙总产能 | 预计突破50万吨 | 2025年 | 同上 |\n| 中游加工 | 亿政咖啡年产能 | 7万吨/年 | 2024年 | 同上 |\n| 中游加工 | 星巴克昆山工厂年产能 | 6万吨/年 | 2024年 | 同上 |\n| 中游加工 | 瑞幸厦门创新产业园年产能 | 5.5万吨（建成后总产能15.5万吨） | 2025年 | 同上 |\n| 中游加工 | 库迪安徽二期生豆处理 | 7.5万吨 | 2025年 | 同上 |\n| 中游加工 | 萃取技术参数 | 闪萃92℃高温高压10倍浓缩常温保存12个月；冷萃8-12小时；冻干-40℃真空 | 2024年 | 勤策消费研究 |\n| 下游门店 | 现磨咖啡门店毛利率 | 60-65% | 2024年 | 中金企信 |\n| 下游门店 | 咖啡液毛利率 | 50-55% | 2024年 | 同上 |\n| 下游门店 | 产业链净利率 | 上游5%/中游15%/下游10-15% | 2024年 | 勤策消费研究 |\n\n来源快照：勤策消费研究、中金企信、《2025中国咖啡产业发展报告》。\n\n### 2.2 竞争格局：万店俱乐部与连锁化跃升\n\n2024-2025年是中国现磨咖啡连锁化跃升的关键窗口。2025年中国咖啡门店总数达21.5万家（净增4万+，增幅25%），连锁化率从2024年46%提升至2025年53%，首次超过五成。\n\n| 品牌 | 2024年底门店 | 2025年11月门店 | 人均消费（元） | 城市层级偏好 | 来源 |\n|---|---|---|---|---|---|\n| 瑞幸咖啡 | 22,007 | 30,219 | 14.28 | 高线门店多于中低线，中低线占34%、新一线约26% | 三个皮匠/GEOQ/窄门 |\n| 库迪咖啡 | 9,304 | 16,127 | 10.48 | 高线占约60%、新一线约28%、中低线约40% | 同上 |\n| 星巴克 | 约7,787 | 8,121 | —（维持30元以上价格带） | 聚焦一二线核心商圈、直营为主 | 同上 |\n| 幸运咖 | 3,396 | 已破1万家 | 8.14 | 北方省市多于南方，中低线城市占67% | 同上 |\n| 挪瓦咖啡 | 1,899 | 全球超1万家 | 16.99 | 覆盖国内300+城市及东南亚、澳洲 | 同上 |\n| 肯悦咖啡 | 约2,041 | 2,341（2026Q1突破2,600） | — | 高线占约64%、新一线约25% | 同上 |\n| Manner咖啡 | 1,622 | 2,326 | — | 一线+新一线占89%（一线占66%）、五线未开店 | 同上 |\n| Tims天好咖啡 | 979 | 1,064 | — | 覆盖71城907店、会员2140万 | 同上 |\n| M Stand | 564 | — | — | — | 同上 |\n| COSTA | 337 | — | — | — | 同上 |\n| 沪咖 | — | 2,067 | — | — | 同上 |\n\n2024年TOP10品牌门店合计占行业27%（北京日报口径）。截至2025年11月，瑞幸、库迪、幸运咖、挪瓦咖啡形成\"四足鼎立\"万店格局；星巴克被大幅拉开差距并引入博裕资本开启本土化控股模式；行业前十份额从27%进一步集中于头部。\n\n典型连锁咖啡品牌城市层级分布（2024年）：高线占63%、新一线约25%、二线21%、三线15%、四线13%、五线9%；四线与五线城市合计占比约21%，下沉空间仍存。\n\n来源快照：GeoQ智图《2024连锁咖啡品牌门店规模》、三个皮匠《2025+中国咖啡产业发展报告》、窄门餐眼。\n\n### 2.3 渠道结构：门店主导、自提崛起\n\n| 渠道 | 2024年份额 | 备注 |\n|---|---|---|\n| 门店渠道 | 57.59%（勤策口径：58%） | 绝对主渠道 |\n| 外卖渠道 | 约25%（勤策：25%；中品：\"近四分之一\"） | 美团、饿了么为核心入口 |\n| 自提 | 17.72%（勤策：18%） | \"线上下单+到店自提\"模式跑通后星巴克、库迪跟进 |\n| 成本/佣金 | 外卖佣金15-20%，自提近乎零成本 | — |\n\n来源快照：中金企信、勤策消费研究、中品数据。\n\n### 2.4 消费场景与用户画像\n\n| 维度 | 关键数据 | 口径/时间 | 来源 |\n|---|---|---|---|\n| 用户年龄 | 20-35岁占65.63%（核心人群25-39岁） | 调研期 | 中国品牌研究院 |\n| Z世代渗透率 | 18-25岁渗透率快速提升；2025年Z世代人均年消费频次25杯；18-24岁贡献24%消费量 | 调研期/2025年 | 同上/报告 |\n| 用户性别 | 女性接近六成（拿铁等奶咖占主导） | 调研期 | 中国品牌研究院 |\n| 用户收入 | 月收入8000-20000元区间消费最活跃，占55.35% | 调研期 | 同上 |\n| 消费态度 | 51.14%视咖啡为工作提神刚需/半必需品；29.15%休闲饮品；12.23%轻奢犒劳；7.48%偶尔尝试 | 调研期 | 同上 |\n| 主要场景 | 聚会聊天29.37%、办公室27.33%、下午茶18.25%、通勤14.75%；工作/学习场景47.89%（2025年口径） | 调研期/2025年 | 同上/报告 |\n| 饮用频次 | 36%每周4-6次、29%每天饮用 | 2025年 | 报告 |\n| 溢价意愿 | 超60%愿为高品质咖啡豆支付溢价；53.42%愿为限定风味付费；43.50%愿为品牌力付费 | 调研期 | 中国品牌研究院 |\n| 尝新动机 | 朋友推荐/口碑65.90%、产品新颖53.80%、价格实惠51.08% | 调研期 | 同上 |\n| 品牌认知度 | 星巴克78.35%、瑞幸76.34% | 调研期 | 中品数据 |\n| 现制咖啡人均消费量 | 中国27杯/(人·年)，成熟市场6-12倍差距；2022年大陆6.2杯/(人·年) | 2025年/2022年 | 蒙牛×益普索/中商产业研究院 |\n\n来源快照：中国品牌研究院、蒙牛×益普索、中商产业研究院、勤策消费研究。\n\n## 三、趋势与风险\n\n### 3.1 趋势一：从\"低价内卷\"转向\"品质升级\"\n\n国内咖啡品牌的竞争重心已从\"低价内卷\"转向\"品质升级\"：瑞幸逐步收缩9.9元促销并借力联名与新品拉升客单价；库迪终止全场9.9元活动；Manner于2026年4月单杯提价5元；大钲资本2026年上半年以近4亿美元拟收购蓝瓶咖啡全球线下门店资产（双方保持独立运营）。\n\n价格端信号：现磨咖啡平均客单价从2023年22.1元降至2025年16.3元（降幅26%），连锁咖啡客单价区间从32-42元下移至25-27元；但消费端人均消费量三年增长70%，呈现\"量增价跌\"的扩容特征。生椰拿铁价格击穿20元底线，美式咖啡促销季低至8-12元区间。\n\n来源快照：中品数据、勤策消费研究。\n\n### 3.2 趋势二：开店逻辑转变——\"高线回升、下沉放缓\"\n\n2026年Q1数据显示，咖啡品牌在高线城市的开店占比回升至59%（高于2024年63%的全行业平均），表明咖啡赛道经历下沉试水后重心重新回到高线城市。新茶饮同期开闭店比从1.52降至1.32，71%品牌门店处于净减少或停滞状态，仅6%品牌净增长——咖啡赛道是2026年Q1最强劲的赛道（定性判断）。\n\n| 品牌 | 2026Q1净增 | 门店总数 | 来源 |\n|---|---|---|---|\n| 瑞幸咖啡 | +2,464 | — | GeoQ《2026Q1连锁餐饮品牌门店发展趋势蓝皮书》 |\n| 库迪咖啡 | — | 突破1.7万家 | 同上 |\n| 挪瓦咖啡 | — | 超过9,600家 | 同上 |\n| 蜜雪冰城 | +1,686 | 突破4.6万家 | 同上 |\n| 一点点 | +345 | —（61%新店开在一二线） | 同上 |\n| 茶瀑布（沪上阿姨子品牌） | +262 | —（67%新店投向下沉） | 同上 |\n\n来源快照：搜狐引GeoQ智图《2026年第一季度连锁餐饮品牌门店发展趋势蓝皮书》。\n\n### 3.3 趋势三：产业链国产化与云南精品化加速\n\n云南作为全国咖啡上游根基，2025年实现\"面积+15.4%、产量+16.9%、产值+77.8%\"的不均衡增长，产值增速远超产量增速，反映精品化与精深加工的结构性升级：精品率从2021年8%跃升至2025年41.7%，精深加工率从20%提升至85%，规模以上精深加工企业达41户。保山中咖自研X光智能筛选生产线瑕疵剔除率99%以上，\"鲜盾\"保鲜技术将精品赏味期从2个月延长至18个月以上。\n\n供给端结构性变化：\n- 进口端：2025年全国进口咖啡生豆约22.38万吨（约为云南产量的1.6倍），进口额增速达432%，巴西仍为最大来源国。\n- 出口端：2025年全国出口咖啡生豆约2.33万吨（同比-43.45%），但咖啡出口额从2020年5.46亿元增至2025年14.4亿元（增幅超160%）；云南3.25万吨优质咖啡远销29国（同比+358%），新进入吉尔吉斯斯坦、斯洛文尼亚。\n- 中游产能：2025年全国烘焙总产能预计突破50万吨（vs 2024年超35万吨），瑞幸厦门产业园建成后总产能将达15.5万吨（跻身全球前十大烘焙商），库迪安徽二期生豆处理7.5万吨。\n\n来源快照：《2025中国咖啡产业发展报告》、勤策消费研究。\n\n### 3.4 风险点\n\n1. **门店扩张降速与闭店率提升**：2024年典型连锁咖啡开闭店比从2023年11.65降至4.1，整体扩增速度放缓、闭店率提升；2025年连锁化率53%首次过半后，门店密度提升可能挤压单店模型。\n2. **价格战对盈利能力的侵蚀**：茶饮行业平均利润率从2023年21.4%降至2024年14.7%（2025Q1回升至16.2%）；现磨咖啡客单价三年降幅26%，若消费端人均杯数增速放缓而价格继续下移，将压缩门店净利率。\n3. **上游原材料价格波动**：2023年中国咖啡进口额近60亿元，全球咖啡烘焙市场CR10不足40%意味着供应分散，叠加全球通胀，咖啡豆价格已处历史高位，对中下游成本构成压力。\n4. **头部品牌同店销售转弱**：瑞幸Q2同店销售额-20.9%、星巴克中国Q4同店-14%（客单价-8%、交易量-6%），反映存量市场竞争加剧与价格策略调整的短期阵痛。\n5. **国际市场对比下的渗透差距**：中国人均现制咖啡消费量约27杯/(人·年)，较成熟市场有6-12倍差距；现磨咖啡消耗量占比预计达45%、5年内将成为主流消费方式——渗透差距是机会，但也意味着增长节奏存在不确定性。\n\n来源快照：北京日报、中国日报、勤策消费研究、灼识咨询。\n\n## 四、启示与建议\n\n1. **连锁品牌：从\"规模战\"转向\"单店模型优化+品质升级\"双轮驱动**——瑞幸2024年新增近7000家（约占总店数32%）的快速扩张难以长期持续；2026年Q1咖啡品牌开店重新聚焦高线城市（59%）反映行业回归精细化运营。建议头部品牌在保持规模优势的同时，通过自建烘焙基地（如瑞幸厦门产业园5.5万吨产能、库迪安徽二期7.5万吨生豆处理）控制成本，并借联名/新品拉升客单价（推断）。\n2. **渠道策略：\"门店+自提+外卖\"三轮并行，优先降低履约成本**——自提近乎零成本而外卖佣金15-20%，建议连锁品牌持续推广\"线上下单+到店自提\"模式，并优化门店选址与动线设计以放大自提占比；门店渠道占57.59%份额仍是绝对主渠道，渠道下沉需谨慎（2026Q1高线占比回升至59%为信号）。\n3. **品类策略：高端精品化与大众便捷化双轨布局**——Manner单杯提价5元、星巴克维持30元以上价格带、瑞幸万店规模+高频上新覆盖平价市场，建议品牌根据自身定位选择赛道，避免在9.9元价格带与库迪/幸运咖/挪瓦/瑞幸正面竞争（推断）。\n4. **上游布局：强化云南精品豆采购与精深加工合作**——云南精品率从2021年8%跃升至2025年41.7%，云南精品豆在沪/京/广/深精品门店覆盖率分别达90%/80%+/70%+，精品豆溢价可达50%、云南豆替代进口具备20-30%成本优势，建议品牌建立云南直采体系与精品豆 SKU 开发能力（推断）。\n5. **用户运营：从\"拉新\"转向\"高频复购+会员深耕\"**——星巴克中国会员超1.2亿、活跃会员贡献超75%销售额，瑞幸APP下单占比超90%、私域用户超1亿；51.14%消费者将咖啡视为刚需/半必需品，工作/学习场景占47.89%，建议品牌针对20-35岁核心人群（占比65%+）构建会员体系与场景化触达（推断）。\n6. **出海与下沉权衡**：下沉市场占比2026Q1新茶饮首超51%，但咖啡赛道重新聚焦高线城市；挪瓦咖啡已覆盖东南亚、澳洲等海外市场，杨国福麻辣烫海外门店同比增速70%（非咖啡但可类比），建议万店俱乐部品牌在稳固国内规模优势前提下，试点海外市场与下沉市场双轨探索（推断）。\n7. **资本动作与并购机会**：大钲资本2026年上半年以近4亿美元拟收购蓝瓶咖啡全球线下门店资产（双方独立运营），挪瓦咖啡完成数亿元C轮融资、比星咖啡完成数千万元B轮融资、花田萃获数千万融资——资本市场关注从规模扩张转向供应链能力与品类差异化，建议腰部品牌聚焦供应链与品类创新以吸引资本（推断）。\n\n## 五、口径与局限披露\n\n1. **市场规模口径差异显著**：\n   - 2024年北京日报/中国日报口径：现磨咖啡超1200亿元、整体咖啡超1500亿元；\n   - 2024年勤策消费研究口径：现磨咖啡3200亿元；\n   - 2024年灼识咨询口径：现磨咖啡行业1515亿元（2023），预计2024年1903亿元；\n   - 2025年《2025中国咖啡产业发展报告》口径：现磨咖啡超1880亿元、占比超86%；\n   - 2025年《2026中国城市咖啡发展报告》全产业链口径：3549亿元。\n   不同口径在统计边界（是否含咖啡液/即饮/零售/全产业链）与数据来源上存在显著差异，本报告在引用时已尽量标注来源与口径。\n\n2. **时间口径混用**：本报告涉及的2024年数据多来自2024年10月发布的《中国咖啡产业报告2024》/《2025中国城市咖啡发展报告》，与2025年11月时点的门店数据存在半年至一年时间差，部分指标（如门店数）已发生显著变化。\n\n3. **门店数据来源不一**：GeoQ智图、三个皮匠、窄门餐眼、搜狐引述等不同来源对同一品牌的门店数略有出入（如幸运咖2024年底\"3396家\"vs 2025年11月\"已破1万家\"），可能存在统计时点与口径差异。\n\n4. **预测性主张的处理**：本报告明确标注的推断包括——\"现磨咖啡市场份额将从不足40%提升至超过80%\"（fact/inference 双标记）、\"下沉市场持续渗透\"（inference）、\"价格战趋缓\"（inference）等定性判断。这些预测基于现有趋势但存在不确定性。\n\n5. **现有证据不足以展开的内容**：\n   - 现磨咖啡各品牌单店日均销售额/月销售额等微观运营数据：证据不足；\n   - 库迪\"寄生开店\"模式的具体合作商家清单与分成机制：仅描述现象，未见详细披露；\n   - 星巴克引入博裕资本后的具体股权结构、董事席位与决策权分配：仅提及\"本土化控股模式\"，细节缺失；\n   - 大钲资本收购蓝瓶咖啡的具体交易条款、监管审批进度：仅披露金额与时间框架；\n   - 中国咖啡机出口174.6亿元的具体产品结构（家用/商用/全自动等）：口径未细分。\n\n6. **数据点已回溯的主要来源快照**：\n   - snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647（经济日报《2025中国城市咖啡发展报告》引述）\n   - snap:https://www.chinadailyhk.com/article/596504（中国日报《Coffee market bubbles as brands tweak strategy》引述《中国咖啡产业报告2024》）\n   - snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml（北京日报《中国咖啡产业报告：现磨咖啡市场规模超1200亿元》）\n   - snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html（三个皮匠《2024连锁咖啡品牌门店规模》）\n   - snap:https://qince.com/reports/report/cafe（勤策消费研究《中国现磨咖啡行业报告》）\n   - snap:http://www.cbrand.com.cn/content-26-33608-1.html（中品数据/中国品牌研究院《咖啡品牌集体\"升咖\"》）\n   - snap:https://www.sgpjbg.com/searchtag/26675279.html（三个皮匠《2025+中国咖啡产业发展报告》）\n   - snap:http://chinasihan.com/news/cyzx/20886.html（思瀚产业研究院《大众茶饮赛道扩容，下沉市场红利释放》引灼识咨询）\n   - snap:https://www.sohu.com/a/1038756095_122903028（搜狐引GeoQ智图《2026年第一季度连锁餐饮品牌门店发展趋势蓝皮书》）\n\n7. **本报告未涉及的内容**（如有需要请补充检索）：\n   - 现磨咖啡各品牌SKU结构、产品创新节奏与爆款生命周期数据；\n   - 资本在一级市场（PE/VC）对咖啡赛道的投资规模与估值变化历史曲线；\n   - 咖啡外卖平台（美团/饿了么）的咖啡类目订单数据与佣金政策细节；\n   - 各城市具体门店分布热力图与商圈租金水平；\n   - 咖啡机、咖啡液、咖啡豆等细分品类的零售/电商渠道销售数据。"
+    },
+    "completedAt": "2026-10-16T07:48:24.873Z"
+  },
+  {
+    "runId": "4e8fb9d8-a181-4a78-8014-be8e5db0425d",
+    "stage": "polish",
+    "data": {
+      "reportMd": "# 中国现磨咖啡市场调研报告\n\n## 执行摘要\n\n中国现磨咖啡市场正处于\"规模高速扩张、客单价持续下移、产业链国产化提速\"的复合阶段，2024-2025年的多组关键数据共同勾勒出当前的市场全貌。\n\n1. **市场规模量级**：2024年中国咖啡产业规模达3133亿元（同比+18.1%），其中现磨咖啡市场规模超1200亿元，整体咖啡市场超1500亿元；2025年咖啡市场规模进一步增至2181亿元，现磨咖啡占比超86%（规模超1880亿元），全产业链口径达3549亿元（同比+13.3%）。2020-2024年消费口径与产业链口径年均复合增长率均超过23%，约为全球咖啡市场中长期增速的6倍。\n\n2. **门店格局已演化为\"四足鼎立\"**：截至2025年11月，瑞幸30,219家、库迪16,127家、星巴克8,121家、幸运咖与挪瓦咖啡各突破1万家；2025年中国咖啡门店总数21.5万家（净增4万+，增幅25%），连锁化率从2024年46%提升至2025年53%，首次超过五成。前十品牌门店占比达27%，集中度持续提升。\n\n3. **消费端高速扩容但客单价持续下移**：人均年咖啡消费量从2023年16.74杯→2024年22.24杯→2025年28.57杯，三年增长70%；现磨咖啡平均客单价从2023年22.1元降至2025年16.3元（降幅26%），连锁咖啡客单价区间从32-42元下移至25-27元。咖啡饮用者规模约5亿人，工作/学习场景占比47.89%。\n\n4. **渠道结构呈现\"门店主导、自提崛起\"**：现磨咖啡门店渠道占57.59%份额，外卖约25%、自提约17.72%；2025年外卖佣金率15-20%，自提近乎零成本，\"线上下单+到店自提\"模式成为头部品牌共同选择。\"到店消费\"占比从2019年的65%下降至2024年的45%，\"外带+外卖\"占比提升至55%。\n\n5. **供给侧国产化加速**：云南占全国咖啡产量98%以上，2025年种植面积146.3万亩、生豆产量13.89万吨（同比+16.9%）、农业产值86.6亿元（同比+77.8%），精品率从2021年8%跃升至2025年41.7%；2025年全国烘焙总产能预计突破50万吨，但进口生豆约22.38万吨（约为云南产量的1.6倍），进口额增速达432%。\n\n6. **竞争重心从\"低价内卷\"转向\"品质升级\"**：瑞幸逐步收缩9.9元促销、库迪终止全场9.9元活动、Manner于2026年4月单杯提价5元、大钲资本拟以近4亿美元收购蓝瓶咖啡全球线下门店资产，反映行业进入新一轮价值竞争阶段。\n\n---\n\n## 一、市场口径表\n\n本节梳理报告涉及的关键市场规模与口径差异，便于跨数据源对比。\n\n| 指标 | 数值 | 口径时间 | 统计边界 | 来源 |\n|---|---|---|---|---|\n| 中国咖啡产业规模 | 3133亿元（同比+18.1%） | 2024年 | 全产业链 | 经济日报引《2025中国城市咖啡发展报告》 |\n| 整体咖啡市场规模 | 超1500亿元 | 2024年报告 | 消费口径 | 北京日报、中国日报 |\n| 现磨咖啡市场规模 | 超1200亿元 | 2024年报告 | 消费口径 | 北京日报、中国日报 |\n| 现磨咖啡市场份额 | 从不足40%→超80% | 未来预期 | 占咖啡整体 | 北京日报（fact）、中国日报（inference） |\n| 中国咖啡市场规模 | 2181亿元（现磨超1880亿元，占比>86%） | 2025年 | 消费口径 | 《2025中国咖啡产业发展报告》 |\n| 中国咖啡产业规模（全链条） | 3549亿元（同比+13.3%） | 2025年 | 全产业链 | 《2026中国城市咖啡发展报告》 |\n| 中国现磨咖啡市场规模 | 1200亿→3200亿元（CAGR 22%） | 2019-2024年 | 消费口径 | 勤策消费研究 |\n| 中国现磨咖啡行业市场规模 | 313亿→1515亿→1903亿元（CAGR 37.1%，预计2024同比+25.6%） | 2018-2024年 | 消费口径 | 灼识咨询引述 |\n| 中国咖啡消耗量 | 35万吨（10年+167%）；2025年预估突破40万吨 | 近10年/2025年 | 物量 | 北京日报、报告 |\n| 全国人均年咖啡消费量 | 16.74→22.24→28.57杯 | 2023/2024/2025 | 人均杯数 | 报告 |\n\n注：现磨咖啡市场规模在不同来源中存在显著口径差异——2024年报告口径为1200亿元（vs 整体咖啡1500亿元，占比约80%），而勤策消费研究给出2024年3200亿元；2025年《报告》口径为1880亿元（占比超86%）。各口径在统计边界（是否含咖啡液/即饮/零售）与数据来源上存在差异，需在引用时明确口径。\n\n---\n\n## 二、行业结构\n\n### 2.1 产业链价值分布\n\n中国现磨咖啡产业链利润分配呈\"上游薄、中游稳、下游厚\"的特征：上游种植利润率仅约5%，中游加工约15%，下游门店净利率10-15%；现磨咖啡门店毛利率约60-65%，咖啡液毛利率约50-55%。原材料成本中，咖啡豆占现磨咖啡售价的15-20%，咖啡液原材料成本占比25-30%；精品烘焙豆溢价可达50%，云南咖啡豆替代进口具备20-30%成本优势。\n\n| 产业链环节 | 关键指标 | 数值 | 口径时间 | 来源 |\n|---|---|---|---|---|\n| 上游种植 | 全球产区集中度 | 巴西40%、越南20%、哥伦比亚/印尼/埃塞俄比亚合计25%；中国云南占全球约1% | 2024年 | 勤策消费研究 |\n| 上游种植 | 云南占全国产量 | 98%以上 | 2025年 | 《2025中国咖啡产业发展报告》 |\n| 上游种植 | 云南种植面积 | 146.3万亩（同比+15.4%） | 2025年 | 同上 |\n| 上游种植 | 云南生豆产量 | 13.89万吨（同比+16.9%） | 2025年 | 同上 |\n| 上游种植 | 云南农业产值 | 86.6亿元（同比+77.8%） | 2025年 | 同上 |\n| 上游种植 | 云南精品率 | 41.7%（2021年为8%） | 2025年 | 同上 |\n| 上游种植 | 云南精深加工率 | 85%（五年前为20%） | 2025年 | 同上 |\n| 上游种植 | 云南出口量 | 3.25万吨（同比+358%） | 2025年 | 同上 |\n| 上游种植 | 星巴克云南采购 | 12年累计>65,000吨；普洱农民支持中心培训36,800名农民、认证3,411个农场 | 累计10年 | 中国日报 |\n| 中游加工 | 全国烘焙总产能 | 预计突破50万吨（vs 2024年>35万吨） | 2025年 | 同上 |\n| 中游加工 | 亿政咖啡年产能 | 7万吨/年 | 2024年 | 同上 |\n| 中游加工 | 星巴克昆山工厂年产能 | 6万吨/年 | 2024年 | 同上 |\n| 中游加工 | 瑞幸厦门创新产业园年产能 | 5.5万吨（建成后总产能15.5万吨） | 2025年 | 同上 |\n| 中游加工 | 库迪安徽二期生豆处理 | 7.5万吨 | 2025年 | 同上 |\n| 中游加工 | 瑞幸年烘焙产能 | 4.5万吨（青岛30亿元投资后拟扩至5.5万吨） | 2024年 | 中国日报 |\n| 中游加工 | 萃取技术参数 | 闪萃92℃高温高压10倍浓缩常温保存12个月；冷萃8-12小时；冻干-40℃真空 | 2024年 | 勤策消费研究 |\n| 下游门店 | 现磨咖啡门店毛利率 | 60-65% | 2024年 | 中金企信 |\n| 下游门店 | 咖啡液毛利率 | 50-55% | 2024年 | 同上 |\n| 下游门店 | 产业链净利率 | 上游5%/中游15%/下游10-15% | 2024年 | 勤策消费研究 |\n| 下游门店 | 品牌认知度 | 星巴克78.35%、瑞幸76.34% | 调研期 | 中品数据/中国品牌研究院 |\n\n来源快照：勤策消费研究、中金企信、《2025中国咖啡产业发展报告》、中国日报。\n\n### 2.2 竞争格局：万店俱乐部与连锁化跃升\n\n2024-2025年是中国现磨咖啡连锁化跃升的关键窗口。2025年中国咖啡门店总数达21.5万家（净增4万+，增幅25%），连锁化率从2024年46%提升至2025年53%，首次超过五成。\n\n| 品牌 | 2024年底门店 | 2025年11月门店 | 人均消费（元） | 城市层级偏好 | 来源 |\n|---|---|---|---|---|---|\n| 瑞幸咖啡 | 22,007 | 30,219 | 14.28 | 高线门店多于中低线，中低线占34%、新一线约26%；广东省3,248家居首 | 三个皮匠/GEOQ/窄门 |\n| 库迪咖啡 | 9,304 | 16,127 | 10.48 | 高线占约60%、新一线约28%、中低线约40%；浙江省892家居首 | 同上 |\n| 星巴克 | 约7,787 | 8,121 | —（维持30元以上价格带） | 聚焦一二线核心商圈、直营为主；引入博裕资本开启本土化控股模式 | 同上 |\n| 幸运咖 | 3,396 | 已破1万家 | 8.14 | 北方省市多于南方，中低线城市占67% | 同上 |\n| 挪瓦咖啡 | 1,899 | 全球超1万家 | 16.99 | 覆盖国内300+城市及东南亚、澳洲 | 同上 |\n| 肯悦咖啡 | 约2,041 | 2,341（2026Q1突破2,600） | — | 高线占约64%、新一线约25% | 同上 |\n| Manner咖啡 | 1,622 | 2,326 | — | 一线+新一线占89%（一线占66%）、五线未开店 | 同上 |\n| Tims天好咖啡 | 979 | 1,064 | — | 覆盖71城907店、会员2140万 | 同上 |\n| M Stand | 564 | — | — | — | 同上 |\n| COSTA | 337 | — | — | — | 同上 |\n| 沪咖 | — | 2,067 | — | — | 同上 |\n\n2024年TOP10品牌门店合计占行业27%（北京日报口径）。截至2025年11月，瑞幸、库迪、幸运咖、挪瓦咖啡形成\"四足鼎立\"万店格局；星巴克被大幅拉开差距并引入博裕资本开启本土化控股模式；行业前十份额从27%进一步集中于头部。\n\n典型连锁咖啡品牌城市层级分布（2024年）：高线占63%、新一线约25%、二线21%、三线15%、四线13%、五线9%；四线与五线城市合计占比约21%，下沉空间仍存。前五城（上海/广州/北京/成都/深圳）咖啡门店占全国比例从2022年9月的23%下降至2024年9月的不足19%，反映城市集中度逐步分散。\n\n来源快照：GeoQ智图《2024连锁咖啡品牌门店规模》、三个皮匠《2025+中国咖啡产业发展报告》、窄门餐眼。\n\n### 2.3 渠道结构：门店主导、自提崛起\n\n| 渠道 | 2024年份额 | 备注 |\n|---|---|---|\n| 门店渠道 | 57.59%（勤策口径：58%） | 绝对主渠道 |\n| 外卖渠道 | 约25%（勤策：25%；中品：\"近四分之一\"） | 美团、饿了么为核心入口 |\n| 自提 | 17.72%（勤策：18%） | \"线上下单+到店自提\"模式跑通后星巴克、库迪跟进 |\n| 成本/佣金 | 外卖佣金15-20%，自提近乎零成本 | — |\n| 消费场景 | \"到店\"占比从2019年65%降至2024年45%；\"外带+外卖\"升至55% | 便利性需求超越空间体验 |\n\n来源快照：中金企信、勤策消费研究、中品数据。\n\n### 2.4 消费场景与用户画像\n\n| 维度 | 关键数据 | 口径/时间 | 来源 |\n|---|---|---|---|\n| 用户年龄 | 20-35岁占65.63%（核心人群25-39岁） | 调研期 | 中国品牌研究院 |\n| Z世代渗透率 | 18-25岁渗透率快速提升；2025年Z世代人均年消费频次25杯；18-24岁贡献24%消费量 | 调研期/2025年 | 同上/报告 |\n| 用户性别 | 女性接近六成（拿铁等奶咖占主导） | 调研期 | 中国品牌研究院 |\n| 用户收入 | 月收入8000-20000元区间消费最活跃，占55.35% | 调研期 | 同上 |\n| 消费态度 | 51.14%视咖啡为工作提神刚需/半必需品；29.15%休闲饮品；12.23%轻奢犒劳；7.48%偶尔尝试 | 调研期 | 同上 |\n| 主要场景 | 聚会聊天29.37%、办公室27.33%、下午茶18.25%、通勤14.75%；工作/学习场景47.89%（2025年口径） | 调研期/2025年 | 同上/报告 |\n| 饮用频次 | 36%每周4-6次、29%每天饮用 | 2025年 | 报告 |\n| 溢价意愿 | 超60%愿为高品质咖啡豆支付溢价；53.42%愿为限定风味付费；43.50%愿为品牌力付费 | 调研期 | 中国品牌研究院 |\n| 尝新动机 | 朋友推荐/口碑65.90%、产品新颖53.80%、价格实惠51.08% | 调研期 | 同上 |\n| 品牌认知度 | 星巴克78.35%、瑞幸76.34% | 调研期 | 中品数据 |\n| 现制咖啡人均消费量 | 中国27杯/(人·年)，成熟市场6-12倍差距；2022年大陆6.2杯/(人·年) | 2025年/2022年 | 蒙牛×益普索/中商产业研究院 |\n| 数字化运营 | 瑞幸APP下单占比>90%，私域用户>1亿 | 2024年 | 勤策消费研究 |\n| 会员体系 | 星巴克中国会员>1.2亿，活跃会员贡献>75%销售额 | 2024年 | 同上 |\n\n来源快照：中国品牌研究院、蒙牛×益普索、中商产业研究院、勤策消费研究。\n\n---\n\n## 三、趋势与风险\n\n### 3.1 趋势一：从\"低价内卷\"转向\"品质升级\"\n\n国内咖啡品牌的竞争重心已从\"低价内卷\"转向\"品质升级\"：瑞幸逐步收缩9.9元促销并借力联名与新品拉升客单价；库迪终止全场9.9元活动；Manner于2026年4月单杯提价5元；大钲资本2026年上半年以近4亿美元拟收购蓝瓶咖啡全球线下门店资产（双方保持独立运营）。\n\n价格端信号：现磨咖啡平均客单价从2023年22.1元降至2025年16.3元（降幅26%），连锁咖啡客单价区间从32-42元下移至25-27元；但消费端人均消费量三年增长70%，呈现\"量增价跌\"的扩容特征。生椰拿铁价格击穿20元底线，美式咖啡促销季低至8-12元区间。\n\n来源快照：中品数据、勤策消费研究。\n\n### 3.2 趋势二：开店逻辑转变——\"高线回升、下沉放缓\"\n\n2026年Q1数据显示，咖啡品牌在高线城市的开店占比回升至59%（高于2024年63%的全行业平均），表明咖啡赛道经历下沉试水后重心重新回到高线城市。新茶饮同期开闭店比从1.52降至1.32，71%品牌门店处于净减少或停滞状态，仅6%品牌净增长——咖啡赛道是2026年Q1最强劲的赛道（定性判断）。\n\n| 品牌 | 2026Q1净增 | 门店总数 | 来源 |\n|---|---|---|---|\n| 瑞幸咖啡 | +2,464 | — | GeoQ《2026Q1连锁餐饮品牌门店发展趋势蓝皮书》 |\n| 库迪咖啡 | — | 突破1.7万家 | 同上 |\n| 挪瓦咖啡 | — | 超过9,600家 | 同上 |\n| 蜜雪冰城 | +1,686 | 突破4.6万家 | 同上 |\n| 一点点 | +345 | —（61%新店开在一二线） | 同上 |\n| 茶瀑布（沪上阿姨子品牌） | +262 | —（67%新店投向下沉） | 同上 |\n| 肯悦咖啡 | — | 已突破2,600家 | 同上 |\n\n来源快照：搜狐引GeoQ智图《2026年第一季度连锁餐饮品牌门店发展趋势蓝皮书》。\n\n### 3.3 趋势三：产业链国产化与云南精品化加速\n\n云南作为全国咖啡上游根基，2025年实现\"面积+15.4%、产量+16.9%、产值+77.8%\"的不均衡增长，产值增速远超产量增速，反映精品化与精深加工的结构性升级：精品率从2021年8%跃升至2025年41.7%，精深加工率从20%提升至85%，规模以上精深加工企业达41户。保山中咖自研X光智能筛选生产线瑕疵剔除率99%以上，\"鲜盾\"保鲜技术将精品赏味期从2个月延长至18个月以上。\n\n供给端结构性变化：\n- 进口端：2025年全国进口咖啡生豆约22.38万吨（约为云南产量的1.6倍），进口额增速达432%，巴西仍为最大来源国。\n- 出口端：2025年全国出口咖啡生豆约2.33万吨（同比-43.45%），但咖啡出口额从2020年5.46亿元增至2025年14.4亿元（增幅超160%）；云南3.25万吨优质咖啡远销29国（同比+358%），新进入吉尔吉斯斯坦、斯洛文尼亚。\n- 中游产能：2025年全国烘焙总产能预计突破50万吨（vs 2024年超35万吨），瑞幸厦门产业园建成后总产能将达15.5万吨（跻身全球前十大烘焙商），库迪安徽二期生豆处理7.5万吨。\n\n来源快照：《2025中国咖啡产业发展报告》、勤策消费研究。\n\n### 3.4 趋势四：资本动作与并购整合\n\n资本关注点从规模扩张转向供应链能力与品类差异化：挪瓦咖啡完成数亿元C轮融资（君联资本、昇望基金、华映资本、挑战者创投、源星资本、金沙江创投等联合投资）；比星咖啡完成数千万元B轮融资（苏州市农发产业科创基金独家领投）；花田萃获数千万融资，主打\"咖啡+茶\"。大钲资本2026年上半年以近4亿美元拟收购蓝瓶咖啡全球线下门店资产，双方保持独立运营。\n\n来源快照：《2025中国咖啡产业发展报告》、中品数据。\n\n### 3.5 风险点\n\n1. **门店扩张降速与闭店率提升**：2024年典型连锁咖啡开闭店比从2023年11.65降至4.1，整体扩增速度放缓、闭店率提升；2025年连锁化率53%首次过半后，门店密度提升可能挤压单店模型。\n\n2. **价格战对盈利能力的侵蚀**：茶饮行业平均利润率从2023年21.4%降至2024年14.7%（2025Q1回升至16.2%）；现磨咖啡客单价三年降幅26%，若消费端人均杯数增速放缓而价格继续下移，将压缩门店净利率。\n\n3. **上游原材料价格波动**：2023年中国咖啡进口额近60亿元，全球咖啡烘焙市场CR10不足40%意味着供应分散，叠加全球通胀，咖啡豆价格已处历史高位，对中下游成本构成压力。\n\n4. **头部品牌同店销售转弱**：瑞幸Q2同店销售额-20.9%、星巴克中国Q4同店-14%（客单价-8%、交易量-6%），反映存量市场竞争加剧与价格策略调整的短期阵痛。\n\n5. **国际市场对比下的渗透差距**：中国人均现制咖啡消费量约27杯/(人·年)，较成熟市场有6-12倍差距；现磨咖啡消耗量占比预计达45%、5年内将成为主流消费方式——渗透差距是机会，但也意味着增长节奏存在不确定性。\n\n6. **出口量收缩与结构隐忧**：2025年全国咖啡生豆出口量约2.33万吨，同比减少43.45%，尽管出口额提升反映单价上行，出口规模收缩对部分依赖出口的精品豆产能形成压力（具体影响范围现有证据不足以展开）。\n\n来源快照：北京日报、中国日报、勤策消费研究、灼识咨询。\n\n---\n\n## 四、启示与建议\n\n1. **连锁品牌：从\"规模战\"转向\"单店模型优化+品质升级\"双轮驱动**——瑞幸2024年新增近7000家（约占总店数32%）的快速扩张难以长期持续；2026年Q1咖啡品牌开店重新聚焦高线城市（59%）反映行业回归精细化运营。建议头部品牌在保持规模优势的同时，通过自建烘焙基地（如瑞幸厦门产业园5.5万吨产能、库迪安徽二期7.5万吨生豆处理）控制成本，并借联名/新品拉升客单价（推断）。\n\n2. **渠道策略：\"门店+自提+外卖\"三轮并行，优先降低履约成本**——自提近乎零成本而外卖佣金15-20%，建议连锁品牌持续推广\"线上下单+到店自提\"模式，并优化门店选址与动线设计以放大自提占比；门店渠道占57.59%份额仍是绝对主渠道，渠道下沉需谨慎（2026Q1高线占比回升至59%为信号）。\n\n3. **品类策略：高端精品化与大众便捷化双轨布局**——Manner单杯提价5元、星巴克维持30元以上价格带、瑞幸万店规模+高频上新覆盖平价市场，建议品牌根据自身定位选择赛道，避免在9.9元价格带与库迪/幸运咖/挪瓦/瑞幸正面竞争（推断）。\n\n4. **上游布局：强化云南精品豆采购与精深加工合作**——云南精品率从2021年8%跃升至2025年41.7%，云南精品豆在沪/京/广/深精品门店覆盖率分别达90%/80%+/70%+，精品豆溢价可达50%、云南豆替代进口具备20-30%成本优势，建议品牌建立云南直采体系与精品豆SKU开发能力（推断）。\n\n5. **用户运营：从\"拉新\"转向\"高频复购+会员深耕\"**——星巴克中国会员超1.2亿、活跃会员贡献超75%销售额，瑞幸APP下单占比超90%、私域用户超1亿；51.14%消费者将咖啡视为刚需/半必需品，工作/学习场景占47.89%，建议品牌针对20-35岁核心人群（占比65%+）构建会员体系与场景化触达（推断）。\n\n6. **出海与下沉权衡**：下沉市场占比2026Q1新茶饮首超51%，但咖啡赛道重新聚焦高线城市；挪瓦咖啡已覆盖东南亚、澳洲等海外市场，杨国福麻辣烫海外门店同比增速70%（非咖啡但可类比），建议万店俱乐部品牌在稳固国内规模优势前提下，试点海外市场与下沉市场双轨探索（推断）。\n\n7. **资本动作与并购机会**：大钲资本2026年上半年以近4亿美元拟收购蓝瓶咖啡全球线下门店资产（双方独立运营），挪瓦咖啡完成数亿元C轮融资、比星咖啡完成数千万元B轮融资、花田萃获数千万融资——资本市场关注从规模扩张转向供应链能力与品类差异化，建议腰部品牌聚焦供应链与品类创新以吸引资本（推断）。\n\n---\n\n## 五、口径与局限披露\n\n1. **市场规模口径差异显著**：\n   - 2024年北京日报/中国日报口径：现磨咖啡超1200亿元、整体咖啡超1500亿元；\n   - 2024年勤策消费研究口径：现磨咖啡3200亿元；\n   - 2024年灼识咨询口径：现磨咖啡行业1515亿元（2023），预计2024年1903亿元；\n   - 2025年《2025中国咖啡产业发展报告》口径：现磨咖啡超1880亿元、占比超86%；\n   - 2025年《2026中国城市咖啡发展报告》全产业链口径：3549亿元。\n   不同口径在统计边界（是否含咖啡液/即饮/零售/全产业链）与数据来源上存在显著差异，本报告在引用时已尽量标注来源与口径。\n\n2. **时间口径混用**：本报告涉及的2024年数据多来自2024年10月发布的《中国咖啡产业报告2024》/《2025中国城市咖啡发展报告》，与2025年11月时点的门店数据存在半年至一年时间差，部分指标（如门店数）已发生显著变化。\n\n3. **门店数据来源不一**：GeoQ智图、三个皮匠、窄门餐眼、搜狐引述等不同来源对同一品牌的门店数略有出入（如幸运咖2024年底\"3396家\"vs 2025年11月\"已破1万家\"），可能存在统计时点与口径差异。\n\n4. **预测性主张的处理**：本报告明确标注的推断包括——\"现磨咖啡市场份额将从不足40%提升至超过80%\"（fact/inference双标记）、\"下沉市场持续渗透\"（inference）、\"价格战趋缓\"（inference）等定性判断。这些预测基于现有趋势但存在不确定性。\n\n5. **现有证据不足以展开的内容**：\n   - 现磨咖啡各品牌单店日均销售额/月销售额等微观运营数据：证据不足；\n   - 库迪\"寄生开店\"模式的具体合作商家清单与分成机制：仅描述现象，未见详细披露；\n   - 星巴克引入博裕资本后的具体股权结构、董事席位与决策权分配：仅提及\"本土化控股模式\"，细节缺失；\n   - 大钲资本收购蓝瓶咖啡的具体交易条款、监管审批进度：仅披露金额与时间框架；\n   - 中国咖啡机出口174.6亿元的具体产品结构（家用/商用/全自动等）：口径未细分；\n   - 2025年咖啡生豆出口量同比-43.45%对依赖出口的精品豆产能的具体影响范围：现有证据不足以展开。\n\n6. **数据点已回溯的主要来源快照**：\n   - snap:https://www.jingjiribao.cn/static/detail.jsp?id=586647（经济日报《2025中国城市咖啡发展报告》引述）\n   - snap:https://www.chinadailyhk.com/article/596504（中国日报《Coffee market bubbles as brands tweak strategy》引述《中国咖啡产业报告2024》）\n   - snap:https://news.bjd.com.cn/2024/10/25/10946754.shtml（北京日报《中国咖啡产业报告：现磨咖啡市场规模超1200亿元》）\n   - snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html（三个皮匠《2024连锁咖啡品牌门店规模》）\n   - snap:https://qince.com/reports/report/cafe（勤策消费研究《中国现磨咖啡行业报告》）\n   - snap:http://www.cbrand.com.cn/content-26-33608-1.html（中品数据/中国品牌研究院《咖啡品牌集体\"升咖\"》）\n   - snap:https://www.sgpjbg.com/searchtag/26675279.html（三个皮匠《2025+中国咖啡产业发展报告》）\n   - snap:http://chinasihan.com/news/cyzx/20886.html（思瀚产业研究院《大众茶饮赛道扩容，下沉市场红利释放》引灼识咨询）\n   - snap:https://www.sohu.com/a/1038756095_122903028（搜狐引GeoQ智图《2026年第一季度连锁餐饮品牌门店发展趋势蓝皮书》）\n\n7. **本报告未涉及的内容**（如有需要请补充检索）：\n   - 现磨咖啡各品牌SKU结构、产品创新节奏与爆款生命周期数据；\n   - 资本在一级市场（PE/VC）对咖啡赛道的投资规模与估值变化历史曲线；\n   - 咖啡外卖平台（美团/饿了么）的咖啡类目订单数据与佣金政策细节；\n   - 各城市具体门店分布热力图与商圈租金水平；\n   - 咖啡机、咖啡液、咖啡豆等细分品类的零售/电商渠道销售数据。"
+    },
+    "completedAt": "2026-10-16T07:49:20.691Z"
+  },
+  {
+    "runId": "4e8fb9d8-a181-4a78-8014-be8e5db0425d",
+    "stage": "review",
+    "data": {
+      "issues": [
+        {
+          "severity": "high",
+          "kind": "citation",
+          "detail": "ev:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:20 被标注为 quote-mismatch，但报告 2.1 表中肯悦咖啡 2024 年约 2041 家数据直接引用该来源未做差异说明，cite 一致性需复核",
+          "targetClaimId": "cl:q2:snap:https://www.sgpjbg.com/labels/liansuokafeipinpaimendianguimo/1/7538004.html:20",
+          "targetQuestionId": "q2",
+          "fix": "regather"
+        },
+        {
+          "severity": "high",
+          "kind": "citation",
+          "detail": "ev:q3:snap:https://qince.com/reports/report/cafe:2 被标注为 quote-mismatch，但报告执行摘要第 1 条与第一章表格中多次引用勤策消费研究 3200 亿元现磨咖啡规模，与该 mismatch 证据存在直接引用关系，应在口径说明中显式标注",
+          "targetClaimId": "cl:q3:snap:https://qince.com/reports/report/cafe:2",
+          "targetQuestionId": "q1",
+          "fix": "disclose"
+        },
+        {
+          "severity": "high",
+          "kind": "citation",
+          "detail": "ev:q5:snap:https://www.sohu.com/a/1038756095_122903028:12、:19、:23 均为 quote-mismatch，但报告第八章下沉市场判断中多处引用该来源（如三线及以下现磨+33.6%、四线五线开店占比 21%、2026Q1 咖啡高线 59%），未对 mismatch 进行显式说明",
+          "targetClaimId": "cl:q5:snap:https://www.sohu.com/a/1038756095_122903028:12",
+          "targetQuestionId": "q5",
+          "fix": "disclose"
+        },
+        {
+          "severity": "high",
+          "kind": "caliber",
+          "detail": "现磨咖啡 2024 年规模存在 1200 亿 vs 3200 亿元两个口径，差距近 1700 亿/2.7 倍，报告虽并列保留但未给出选择主推口径的决策依据；执行摘要第 1 条直接将两组数据并列可能误导读者",
+          "targetQuestionId": "q1",
+          "fix": "rephrase"
+        },
+        {
+          "severity": "high",
+          "kind": "caliber",
+          "detail": "人均咖啡消费量口径冲突未充分处理：2022 年 6.2 杯（中商，覆盖全品类）与 2023—2025 年 16.74→28.57 杯（《2025+》，全国人均年咖啡消费）放在同一时间序列表中，标题为'人均年咖啡消费'，易被读者误读为同口径 CAGR",
+          "targetQuestionId": "q4",
+          "fix": "rephrase"
+        },
+        {
+          "severity": "low",
+          "kind": "caliber",
+          "detail": "瑞幸 2024 年门店数 22007 vs 22340 两口径虽已披露，但执行摘要第 2 条仅写 22007 家，未同步呈现 22340 口径；决策者若仅看摘要可能忽略统计时点差异",
+          "targetQuestionId": "q2",
+          "fix": "disclose"
+        },
+        {
+          "severity": "low",
+          "kind": "caliber",
+          "detail": "瑞幸加盟占比 60% vs 30% 两口径并列保留，但 2.3 节未给出 2025 年最新口径，2026 年 Q1 数据中加盟比例是否已变化未跟踪",
+          "targetQuestionId": "q2",
+          "fix": "regather"
+        },
+        {
+          "severity": "low",
+          "kind": "counterexample",
+          "detail": "反例检验：报告称'2026 年 Q1 咖啡赛道是连锁餐饮表现最强劲的细分'，但同表显示新茶饮开闭店比仅从 1.52 降至 1.32 而非收缩；如以净增门店数衡量，瑞幸 Q1 净增 2464 与新茶饮头部（古茗、霸王茶姬等季度净增）相比未必居首，'最强劲'需更明确量化指标",
+          "targetQuestionId": "q5",
+          "fix": "rephrase"
+        },
+        {
+          "severity": "low",
+          "kind": "counterexample",
+          "detail": "反例检验：'价格战收敛、品质战重启'的判断依据为瑞幸/库迪/Manner 退出 9.9 元，但星巴克 Q4 同店-14%、客单价-8%、订单-6% 反而显示高端市场承压；高端与平价同步收缩可能意味着总需求疲软而非'品质升级'，需补充销量数据佐证",
+          "targetQuestionId": "q4",
+          "fix": "regather"
+        },
+        {
+          "severity": "low",
+          "kind": "counterexample",
+          "detail": "反例检验：执行摘要第 5 条'连锁化率从 46% 提升至 53%，首次过半'，但 2024 年 46% 与 2025 年 53% 之间仅一年提升 7 个百分点，与第一章'门店总数 2025 年达 21.5 万家、净增 4 万多家、增幅 25%'的存量基数对比，连锁化率提升幅度是否合理需交叉验证（独立店闭店数是否足以支撑该比率）",
+          "targetQuestionId": "q2",
+          "fix": "disclose"
+        },
+        {
+          "severity": "low",
+          "kind": "gap",
+          "detail": "q5 状态标记为 partially，但报告未说明哪些子问题未覆盖；从内容看，注册企业新增（75 家）、上海门店数 9115 家等数据已覆盖，但'开店速度分品牌对比'缺乏瑞幸/库迪以外中小品牌的 Q1 净增数据",
+          "targetQuestionId": "q5",
+          "fix": "regather"
+        },
+        {
+          "severity": "low",
+          "kind": "gap",
+          "detail": "第一章提到'2020—2024 年 CAGR 超 23%'但未给出 2020、2021、2022 各年具体数值，时间序列断点影响读者验证",
+          "targetQuestionId": "q1",
+          "fix": "regather"
+        }
+      ],
+      "counterexampleChecked": true,
+      "loopsUsed": 3
+    },
+    "completedAt": "2026-10-16T07:57:21.130Z"
+  }
+]

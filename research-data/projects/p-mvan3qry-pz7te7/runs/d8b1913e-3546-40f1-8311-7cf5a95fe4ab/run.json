@@ -1,0 +1,90 @@
+{
+  "id": "d8b1913e-3546-40f1-8311-7cf5a95fe4ab",
+  "requestId": "req-smoke-p26-1792135330133",
+  "stage": "publish",
+  "status": "limited",
+  "checkpoints": [],
+  "usage": {
+    "searches": 18,
+    "fetches": 12,
+    "modelCalls": 75,
+    "outputTokens": 125669,
+    "wallMs": 1369868
+  },
+  "interventions": [
+    {
+      "id": "ins:8a86e9d6",
+      "submittedAt": "2026-10-16T07:22:15.158Z",
+      "instruction": {
+        "type": "refine-direction",
+        "note": "优先看中国市场头部连锁的数据口径"
+      },
+      "consumedAt": "2026-10-16T07:22:43.561Z",
+      "effect": "applied",
+      "detail": "方向附注已注入剩余问题的搜索"
+    },
+    {
+      "id": "ins:1860a3c1",
+      "submittedAt": "2026-10-16T07:22:16.669Z",
+      "instruction": {
+        "type": "refine-direction",
+        "note": "优先看中国市场头部连锁的数据口径"
+      },
+      "consumedAt": "2026-10-16T07:22:43.562Z",
+      "effect": "applied",
+      "detail": "方向附注已注入剩余问题的搜索"
+    },
+    {
+      "id": "ins:4a176cc0",
+      "submittedAt": "2026-10-16T07:23:01.743Z",
+      "instruction": {
+        "type": "refine-direction",
+        "note": "优先看中国市场头部连锁的数据口径"
+      },
+      "consumedAt": "2026-10-16T07:24:32.447Z",
+      "effect": "applied",
+      "detail": "方向附注已注入剩余问题的搜索"
+    },
+    {
+      "id": "ins:d8c3e561",
+      "submittedAt": "2026-10-16T07:23:01.749Z",
+      "instruction": {
+        "type": "refine-direction",
+        "note": "优先看中国市场头部连锁的数据口径"
+      },
+      "consumedAt": "2026-10-16T07:24:32.447Z",
+      "effect": "applied",
+      "detail": "方向附注已注入剩余问题的搜索"
+    },
+    {
+      "id": "ins:9c471209",
+      "submittedAt": "2026-10-16T07:24:36.364Z",
+      "instruction": {
+        "type": "refine-direction",
+        "note": "优先看中国市场头部连锁的数据口径"
+      },
+      "consumedAt": "2026-10-16T07:24:58.336Z",
+      "effect": "applied",
+      "detail": "方向附注已注入剩余问题的搜索"
+    },
+    {
+      "id": "ins:78038d4e",
+      "submittedAt": "2026-10-16T07:24:36.371Z",
+      "instruction": {
+        "type": "refine-direction",
+        "note": "优先看中国市场头部连锁的数据口径"
+      },
+      "consumedAt": "2026-10-16T07:24:58.336Z",
+      "effect": "applied",
+      "detail": "方向附注已注入剩余问题的搜索"
+    }
+  ],
+  "progress": {
+    "currentQuestionId": "q1",
+    "currentQuestionText": "中国现磨咖啡市场规模有多大",
+    "answered": 4,
+    "open": 0,
+    "skipped": 0,
+    "total": 4
+  }
+}
