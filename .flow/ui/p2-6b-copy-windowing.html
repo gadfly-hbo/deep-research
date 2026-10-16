@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>P2-6b UI-GATE 原型 — 运行中加注文案窗口限定(边界标记版)</title>
+<link rel="stylesheet" href="../../ui/styles.css">
+<style>
+  /* gate 骨架样式(同归档 p2-6-budget-topup.html 形态;--line-strong 在 styles.css 未定义,换真实 token --border-strong) */
+  body { background: var(--bg); margin: 0; padding: 24px 32px 48px; }
+  .gate-sec { max-width: 860px; margin: 0 auto 30px; }
+  .gate-h { font: 600 15px/1.4 Inter, system-ui; color: var(--text-2); letter-spacing: .04em; text-transform: uppercase; margin: 0 0 4px; }
+  .gate-note { font: 12px/1.6 Inter, system-ui; color: var(--text-3); margin: 0 0 12px; }
+  .gate-cell { border: 1px dashed var(--border-strong); border-radius: 8px; padding: 10px; margin-bottom: 12px; }
+  .gate-cell > .gate-tag { font: 11px/1 Inter, system-ui; color: var(--accent-strong); display: block; margin-bottom: 8px; letter-spacing: .06em; }
+  /* 原型内以静态位置展示真实 .toast(原为 fixed 底部胶囊,样式其余照旧) */
+  .demo-toast { position: static; transform: none; display: inline-block; }
+  .api-note { font: 11.5px/1.7 ui-monospace, "SF Mono", Menlo, monospace; color: var(--text-2); background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; margin: 10px 0 0; overflow-wrap: anywhere; }
+</style>
+</head>
+<body>
+
+<section class="gate-sec">
+  <h1 style="font:600 18px/1.4 Inter,system-ui; margin:0 0 6px">P2-6b 运行中加注·文案窗口限定原型(静态,真实 ui/styles.css)</h1>
+  <p class="gate-note">唯一变更面:加注表单三处字符串(表单 label / 成功 toast / budget 端点 200 note)按 PRD GRILL R1-1「边界标记版」窗口限定重开承诺——单一时间边界「发布门评估前」。表单结构、按钮、错误文案、禁用规则全部冻结不变。运行卡用量与进度数值为<b>合成数据</b>。</p>
+</section>
+
+<section class="gate-sec">
+  <p class="gate-h">S1 · 正常态(running,新 label)</p>
+  <div class="gate-cell">
+    <div class="card" style="padding:14px 16px">
+      <div class="pstep running" style="padding:10px 12px">
+        <div class="pstep-head">
+          <span class="pstep-name">研究运行进行中</span>
+          <span class="chip chip-run">阶段 · 采证</span>
+        </div>
+        <div class="bar" aria-hidden="true"><span class="bar-fill" /></div>
+        <dl class="kv" style="margin-top:10px">
+          <div><dt>搜索</dt><dd class="num">12</dd></div>
+          <div><dt>抓取</dt><dd class="num">47</dd></div>
+          <div><dt>模型用量</dt><dd class="num">23 次 · 8,412 tok</dd></div>
+          <div><dt>已用时</dt><dd class="num">312s</dd></div>
+        </dl>
+        <p class="fine" style="margin:0">当前问题:头部咖啡品牌在华门店数量对比 · 已答 2/5</p>
+        <div class="fld" style="margin-top:8px">
+          <span class="fld-label">运行中加注(只增不减;配额饿死的问题将在采证中每问开始、采证轮末、发布门评估前的评估点自动重开,其后加注只恢复润色/评审回环;恢复/重启后加注不延续)</span>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center">
+            <input type="number" min="0" style="width:120px" placeholder="+搜索次数" value="20">
+            <input type="number" min="0" style="width:120px" placeholder="+抓取次数" value="40">
+            <input type="number" min="0" style="width:120px" placeholder="+墙钟(分钟)">
+            <button class="btn btn-sm" type="button">确认加注</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gate-cell">
+    <span class="gate-tag">内联错误(非正整数,不提交 — 文案不变)</span>
+    <div class="fld" style="margin:0">
+      <span class="fld-label">运行中加注(只增不减;配额饿死的问题将在采证中每问开始、采证轮末、发布门评估前的评估点自动重开,其后加注只恢复润色/评审回环;恢复/重启后加注不延续)</span>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center">
+        <input type="number" min="0" style="width:120px; border-color:var(--fail-line)" placeholder="+搜索次数" value="-5">
+        <input type="number" min="0" style="width:120px" placeholder="+抓取次数" value="40">
+        <input type="number" min="0" style="width:120px" placeholder="+墙钟(分钟)">
+        <button class="btn btn-sm" type="button">确认加注</button>
+      </div>
+      <p class="fine" style="margin:6px 0 0; color:var(--fail)">增量须为正整数</p>
+    </div>
+  </div>
+
+  <div class="gate-cell">
+    <span class="gate-tag">禁用态(全空/全零 — 规则不变)</span>
+    <div class="fld" style="margin:0">
+      <span class="fld-label">运行中加注(只增不减;配额饿死的问题将在采证中每问开始、采证轮末、发布门评估前的评估点自动重开,其后加注只恢复润色/评审回环;恢复/重启后加注不延续)</span>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center">
+        <input type="number" min="0" style="width:120px" placeholder="+搜索次数">
+        <input type="number" min="0" style="width:120px" placeholder="+抓取次数">
+        <input type="number" min="0" style="width:120px" placeholder="+墙钟(分钟)">
+        <button class="btn btn-sm" type="button" disabled>确认加注</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="gate-cell">
+    <span class="gate-tag">成功 toast(新文本,POST budget → 200)</span>
+    <div class="demo-toast toast">已加注,配额饿死的问题将在发布门评估前的评估点自动重开,其后加注只恢复润色/评审回环</div>
+    <p class="api-note">budget 端点 200 note(API 字段,非新增 UI 态;= toast 句式 + 恢复/重启子句):<br>"已加注,配额饿死的问题将在发布门评估前的评估点自动重开,其后加注只恢复润色/评审回环;恢复/重启后加注不延续"</p>
+  </div>
+
+  <p class="gate-note">负例(沿用 p2-6 契约):无弹层/新页面;awaiting/终态无加注入口;无上限展示/前端校验/降档入口;本页无任何新交互或新状态。文案不窄化为「仅采证阶段内」(发布门评估前一点在 gather 收束后、analyze 前)。措辞源自 PRD GRILL R1-1,经 UI-GATE 用户批准。</p>
+</section>
+
+</body>
+</html>
