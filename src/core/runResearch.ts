@@ -317,6 +317,7 @@ export async function runResearch(
 
   /** P2-5:终态出口统一回调(onRunComplete 失败不阻塞)。 */
   const finishRun = async (result: RunResult): Promise<RunResult> => {
+    process.stdout.write('[DBG-FR] finishRun onRunComplete=' + typeof options.onRunComplete + ' status=' + result.run.status + '\n');
     if (options.onRunComplete) {
       try {
         await options.onRunComplete(result);

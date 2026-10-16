@@ -76,9 +76,10 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
     registry,
     ...(deps.sessionCandidates
       ? {
-          sessionRuntime: (id: string, dir: string) => createProjectSessionRuntime({ projectDir: dir, candidates: deps.sessionCandidates! }),
+          sessionRuntime: (id: string, dir: string) =>
+            createProjectSessionRuntime({ projectDir: dir, candidates: deps.sessionCandidates!, auditPath: join(deps.dataDir, "model-audit.jsonl") }),
           onRunComplete: (dir: string) => (result) => {
-            const rt = createProjectSessionRuntime({ projectDir: dir, candidates: deps.sessionCandidates! });
+            const rt = createProjectSessionRuntime({ projectDir: dir, candidates: deps.sessionCandidates!, auditPath: join(deps.dataDir, "model-audit.jsonl") });
             void writeSessionDigest(rt, result.run, result.bundle).catch((e) => {
               if (process.env.DR_DEBUG) console.error(`[session] 摘要写入失败: ${e instanceof Error ? e.message : e}`);
             });

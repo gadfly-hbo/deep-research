@@ -273,14 +273,6 @@ export const handleProjectsRoutes = async (
       }
     }
     // P2-5(REVIEW F5):单 active-run 守卫单一收口——三处(POST /runs、rerun、followup)共用
-    const assertNoActiveRun = async (action: string): Promise<{ status: 409; body: { error: string } } | null> => {
-      const active = (await ctx.storeFor(id).listRuns()).find(
-        (r) => r.status === "running" || r.status === "awaiting-confirmation",
-      );
-      return active
-        ? { status: 409 as const, body: { error: `该项目存在进行中或待确认的运行(${active.requestId}),结束后才能${action}` } }
-        : null;
-    };
     // P2-3(KA2/R1-6):守卫与 launch 同把 per-project 锁消 TOCTOU;body 无 plan 时传 gates 走确认门(R1-4)
     const outcome = await ctx.registry.withProjectLock(id, async () => {
       const busy = await assertNoActiveRun("发起新运行");

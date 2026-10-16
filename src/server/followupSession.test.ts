@@ -114,12 +114,11 @@ describe("会话研究记忆(D1/R1/R4)", () => {
     expect(k1[0]).toContain("req-r3"); // tail
   });
 
-  it("F1:gate 出口(awaiting)不写摘要——完成 run 在 history 恰 1 条 user 纪要", async () => {
-    await writeSessionDigest(rt, fakeResult("g1").run, null); // 首次=run() 初始化
-    await writeSessionDigest(rt, fakeResult("g2").run, null); // 完成=update
+  it("F1 单元:完成 run 恰 1 条摘要(update 路径无中间态)", async () => {
+    await writeSessionDigest(rt, fakeResult("g1").run, null);
+    await writeSessionDigest(rt, fakeResult("g2").run, null);
     const digests = await readSessionDigests(rt, 10);
-    const g2Entries = digests.filter((d) => d.includes("req-g2"));
-    expect(g2Entries).toHaveLength(1); // 单完成 run 恰 1 条(无 awaiting 中间态)
+    expect(digests.filter((d) => d.includes("req-g2"))).toHaveLength(1);
   });
 
   it("resolveSessionCandidates:真值表外+缺 key→null 降级", () => {
@@ -171,5 +170,66 @@ describe("followup 端点 e2e(D2)", () => {
     expect(c2.status).toBe(200);
     const done = await waitRun(base, id, gate.requestId, (r) => ["published", "limited"].includes(r.status), "完成");
     expect(done.derivedFromRunId).toBe("run-base");
+  }, 30_000);
+});
+
+describe("F1+F2 集成(REVIEW 复审建议)", () => {
+  const synthCandidates = () => {
+    const transport = (async () => ({
+      content: [{ kind: "text", text: "摘要已记录" }],
+      stop: "complete" as const,
+      usage: { inputTokens: 10, outputTokens: 5 },
+    })) as import("pi-agent-runtime").ModelTransport;
+    const model = {
+      provider: "test", id: "t1", protocol: "anthropic-messages" as const,
+      endpoint: "http://127.0.0.1:9", contextWindow: 100_000, maxOutputTokens: 4096, input: ["text" as const],
+    } as import("pi-agent-runtime").ModelConfig;
+    return [{ model, transport }];
+  };
+
+  it("F1 集成:gates 下起 run→落 plan 门→摘要=0 条(gate 非终态不写);确认双门走完→摘要恰 1 条(终态)", async () => {
+    const dataDir = mkdtempSync(join(tmpdir(), "dr-p25-f1-"));
+    const srv = await startServer({ dataDir, makeAdapters: () => fakeAdapters(), sessionCandidates: synthCandidates() });
+    const base = `http://127.0.0.1:${srv.port}`;
+    try {
+      const created = await post(base, "/api/projects", { module: "industry", goal: "F1 集成", scope: { summary: "s", queries: [] } });
+      const id = ((await created.json()) as { id: string }).id;
+      await post(base, `/api/projects/${id}/runs`, { request: { id: "req-f1i", module: "industry", goal: "F1 集成", scope: { summary: "s", queries: [] } } });
+      const gateRun = await waitRun(base, id, "req-f1i", (r) => r.status === "awaiting-confirmation" && r.gate?.kind === "plan", "plan 门");
+      // 门后:会话应为空(gate 非终态不写摘要——历史仅首条初始化 run 不应发生,因 run 未完成)
+      const rt = createProjectSessionRuntime({ projectDir: join(dataDir, "projects", id), candidates: synthCandidates(), auditPath: join(dataDir, "model-audit.jsonl") });
+      expect(await readSessionDigests(rt, 10)).toHaveLength(0); // F1 核心:awaiting 状态零摘要
+      // 确认双门走完
+      await post(base, `/api/projects/${id}/runs/${gateRun.id}/gate/confirm`, { payload: { questions: [{ id: "q1", question: "F1 问题", status: "open" }] } });
+      const og = await waitRun(base, id, "req-f1i", (r) => r.status === "awaiting-confirmation" && r.gate?.kind === "outline", "outline 门");
+      await post(base, `/api/projects/${id}/runs/${og.id}/gate/confirm`, { payload: { title: "F1 框架", sections: [{ id: "s1", title: "市场", bullets: [] }] } });
+      await waitRun(base, id, "req-f1i", (r) => ["published", "limited"].includes(r.status), "完成");
+      await new Promise((r) => setTimeout(r, 200)); // 摘要异步写入
+      const digests = await readSessionDigests(createProjectSessionRuntime({ projectDir: join(dataDir, "projects", id), candidates: synthCandidates(), auditPath: join(dataDir, "model-audit.jsonl") }), 10);
+      expect(digests.filter((d) => d.includes("req-f1i"))).toHaveLength(1); // 终态恰 1 条
+    } finally { await srv.close(); }
+  }, 30_000);
+
+  it("F2 集成:双已完成 run 无 baseRunId→默认取 mtime 最新", async () => {
+    const dataDir = mkdtempSync(join(tmpdir(), "dr-p25-f2-"));
+    const srv = await startServer({ dataDir, makeAdapters: () => fakeAdapters() });
+    const base = `http://127.0.0.1:${srv.port}`;
+    try {
+      const created = await post(base, "/api/projects", { module: "industry", goal: "F2 双基准", scope: { summary: "s", queries: [] } });
+      const id = ((await created.json()) as { id: string }).id;
+      const store = FsProjectStore.open(join(dataDir, "projects", id));
+      for (const [rid, reqId] of [["run-old", "req-old"], ["run-new", "req-new"]] as const) {
+        await store.saveRequest({ id: reqId, module: "industry", goal: `基准${rid}`, scope: { summary: "s", queries: ["q"] }, attachments: [] } as any);
+        await store.saveRun({ id: rid, requestId: reqId, stage: "gather", status: "published", checkpoints: [], usage: { searches: 1, fetches: 1, modelCalls: 1, outputTokens: 10, wallMs: 100 } } as any);
+        await store.saveBundle({ runId: rid, goal: `基准${rid}`, module: "industry", summary: "", reportMd: `# 基准${rid}`, outline: null, claims: [], evidence: [], snapshots: [], limitations: [], reasonSummaries: [] } as any);
+        await store.saveCheckpoint({ runId: rid, stage: "gather", data: { questions: [{ id: "q1", question: "q", status: "answered" }] }, completedAt: new Date().toISOString() });
+        await new Promise((r) => setTimeout(r, 25)); // mtime 分辨
+      }
+      const fu = await post(base, `/api/projects/${id}/runs/followup`, { prompt: "默认应取 run-new" });
+      expect(fu.status).toBe(200);
+      const gate = await waitRun(base, id, (await (fu.json() as any)).requestId, (r) => r.status === "awaiting-confirmation" && r.gate?.kind === "plan", "门");
+      expect(gate.derivedFromRunId).toBe("run-new"); // mtime 最新,非 UUID 序
+      await post(base, `/api/projects/${id}/runs/${gate.id}/gate/cancel`, {});
+    } finally { await srv.close(); }
   }, 30_000);
 });
