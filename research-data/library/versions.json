@@ -825,5 +825,311 @@
     "fetchStatus": "READ_FULL",
     "parseStatus": "ok",
     "createdAt": "2026-10-15T14:58:01.186Z"
+  },
+  "sv-a12302e5": {
+    "versionId": "sv-a12302e5",
+    "sourceId": "s-05f2d0ed",
+    "fetchStatus": "READ_PARTIAL",
+    "parseStatus": "failed",
+    "parseIssue": "研究采证解析失败:正文不可读,仅保留取得事实",
+    "createdAt": "2026-10-16T03:23:16.528Z"
+  },
+  "sv-83b05dc02731": {
+    "versionId": "sv-83b05dc02731",
+    "sourceId": "s-42eaf79c",
+    "contentRef": "files/83b05dc027319ba99ae6f8e69ef51a2c0ec18675d14a47ee3327150f84497915",
+    "contentHash": "83b05dc027319ba99ae6f8e69ef51a2c0ec18675d14a47ee3327150f84497915",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:23:16.731Z"
+  },
+  "sv-49be90698b51": {
+    "versionId": "sv-49be90698b51",
+    "sourceId": "s-0b1c8f7d",
+    "contentRef": "files/49be90698b51e6c849db3344382456743bc49bc104ed2fc47bd2f53df315c6ff",
+    "contentHash": "49be90698b51e6c849db3344382456743bc49bc104ed2fc47bd2f53df315c6ff",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:23:19.719Z"
+  },
+  "sv-2fa893c4664c": {
+    "versionId": "sv-2fa893c4664c",
+    "sourceId": "s-0ec29018",
+    "contentRef": "files/2fa893c4664ccfa17e1f706c05645887640de270f92a6b9f5b56daa02a948c13",
+    "contentHash": "2fa893c4664ccfa17e1f706c05645887640de270f92a6b9f5b56daa02a948c13",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:23:21.909Z"
+  },
+  "sv-532ce5ff4f6c": {
+    "versionId": "sv-532ce5ff4f6c",
+    "sourceId": "s-6d7a1ea6",
+    "contentRef": "files/532ce5ff4f6cb093cc9f182581e6b4d3a2481e90592d8e4e2a6eed8a1a8fa1f4",
+    "contentHash": "532ce5ff4f6cb093cc9f182581e6b4d3a2481e90592d8e4e2a6eed8a1a8fa1f4",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:23:21.942Z"
+  },
+  "sv-2707bfbf2288": {
+    "versionId": "sv-2707bfbf2288",
+    "sourceId": "s-2a7d26c6",
+    "contentRef": "files/2707bfbf2288fb5904262b5d31dc65925b5e3bd2b239de77f1fbed2fa372d4be",
+    "contentHash": "2707bfbf2288fb5904262b5d31dc65925b5e3bd2b239de77f1fbed2fa372d4be",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:23:22.030Z"
+  },
+  "sv-5bfc4282": {
+    "versionId": "sv-5bfc4282",
+    "sourceId": "s-55ca95ce",
+    "fetchStatus": "READ_PARTIAL",
+    "parseStatus": "failed",
+    "parseIssue": "研究采证解析失败:正文不可读,仅保留取得事实",
+    "createdAt": "2026-10-16T03:29:43.726Z"
+  },
+  "sv-aad419cd55bd": {
+    "versionId": "sv-aad419cd55bd",
+    "sourceId": "s-9e142257",
+    "contentRef": "files/aad419cd55bd71afb01b901a1e64294b18fdb44413dda2127d8204fffc6adcb8",
+    "contentHash": "aad419cd55bd71afb01b901a1e64294b18fdb44413dda2127d8204fffc6adcb8",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:29:55.444Z"
+  },
+  "sv-0b992356": {
+    "versionId": "sv-0b992356",
+    "sourceId": "s-3fa34d8b",
+    "fetchStatus": "READ_PARTIAL",
+    "parseStatus": "failed",
+    "parseIssue": "研究采证解析失败:正文不可读,仅保留取得事实",
+    "createdAt": "2026-10-16T03:29:55.737Z"
+  },
+  "sv-2bcdcf0138c7": {
+    "versionId": "sv-2bcdcf0138c7",
+    "sourceId": "s-7d2e3bd1",
+    "contentRef": "files/2bcdcf0138c77dab24e46eed0b334c838a8f44177e9ff9a180e6c52dac3c207c",
+    "contentHash": "2bcdcf0138c77dab24e46eed0b334c838a8f44177e9ff9a180e6c52dac3c207c",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:30:08.725Z"
+  },
+  "sv-8c7ac3a1cab8": {
+    "versionId": "sv-8c7ac3a1cab8",
+    "sourceId": "s-dc84d442",
+    "contentRef": "files/8c7ac3a1cab85c892e074131684a264dfa9e04bbc558061c03a00d780e9966c8",
+    "contentHash": "8c7ac3a1cab85c892e074131684a264dfa9e04bbc558061c03a00d780e9966c8",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:33:02.136Z"
+  },
+  "sv-ea35f263aae9": {
+    "versionId": "sv-ea35f263aae9",
+    "sourceId": "s-918b3905",
+    "contentRef": "files/ea35f263aae989f878e143742c8258a9d32d93f1cd7322140ac1a8f4f51032df",
+    "contentHash": "ea35f263aae989f878e143742c8258a9d32d93f1cd7322140ac1a8f4f51032df",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:33:02.262Z"
+  },
+  "sv-ba0d32c1880a": {
+    "versionId": "sv-ba0d32c1880a",
+    "sourceId": "s-c06911ac",
+    "contentRef": "files/ba0d32c1880a7231726ecdaa9c14efa4289afe786c2212d3eef682f079479e13",
+    "contentHash": "ba0d32c1880a7231726ecdaa9c14efa4289afe786c2212d3eef682f079479e13",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:33:04.552Z"
+  },
+  "sv-4310faa99659": {
+    "versionId": "sv-4310faa99659",
+    "sourceId": "s-1e031a92",
+    "contentRef": "files/4310faa99659c9a310a2b6877064465ff25342d56098b8fd8173ee821dd6da0d",
+    "contentHash": "4310faa99659c9a310a2b6877064465ff25342d56098b8fd8173ee821dd6da0d",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:33:07.114Z"
+  },
+  "sv-4c6a276b1005": {
+    "versionId": "sv-4c6a276b1005",
+    "sourceId": "s-31019ea8",
+    "contentRef": "files/4c6a276b1005a3c112f8d392efc21027f87434d9f88d809f54f1730e7a64e06b",
+    "contentHash": "4c6a276b1005a3c112f8d392efc21027f87434d9f88d809f54f1730e7a64e06b",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:33:10.095Z"
+  },
+  "sv-466d31115ec9": {
+    "versionId": "sv-466d31115ec9",
+    "sourceId": "s-3e34c033",
+    "contentRef": "files/466d31115ec903884671e256d06968acccc537255d6e006d6fe68d527ceb9371",
+    "contentHash": "466d31115ec903884671e256d06968acccc537255d6e006d6fe68d527ceb9371",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:33:12.895Z"
+  },
+  "sv-6aa1a74e39d2": {
+    "versionId": "sv-6aa1a74e39d2",
+    "sourceId": "s-0d0e414f",
+    "contentRef": "files/6aa1a74e39d25e852832d7f55c9dd91e1110bda2a6e51884e8bcd16060032e4e",
+    "contentHash": "6aa1a74e39d25e852832d7f55c9dd91e1110bda2a6e51884e8bcd16060032e4e",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:33:17.121Z"
+  },
+  "sv-94203b49": {
+    "versionId": "sv-94203b49",
+    "sourceId": "s-cae8fced",
+    "fetchStatus": "READ_PARTIAL",
+    "parseStatus": "failed",
+    "parseIssue": "研究采证解析失败:正文不可读,仅保留取得事实",
+    "createdAt": "2026-10-16T03:33:17.365Z"
+  },
+  "sv-31ec9b06": {
+    "versionId": "sv-31ec9b06",
+    "sourceId": "s-b7530a10",
+    "fetchStatus": "READ_PARTIAL",
+    "parseStatus": "failed",
+    "parseIssue": "研究采证解析失败:正文不可读,仅保留取得事实",
+    "createdAt": "2026-10-16T03:38:06.402Z"
+  },
+  "sv-9070b40a1f24": {
+    "versionId": "sv-9070b40a1f24",
+    "sourceId": "s-f6084144",
+    "contentRef": "files/9070b40a1f24d3f53b8001e905765e4cb61b4d0abd605e6a94841fabbe5a0f59",
+    "contentHash": "9070b40a1f24d3f53b8001e905765e4cb61b4d0abd605e6a94841fabbe5a0f59",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:38:17.103Z"
+  },
+  "sv-252f28a2a139": {
+    "versionId": "sv-252f28a2a139",
+    "sourceId": "s-c61ee5a8",
+    "contentRef": "files/252f28a2a139eb346823962994bb01cb08f36abce43c97e46a470f8fcb64d37c",
+    "contentHash": "252f28a2a139eb346823962994bb01cb08f36abce43c97e46a470f8fcb64d37c",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:38:17.892Z"
+  },
+  "sv-043af7eccb7b": {
+    "versionId": "sv-043af7eccb7b",
+    "sourceId": "s-f3c2845b",
+    "contentRef": "files/043af7eccb7bd114bd69bfa43d5af18ab9789f3f5888177085e7920b3e6192ce",
+    "contentHash": "043af7eccb7bd114bd69bfa43d5af18ab9789f3f5888177085e7920b3e6192ce",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:38:19.895Z"
+  },
+  "sv-98e8eca68d65": {
+    "versionId": "sv-98e8eca68d65",
+    "sourceId": "s-c38fbc4c",
+    "contentRef": "files/98e8eca68d650a7157c028effd799ca420802838e43fab8834515f5f1750c6a9",
+    "contentHash": "98e8eca68d650a7157c028effd799ca420802838e43fab8834515f5f1750c6a9",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:40:57.035Z"
+  },
+  "sv-5dd1bd8e8a24": {
+    "versionId": "sv-5dd1bd8e8a24",
+    "sourceId": "s-00fcfb91",
+    "contentRef": "files/5dd1bd8e8a24d92043a4079690c7ac93e7e4f3ace26d5978e696a8ca38fd52e6",
+    "contentHash": "5dd1bd8e8a24d92043a4079690c7ac93e7e4f3ace26d5978e696a8ca38fd52e6",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:41:06.009Z"
+  },
+  "sv-ce0752740f5c": {
+    "versionId": "sv-ce0752740f5c",
+    "sourceId": "s-10ee76dd",
+    "contentRef": "files/ce0752740f5cd224ea88f572c2d56e54753c4a1065af88b86a85db232a159866",
+    "contentHash": "ce0752740f5cd224ea88f572c2d56e54753c4a1065af88b86a85db232a159866",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:44:29.520Z"
+  },
+  "sv-e827960694cb": {
+    "versionId": "sv-e827960694cb",
+    "sourceId": "s-208fe4ca",
+    "contentRef": "files/e827960694cba0865f96ba3813b26e3b7a3e5585810925d8f8dbfd7067551c92",
+    "contentHash": "e827960694cba0865f96ba3813b26e3b7a3e5585810925d8f8dbfd7067551c92",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:44:36.116Z"
+  },
+  "sv-fb0905b6": {
+    "versionId": "sv-fb0905b6",
+    "sourceId": "s-d82347ed",
+    "fetchStatus": "READ_PARTIAL",
+    "parseStatus": "failed",
+    "parseIssue": "研究采证解析失败:正文不可读,仅保留取得事实",
+    "createdAt": "2026-10-16T03:44:36.425Z"
+  },
+  "sv-0bf1ced4d37b": {
+    "versionId": "sv-0bf1ced4d37b",
+    "sourceId": "s-f64ba00a",
+    "contentRef": "files/0bf1ced4d37bbf03b65930ed3c38e5b4696582709391b8d66f0d3ea4810dffe4",
+    "contentHash": "0bf1ced4d37bbf03b65930ed3c38e5b4696582709391b8d66f0d3ea4810dffe4",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:44:39.562Z"
+  },
+  "sv-4eeea395b34b": {
+    "versionId": "sv-4eeea395b34b",
+    "sourceId": "s-1084f56d",
+    "contentRef": "files/4eeea395b34b98add6216a7a8d21ac1e869b1778c86be855966d999dfa2853c9",
+    "contentHash": "4eeea395b34b98add6216a7a8d21ac1e869b1778c86be855966d999dfa2853c9",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:44:39.927Z"
+  },
+  "sv-d8359906": {
+    "versionId": "sv-d8359906",
+    "sourceId": "s-f6715de1",
+    "fetchStatus": "READ_PARTIAL",
+    "parseStatus": "failed",
+    "parseIssue": "研究采证解析失败:正文不可读,仅保留取得事实",
+    "createdAt": "2026-10-16T03:50:51.766Z"
+  },
+  "sv-b722d90e4c93": {
+    "versionId": "sv-b722d90e4c93",
+    "sourceId": "s-43ec025f",
+    "contentRef": "files/b722d90e4c93269cf872d64bf61b886d19d7bdb3f11cb7262104d977b4752673",
+    "contentHash": "b722d90e4c93269cf872d64bf61b886d19d7bdb3f11cb7262104d977b4752673",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:50:51.972Z"
+  },
+  "sv-30e7097c1b51": {
+    "versionId": "sv-30e7097c1b51",
+    "sourceId": "s-2c87994a",
+    "contentRef": "files/30e7097c1b51d5836deef078f15c6b68c3ec93d8e313813509510e395bdfe139",
+    "contentHash": "30e7097c1b51d5836deef078f15c6b68c3ec93d8e313813509510e395bdfe139",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:50:54.958Z"
+  },
+  "sv-297ea549a184": {
+    "versionId": "sv-297ea549a184",
+    "sourceId": "s-726ee749",
+    "contentRef": "files/297ea549a18412a343d9414fa83170c8cde3120b567b72f150ff0f881a2bdf7a",
+    "contentHash": "297ea549a18412a343d9414fa83170c8cde3120b567b72f150ff0f881a2bdf7a",
+    "fetchStatus": "READ_FULL",
+    "parseStatus": "ok",
+    "createdAt": "2026-10-16T03:50:56.203Z"
+  },
+  "sv-09c446b2": {
+    "versionId": "sv-09c446b2",
+    "sourceId": "s-3db00519",
+    "fetchStatus": "READ_PARTIAL",
+    "parseStatus": "failed",
+    "parseIssue": "研究采证解析失败:正文不可读,仅保留取得事实",
+    "createdAt": "2026-10-16T03:50:59.670Z"
+  },
+  "sv-d333dff3": {
+    "versionId": "sv-d333dff3",
+    "sourceId": "s-70f3043a",
+    "fetchStatus": "READ_PARTIAL",
+    "parseStatus": "failed",
+    "parseIssue": "研究采证解析失败:正文不可读,仅保留取得事实",
+    "createdAt": "2026-10-16T03:50:59.809Z"
   }
 }
