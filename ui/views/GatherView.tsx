@@ -239,7 +239,7 @@ export function GatherView() {
         ...(Number(addFetches) > 0 ? { addFetches: Number(addFetches) } : {}),
         ...(Number(addWallMin) > 0 ? { extendWallMs: Math.round(Number(addWallMin) * 60_000) } : {}),
       });
-      toast.show("已加注,配额饿死的问题将自动重开");
+      toast.show("已加注,配额饿死的问题将在发布门评估前的评估点自动重开,其后加注只恢复润色/评审回环");
       setAddSearches("");
       setAddFetches("");
       setAddWallMin("");
@@ -310,7 +310,7 @@ export function GatherView() {
             )}
             {/* P2-6(D1/R1-8):运行中加注——用量条旁行内 fld;非 running 卡片不渲染即禁用;契约 C1 三态 */}
             <div className="fld" style={{ marginTop: 8 }}>
-              <span className="fld-label">运行中加注(只增不减;加注后配额饿死的问题将自动重开,恢复/重启后加注不延续)</span>
+              <span className="fld-label">运行中加注(只增不减;配额饿死的问题将在采证中每问开始、采证轮末、发布门评估前的评估点自动重开,其后加注只恢复润色/评审回环;恢复/重启后加注不延续)</span>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
                 <input
                   type="number"

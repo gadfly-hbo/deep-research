@@ -9,7 +9,7 @@ export const PlanQuestionSchema = z.object({
   question: z.string().min(1),
   method: z.string().optional(),
   status: z.enum(["open", "answered", "partially", "unanswered", "skipped"]).default("open"),
-  /** P2-6(R1-3):未答成因——quota-starved(配额饿死,加注后自动重开)/ insufficient(证据不足)。 */
+  /** P2-6(R1-3):未答成因——quota-starved(配额饿死;加注后在重开评估点——问开始/采证轮末/发布门评估前——自动重开,其后加注只复位 capped)/ insufficient(证据不足)。 */
   unansweredReason: z.enum(["quota-starved", "insufficient"]).optional(),
 });
 export type PlanQuestion = z.infer<typeof PlanQuestionSchema>;

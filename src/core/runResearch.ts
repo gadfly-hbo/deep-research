@@ -762,9 +762,16 @@ export async function runResearch(
           state.findings = a.findings;
         },
       });
+      // P2-6b(r4-2):模型输出的重复 questionId 去重——重复目标会在同轮被调查两遍并清除已产主张
+      const seenGap = new Set<string>();
       const gapQuestions = analyze.gaps
         .map((g) => state.questions.find((q) => q.id === g.questionId))
-        .filter((q): q is PlanQuestion => q !== undefined && q.status !== "answered");
+        .filter((q): q is PlanQuestion => q !== undefined && q.status !== "answered")
+        .filter((q) => {
+          if (seenGap.has(q.id)) return false;
+          seenGap.add(q.id);
+          return true;
+        });
       if (gapQuestions.length > 0) {
         await gather(gatherCtx, 1, gapQuestions);
         if (cancelled()) return cancelRun();
@@ -887,12 +894,15 @@ export async function runResearch(
       state.counterexampleChecked = review.counterexampleChecked;
       const highs = review.issues.filter((i) => i.severity === "high");
       let fixedAny = false;
+      // P2-6b(r4-2):同 targetQuestionId 的多条 regather issue 只补采一次(模型输出可含重复 id)
+      const seenRegather = new Set<string>();
       if (loopsUsed < maxLoops) {
         for (const issue of highs) {
           if (issue.fix === "regather" && issue.targetQuestionId) {
             const q = state.questions.find((x) => x.id === issue.targetQuestionId);
             // 2.1:用户显式跳过的问题不被评审修复复活
-            if (q && q.status !== "skipped") {
+            if (q && q.status !== "skipped" && !seenRegather.has(q.id)) {
+              seenRegather.add(q.id);
               q.status = "open";
               await gather(gatherCtx, 10 + loopsUsed, [q]);
               fixedAny = true;

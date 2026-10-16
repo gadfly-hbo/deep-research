@@ -7,6 +7,7 @@ import { createProject, publishBundle, runOnProject } from "../../app/projectSer
 import {
   ResearchRequestSchema,
   RunInstructionSchema,
+  type Budget,
   type Intervention,
   type ResearchRequest,
 } from "../../contracts.js";
@@ -449,15 +450,12 @@ export const handleProjectsRoutes = async (
   }
 
   // ---- P2-6(D1/R1-2):运行中加注——同 Budget 对象原地变异(只增不减);per-project 锁内
-  //      (proposal D1:账本查得与变异同临界区,与 launch/guard 消 TOCTOU);maxParallel 不可加注;无上限封顶 ----
+  //      (run 查得+running 检查+账本查得+变异同一临界区——一致性;runOnProject 全程不持锁,
+  //      终态落盘与账本注销在该锁之外,临界区内 listRuns 让出事件循环——窗口只缩小不归零,
+  //      残窗由 budgetOf 注销后 409 兜底,变异对象无害);maxParallel 不可加注;无上限封顶;
+  //      zod 400 在锁前:非 running+非法 body 的组合请求按 400 返回(P2-6b R1-7 接受的翻转) ----
   const budgetMatch = rest.match(/^\/runs\/([^/]+)\/budget$/);
   if (method === "POST" && budgetMatch) {
-    // listRuns 按 run.id 反查(regex 仿 gate)
-    const run = (await ctx.storeFor(id).listRuns()).find((r) => r.id === budgetMatch[1]);
-    if (!run || run.status !== "running") {
-      json(res, 409, { error: `没有正在运行的 run: ${budgetMatch[1]}` });
-      return true;
-    }
     const topupSchema = z
       .object({
         addSearches: z.number().int().positive().optional(),
@@ -474,23 +472,27 @@ export const handleProjectsRoutes = async (
       return true;
     }
     // KA2:同对象原地变异(禁引用替换)——executor 闸门/任务卡余量即时读到新值
-    const budget = await ctx.registry.withProjectLock(id, async () => {
+    const outcome = await ctx.registry.withProjectLock(id, async (): Promise<{ error: string } | { budget: Budget }> => {
+      // listRuns 按 run.id 反查(regex 仿 gate);检查与变异同临界区
+      const run = (await ctx.storeFor(id).listRuns()).find((r) => r.id === budgetMatch[1]);
+      if (!run || run.status !== "running") return { error: `没有正在运行的 run: ${budgetMatch[1]}` };
       const b = ctx.registry.budgetOf(run.id);
-      if (!b) return null;
+      if (!b) return { error: "该运行的预算账本未注册(可能正在恢复或已收束),稍后重试" };
       if (parsed.data.addSearches) b.maxSearches += parsed.data.addSearches;
       if (parsed.data.addFetches) b.maxFetches += parsed.data.addFetches;
       if (parsed.data.extendWallMs) b.maxWallMs += parsed.data.extendWallMs;
-      return b;
+      return { budget: b };
     });
-    if (!budget) {
-      json(res, 409, { error: "该运行的预算账本未注册(可能正在恢复或已收束),稍后重试" });
+    if ("error" in outcome) {
+      json(res, 409, { error: outcome.error });
       return true;
     }
+    const budget = outcome.budget;
     json(res, 200, {
       topped: true,
-      runId: run.id,
+      runId: budgetMatch[1],
       budget: { maxSearches: budget.maxSearches, maxFetches: budget.maxFetches, maxWallMs: budget.maxWallMs },
-      note: "已加注,配额饿死的问题将自动重开;恢复/重启后加注不延续",
+      note: "已加注,配额饿死的问题将在发布门评估前的评估点自动重开,其后加注只恢复润色/评审回环;恢复/重启后加注不延续",
     });
     return true;
   }

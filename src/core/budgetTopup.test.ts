@@ -86,30 +86,43 @@ describe("运行中加注(P2-6 T1)", () => {
     expect(questions.every((q) => q.unansweredReason === undefined)).toBe(true);
   });
 
-  it("insufficient 成因不因加注重开(只有 quota-starved 重开)", async () => {
+  it("insufficient 成因不因加注重开(只有 quota-starved 重开;capped=true 场景,F7 补强)", async () => {
     const store = createMemoryStore();
+    const prompts: string[] = [];
     const scripts = [
-      { match: "市场规模", turns: [{ text: '{"sufficient":false,"note":"证据不足"}' }] },
-      { match: "门店数量", turns: [{ tool: { name: "web_search", args: { query: "x" } } }, { tool: { name: "fetch_page", args: { url: "https://a/1" } } }, { text: SUFFICIENT }] },
+      { match: "【研究问题】市场规模", turns: [{ tool: { name: "web_search", args: { query: "q1" } } }, { text: '{"sufficient":false,"note":"证据不足"}' }] },
+      { match: "【研究问题】门店数量", turns: [{ tool: { name: "web_search", args: { query: "q2" } } }, { tool: { name: "fetch_page", args: { url: "https://a/1" } } }, { text: SUFFICIENT }] },
+      { match: "【研究问题】竞争格局", turns: [{ tool: { name: "web_search", args: { query: "q3" } } }, { tool: { name: "fetch_page", args: { url: "https://a/1" } } }, { text: SUFFICIENT }] },
     ];
-    const adapters = fakes(scripts);
+    const adapters = fakes(scripts, [], prompts);
     let budgetRef: Budget | null = null;
-    const actions: Array<() => void> = [() => { budgetRef!.maxSearches += 5; }];
+    // 三问时序:q1 用尽搜索但收束 insufficient → q2 被标 starved(capped=true) → q3 启动时加注
+    const actions: Array<() => void> = [() => {}, () => {}, () => { budgetRef!.maxSearches += 10; }];
     const { run } = await runResearch(
-      ResearchRequestSchema.parse({ id: "req-topup-2", module: "industry", goal: "g", scope: { summary: "s", queries: [] } }),
+      ResearchRequestSchema.parse({
+        id: "req-topup-2",
+        module: "industry",
+        goal: "g",
+        scope: { summary: "s", queries: [] },
+        budget: { maxSearches: 1, maxFetches: 60, maxWallMs: 90 * 60_000, maxParallel: 4 },
+      }),
       adapters, store,
       {
         runId: "run-topup-2",
-        ...planOf("市场规模", "门店数量"),
+        ...planOf("市场规模", "门店数量", "竞争格局"),
         stopAfter: "gather",
         registerBudget: (b) => { budgetRef = b; },
         pollInstructions: async () => { actions.shift()?.(); return []; },
       },
     );
-    expect(run.status).toBe("published");
     const questions = await gatherQuestions(store, "run-topup-2");
     expect(questions.find((q) => q.id === "q1")).toMatchObject({ status: "unanswered", unansweredReason: "insufficient" });
-    expect(questions.find((q) => q.id === "q2")).toMatchObject({ status: "answered" });
+    expect(questions.find((q) => q.id === "q2")).toMatchObject({ status: "answered" }); // starved → 重开补采
+    expect(questions.find((q) => q.id === "q3")).toMatchObject({ status: "answered" });
+    // 判别断言:q1(insufficient)只调查一次——scriptedRunAgent 每调用重放脚本,纯状态断言在 mutation 下不红
+    expect(prompts.filter((p) => p.includes("【研究问题】市场规模")).length).toBe(1);
+    expect(run.usage.searches).toBe(3); // q1 首轮 + q3 + 重开的 q2 各一次
+    expect(run.status).toBe("published");
   });
 });
 
@@ -430,5 +443,187 @@ describe("加注评估窗补口(P2-6 F3)", () => {
     const q3Investigations = prompts.filter((p) => p.includes("【研究问题】q3")).length;
     expect(q3Investigations).toBe(1);
     expect(run.usage.searches).toBe(4); // q1 首轮 + 补采 q2/q4 + 重开 q3 各 1 次
+  });
+});
+
+describe("fetch 触顶判别(N3)", () => {
+  it("fetch 全局触顶+仅 addSearches 加注:复位被 fetch-room 守卫拦住,仍有限交付", async () => {
+    const store = createMemoryStore();
+    const log: LogRow[] = [];
+    const scripts = [
+      {
+        match: "【研究问题】市场规模",
+        turns: [{ tool: { name: "fetch_page", args: { url: "https://a/1" } } }, { text: SUFFICIENT }],
+      },
+      {
+        match: "【研究问题】门店数量",
+        turns: [
+          { tool: { name: "web_search", args: { query: "q2" } } },
+          { tool: { name: "fetch_page", args: { url: "https://a/1" } } },
+          { text: '{"sufficient":false,"note":"无抓取余量"}' },
+        ],
+      },
+    ];
+    const adapters = fakes(scripts, log);
+    let budgetRef: Budget | undefined;
+    // q1 一次抓取即全局触顶(shouldCapOnTake);q2 启动时仅加搜索额度——抓取余量未恢复
+    const actions: Array<() => void> = [() => {}, () => { budgetRef!.maxSearches += 10; }];
+    const { run } = await runResearch(
+      ResearchRequestSchema.parse({
+        id: "req-n3",
+        module: "industry",
+        goal: "g",
+        scope: { summary: "s", queries: [] },
+        budget: { maxSearches: 60, maxFetches: 1, maxWallMs: 90 * 60_000, maxParallel: 4 },
+      }),
+      adapters, store,
+      {
+        runId: "run-n3",
+        ...planOf("市场规模", "门店数量"),
+        stopAfter: "gather",
+        registerBudget: (b) => { budgetRef = b; },
+        pollInstructions: async () => { actions.shift()?.(); return []; },
+      },
+    );
+    expect(budgetRef!.maxSearches).toBe(70); // 仅 addSearches(只抬搜索,不抬抓取)
+    // q2 首次抓取命中全局分支(非本问上限):fetch-quota-exhausted
+    const fetchErr = log.filter((r) => r.name === "fetch_page").at(-1)?.result as { error?: string };
+    expect(fetchErr?.error).toBe("fetch-quota-exhausted");
+    expect(run.status).toBe("limited"); // capped 复位被 fetch-room 守卫拦住
+  });
+});
+
+describe("plan 直调纪要注入(F8)", () => {
+  it("无 plan 首跑:sessionDigests 进 plan 输入(slice 0-3);无纪要不注入键", async () => {
+    const runOnce = async (withDigests: boolean) => {
+      const store = createMemoryStore();
+      const captured: Array<{ stage: string; input: Record<string, unknown> }> = [];
+      const scripts = [{ match: "【研究问题】种子问", turns: [{ text: SUFFICIENT }] }];
+      const adapters = fakes(scripts);
+      adapters.model.runStage = async (stage, input) => {
+        captured.push({ stage, input: (input ?? {}) as Record<string, unknown> });
+        if (stage === "draft") return { output: { reportMd: "# 草稿" }, usage: { ...USAGE } };
+        return { output: { findings: [], gaps: [] }, usage: { ...USAGE } };
+      };
+      await runResearch(
+        ResearchRequestSchema.parse({
+          id: withDigests ? "req-f8a" : "req-f8b",
+          module: "industry",
+          goal: "g",
+          scope: { summary: "s", queries: ["种子问"] },
+        }),
+        adapters, store,
+        {
+          runId: withDigests ? "run-f8a" : "run-f8b",
+          stopAfter: "gather",
+          ...(withDigests ? { sessionDigests: ["纪要一", "纪要二", "纪要三", "纪要四"] } : {}),
+        },
+      );
+      return captured.find((c) => c.stage === "plan")?.input;
+    };
+    const withPlan = await runOnce(true);
+    expect(withPlan).toBeDefined();
+    expect(Object.prototype.hasOwnProperty.call(withPlan, "sessionDigests")).toBe(true);
+    expect(withPlan!.sessionDigests).toEqual(["纪要一", "纪要二", "纪要三"]); // K≤3
+    const withoutPlan = await runOnce(false);
+    expect(Object.prototype.hasOwnProperty.call(withoutPlan, "sessionDigests")).toBe(false);
+  });
+});
+
+describe("补证/重采目标去重(r4-2)", () => {
+  it("analyze gaps 重复 questionId:每问只调查一次", async () => {
+    const store = createMemoryStore();
+    const prompts: string[] = [];
+    const scripts = [
+      {
+        match: "【研究问题】市场规模",
+        turns: [
+          { tool: { name: "web_search", args: { query: "q1" } } },
+          { tool: { name: "fetch_page", args: { url: "https://a/1" } } },
+          { text: SUFFICIENT },
+        ],
+      },
+      {
+        match: "【研究问题】门店数量",
+        turns: [
+          { tool: { name: "web_search", args: { query: "q2" } } },
+          { tool: { name: "fetch_page", args: { url: "https://a/1" } } },
+          { text: '{"sufficient":false,"note":"部分覆盖"}' }, // partially:可进 gap 目标
+        ],
+      },
+    ];
+    const adapters = fakes(scripts, [], prompts);
+    adapters.model.runStage = async (stage) => {
+      if (stage === "analyze")
+        return {
+          output: { findings: [], gaps: [{ questionId: "q2", reason: "x" }, { questionId: "q2", reason: "y" }] },
+          usage: { ...USAGE },
+        };
+      if (stage === "draft") return { output: { reportMd: "# 草稿" }, usage: { ...USAGE } };
+      if (stage === "review") return { output: { issues: [], counterexampleChecked: true }, usage: { ...USAGE } };
+      return { output: { findings: [], gaps: [] }, usage: { ...USAGE } };
+    };
+    const { run } = await runResearch(
+      ResearchRequestSchema.parse({ id: "req-gapdup", module: "industry", goal: "g", scope: { summary: "s", queries: [] } }),
+      adapters, store,
+      { runId: "run-gapdup", ...planOf("市场规模", "门店数量") },
+    );
+    // q2 首轮 1 次 + 缺口补采恰 1 次(重复 gap 条目去重)
+    expect(prompts.filter((p) => p.includes("【研究问题】门店数量")).length).toBe(2);
+    expect(run.usage.searches).toBe(3); // q1+q2 首轮 + q2 补采各一次
+  });
+
+  it("review 同 targetQuestionId 的多条 regather issue:每问只补采一次", async () => {
+    const store = createMemoryStore();
+    const prompts: string[] = [];
+    const scripts = [
+      {
+        match: "【研究问题】市场规模",
+        turns: [
+          { tool: { name: "web_search", args: { query: "q1" } } },
+          { tool: { name: "fetch_page", args: { url: "https://a/1" } } },
+          { text: SUFFICIENT },
+        ],
+      },
+      {
+        match: "【研究问题】门店数量",
+        turns: [
+          { tool: { name: "web_search", args: { query: "q2" } } },
+          { tool: { name: "fetch_page", args: { url: "https://a/1" } } },
+          { text: SUFFICIENT },
+        ],
+      },
+    ];
+    const adapters = fakes(scripts, [], prompts);
+    let reviewCalls = 0;
+    adapters.model.runStage = async (stage) => {
+      if (stage === "analyze") return { output: { findings: [], gaps: [] }, usage: { ...USAGE } };
+      if (stage === "draft") return { output: { reportMd: "# 草稿" }, usage: { ...USAGE } };
+      if (stage === "review") {
+        reviewCalls += 1;
+        // 首轮评审:两条同 target 的 high regather issue;后续轮干净退出
+        if (reviewCalls === 1)
+          return {
+            output: {
+              issues: [
+                { severity: "high", kind: "gap", detail: "缺门店数口径", targetQuestionId: "q2", fix: "regather" },
+                { severity: "high", kind: "other", detail: "同一问重复条目", targetQuestionId: "q2", fix: "regather" },
+              ],
+              counterexampleChecked: true,
+            },
+            usage: { ...USAGE },
+          };
+        return { output: { issues: [], counterexampleChecked: true }, usage: { ...USAGE } };
+      }
+      return { output: { findings: [], gaps: [] }, usage: { ...USAGE } };
+    };
+    const { run } = await runResearch(
+      ResearchRequestSchema.parse({ id: "req-regdup", module: "industry", goal: "g", scope: { summary: "s", queries: [] } }),
+      adapters, store,
+      { runId: "run-regdup", ...planOf("市场规模", "门店数量") },
+    );
+    // q2 首轮 1 次 + 评审重采恰 1 次(同 target 多条 issue 去重)
+    expect(prompts.filter((p) => p.includes("【研究问题】门店数量")).length).toBe(2);
+    expect(run.usage.searches).toBe(3);
   });
 });
