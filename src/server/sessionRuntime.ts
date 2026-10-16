@@ -137,3 +137,104 @@ export function createProjectSessionRuntime(opts: ProjectSessionRuntimeOptions):
 
 /** 供冒烟/测试:与 plain 通道一致的 limits(session taskId 建议加 sess: 前缀隔离命名空间)。 */
 export const sessionLimits = buildLimits;
+
+/* ── P2-5 会话研究记忆(D1/R1-8)────────────────────────────────────────── */
+
+import type { ResearchRun, ResearchResultBundle } from "../contracts.js";
+import { resolveModelConfig, transportFor, type LiveModelConfig } from "../adapters/piRuntime.js";
+
+/** 会话 taskId 收口(R2 前缀机制化:与 plain dr: 命名空间隔离)。 */
+export const sessionTaskId = (purpose: string, key: string): string => `sess:${purpose}:${key}`;
+
+/** R1-4:生产候选链解析(config.model 链→ModelConfig+transport;零可用→null 降级零纪要)。 */
+export function resolveSessionCandidates(
+  configs: LiveModelConfig | LiveModelConfig[] | undefined,
+): Array<{ model: ModelConfig; transport: ModelTransport }> | null {
+  if (!configs) return null;
+  const chain = Array.isArray(configs) ? configs : [configs];
+  const out: Array<{ model: ModelConfig; transport: ModelTransport }> = [];
+  for (const cfg of chain) {
+    try {
+      const model = resolveModelConfig(cfg);
+      const transport = transportFor(model);
+      if (transport) out.push({ model, transport });
+    } catch {
+      /* 真值表外/自定义缺 key:跳过该候选 */
+    }
+  }
+  return out.length > 0 ? out : null;
+}
+
+/** R1-8:run 终态摘要模板(硬顶 800B;cancelled/failed 也写,如实记状态)。 */
+export function buildRunDigest(run: ResearchRun, bundle: ResearchResultBundle | null): string {
+  const counts = { answered: 0, partially: 0, unanswered: 0, skipped: 0 };
+  const qs = (run.progress?.total ?? 0);
+  counts.answered = run.progress?.answered ?? 0;
+  counts.skipped = run.progress?.skipped ?? 0;
+  counts.unanswered = Math.max(0, qs - counts.answered - counts.skipped);
+  const statusLabel: Record<string, string> = {
+    published: "完整交付",
+    limited: "有限交付",
+    cancelled: "已取消",
+    failed: "失败",
+  };
+  const claimTitles = (bundle?.claims ?? [])
+    .slice(0, 5)
+    .map((c) => c.statement.slice(0, 40))
+    .join(";");
+  const lines = [
+    `[${run.requestId}] ${statusLabel[run.status] ?? run.status} · 问题 ${counts.answered}答/${counts.unanswered}未/${counts.skipped}跳`,
+    bundle ? `要点: ${claimTitles}` : run.error ? `中断: ${run.error.slice(0, 60)}` : "",
+  ].filter(Boolean);
+  const text = lines.join(" | ");
+  return text.length > 800 ? `${text.slice(0, 797)}…` : text;
+}
+
+/**
+ * D1:run 完成写会话摘要(update 零模型直写,R1)。
+ * 会话惰性:缺失→create + **一次真实 session run()**(首条=基准摘要任务卡,全链验证 R4)。
+ * 写失败不阻塞(调用方 catch;此处不吞——由 writeSessionDigestSafe 包装)。
+ */
+export async function writeSessionDigest(
+  rt: SessionRuntime,
+  run: ResearchRun,
+  bundle: ResearchResultBundle | null,
+): Promise<void> {
+  const digest = buildRunDigest(run, bundle);
+  let sessionId: string | undefined;
+  const existing = await rt.list();
+  sessionId = existing[0]?.id;
+  if (!sessionId) {
+    const info = await rt.create();
+    sessionId = info.id;
+    // R4:首次真实 run()——claim/bind/reconcile/drive 全链验证(一次性成本)
+    await rt.run({
+      sessionId,
+      taskId: sessionTaskId("first", run.id),
+      prompt: `研究记忆初始化。本研究项目的首条纪要如下:\n${digest}`,
+      limits: buildLimits(),
+      tools: [],
+    });
+    return;
+  }
+  await rt.update(sessionId, {
+    kind: "message",
+    branch: "main",
+    message: { role: "user", text: digest },
+  });
+}
+
+/** readSessionDigests:tail K 条摘要(只在 followup 发起时读一次,勿进轮询)。 */
+export async function readSessionDigests(
+  rt: SessionRuntime,
+  k = 3,
+): Promise<string[]> {
+  const sessions = await rt.list();
+  const sessionId = sessions[0]?.id;
+  if (!sessionId) return [];
+  const entries = await rt.history(sessionId);
+  return entries
+    .filter((e) => e.kind === "message" && e.message?.role === "user" && e.message?.text)
+    .slice(-k)
+    .map((e) => (e.message?.text ?? "").slice(0, 800));
+}

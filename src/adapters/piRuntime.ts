@@ -76,7 +76,7 @@ const TRUTH_TABLE: Record<string, ModelConfig> = {
 };
 
 /** ModelConfig 三分映射(R1-2):(a) 真值表精确匹配;(b) baseUrl+api 自定义;(c) 其余显式拒绝。 */
-function resolveModelConfig(cfg: LiveModelConfig): ModelConfig {
+export function resolveModelConfig(cfg: LiveModelConfig): ModelConfig {
   const hit = TRUTH_TABLE[`${cfg.provider}/${cfg.modelId}`];
   if (hit) return hit;
   if (cfg.baseUrl && cfg.api) {
@@ -96,7 +96,7 @@ function resolveModelConfig(cfg: LiveModelConfig): ModelConfig {
 }
 
 /** 无密钥候选跳过(不抛错);返回 null 由链构建处过滤。 */
-function transportFor(cfg: ModelConfig): ModelTransport | null {
+export function transportFor(cfg: ModelConfig): ModelTransport | null {
   const apiKey = process.env[envKeyFor(cfg.provider)];
   if (!apiKey) return null;
   return createPiTransport({ model: cfg, apiKey });

@@ -134,6 +134,13 @@ export interface RunOptions {
    * CLI/测试缺省不传=旧行为直跑(跳过 plan 门、无 outline 阶段)。
    */
   gates?: { plan: true; outline: true };
+  /**
+   * P2-5:run 终态落盘后回调(会话摘要写入由 routes/CLI 注入;编排器零会话依赖)。
+   * 失败不阻塞 run 结果(catch 吞,DR_DEBUG 由调用方自记)。
+   */
+  onRunComplete?: (result: RunResult) => Promise<void> | void;
+  /** P2-5:既往研究纪要(K≤3,会话 tail 摘要;routes 在起跑前读一次注入)。 */
+  sessionDigests?: string[];
 }
 
 export interface RunResult {
@@ -148,6 +155,7 @@ export async function runResearch(
   options: RunOptions = {},
 ): Promise<RunResult> {
   const started = Date.now();
+  const sessionDigests = options.sessionDigests ?? [];
   const budget: Budget = resolveBudget(request);
   const moduleConfig = options.moduleConfig ?? getModuleConfig(request.module);
   const keyBase = request.id ?? randomUUID();
@@ -307,13 +315,25 @@ export async function runResearch(
     };
   };
 
+  /** P2-5:终态出口统一回调(onRunComplete 失败不阻塞)。 */
+  const finishRun = async (result: RunResult): Promise<RunResult> => {
+    if (options.onRunComplete) {
+      try {
+        await options.onRunComplete(result);
+      } catch {
+        /* 摘要写失败不阻塞 run 结果 */
+      }
+    }
+    return result;
+  };
+
   const cancelRun = async (): Promise<RunResult> => {
     run.status = "cancelled";
     run.usage.wallMs = Date.now() - started;
     syncProgress();
     const finished = ResearchRunSchema.parse(run);
     await store.saveRun(finished);
-    return { run: finished, bundle: null };
+    return finishRun({ run: finished, bundle: null });
   };
 
   /**
@@ -326,7 +346,7 @@ export async function runResearch(
     syncProgress();
     const gated = ResearchRunSchema.parse(run);
     await store.saveRun(gated);
-    return { run: gated, bundle: null };
+    return finishRun({ run: gated, bundle: null });
   };
 
   // 恢复瞬间即落 running:服务端 resume 不再预落记录,可见性由这里兜底
@@ -429,6 +449,12 @@ export async function runResearch(
       `【方向附注】${directionNotes.length ? directionNotes.join(";") : "无"}`,
       `【研究目标与范围】${request.goal}(${request.scope.summary})`,
       `【已答问题】${fold(answered, " / ", 8)}`,
+      ...(sessionDigests.length
+        ? [`【既往研究纪要】(叙事补充;与基准统计不一致时,以基准数据为准)\n${sessionDigests
+            .slice(0, 3)
+            .map((d, i) => `${i + 1}. ${d}`)
+            .join("\n")}`]
+        : []),
       `【已有快照(勿重抓)】${fold(baseUrls, " ; ", 8)}`,
       `【证据规则】本产品关键结论必须逐条绑定已抓取页面的原文快照——搜索摘要只是发现线索,不构成证据。判定 sufficient=true 的前提:你已 fetch_page 抓取并阅读了足以支撑本问结论的页面(通常 ≥2 个独立来源);只凭搜索摘要判定"充分"将被评审打回。`,
       `【预算余量】搜索 ${Math.max(0, budget.maxSearches - run.usage.searches)} 次 / 抓取 ${Math.max(
@@ -1104,7 +1130,7 @@ export async function runResearch(
       const finished = ResearchRunSchema.parse(run);
       await store.saveRun(finished);
       await store.saveBundle(bundle);
-      return { run: finished, bundle };
+      return finishRun({ run: finished, bundle });
     }
   }
 
@@ -1347,5 +1373,5 @@ export async function runResearch(
   const finished = ResearchRunSchema.parse(run);
   await store.saveRun(finished);
   await store.saveBundle(bundle);
-  return { run: finished, bundle };
+  return finishRun({ run: finished, bundle });
 }
