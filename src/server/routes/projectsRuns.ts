@@ -385,16 +385,17 @@ export const handleProjectsRoutes = async (
       return true;
     }
     // 会话纪要(P2-5 D1:只在发起时读一次;候选链不可用→降级零纪要)
-    let sessionDigests: string[] = [];
-    if (ctx.sessionRuntime) {
-      try {
-        const rt = ctx.sessionRuntime(id, dir);
-        if (rt) sessionDigests = await readSessionDigests(rt);
-      } catch {
-        /* 会话读失败降级零纪要 */
-      }
-    }
+    // P2-6 T3(F11):读取移入 withProjectLock 临界区——与守卫/launch 无 TOCTOU
     const outcome = await ctx.registry.withProjectLock(id, async () => {
+      let sessionDigests: string[] = [];
+      if (ctx.sessionRuntime) {
+        try {
+          const rt = ctx.sessionRuntime(id, dir);
+          if (rt) sessionDigests = await readSessionDigests(rt);
+        } catch {
+          /* 会话读失败降级零纪要 */
+        }
+      }
       const busy = await assertNoActiveRun("追问");
       if (busy) return busy;
       const started = await launchRun(ctx, id, dir, request, undefined, undefined, { plan: true, outline: true }, sessionDigests);

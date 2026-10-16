@@ -91,6 +91,8 @@ describe("gather agent 化(P2-4 T2)", () => {
     );
     const { run, bundle } = await runResearch(mkRequest(), adapters, store, {
       runId: "run-agent",
+      // P2-6 T3(F6):纪要注入下任务卡直出【既往研究纪要】段(followup 生效面)
+      sessionDigests: ["基准研究:中国咖啡市场规模约 1,200 亿元(2025)"],
       plan: {
         questions: [
           { id: "q1", question: "市场规模", status: "open" },
@@ -113,6 +115,8 @@ describe("gather agent 化(P2-4 T2)", () => {
     expect(prompts[0]).toContain("【研究目标与范围】");
     expect(prompts[0]).toContain("【已答问题】");
     expect(prompts[0]).toContain("【已有快照(勿重抓)】");
+    expect(prompts[0]).toContain("【既往研究纪要】"); // P2-6 T3(F6):纪要段直接断言
+    expect(prompts[0]).toContain("基准研究:中国咖啡市场规模约 1,200 亿元(2025)");
     expect(prompts[0]).toContain("【预算余量】");
     expect(prompts[0]).toContain("【输出契约】");
   });

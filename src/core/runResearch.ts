@@ -809,6 +809,8 @@ export async function runResearch(
           goal: request.goal,
           scope: request.scope,
           questionFramework: moduleConfig.questionFramework,
+          // P2-6 T3(F4):followup 首跑注入既往研究纪要(与任务卡同口径;只在此处直调)
+          ...(sessionDigests.length ? { sessionDigests: sessionDigests.slice(0, 3) } : {}),
           ...(incremental
             ? {
                 incremental: {
