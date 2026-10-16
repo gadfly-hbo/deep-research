@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>P2-6 UI-GATE 原型 — 运行中加注(行内表单)</title>
+<link rel="stylesheet" href="../../ui/styles.css">
+<style>
+  body { background: var(--bg); margin: 0; padding: 24px 32px 48px; }
+  .gate-sec { max-width: 860px; margin: 0 auto 30px; }
+  .gate-h { font: 600 15px/1.4 Inter, system-ui; color: var(--text-2); letter-spacing: .04em; text-transform: uppercase; margin: 0 0 4px; }
+  .gate-note { font: 12px/1.6 Inter, system-ui; color: var(--text-3); margin: 0 0 12px; }
+  .gate-cell { border: 1px dashed var(--line-strong); border-radius: 8px; padding: 10px; margin-bottom: 12px; }
+  .gate-cell > .gate-tag { font: 11px/1 Inter, system-ui; color: var(--accent-strong); display: block; margin-bottom: 8px; letter-spacing: .06em; }
+  .demo-card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; box-shadow: 0 3px 12px rgba(40,36,30,.04); }
+  .demo-toast { display: inline-block; font-size: 12px; padding: 6px 14px; border-radius: 999px; background: var(--navy-soft, #edf3f5); color: var(--navy, #263442); margin-top: 8px; }
+  .inline-row { display: flex; gap: 8px; align-items: flex-end; margin-top: 10px; }
+  .inline-row .fld { flex: 1; margin: 0; }
+</style>
+</head>
+<body>
+
+<section class="gate-sec">
+  <h1 style="font:600 18px/1.4 Inter,system-ui; margin:0 0 6px">P2-6 运行中加注原型(静态,真实 ui/styles.css)</h1>
+  <p class="gate-note">唯一新交互面:GatherView 干预表单旁行内加注表单(无弹层,不违 P2-5 契约)。数值合成。</p>
+</section>
+
+<section class="gate-sec">
+  <p class="gate-h">S1 · 加注行内表单(展开态/running)</p>
+  <div class="gate-cell">
+    <div class="demo-card">
+      <p class="fine" style="margin:0 0 6px">运行中干预(现状:跳过/加问/改方向 回车提交)</p>
+      <div class="inline-row">
+        <div class="fld"><span class="fld-label">搜索增量</span><input type="number" placeholder="+20" value="20"></div>
+        <div class="fld"><span class="fld-label">抓取增量</span><input type="number" placeholder="+40" value="40"></div>
+        <div class="fld"><span class="fld-label">延长(分钟)</span><input type="number" placeholder="+10"></div>
+        <button class="btn btn-sm btn-primary" type="button">确认加注</button>
+      </div>
+    </div>
+  </div>
+  <div class="gate-cell">
+    <span class="gate-tag">成功 toast</span>
+    <span class="demo-toast">已加注,配额饿死的问题将自动重开</span>
+  </div>
+  <div class="gate-cell">
+    <span class="gate-tag">内联错误(非正整数,不提交)</span>
+    <div class="inline-row">
+      <div class="fld"><span class="fld-label">搜索增量</span><input type="number" value="-5" style="border-color:var(--fail-line)"></div>
+      <p class="fine" style="margin:0 0 0 8px;color:var(--fail)">增量须为正整数</p>
+    </div>
+  </div>
+  <div class="gate-cell">
+    <span class="gate-tag">禁用态(全空/全零)</span>
+    <div class="inline-row">
+      <div class="fld"><span class="fld-label">搜索增量</span><input type="number" placeholder="+20"></div>
+      <div class="fld"><span class="fld-label">抓取增量</span><input type="number" placeholder="+40"></div>
+      <div class="fld"><span class="fld-label">延长(分钟)</span><input type="number" placeholder="+10"></div>
+      <button class="btn btn-sm" type="button" disabled>确认加注</button>
+    </div>
+  </div>
+  <p class="gate-note">负例:无弹层/新页面;awaiting/终态无加注入口;无上限展示/前端校验;无降档入口;不自称 steer。</p>
+</section>
+
+</body>
+</html>
