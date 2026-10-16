@@ -28,13 +28,14 @@ interface GateData {
 
 /** S2 · 计划确认卡片:问题清单可编辑(≥1 条非空),确认后续跑生成框架;放弃=取消 run 回表单。 */
 function PlanGateCard({
-  projectId, run, onConfirmed, onAbandoned, reload,
+  projectId, run, onConfirmed, onAbandoned, reload, followupCount,
 }: {
   projectId: string;
   run: Run;
   onConfirmed(): void;
   onAbandoned(prefill: { goal: string; summary: string }): void;
   reload(): Promise<void>;
+  followupCount: number;
 }) {
   const toast = useToast();
   const [gate, setGate] = useState<GateData | null>(null);
@@ -153,6 +154,9 @@ function PlanGateCard({
       )}
       {gate.incremental && (
         <p className="fine" style={{ margin: "10px 0 0" }}>
+          <span className="chip chip-fork" style={{ marginRight: 8 }}>
+            延续研究{followupCount > 0 ? ` · 第 ${followupCount + 1} 次追问` : " · 首次追问"}
+          </span>
           基准:<span className="mono">{gate.incremental.summary.runId.slice(0, 10)}…</span>
           {" "}· 已答 {gate.incremental.summary.answeredQuestions} 问 · 证据 {gate.incremental.summary.evidence}
           {" "}· 快照 {gate.incremental.summary.snapshots}(本次只为新问题采证)
@@ -356,6 +360,8 @@ export function PlanView() {
   const [baseRun, setBaseRun] = useState<BaseRunRef | null>(null);
 
   const finishedRuns = (p.detail?.runs ?? []).filter((r) => r.status === "published" || r.status === "limited");
+  // P2-5(S2):追问次数=项目 runs 中 derivedFromRunId 非空计数(惰性会话后从 0 起跳,语义=本项目追问次数)
+  const followupCount = (p.detail?.runs ?? []).filter((r) => r.derivedFromRunId).length;
   const awaitingRun = p.activeRun?.status === "awaiting-confirmation" ? p.activeRun : null;
 
   useEffect(() => {
@@ -455,6 +461,7 @@ export function PlanView() {
           />
         ) : (
           <PlanGateCard
+            followupCount={followupCount}
             projectId={p.id}
             run={awaitingRun}
             onConfirmed={() => setAwaitingNextGate(true)}

@@ -222,9 +222,20 @@ export function ProjectDetailProvider({ id, children }: { id: string; children: 
   const startRun = useCallback(
     async (p: StartRunParams): Promise<{ ok: boolean; rejected: Array<{ sourceId: string; reason: string }> }> => {
       try {
+        // P2-5:追问(有基准)走 followup 端点;全新研究走 /runs(现状)
+        const isFollowup = !!p.incrementalOf;
         const started = await post<{
           reuse?: { bound: number; rejected: Array<{ sourceId: string; reason: string }> };
-        }>(`/api/projects/${id}/runs`, {
+        }>(
+          isFollowup ? `/api/projects/${id}/runs/followup` : `/api/projects/${id}/runs`,
+          isFollowup
+            ? {
+                prompt: p.goal,
+                summary: p.summary,
+                baseRunId: p.incrementalOf!.runId,
+                budgetTier: p.budgetTier ?? "medium",
+              }
+            : {
           request: {
             id: `req-${Date.now().toString(36)}`,
             module: detail?.meta.module ?? "brand",
@@ -239,7 +250,8 @@ export function ProjectDetailProvider({ id, children }: { id: string; children: 
           plan: p.plan ? { questions: p.plan.map((q) => ({ ...q, status: "open" })) } : undefined,
           // 2.0:复用选择在请求体顶层,服务端绑定后随 run 固定版本
           selectedAssets: p.selectedAssets,
-        });
+              },
+        );
         const rejected = started.reuse?.rejected ?? [];
         toast.show(
           rejected.length > 0
