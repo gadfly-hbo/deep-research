@@ -12,6 +12,10 @@
 - **P2-5 追问会话化**:会话=研究记忆(零模型直写摘要);`POST /runs/followup`;任务卡【既往研究纪要】段。
 - **P2-6 动态预算+问内改道+退役**:运行中加注(registerBudget 同对象变异/budget 端点/加注评估点复位+quota-starved 重开);问内 refine 即时注入(filtered take+三步消费);P2-5 遗留四项;gather 域拆分(runResearch 1378→987 行)。
 
+## 交付
+
+- 提交 `37dae1b..cb5d100`(8 commits:T1-T4 + REVIEW 修复 + scripts + flow 工件 + 冒烟数据),已推 GitHub(main)。
+
 ## 验证状态
 
 - **测试**:422 全绿 / 68 文件 + typecheck 双 tsconfig 干净(VERIFY 命令 `npm test && npm run typecheck`)。
