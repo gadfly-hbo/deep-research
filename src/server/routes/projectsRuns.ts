@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { existsSync, readdirSync } from "node:fs";
+import { existsSync, readdirSync, statSync } from "node:fs";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { join } from "node:path";
 import { z } from "zod";
@@ -227,6 +227,16 @@ export const handleProjectsRoutes = async (
   // D1 怪癖逐位保留:任何 /api/projects/:id/* 先验 id(非法→抛出→外层 500),再做子路由分发(T7 钉住)
   const dir = ctx.projectDir(id);
 
+  // P2-5(REVIEW F5):单 active-run 守卫单一收口——三处(POST /runs、rerun、followup)共用
+  const assertNoActiveRun = async (action: string): Promise<{ status: 409; body: { error: string } } | null> => {
+    const active = (await ctx.storeFor(id).listRuns()).find(
+      (r) => r.status === "running" || r.status === "awaiting-confirmation",
+    );
+    return active
+      ? { status: 409 as const, body: { error: `该项目存在进行中或待确认的运行(${active.requestId}),结束后才能${action}` } }
+      : null;
+  };
+
   // versions/snapshots 子树(T3,R2-1 交接):验 id 后委托 versions 域;未匹配的子路径由其返回 false 落回
   if (rest === "/snapshots" || rest.startsWith("/versions/")) {
     return handleVersionRoutes(ctx, res, { id, dir, rest, url, method });
@@ -262,18 +272,19 @@ export const handleProjectsRoutes = async (
         return true;
       }
     }
-    // P2-3(KA2/R1-6):服务端单 active-run 守卫——同项目 running|awaiting-confirmation → 409;
-    // 守卫与 launch 同把 per-project 锁消 TOCTOU;body 无 plan 时传 gates 走确认门(R1-4)
-    const outcome = await ctx.registry.withProjectLock(id, async () => {
+    // P2-5(REVIEW F5):单 active-run 守卫单一收口——三处(POST /runs、rerun、followup)共用
+    const assertNoActiveRun = async (action: string): Promise<{ status: 409; body: { error: string } } | null> => {
       const active = (await ctx.storeFor(id).listRuns()).find(
         (r) => r.status === "running" || r.status === "awaiting-confirmation",
       );
-      if (active) {
-        return {
-          status: 409 as const,
-          body: { error: `该项目存在进行中或待确认的运行(${active.requestId}),结束后才能发起新运行` },
-        };
-      }
+      return active
+        ? { status: 409 as const, body: { error: `该项目存在进行中或待确认的运行(${active.requestId}),结束后才能${action}` } }
+        : null;
+    };
+    // P2-3(KA2/R1-6):守卫与 launch 同把 per-project 锁消 TOCTOU;body 无 plan 时传 gates 走确认门(R1-4)
+    const outcome = await ctx.registry.withProjectLock(id, async () => {
+      const busy = await assertNoActiveRun("发起新运行");
+      if (busy) return busy;
       const started = await launchRun(
         ctx,
         id,
@@ -317,15 +328,8 @@ export const handleProjectsRoutes = async (
     }
     // P2-3(KA2):rerun 同守卫(不传 gates,旧路径直跑,R1-4)
     const outcome = await ctx.registry.withProjectLock(id, async () => {
-      const active = (await ctx.storeFor(id).listRuns()).find(
-        (r) => r.status === "running" || r.status === "awaiting-confirmation",
-      );
-      if (active) {
-        return {
-          status: 409 as const,
-          body: { error: `该项目存在进行中或待确认的运行(${active.requestId}),结束后才能重跑` },
-        };
-      }
+      const busy = await assertNoActiveRun("重跑");
+      if (busy) return busy;
       const plan: PlanOutput = {
         questions: request.scope.queries.map((q, i) => ({ id: `q${i + 1}`, question: q, status: "open" })),
       };
@@ -346,9 +350,19 @@ export const handleProjectsRoutes = async (
     const store = ctx.storeFor(id);
     // 基准定位:显式 baseRunId 或项目最新已完成 run
     const runs = await store.listRuns();
+    // REVIEW F2:默认基准=最新已完成 run(按 run.json 修改时间序,非 listRuns 的 id 字典序)
+    const mtimeOf = (runId: string): number => {
+      try {
+        return statSync(join(dir, "runs", runId, "run.json")).mtimeMs;
+      } catch {
+        return 0;
+      }
+    };
     const base = body.baseRunId
       ? runs.find((r) => r.id === String(body.baseRunId) && (r.status === "published" || r.status === "limited"))
-      : [...runs].reverse().find((r) => r.status === "published" || r.status === "limited");
+      : [...runs]
+          .filter((r) => r.status === "published" || r.status === "limited")
+          .sort((a, b) => mtimeOf(b.id) - mtimeOf(a.id))[0];
     if (!base) {
       json(res, 404, { error: `没有可作为追问基准的已完成运行(${String(body.baseRunId ?? "最新")})` });
       return true;
@@ -383,15 +397,8 @@ export const handleProjectsRoutes = async (
       }
     }
     const outcome = await ctx.registry.withProjectLock(id, async () => {
-      const active = (await store.listRuns()).find(
-        (r) => r.status === "running" || r.status === "awaiting-confirmation",
-      );
-      if (active) {
-        return {
-          status: 409 as const,
-          body: { error: `该项目存在进行中或待确认的运行(${active.requestId}),结束后才能追问` },
-        };
-      }
+      const busy = await assertNoActiveRun("追问");
+      if (busy) return busy;
       const started = await launchRun(ctx, id, dir, request, undefined, undefined, { plan: true, outline: true }, sessionDigests);
       return { status: 200 as const, body: { started: true, requestId: started.requestId, reuse: started.reuse } };
     });

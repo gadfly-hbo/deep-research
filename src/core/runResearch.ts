@@ -346,7 +346,8 @@ export async function runResearch(
     syncProgress();
     const gated = ResearchRunSchema.parse(run);
     await store.saveRun(gated);
-    return finishRun({ run: gated, bundle: null });
+    // REVIEW F1:gate 出口非终态(awaiting-confirmation),不写会话摘要——run 完成时的终态出口才写
+    return { run: gated, bundle: null };
   };
 
   // 恢复瞬间即落 running:服务端 resume 不再预落记录,可见性由这里兜底

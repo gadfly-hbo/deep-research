@@ -182,8 +182,17 @@ export function buildRunDigest(run: ResearchRun, bundle: ResearchResultBundle | 
     .slice(0, 5)
     .map((c) => c.statement.slice(0, 40))
     .join(";");
+  // REVIEW F3:补目标(bundle.reportMd 首个 # 标题)与口径注记(interventions 中的 refine-direction)
+  const goal = bundle?.reportMd?.match(/^#\s+(.+)$/m)?.[1] ?? "";
+  const directionNotes = (run.interventions ?? [])
+    .filter((i) => i.instruction?.type === "refine-direction")
+    .map((i) => (i.instruction as { note?: string }).note ?? "")
+    .filter(Boolean)
+    .join(";");
   const lines = [
     `[${run.requestId}] ${statusLabel[run.status] ?? run.status} · 问题 ${counts.answered}答/${counts.unanswered}未/${counts.skipped}跳`,
+    goal ? `目标: ${goal.slice(0, 60)}` : "",
+    directionNotes ? `口径注记: ${directionNotes.slice(0, 120)}` : "",
     bundle ? `要点: ${claimTitles}` : run.error ? `中断: ${run.error.slice(0, 60)}` : "",
   ].filter(Boolean);
   const text = lines.join(" | ");

@@ -58,6 +58,7 @@ describe("buildRunDigest 摘要模板(R1-8)", () => {
     expect(d).toContain("[req-1] 完整交付");
     expect(d).toContain("2答/1未/1跳");
     expect(d.length).toBeLessThanOrEqual(800);
+    expect(buildRunDigest(run({ status: "limited" }), null)).toContain("有限交付");
     expect(buildRunDigest(run({ status: "cancelled" }), null)).toContain("已取消");
     expect(buildRunDigest(run({ status: "failed", error: "模型中断" }), null)).toContain("中断");
   });
@@ -111,6 +112,14 @@ describe("会话研究记忆(D1/R1/R4)", () => {
     const k1 = await readSessionDigests(rt, 1);
     expect(k1).toHaveLength(1);
     expect(k1[0]).toContain("req-r3"); // tail
+  });
+
+  it("F1:gate 出口(awaiting)不写摘要——完成 run 在 history 恰 1 条 user 纪要", async () => {
+    await writeSessionDigest(rt, fakeResult("g1").run, null); // 首次=run() 初始化
+    await writeSessionDigest(rt, fakeResult("g2").run, null); // 完成=update
+    const digests = await readSessionDigests(rt, 10);
+    const g2Entries = digests.filter((d) => d.includes("req-g2"));
+    expect(g2Entries).toHaveLength(1); // 单完成 run 恰 1 条(无 awaiting 中间态)
   });
 
   it("resolveSessionCandidates:真值表外+缺 key→null 降级", () => {

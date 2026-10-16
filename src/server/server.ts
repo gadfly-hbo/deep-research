@@ -64,8 +64,7 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
 
   const storeFor = (id: string): FsProjectStore => FsProjectStore.open(projectDir(id));
   // D2:启动级单例 ctx,各域 handler 共享(T2 起 projectsRuns 域先行消费)
-  // P2-5:会话研究记忆装配(候选链不可用→不挂,降级零纪要)
-  const sessionCandidates = resolveSessionCandidates(undefined); // serve 侧 config 链由 cli 装配注入(见 cli.ts)
+  // P2-5:会话研究记忆装配(候选链由 cli.ts 装配注入 deps.sessionCandidates;缺省不挂=降级零纪要)
   const ctx: Ctx = {
     dataDir: deps.dataDir,
     makeAdapters: deps.makeAdapters,
@@ -80,14 +79,13 @@ export async function startServer(deps: ServerDeps, port = 0): Promise<RunningSe
           sessionRuntime: (id: string, dir: string) => createProjectSessionRuntime({ projectDir: dir, candidates: deps.sessionCandidates! }),
           onRunComplete: (dir: string) => (result) => {
             const rt = createProjectSessionRuntime({ projectDir: dir, candidates: deps.sessionCandidates! });
-            void writeSessionDigest(rt, result.run, result.bundle).catch(() => {
-              /* 摘要写失败不阻塞(run 已完成);DR_DEBUG 下静默 */
+            void writeSessionDigest(rt, result.run, result.bundle).catch((e) => {
+              if (process.env.DR_DEBUG) console.error(`[session] 摘要写入失败: ${e instanceof Error ? e.message : e}`);
             });
           },
         }
       : {}),
   };
-  void sessionCandidates;
 
   // 启动清扫:上次进程中断遗留的 running 记录标记为 failed,可自检查点重跑
   const projectsRoot = join(deps.dataDir, "projects");
