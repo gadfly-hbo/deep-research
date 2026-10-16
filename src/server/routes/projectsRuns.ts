@@ -16,6 +16,7 @@ import type { AssetBinding } from "../../library/contracts.js";
 import { bindAssets } from "../../library/reuse.js";
 import { FsProjectStore } from "../../stores/fsStore.js";
 import { json, PROJECT_ID, type Ctx } from "./http.js";
+import { readSessionDigests } from "../sessionRuntime.js";
 import { handleVersionRoutes } from "./versions.js";
 
 // P1-3 T2:projectsRuns 域(附录 A 第 1–12 项)。HTTP 行为与拆分前逐位一致。
@@ -103,7 +104,11 @@ const startPipeline = (
   onFailure: (error: unknown) => Promise<void>,
 ): void => {
   const controller = ctx.registry.acquire(request.id ?? "");
-  void runOnProject(dir, request, ctx.makeAdapters(), { ...options, signal: controller.signal })
+  void runOnProject(dir, request, ctx.makeAdapters(), {
+    ...options,
+    signal: controller.signal,
+    ...(ctx.onRunComplete ? { onRunComplete: ctx.onRunComplete(dir) } : {}),
+  })
     .catch(onFailure)
     .finally(() => {
       ctx.registry.release(request.id ?? "");
@@ -119,6 +124,7 @@ const launchRun = async (
   plan: PlanOutput | undefined,
   selectedAssets?: unknown,
   gates?: RunOptions["gates"],
+  sessionDigests?: string[],
 ): Promise<{
   runId: string;
   requestId: string;
@@ -165,6 +171,7 @@ const launchRun = async (
       library: ctx.library,
       projectId: id,
       pollInstructions: drainAndPersist(ctx, runId, dir),
+      ...(sessionDigests?.length ? { sessionDigests } : {}),
     },
     async (error) => {
       // 失败不冒充完成:落一条 failed run 记录,带错误信息
@@ -323,6 +330,69 @@ export const handleProjectsRoutes = async (
         questions: request.scope.queries.map((q, i) => ({ id: `q${i + 1}`, question: q, status: "open" })),
       };
       const started = await launchRun(ctx, id, dir, request, plan);
+      return { status: 200 as const, body: { started: true, requestId: started.requestId, reuse: started.reuse } };
+    });
+    json(res, outcome.status, outcome.body);
+    return true;
+  }
+
+  // P2-5(D2):追问=followup 端点——基准定位+免 plan 起跑(双确认门)+会话纪要注入
+  if (method === "POST" && rest === "/runs/followup") {
+    const prompt = String(body.prompt ?? "").trim();
+    if (!prompt) {
+      json(res, 400, { error: "追问目标不能为空(prompt)" });
+      return true;
+    }
+    const store = ctx.storeFor(id);
+    // 基准定位:显式 baseRunId 或项目最新已完成 run
+    const runs = await store.listRuns();
+    const base = body.baseRunId
+      ? runs.find((r) => r.id === String(body.baseRunId) && (r.status === "published" || r.status === "limited"))
+      : [...runs].reverse().find((r) => r.status === "published" || r.status === "limited");
+    if (!base) {
+      json(res, 404, { error: `没有可作为追问基准的已完成运行(${String(body.baseRunId ?? "最新")})` });
+      return true;
+    }
+    const baseRequest = await store.readRequest(base.requestId);
+    if (!baseRequest) {
+      json(res, 404, { error: `基准请求不存在: ${base.requestId}` });
+      return true;
+    }
+    const request = ResearchRequestSchema.parse({
+      id: `req-${Date.now().toString(36)}`,
+      module: baseRequest.module,
+      goal: prompt,
+      scope: { summary: body.summary ?? baseRequest.scope.summary, queries: [] },
+      incrementalOf: { runId: base.id, requestId: base.requestId },
+      budgetTier: body.budgetTier ?? "medium",
+      budget: undefined,
+    });
+    const resolved = await resolveIncrementalBase(store, request.incrementalOf);
+    if ("error" in resolved) {
+      json(res, resolved.status, { error: resolved.error });
+      return true;
+    }
+    // 会话纪要(P2-5 D1:只在发起时读一次;候选链不可用→降级零纪要)
+    let sessionDigests: string[] = [];
+    if (ctx.sessionRuntime) {
+      try {
+        const rt = ctx.sessionRuntime(id, dir);
+        if (rt) sessionDigests = await readSessionDigests(rt);
+      } catch {
+        /* 会话读失败降级零纪要 */
+      }
+    }
+    const outcome = await ctx.registry.withProjectLock(id, async () => {
+      const active = (await store.listRuns()).find(
+        (r) => r.status === "running" || r.status === "awaiting-confirmation",
+      );
+      if (active) {
+        return {
+          status: 409 as const,
+          body: { error: `该项目存在进行中或待确认的运行(${active.requestId}),结束后才能追问` },
+        };
+      }
+      const started = await launchRun(ctx, id, dir, request, undefined, undefined, { plan: true, outline: true }, sessionDigests);
       return { status: 200 as const, body: { started: true, requestId: started.requestId, reuse: started.reuse } };
     });
     json(res, outcome.status, outcome.body);

@@ -25,4 +25,8 @@ export interface Ctx {
   storeFor: (id: string) => FsProjectStore;
   configPath: string;
   registry: RunRegistry;
+  /** P2-5:run 终态回调注入点(会话摘要写入;缺省无——CLI/测试不传)。 */
+  onRunComplete?: (dir: string) => NonNullable<import("../../core/runResearch.js").RunOptions["onRunComplete"]>;
+  /** P2-5:会话运行时工厂(per project;缺省无——候选链不可用时降级零纪要)。 */
+  sessionRuntime?: (id: string, dir: string) => import("pi-agent-runtime").SessionRuntime | null;
 }

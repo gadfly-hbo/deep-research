@@ -3,6 +3,7 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { httpSearch, livePage, liveParser, type HttpSearchConfig } from "./adapters/live.js";
 import { piRuntimeModel, type LiveModelConfig } from "./adapters/piRuntime.js";
+import { resolveSessionCandidates, writeSessionDigest, createProjectSessionRuntime } from "./server/sessionRuntime.js";
 import { mcpWebSearch } from "./adapters/mcpSearch.js";
 import { searchWithFallback } from "./adapters/searchFailover.js";
 import { xiaomiWebSearch } from "./adapters/xiaomiSearch.js";
@@ -227,8 +228,21 @@ async function projectCmd(sub: string, flags: Record<string, string>): Promise<v
       ? (JSON.parse(readFileSync(flags.plan, "utf8")) as { questions: { id: string; question: string; status: "open" }[] })
       : undefined;
     let result;
+    const runSessionCandidates = resolveSessionCandidates(loadConfig().model);
     try {
-      result = await runOnProject(flags.project, request, adapters, { plan });
+      result = await runOnProject(flags.project, request, adapters, {
+        plan,
+        ...(runSessionCandidates
+          ? {
+              onRunComplete: (r) =>
+                writeSessionDigest(
+                  createProjectSessionRuntime({ projectDir: flags.project, candidates: runSessionCandidates }),
+                  r.run,
+                  r.bundle,
+                ),
+            }
+          : {}),
+      });
     } finally {
       await (adapters.search as { close?: () => Promise<void> }).close?.();
     }
@@ -264,13 +278,17 @@ if (command === "data-sync") {
 } else if (command === "serve") {
   const dataDir = flags.datadir ?? defaultDataDir();
   const config = loadConfig();
+  const sessionCandidates = resolveSessionCandidates(config.model);
   const makeAdapters = (): Adapters => {
     if (!config.model || !config.search) {
       throw new Error("未配置模型/搜索(见 npm run research -- serve 的 config.json 说明);运行功能不可用,管理功能正常");
     }
     return { search: makeSearch(config.search), page: livePage(), parser: liveParser(), model: piRuntimeModel(config.model) };
   };
-  startServer({ dataDir, makeAdapters }, flags.port ? Number(flags.port) : 4173)
+  startServer(
+    { dataDir, makeAdapters, ...(sessionCandidates ? { sessionCandidates } : {}) },
+    flags.port ? Number(flags.port) : 4173,
+  )
     .then((srv) => console.log(`工作台已启动(仅本机): http://127.0.0.1:${srv.port}`))
     .catch((error) => {
       console.error(String(error));
