@@ -1,22 +1,11 @@
 #!/bin/sh
-# 注入本机模型密钥到环境(不打印、不落仓)。来源:
-#   MiniMax: ~/.pi/agent/auth.json [minimax-cn]
-#   Xiaomi MIMO tokenplan: ~/.zcode/v2/config.json (baseURL 含 xiaomimimo 的 provider),
-#     缺失时回退 ~/.pi/agent/auth.json [xiaomi-token-plan-cn](2026-10-16:P2-6 冒烟发现本机 zcode 配置已不存在)
+# 注入本机模型密钥到环境(不打印、不落仓)。来源统一为 ~/.pi/agent/auth.json:
+#   MiniMax: [minimax-cn]
+#   Xiaomi MIMO tokenplan: [xiaomi-token-plan-cn]
+#   (2026-10-16:ZCode 已卸载,原 ~/.zcode/v2/config.json 密钥源随之移除,
+#    该源在本机自始不存在,回退分支恒定命中 ~/.pi/agent/auth.json)
 MM=$(python3 -c "import json,os;a=json.load(open(os.path.expanduser('~/.pi/agent/auth.json')));print(a.get('minimax-cn',{}).get('key',''))" 2>/dev/null)
 [ -n "$MM" ] && export MINIMAX_API_KEY="$MM" && export MINIMAX_CN_API_KEY="$MM"
-XM=$(python3 - <<'PY' 2>/dev/null
-import json,os
-try:
-    cfg=json.load(open(os.path.expanduser('~/.zcode/v2/config.json')))
-    for p in (cfg.get('provider') or {}).values():
-        opts=p.get('options') or {}
-        if 'xiaomimimo' in str(opts.get('baseURL','')):
-            print(opts.get('apiKey','')); break
-except FileNotFoundError:
-    a=json.load(open(os.path.expanduser('~/.pi/agent/auth.json')))
-    print(a.get('xiaomi-token-plan-cn',{}).get('key',''))
-PY
-)
+XM=$(python3 -c "import json,os;a=json.load(open(os.path.expanduser('~/.pi/agent/auth.json')));print(a.get('xiaomi-token-plan-cn',{}).get('key',''))" 2>/dev/null)
 [ -n "$XM" ] && export XIAOMI_TOKEN_PLAN_CN_API_KEY="$XM"
 exec "$@"

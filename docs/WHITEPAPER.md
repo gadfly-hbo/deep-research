@@ -447,7 +447,7 @@ research-result/<version>/
 | `DR_MODEL_TIMEOUT_MS` | 模型调用超时（默认 300s） | 可选 |
 | `DR_DEBUG` | 调试日志 | 可选 |
 
-**密钥注入方式：** `scripts/with-minimax-env.sh <cmd>`（从 `~/.pi/agent/auth.json` 和 `~/.zcode/v2/config.json` 取凭据，静默 export）。密钥只走环境变量，不进配置文件/日志/报告/测试。
+**密钥注入方式：** `scripts/with-minimax-env.sh <cmd>`（统一从 `~/.pi/agent/auth.json` 取凭据——MiniMax 取 `[minimax-cn]`，小米取 `[xiaomi-token-plan-cn]`，静默 export）。密钥只走环境变量，不进配置文件/日志/报告/测试。
 
 ### 7.3 npm 命令
 

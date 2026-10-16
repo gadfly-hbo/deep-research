@@ -35,7 +35,7 @@ npm run build       # tsc + vite 构建 SPA 到 ui-dist/
   - `minimax-mcp`:MiniMax MCP `web_search`(`minimax-coding-plan-mcp`,stdio NDJSON),与 flow-center 商圈研究工作流同款;
   - `xiaomi-websearch`:MIMO token plan 服务端联网检索(`tools:[{"type":"web_search"}]`,结果在 `message.annotations` 的 `url_citation`;实测 2026-09-21 可用);
   - 也支持通用 HTTP 搜索端点(填 `endpoint/urlField/titleField/snippetField`)。
-- **密钥只走环境变量,不进配置文件/日志/报告**。本机注入脚本:`scripts/with-minimax-env.sh <cmd>`(从 `~/.pi/agent/auth.json` 取 MiniMax、从 `~/.zcode/v2/config.json` 取 Xiaomi,静默 export)。live 命令示例:`scripts/with-minimax-env.sh npm run research -- serve`。
+- **密钥只走环境变量,不进配置文件/日志/报告**。本机注入脚本:`scripts/with-minimax-env.sh <cmd>`(统一从 `~/.pi/agent/auth.json` 取 MiniMax `[minimax-cn]` 与 Xiaomi `[xiaomi-token-plan-cn]`,静默 export)。live 命令示例:`scripts/with-minimax-env.sh npm run research -- serve`。
 - 实测注意:Xiaomi MIMO 端点不遵循 system 通道,阶段指令已并入 user 消息;runAgentLoop 会把供应商 429 吞进消息(stopReason=error),适配器检出后主动抛出以触发备用切换。
 - 成本口径:token plan(订阅制)供应商的边际成本为 0,`usage.costEstimate` 如实记 0,成本上限对这类供应商不生效;预算仍由搜索/抓取/墙钟上限约束。按 token 计费的供应商走 pi-ai 内置费率。
 - 模型接入经 pi SDK(`@earendil-works/pi-ai` + `pi-agent-core`)进程内完成,不用 CLI 子进程。

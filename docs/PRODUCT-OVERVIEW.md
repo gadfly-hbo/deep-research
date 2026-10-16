@@ -235,7 +235,7 @@ research-data/
 
 ### 15. 安全与权限控制
 
-- **密钥只走环境变量**:由 `scripts/with-minimax-env.sh` 从本机凭据库(MiniMax 取 `~/.pi/agent/auth.json`,小米取 `~/.zcode/v2/config.json`)静默注入进程,**不打印、不落仓、不进日志、不进报告**;
+- **密钥只走环境变量**:由 `scripts/with-minimax-env.sh` 从本机凭据库 `~/.pi/agent/auth.json` 静默注入进程(MiniMax 取 `[minimax-cn]`,小米取 `[xiaomi-token-plan-cn]`),**不打印、不落仓、不进日志、不进报告**;
 - **服务只听本机回环**:127.0.0.1,外部网络不可达;
 - **设置 API 防密钥回传**:任何疑似 key 的字段一律剥离/拒绝;
 - **快照净化**:只存/只发纯文本正文,来源 HTML、脚本、内联资源永不落盘永不下发;
