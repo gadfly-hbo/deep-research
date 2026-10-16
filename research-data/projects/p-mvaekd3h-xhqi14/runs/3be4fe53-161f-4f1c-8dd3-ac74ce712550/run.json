@@ -1,0 +1,23 @@
+{
+  "id": "3be4fe53-161f-4f1c-8dd3-ac74ce712550",
+  "requestId": "req-mvaeqvkj",
+  "stage": "publish",
+  "status": "limited",
+  "checkpoints": [],
+  "usage": {
+    "searches": 13,
+    "fetches": 48,
+    "modelCalls": 167,
+    "outputTokens": 210294,
+    "wallMs": 1746350
+  },
+  "derivedFromRunId": "a42cf3aa-047b-4ecc-b9eb-1dd235e68719",
+  "progress": {
+    "currentQuestionId": "q2",
+    "currentQuestionText": "锂价在储能电池总成本中的占比和传导机制是怎样的?",
+    "answered": 2,
+    "open": 0,
+    "skipped": 0,
+    "total": 2
+  }
+}

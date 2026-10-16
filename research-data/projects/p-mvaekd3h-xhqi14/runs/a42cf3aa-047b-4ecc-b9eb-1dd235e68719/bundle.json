@@ -1,0 +1,2373 @@
+{
+  "runId": "a42cf3aa-047b-4ecc-b9eb-1dd235e68719",
+  "version": 0,
+  "reportMd": "# 中国储能电池产业链研究报告(2025年实况与2026年展望)\n\n## 执行摘要\n\n本报告基于 ICC 鑫椤资讯、GGII(高工产研储能研究所)、SNE Research、CNESA DataLink 等多家第三方机构数据,对中国储能电池产业链 2025 年的实际运行情况及 2026 年的演进趋势进行系统梳理。核心结论如下:\n\n1. **规模与增速:2025 年全球储能电池出货 640GWh,同比 +82.9%;储能系统出货 498GWh,同比 +99%。** 国内电池厂家出货 621.5GWh(同比 +82.8%),占全球 97.1%;中国储能锂电池出货 630GWh,同比 +85%,全球占比超 90%。预计 2026 年全球储能电池出货 1090GWh(同比 +70%)、系统出货 900GWh(同比 +81%);GGII 预计 2026 年中国储能锂电池出货将超 850GWh。\n2. **应用结构:表前侧为绝对主力,占 79.2%(507.9GWh,+82.7%);工商业 9.6%(61GWh,+103%);户储&便携式 9.3%(58.8GWh,+117.7%);基站&数据中心仅 2%(12.3GWh,-22%)。** 全球户用储能锂电池出货 55GWh,同比 +111%。\n3. **电芯格局:中国厂商绝对主导,2025 年上半年全球前十大储能电芯企业均为中国企业,前五家合计市占率超 78%;全球储能系统用锂电池前七名均为中国企业,合计市占率 83.3%。** 宁德时代以 30% 市占率居首,海辰储能、亿纬锂能位列二三;韩国三星 SDI 与 LG 新能源合计约 4%。\n4. **盈利分化:PCS 行业平均毛利率同比下降 2 个百分点,头部与尾部差距达 27 个百分点;电芯环节大电芯渗透率快速提升,500+Ah 渗透率 2026 年预计超 20%。** 头部企业如宁德时代(587Ah 占比 30%+,单位盈利 0.09 元/Wh,毛利率 25%)、阳光电源(储能毛利率 39.92%)持续受益,尾部企业承压。\n5. **风险点:基站&数据中心备电板块同比 -22%、PCS 价格战延续、企业净利润含金量不足(典型如鹏辉能源 86% 净利润来自非经常性损益)、国内补贴退坡与海外贸易壁垒可能影响增长节奏。** AIDC 储能北美需求预计 2027 年爆发,800V 供电架构是关键制约。\n\n---\n\n## 一、市场口径表\n\n为厘清不同口径下的数据差异,避免在跨报告对比中出现误读,本节先统一披露关键数据的统计口径与来源。\n\n| 指标 | 数值 | 口径时间 | 单位 | 来源 | 备注 |\n|------|------|---------|------|------|------|\n| 全球储能电池出货 | 640 | 2025 年 | GWh | ICC 鑫椤资讯 | 含国内+海外厂家,同比 +82.9% |\n| 国内电池厂家储能电池出货 | 621.5 | 2025 年 | GWh | ICC 鑫椤资讯 | 同比 +82.8% |\n| 海外电池厂家储能电池出货 | 18.5 | 2025 年 | GWh | ICC 鑫椤资讯 | 同比 +85% |\n| 中国储能锂电池出货 | 630 | 2025 年 | GWh | GGII(高工产研储能研究所) | 同比 +85%,中国厂家全球占比超 90% |\n| 全球储能系统出货 | 498 | 2025 年 | GWh | ICC 鑫椤资讯 | 同比 +99% |\n| 国内系统厂家储能系统出货 | 404 | 2025 年 | GWh | ICC 鑫椤资讯 | 同比 +138.7% |\n| 海外系统厂家储能系统出货 | 94 | 2025 年 | GWh | ICC 鑫椤资讯 | 同比 +16% |\n| 全球储能系统用锂电池出货 | 550 | 2025 年 | GWh | SNE Research | 同比 +79%,与 ICC\"系统出货\"口径不同 |\n| 中国储能系统用锂电池市场 | 352 | 2025 年 | GWh | SNE Research | 占全球 64%,同比 +117% |\n| 北美储能系统用锂电池市场 | 88 | 2025 年 | GWh | SNE Research | 占全球 16%,位居全球第二 |\n| 全球新增电力储能装机 | 123.9 | 2025 年 | GW | CNESA DataLink | 同比 +49.3%,首次突破 100GW |\n| 全球新型储能新增装机 | 113.3/305.8 | 2025 年 | GW/GWh | CNESA DataLink | 功率同比 +52.9%、能量同比 +72.0% |\n| 中国新型储能新增装机 | 32.8 | 2025 年前三季度 | GW | 国家发改委/中国能源网 | 同比 +178% |\n| 三大核心赛道合计营收 | >1.2 | 2025 年前三季度 | 万亿元 | 中国能源网 | 含电芯、PCS、系统集成 |\n| 三大核心赛道合计净利润 | 810 | 2025 年前三季度 | 亿元 | 中国能源网 | 增速维持 30% 以上 |\n\n**口径差异说明:** ICC 鑫椤资讯\"全球储能电池出货 640GWh\"与 GGII\"中国储能锂电池出货 630GWh\"口径近似但非完全等价,前者覆盖全球电池厂家(含少量海外 18.5GWh),后者仅统计中国储能锂电池且未涵盖部分 Pack 出货。SNE Research 的\"全球储能系统用锂电池出货 550GWh\"与 ICC\"全球储能系统出货 498GWh\"因系统/电芯统计口径与海外厂商覆盖范围差异存在约 52GWh 缺口,跨报告引用时需注明来源。\n\n---\n\n## 二、行业结构\n\n### 2.1 应用结构:表前侧主导,户储&工商业增速领先\n\n2025 年全球储能电池应用结构呈现\"一主三辅\"格局:表前侧(电源侧+电网侧,含独立储能)出货 507.9GWh,占储能应用 79.2%,同比 +82.7%,是绝对主力;工商业侧出货 61GWh,占 9.6%,同比 +103%;户储&便携式出货 58.8GWh,占 9.3%,同比 +117.7%(全球户用储能锂电池出货 55GWh,同比 +111%);基站&数据中心备电出货 12.3GWh,占 2%,同比 -22%。\n\n增速分化反映出三类驱动逻辑:**表前侧**驱动力来自国内强制配储政策退出后独立储能项目加速落地(从\"被动配置\"转向\"主动投资\")、美国抢装潮、新兴市场需求释放;**户储&便携式**的高增速来自海外户储去库存结束与新兴市场(欧洲、澳洲、东南亚)需求二次释放;**基站&数据中心**负增长则因 2025 年 5G 基站建设放缓叠加锂电在该场景的渗透率提升空间收窄。\n\n下表汇总 2025 年各应用板块出货、市占率格局及增速:\n\n| 应用板块 | 2025 出货量(GWh) | 占储能应用比 | 同比 | 竞争格局 | 头部企业(市占率) |\n|---------|----------------|------------|------|---------|----------------|\n| 表前侧 | 507.9 | 79.2% | +82.7% | 一超多强 | 宁德时代 >26%;海辰、亿纬、弗迪 10%+;中创新航、远景 5-10% |\n| 工商业侧 | 61 | 9.6% | +103% | 五巨头 | 宁德时代 >13%;瑞浦兰钧、鹏辉、海辰、亿纬 10-13% |\n| 户储&便携式 | 58.8 | 9.3% | +117.7% | 三巨头 | 瑞浦兰钧、亿纬锂能、鹏辉能源均 >20%;其余 <8% |\n| 基站&数据中心 UPS | 12.3 | 2% | -22% | 一超多强 | 国轩高科 >28%(绑定华为);鹏辉、南都、亿纬、三星 >10% |\n| 全球户用储能锂电池(子项) | 55 | — | +111% | — | 2024 年为 26GWh |\n\n口径与来源:ICC 鑫椤资讯、LIRA 莱睿咨询(户用子项为 GGII 口径)。\n\n### 2.2 区域结构:中国主导全球,北美为第二大单一市场\n\n2025 年全球储能系统用锂电池出货 550GWh 中,中国市场 352GWh,占 64%(同比 +117%);北美市场 88GWh,占 16%,位居第二;其余分布于欧洲、亚太新兴市场等。中国厂家凭借供应链规模与成本优势,在海外市场份额持续提升,2025 年宁德时代海外订单占比达 62%,主要来自阿联酋 19GWh、澳大利亚 24GWh 等长时储能大项目。\n\n| 区域 | 2025 出货量(GWh) | 全球占比 | 同比 | 备注 |\n|------|----------------|---------|------|------|\n| 中国 | 352 | 64% | +117% | 最大单一市场 |\n| 北美 | 88 | 16% | — | 第二大单一市场,2025 年抢装潮显著 |\n| 其他 | 110 | 20% | — | 欧洲、亚太新兴市场等 |\n| 全球合计 | 550 | 100% | +79% | SNE Research 口径 |\n\n口径与来源:SNE Research,经上海有色网(SMM)发布于 2026 年 1 月 28 日。\n\n### 2.3 厂商竞争结构:电芯寡头化、系统分散化\n\n**电芯环节**呈现高度寡头化:2025 年上半年全球前十大储能电芯企业均为中国企业,前五家合计市占率超 78%(中国能源网);SNE Research 口径下全球前七名均为中国企业,合计市占率 83.3%。具体排名上,宁德时代以 30% 市占率(SNE)或 23%+(ICC 鑫椤)居首,海辰储能、亿纬锂能位列二三,比亚迪/弗迪、中创新航、瑞浦兰钧、远景动力、楚能新能源、鹏辉能源、国轩高科等构成第二梯队。2025 年榜单洗牌显著:**海辰储能从 2024 年的第三升至第二,力神、赣锋锂电跌出前十,被国轩高科和鹏辉能源取代**。\n\n**PCS 环节**呈现\"高毛利者领跑\"的分化格局:行业平均毛利率较去年同期下降 2 个百分点,但头部与尾部企业差距高达 27 个百分点。盛弘股份(39.92%)、海兴电力(39.89%)、锦浪科技(36.04%)位居毛利率第一梯队,汇川技术(29.27%)、固德威(22.07%)属于规模化路径;阳光电源储能业务毛利率达 39.92%,远超国内同业。\n\n**系统集成环节**集中度低于电芯,头部与第二梯队并存:全球储能系统出货 TOP10 依次为阳光电源、特斯拉、中车株洲所、比亚迪、远景能源、海博思创、中电装储能、融和元储、天合储能、科陆电子;国内市场出货 TOP10 中车株洲所居首,海博思创、远景能源紧随。值得注意的是,阳光电源 2025 年国内出货排名从 2024 年的第二滑落至第七,而融和元储从第七升至第五,反映\"价格战\"与\"场景分化\"双重压力下国内份额的快速洗牌。\n\n下表汇总代表性企业 2025 年前三季度/全年关键经营指标:\n\n| 企业 | 关键指标 | 数值 | 同比 | 口径时间 | 亮点/风险 |\n|------|---------|------|------|---------|----------|\n| 宁德时代 | 储能电芯出货 | 90GWh | 占全球 24.2% | 2025 前三季度 | 587Ah 占比 >30%,单位盈利 0.09 元/Wh,毛利率 25% |\n| 宁德时代 | 总营收 | 2830 亿元 | 税后净利 490.34 亿元 | 2025 前三季度 | 储能占营收 25%,同比 +60%+ |\n| 比亚迪 | 北美户储市占率 | 51% | — | 2025 前三季度 | 成为当地主流能源商核心供应商 |\n| 亿纬锂能 | 储能电芯出货 | 48.4GWh | 全球市占率 11.6% | 2025 前三季度 | 628Ah 能量密度 210Wh/kg,系统成本 -8% |\n| 国轩高科 | 储能电芯出货 | ~19GWh | 海外液冷交付 +300% | 2025 前三季度 | 基站&数据中心 UPS 市占率 >28% |\n| 鹏辉能源 | 总营收 | 75.81 亿元 | 归母净利 1.15 亿元(+89.33%) | 2025 前三季度 | Q3 净利同比 +977.24%,但 86% 净利来自非经常性损益 |\n| 阳光电源 | 储能业务收入 | 288 亿元 | +105% | 2025 前三季度 | 海外占比 83%,全球市占率 14%,毛利率 39.92% |\n| 海博思创 | Q3 单季营收 | 33.9 亿元 | +124.42% | 2025Q3 | 国内订单 +180%、海外订单 +500% |\n| 科华数据 | 数据中心储能市占率 | >20% | — | 2025 前三季度 | 数据中心订单占储能业务 45% |\n| 盛弘股份 | 毛利率 | 39.92% | 营收 22.16 亿元(+5.78%) | 2025 前三季度 | 工商业储能 PCS 前十 |\n| 海兴电力 | 毛利率 | 39.89% | 营收 33.69 亿元(-1.19%) | 2025 前三季度 | EMS 系统欧洲中标率 28% |\n| 锦浪科技 | 欧洲户用市占率 | 18% | 毛利率 36.04% | 2025 前三季度 | 组串式 PCS 溢价 15-20% |\n| 汇川技术 | 总营收 | 316.63 亿元 | 净利 42.54 亿元(+26.84%) | 2025 前三季度 | 全产业链布局,毛利率 29.27% |\n| 固德威 | 净利同比 | +837.57% | 毛利率 22.07% | 2025 前三季度 | 受益 136 号文,订单 +200% |\n\n口径与来源:中国能源网、ICC 鑫椤资讯、SNE Research、GGII、企业财报披露。\n\n---\n\n## 三、趋势与风险\n\n### 3.1 趋势一:大电芯快速渗透,500+Ah 占比 2026 年破 20%\n\n电芯大型化是储能降本的核心路径。2025 年仅宁德时代 587Ah、海辰 587Ah/1175Ah、欣旺达 684Ah 小批量出货;GGII 预计 2026 年大部分厂家 500+Ah 电芯将在 Q3/Q4 量产,大部分厂家 2026 年上半年订单已排满。500+Ah 大电芯渗透率预计超过 20%,将带动产业链单位盈利上行——典型如宁德时代 587Ah 占其储能出货超 30%,推动单位盈利升至 0.09 元/Wh、毛利率 25%。**【推断】** 随着大容量电芯量产规模扩大,头部企业凭借工艺成熟度与客户绑定优势,有望进一步拉开与二三线企业的盈利差距。\n\n### 3.2 趋势二:产能利用率回升至 75%+,头部满产满销\n\n2025 年中起 100Ah 电芯陷入供不应求,反映出行业供需关系从 2024 年的过剩转向紧平衡。GGII 预计 2026 年储能平均产能利用率将超过 75%,头部厂商维持持续满产满销状态;但新增产能主要集中在 2026 下半年释放,上半年产能压力仍然较大。**【推断】** 产能利用率回升将带动电芯价格上调,GGII 预计 2026 年储能电芯价格上调约 3-6 分/Wh,主要受碳酸锂、电解液、铜及铜箔加工费上涨推动。\n\n### 3.3 趋势三:独立储能主导国内市场,海外贸易壁垒驱动属地化生产\n\n国内强制配储政策退出后,独立储能项目加速落地,行业从\"被动配置\"迈入\"主动投资\"新阶段。GGII 指出,**【推断】** 2026 年国内容量电价补贴政策将继续延续(原文表述为\"国内容量电价补贴政策继续延续\",此处将其作为既有政策延续的引述而非新政策推测),独立储能仍是国内市场主力。海外方面,贸易壁垒与原材料产地溯源要求正驱动头部企业加速东南亚、欧洲属地化生产布局,典型如宁德时代海外订单占比已达 62%。\n\n### 3.4 趋势四:AIDC 储能 2027 年北美起量,800V 架构是关键制约\n\nGGII 预计 AIDC(人工智能数据中心)储能在北美需求将在 2027 年正式爆发。关键制约在于 800V 供电架构尚未大规模应用,而该架构是 AIDC 储能快速放量的核心条件;短期内大储在 AIDC 场景的需求仍处于蓄势阶段。**【推断】** 800V 架构落地节奏将直接决定 2027-2028 年北美数据中心储能订单的释放节奏,数据中心储能有望成为继表前侧、户储之后的第三增长极。\n\n### 3.5 风险一:价格战延续,毛利率分化加剧\n\n2025 年三季度 PCS 企业平均毛利率较去年同期下降 2 个百分点,头部与尾部企业毛利率差距最高达 27 个百分点;系统集成行业虽整体营收同比 +33%,但阳光电源国内出货排名从第二滑落至第七、融和元储从第七升至第五,反映\"价格战+场景分化\"下的快速洗牌。**【推断】** 中小企业生存压力陡增,行业整合或将加速。\n\n### 3.6 风险二:净利润含金量不足与单一市场依赖\n\n鹏辉能源前三季度 86% 的净利润仍依赖非经常性损益,扣非净利润同比 +10418.09% 的另一面是主营盈利能力的脆弱性;类似地,国轩高科高度依赖华为绑定的基站&数据中心 UPS 订单(市占率 >28%),单一客户集中度风险显著。**【推断】** 投资分析中需关注扣非净利润占比、海外客户多元化程度与新场景拓展进度。\n\n### 3.7 风险三:基站&数据中心备电板块负增长,场景结构性下行\n\n2025 年基站备电&数据中心 UPS 电池出货 12.3GWh,同比 -22%,主因 5G 基站建设放缓叠加锂电在该场景渗透率提升空间收窄。**【推断】** 该板块短期承压,需关注海外 5G 建设节奏与数据中心锂电替代铅酸的渗透率提升空间。\n\n### 3.8 风险四:政策与贸易壁垒双重不确定性\n\n中国能源网指出,行业对政策依赖度较高,国内补贴退坡与海外贸易壁垒可能影响行业增长节奏。**【推断】** 2026 年增长高度依赖国内容量电价补贴延续性与海外贸易环境稳定性,任何政策变动均可能放大短期波动。\n\n---\n\n## 四、启示与建议\n\n1. **【基于事实】头部电芯企业产能与盈利双升**:宁德时代 587Ah 占比 >30%、单位盈利 0.09 元/Wh、毛利率 25%,建议关注大电芯量产进度与海外长时储能大单(阿联酋 19GWh、澳大利亚 24GWh)交付节奏。\n2. **【基于事实】户储&便携式三巨头格局稳固**:瑞浦兰钧、亿纬锂能、鹏辉能源均超 20% 市占率,叠加全球户储 +111% 高增速,该细分仍是中国电芯厂出海的关键载体。\n3. **【基于推断】2026 年电芯价格上调 3-6 分/Wh**,建议下游系统集成商提前锁定长协订单,上游材料商关注碳酸锂/电解液/铜箔加工费传导节奏。\n4. **【基于事实】阳光电源海外对冲国内价格战**:海外发货占比 83%、储能毛利率 39.92%、全球市占率 14%,其全球化布局是抵御国内价格竞争的关键。\n5. **【基于事实】系统集成商聚焦场景化突围**:科华数据数据中心储能市占率 >20%(订单占储能业务 45%)、海博思创国内 +180%/海外 +500% 双轮驱动,场景化布局有效避开同质化竞争。\n6. **【基于事实】警惕 PCS 环节毛利率分化**:头部与尾部差距达 27 个百分点,投资标的需聚焦技术壁垒与场景溢价(EMS、组串式、液冷),规避低毛利规模化路径。\n7. **【基于推断】AIDC 储能 2027 年起量**:关注 800V 供电架构落地节奏与北美数据中心储能订单转化,数据中心储能有望成为第三增长极。\n8. **【基于事实】基站&数据中心备电板块负增长**:国轩高科虽市占率 >28% 但板块同比 -22%,建议关注其向工商业、户储场景的延伸进展。\n9. **【基于推断】关注扣非净利润占比**:鹏辉能源 86% 净利润来自非经常性损益提示盈利质量风险,投资分析需区分报表净利润与主营盈利能力。\n10. **【基于推断】属地化生产是出海关键策略**:为应对贸易壁垒与原材料产地溯源要求,东南亚、欧洲属地化产能将成为头部户储厂商的核心壁垒。\n\n---\n\n## 五、口径与局限披露\n\n1. **数据口径差异**:ICC 鑫椤资讯\"全球储能电池 640GWh\"、GGII\"中国储能锂电池 630GWh\"、SNE Research\"全球储能系统用锂电池 550GWh\"三组数据口径不同(电池 vs. 系统、中国 vs. 全球、电芯 vs. Pack),跨报告对比时须标注来源与口径。\n2. **统计窗口不完全一致**:部分指标为 2025 年全年(如出货量),部分为 2025 年前三季度(如宁德时代营收 2830 亿元、三大核心赛道营收 1.2 万亿元),使用时须明确时间窗口。\n3. **2026 年数据均为预测**:GGII 对 2026 年中国储能锂电池出货 >850GWh、产能利用率 >75%、500+Ah 渗透率 >20%、电芯价格上调 3-6 分/Wh 的预测,AIDC 北美 2027 年起量的判断,均为第三方机构推断,实际值可能因政策、原材料价格、贸易环境变化而显著偏离。\n4. **市占率口径模糊**:\"宁德时代储能电池市占率\"在 ICC 鑫椤口径为 23%+,在 SNE Research 口径为 30%,差异源于统计窗口(全年 vs. 前三季度)、口径(电池厂家 vs. 系统用锂电池)与覆盖范围不同。\n5. **未涵盖维度**:本报告聚焦中国储能电池产业链(电芯、PCS、系统集成),未涵盖上游材料(正极、负极、电解液、隔膜)产能与价格、技术路线(LFP vs 钠离子)、回收利用、海外具体国别政策等维度;现有素材不足以展开这些章节,留作后续补充。\n6. **企业财务数据为公开披露口径**:宁德时代、海博思创、鹏辉能源等企业财务数据来自其公开财报或港股披露文件,部分企业(如中车株洲所)前三季度具体业绩未披露,行业测算数据存在估算成分。\n7. **韩国厂商数据简略**:三星 SDI 与 LG 新能源 2025 年合计市占率约 4% 为 SNE Research 口径,与宁德时代、海辰储能、亿纬锂能等中国头部企业合计的 83.3% 形成鲜明对比,但具体单家市占率与产品结构未在素材中披露。\n8. **关于\"国内容量电价补贴政策继续延续\"**:GGII 原文表述为\"国内容量电价补贴政策继续延续\",本报告将其作为机构对既有政策延续性的引述,未将其作为新政策推测或扩大化解读。\n\n## 主张状态与引用判定\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2025年全球储能电池出货640GWh,同比增长82.9%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2025年国内电池厂家储能电池出货621.5GWh,同比增长82.8%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2025年海外电池厂家储能电池出货18.5GWh,同比增长85%。\n- [unverified|置信度:low / quote-hit(蕴涵:fail,C级信源)] 2025年宁德时代储能电池市占率超23%,位居行业第一。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2025年表前侧储能市场占储能应用领域79.2%。\n- [fact|置信度:low / quote-hit(蕴涵:weak,C级信源)] 2025年工商业储能市场占储能应用领域9.6%。\n- [fact|置信度:low / quote-hit(蕴涵:weak,C级信源)] 2025年户储及便携式储能市场占储能应用领域9.3%。\n- [fact|置信度:low / quote-hit(蕴涵:weak,C级信源)] 2025年基站及数据中心备电市场占储能应用领域2%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2025年表前侧储能电池出货507.9GWh,同比增长82.7%。\n- [unverified|置信度:low / quote-mismatch(C级信源)] 2025年宁德时代在表前侧储能电池市占率超26%,稳居第一。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2025年工商业侧储能电池出货61GWh,同比增长103%。\n- [unverified|置信度:low / quote-mismatch(C级信源)] 2025年宁德时代在工商业侧储能电池市占率超13%,稳居第一。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2025年户储及便携式电池出货58.8GWh,同比增长117.7%。\n- [fact|置信度:low / quote-hit(蕴涵:weak,C级信源)] 2025年瑞浦兰钧、亿纬锂能、鹏辉能源在户储及便携式电池领域市占率均超20%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2025年基站备电及数据中心UPS电池出货12.3GWh,同比下滑22%。\n- [unverified|置信度:low / quote-mismatch(C级信源)] 2025年国轩高科在基站备电及数据中心UPS领域市占率超28%。\n- [fact|置信度:low / quote-hit(蕴涵:weak,C级信源)] 预计2026年全球储能电池出货1090GWh,同比增长70%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2025年全球储能系统出货498GWh,同比增长99%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2025年国内系统厂家储能系统出货404GWh,同比增长138.7%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2025年海外系统厂家储能系统出货94GWh,同比增长16%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 预计2026年全球储能系统出货900GWh,同比增长81%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2025年中国储能锂电池出货量为630GWh，同比增幅达85%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2025年中国储能电池出货量全球占比仍超过90%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2025中国储能锂电池出货量TOP 10企业包括宁德时代、比亚迪、海辰储能、亿纬锂能、中创新航、瑞浦兰钧、楚能新能源、远景动力、鹏辉能源、国轩高科(排名未分先后)。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 中国TOP 10企业也是全球储能锂电池出货TOP 10企业(从全球出货口径来看)。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2025年全球户用储能锂电池出货量达到55GWh,相较于2024年的26GWh,同比实现超过111%的大幅跃升。\n- [fact|置信度:low / quote-hit(蕴涵:weak,C级信源)] 2025年储能锂电池出货大幅增长主要来自三方面:国内强制配储政策退出与独立储能项目加速落地;海外美国抢装潮、新兴市场需求释放及海外户储去库存结束;数据中心等新应用场景落地导入。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 自2025年中需求旺季起,100Ah电芯陷入供不应求状态。\n- [unverified|置信度:low / quote-hit(蕴涵:fail,C级信源)] GGII预计2026年储能平均产能利用率>75%,全年储能锂电池出货预计超过850GWh。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] GGII预计2026年储能平均产能利用率将超过75%,头部厂商将维持持续满产满销状态。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] GGII预计2026年储能电芯价格将上调约3-6分/Wh,主要受碳酸锂、电解液、铜及铜箔加工费上涨推动。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] GGII预计2026年500+Ah大电芯渗透率将超过20%。\n- [inference|置信度:medium / quote-hit(蕴涵:strong,C级信源)] GGII预计AIDC储能在北美的需求将在2027年正式爆发,关键制约在于800V供电架构尚未大规模应用。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2025年三季度，国内新型储能装机量跃居世界第一，三大核心赛道营收破1.2万亿元。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2025年前三季度全国新型储能装机量达32.8GW，同比增长178%。\n- [fact|置信度:low / quote-hit(蕴涵:weak,C级信源)] 2025年前三季度储能电芯、储能PCS、储能系统集成合计营收突破1.2万亿元，净利润规模达810亿元，整体增速维持30%以上高位。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2025年上半年全球前十大储能电芯企业均为中国企业，前五家合计市占率超78%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 宁德时代2025年前三季度实现营业收入2830亿元，税后净利润490.34亿元。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 宁德时代储能电芯业务营收占总营收比重达25%，同比增长60%以上。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 宁德时代前三季度储能电芯累计出货量达90GWh，占全球市场份额24.2%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 宁德时代587Ah大电芯量产占储能出货量超30%，推动单位盈利提升至0.09元/Wh，毛利率升至25%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 比亚迪在北美户用储能市场市占率达51%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 亿纬锂能前三季度储能电芯出货量48.4GWh，全球市占率11.6%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 亿纬锂能628Ah储能电芯能量密度达210Wh/kg，系统全生命周期成本降低8%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 国轩高科第三季度单季营收101.14亿元，同比增长20.68%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 国轩高科前三季度储能电芯出货量约19GWh，海外液冷储能项目交付量同比增长300%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 鹏辉能源前三季度总营收75.81亿元，归母净利润1.15亿元，同比增长89.33%，Q3单季净利润同比增幅高达977.24%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 鹏辉能源扣非净利润同比激增10418.09%，但前三季度86%的净利润仍依赖非经常性损益。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2025年三季度PCS企业平均毛利率较去年同期下降2个百分点，头部与尾部企业毛利率差距最高达27个百分点。\n- [unverified|置信度:low / quote-hit(蕴涵:fail,C级信源)] 盛弘股份前三季度毛利率39.92%，营收22.16亿元同比增长5.78%，净利润2.77亿元。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 海兴电力前三季度营收33.69亿元同比微降1.19%，净利润7.32亿元同比下降7.48%，毛利率39.89%。\n- [unverified|置信度:low / quote-hit(蕴涵:fail,C级信源)] 锦浪科技前三季度营收56.63亿元同比增长9.71%，净利润8.66亿元同比增长29.39%，毛利率36.04%，欧洲户用市场市占率达18%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 汇川技术前三季度营收316.63亿元同比增长24.67%，净利润42.54亿元同比增长26.84%，毛利率29.27%。\n- [unverified|置信度:low / quote-hit(蕴涵:fail,C级信源)] 固德威前三季度营收61.94亿元同比增长25.30%，净利润0.81亿元同比激增837.57%，毛利率22.07%。\n- [fact|置信度:low / quote-hit(蕴涵:weak,C级信源)] 2025年前三季度储能系统集成行业整体营收同比增长33%。\n- [unverified|置信度:low / quote-hit(蕴涵:fail,C级信源)] 阳光电源前三季度储能业务收入288亿元同比增长105%，海外发货占比83%，全球市占率提升至14%，储能业务毛利率达39.92%。\n- [unverified|置信度:low / quote-hit(蕴涵:fail,C级信源)] 科华数据前三季度储能业务收入同比增长超50%，数据中心储能订单占比达45%，数据中心储能系统市占率超20%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 海博思创Q3单季营收33.9亿元同比增长124.42%，净利润3.07亿元同比增长872.24%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 海博思创前三季度国内订单增长180%，海外订单同比激增500%。\n- [unverified|置信度:low / quote-hit(蕴涵:fail,C级信源)] 中车株洲所2024年储能系统出货量超10GWh，2025年前三季度电网侧GW级项目中标量同比增长30%。\n- [inference|置信度:medium / quote-hit(蕴涵:strong,C级信源)] 价格战加剧导致行业毛利率同比下降2个百分点。\n- [inference|置信度:medium / quote-hit(蕴涵:strong,C级信源)] 国内补贴退坡与海外贸易壁垒可能影响行业增长节奏。\n- [unverified|置信度:low / quote-mismatch(C级信源)] CNESA DataLink数据显示,2025年全球新增投运电力储能项目装机规模首次突破100GW,达123.9GW,同比增长49.3%。\n- [unverified|置信度:low / quote-mismatch(C级信源)] 2025年新型储能新增装机占比超90%,规模达113.3GW/305.8GWh,功率规模和能量规模同比分别增长52.9%和72.0%。\n- [unverified|置信度:low / quote-mismatch(C级信源)] 2025年度全球市场储能电池出货量TOP10中国企业依次为:宁德时代、海辰储能、亿纬储能、比亚迪、瑞浦兰钧、中创新航、远景动力、国轩高科、楚能新能源、鹏辉能源。\n- [unverified|置信度:low / quote-mismatch(C级信源)] 2025年海辰储能全球储能电池出货量排名从2024年的第三升至第二,力神和赣锋锂电跌出前十榜单,被国轩高科和鹏辉能源取代。\n- [unverified|置信度:low / quote-mismatch(C级信源)] 2025年度全球市场储能系统出货量TOP10企业依次为:阳光电源、特斯拉、中车株洲所、比亚迪、远景能源、海博思创、中电装储能、融和元储、天合储能、科陆电子。\n- [unverified|置信度:low / quote-mismatch(C级信源),quote-mismatch(C级信源)] 2025年度国内市场储能系统并网装机规模TOP10中国企业依次为:中车株洲所、海博思创、远景能源、中电装储能、赣锋锂电、比亚迪、阳光电源、融和元储、宁德时代、远信储能。\n- [unverified|置信度:low / quote-mismatch(C级信源)] 2025年国内储能系统并网装机规模榜单中,远景能源从2024年的第五升至第三,阳光电源从第三下滑至第七。\n- [unverified|置信度:low / quote-mismatch(C级信源)] 2025年国内储能系统出货量榜单中,阳光电源由2024年的第二滑落至第七,融和元储由第七升至第五。\n- [unverified|置信度:low / quote-mismatch(C级信源)] 该文由中国能源新闻网2026年4月3日发布,来源标注为经济观察网。\n- [fact|置信度:low / quote-hit(蕴涵:weak,C级信源)] SNE Research于1月28日发布2025年全球储能系统用锂电池出货量数据。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 2025年全球储能系统用锂电池出货量为550 GWh，同比增长79%。\n- [fact|置信度:low / quote-hit(蕴涵:weak,C级信源)] 2025年中国储能系统用锂电池市场规模为352 GWh，占全球64%，同比增长117%。\n- [unverified|置信度:low / quote-hit(蕴涵:fail,C级信源)] 2025年北美储能系统用锂电池市场规模为88 GWh，份额16%，位居全球第二。\n- [fact|置信度:low / quote-hit(蕴涵:weak,C级信源)] 2025年全球储能系统用锂电池出货量前七名均为中国企业。\n- [fact|置信度:low / quote-hit(蕴涵:weak,C级信源)] 宁德时代在2025年全球储能系统用锂电池市场以30%市占率居首，海辰储能、亿纬锂能分列二、三位。\n- [unverified|置信度:low / quote-hit(蕴涵:fail,C级信源)] 2025年全球储能系统用锂电池出货量前七家中国企业合计市占率为83.3%。\n- [fact|置信度:low / quote-hit(蕴涵:strong,C级信源)] 韩国三星SDI与LG新能源2025年合计市占率约为4%。\n\n\n## 限制\n- 以下主张引用核查未通过,已降级为未验证:cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:9、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:11、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:15、cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:0、cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:1、cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:2、cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:3、cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:4、cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:5、cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:6、cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:8、cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:9\n- 以下主张的引句不支持其转述(语义蕴涵未通过),已降级为未验证:cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:3、cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:7、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:16、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:18、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:20、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:22、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:23、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:26、cl:q1:snap:https://news.smm.cn/news/103748876:3、cl:q1:snap:https://news.smm.cn/news/103748876:6\n- 以下主张仅有 C 级信源(社媒/自媒体/未知来源)支撑,置信度低:cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:0、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:1、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:2、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:4、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:5、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:6、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:7、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:8、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:10、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:12、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:13、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:14、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:16、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:17、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:18、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:19、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:20、cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:0、cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:1、cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:2、cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:3、cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:4、cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:5、cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:6、cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:8、cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:9、cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:10、cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:11、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:0、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:1、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:2、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:3、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:4、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:5、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:6、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:7、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:8、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:9、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:10、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:11、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:12、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:13、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:14、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:15、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:17、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:19、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:21、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:24、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:25、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:27、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:28、cl:q1:snap:https://news.smm.cn/news/103748876:0、cl:q1:snap:https://news.smm.cn/news/103748876:1、cl:q1:snap:https://news.smm.cn/news/103748876:2、cl:q1:snap:https://news.smm.cn/news/103748876:4、cl:q1:snap:https://news.smm.cn/news/103748876:5、cl:q1:snap:https://news.smm.cn/news/103748876:7\n- 存在引用/蕴涵/数值核查未通过的关键结论\n- 模块质量检查未通过:主题未覆盖「行业边界」;主题未覆盖「产业链」;主题未覆盖「竞争」;numeric-claims-calibrated: 数值主张缺口径(对象/时间/单位) \"SNE Research于1月28日发布2025年全球储能系统用锂电池出货量数据。\"(cl:q1:snap:https://news.smm.cn/news/103748876:0);numeric-claims-calibrated: 数值主张缺口径(对象/时间/单位) \"2025年全球储能系统用锂电池出货量前七名均为中国企业。\"(cl:q1:snap:https://news.smm.cn/news/103748876:4)\n",
+  "claims": [
+    {
+      "id": "cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:0",
+      "statement": "2025年全球储能电池出货640GWh,同比增长82.9%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:0"
+      ],
+      "calibration": {
+        "entity": "全球储能电池",
+        "period": "2025",
+        "unit": "GWh / %"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:1",
+      "statement": "2025年国内电池厂家储能电池出货621.5GWh,同比增长82.8%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:1"
+      ],
+      "calibration": {
+        "entity": "国内电池厂家",
+        "period": "2025",
+        "unit": "GWh / %"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:2",
+      "statement": "2025年海外电池厂家储能电池出货18.5GWh,同比增长85%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:2"
+      ],
+      "calibration": {
+        "entity": "海外电池厂家",
+        "period": "2025",
+        "unit": "GWh / %"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:3",
+      "statement": "2025年宁德时代储能电池市占率超23%,位居行业第一。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:3"
+      ],
+      "calibration": {
+        "entity": "宁德时代",
+        "period": "2025",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:4",
+      "statement": "2025年表前侧储能市场占储能应用领域79.2%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:4"
+      ],
+      "calibration": {
+        "entity": "表前侧储能",
+        "period": "2025",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:5",
+      "statement": "2025年工商业储能市场占储能应用领域9.6%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:5"
+      ],
+      "calibration": {
+        "entity": "工商业储能",
+        "period": "2025",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:6",
+      "statement": "2025年户储及便携式储能市场占储能应用领域9.3%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:6"
+      ],
+      "calibration": {
+        "entity": "户储&便携式储能",
+        "period": "2025",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:7",
+      "statement": "2025年基站及数据中心备电市场占储能应用领域2%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:7"
+      ],
+      "calibration": {
+        "entity": "基站&数据中心备电",
+        "period": "2025",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:8",
+      "statement": "2025年表前侧储能电池出货507.9GWh,同比增长82.7%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:8"
+      ],
+      "calibration": {
+        "entity": "表前侧储能电池",
+        "period": "2025",
+        "unit": "GWh / %"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:9",
+      "statement": "2025年宁德时代在表前侧储能电池市占率超26%,稳居第一。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:9"
+      ],
+      "calibration": {
+        "entity": "宁德时代",
+        "period": "2025",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:10",
+      "statement": "2025年工商业侧储能电池出货61GWh,同比增长103%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:10"
+      ],
+      "calibration": {
+        "entity": "工商业侧储能电池",
+        "period": "2025",
+        "unit": "GWh / %"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:11",
+      "statement": "2025年宁德时代在工商业侧储能电池市占率超13%,稳居第一。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:11"
+      ],
+      "calibration": {
+        "entity": "宁德时代",
+        "period": "2025",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:12",
+      "statement": "2025年户储及便携式电池出货58.8GWh,同比增长117.7%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:12"
+      ],
+      "calibration": {
+        "entity": "户储&便携式电池",
+        "period": "2025",
+        "unit": "GWh / %"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:13",
+      "statement": "2025年瑞浦兰钧、亿纬锂能、鹏辉能源在户储及便携式电池领域市占率均超20%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:13"
+      ],
+      "calibration": {
+        "entity": "瑞浦兰钧/亿纬锂能/鹏辉能源",
+        "period": "2025",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:14",
+      "statement": "2025年基站备电及数据中心UPS电池出货12.3GWh,同比下滑22%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:14"
+      ],
+      "calibration": {
+        "entity": "基站备电&数据中心UPS电池",
+        "period": "2025",
+        "unit": "GWh / %"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:15",
+      "statement": "2025年国轩高科在基站备电及数据中心UPS领域市占率超28%。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:15"
+      ],
+      "calibration": {
+        "entity": "国轩高科",
+        "period": "2025",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:16",
+      "statement": "预计2026年全球储能电池出货1090GWh,同比增长70%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:16"
+      ],
+      "calibration": {
+        "entity": "全球储能电池",
+        "period": "2026E",
+        "unit": "GWh / %"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:17",
+      "statement": "2025年全球储能系统出货498GWh,同比增长99%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:17"
+      ],
+      "calibration": {
+        "entity": "全球储能系统",
+        "period": "2025",
+        "unit": "GWh / %"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:18",
+      "statement": "2025年国内系统厂家储能系统出货404GWh,同比增长138.7%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:18"
+      ],
+      "calibration": {
+        "entity": "国内系统厂家",
+        "period": "2025",
+        "unit": "GWh / %"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:19",
+      "statement": "2025年海外系统厂家储能系统出货94GWh,同比增长16%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:19"
+      ],
+      "calibration": {
+        "entity": "海外系统厂家",
+        "period": "2025",
+        "unit": "GWh / %"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:20",
+      "statement": "预计2026年全球储能系统出货900GWh,同比增长81%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:20"
+      ],
+      "calibration": {
+        "entity": "全球储能系统",
+        "period": "2026E",
+        "unit": "GWh / %"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:0",
+      "statement": "2025年中国储能锂电池出货量为630GWh，同比增幅达85%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:0"
+      ],
+      "calibration": {
+        "entity": "中国储能锂电池出货量",
+        "period": "2025年",
+        "unit": "GWh"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:1",
+      "statement": "2025年中国储能电池出货量全球占比仍超过90%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:1"
+      ],
+      "calibration": {
+        "entity": "中国储能电池出货量",
+        "period": "2025年",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:2",
+      "statement": "2025中国储能锂电池出货量TOP 10企业包括宁德时代、比亚迪、海辰储能、亿纬锂能、中创新航、瑞浦兰钧、楚能新能源、远景动力、鹏辉能源、国轩高科(排名未分先后)。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:2"
+      ],
+      "calibration": {
+        "entity": "中国储能锂电池出货量TOP 10企业",
+        "period": "2025年",
+        "unit": "企业名单"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:3",
+      "statement": "中国TOP 10企业也是全球储能锂电池出货TOP 10企业(从全球出货口径来看)。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:3"
+      ],
+      "calibration": {
+        "entity": "全球储能锂电池出货TOP 10企业",
+        "period": "2025年",
+        "unit": "企业名单"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:4",
+      "statement": "2025年全球户用储能锂电池出货量达到55GWh,相较于2024年的26GWh,同比实现超过111%的大幅跃升。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:4"
+      ],
+      "calibration": {
+        "entity": "全球户用储能锂电池出货量",
+        "period": "2025年",
+        "unit": "GWh"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:5",
+      "statement": "2025年储能锂电池出货大幅增长主要来自三方面:国内强制配储政策退出与独立储能项目加速落地;海外美国抢装潮、新兴市场需求释放及海外户储去库存结束;数据中心等新应用场景落地导入。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:5"
+      ],
+      "calibration": {
+        "entity": "储能锂电池出货增长驱动因素",
+        "period": "2025年",
+        "unit": "驱动因素分类"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:6",
+      "statement": "自2025年中需求旺季起,100Ah电芯陷入供不应求状态。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:6"
+      ],
+      "calibration": {
+        "entity": "100Ah电芯供需状况",
+        "period": "2025年中",
+        "unit": "状态描述"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:7",
+      "statement": "GGII预计2026年储能平均产能利用率>75%,全年储能锂电池出货预计超过850GWh。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:7"
+      ],
+      "calibration": {
+        "entity": "中国储能锂电池出货量",
+        "period": "2026年",
+        "unit": "GWh"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:8",
+      "statement": "GGII预计2026年储能平均产能利用率将超过75%,头部厂商将维持持续满产满销状态。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:8"
+      ],
+      "calibration": {
+        "entity": "储能产能利用率",
+        "period": "2026年",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:9",
+      "statement": "GGII预计2026年储能电芯价格将上调约3-6分/Wh,主要受碳酸锂、电解液、铜及铜箔加工费上涨推动。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:9"
+      ],
+      "calibration": {
+        "entity": "储能电芯价格涨幅",
+        "period": "2026年",
+        "unit": "元/Wh"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:10",
+      "statement": "GGII预计2026年500+Ah大电芯渗透率将超过20%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:10"
+      ],
+      "calibration": {
+        "entity": "500+Ah大电芯渗透率",
+        "period": "2026年",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:11",
+      "statement": "GGII预计AIDC储能在北美的需求将在2027年正式爆发,关键制约在于800V供电架构尚未大规模应用。",
+      "kind": "inference",
+      "evidenceIds": [
+        "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:11"
+      ],
+      "calibration": {
+        "entity": "AIDC储能北美需求爆发时间",
+        "period": "2027年",
+        "unit": "年份"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:0",
+      "statement": "2025年三季度，国内新型储能装机量跃居世界第一，三大核心赛道营收破1.2万亿元。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:0"
+      ],
+      "calibration": {
+        "entity": "国内新型储能装机量",
+        "period": "2025年三季度",
+        "unit": "GW"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:1",
+      "statement": "2025年前三季度全国新型储能装机量达32.8GW，同比增长178%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:1"
+      ],
+      "calibration": {
+        "entity": "全国新型储能装机量",
+        "period": "2025年前三季度",
+        "unit": "GW"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:2",
+      "statement": "2025年前三季度储能电芯、储能PCS、储能系统集成合计营收突破1.2万亿元，净利润规模达810亿元，整体增速维持30%以上高位。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:2"
+      ],
+      "calibration": {
+        "entity": "三大核心赛道合计",
+        "period": "2025年前三季度",
+        "unit": "万亿元/亿元"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:3",
+      "statement": "2025年上半年全球前十大储能电芯企业均为中国企业，前五家合计市占率超78%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:3"
+      ],
+      "calibration": {
+        "entity": "前五家储能电芯企业",
+        "period": "2025年上半年",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:4",
+      "statement": "宁德时代2025年前三季度实现营业收入2830亿元，税后净利润490.34亿元。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:4"
+      ],
+      "calibration": {
+        "entity": "宁德时代",
+        "period": "2025年前三季度",
+        "unit": "亿元"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:5",
+      "statement": "宁德时代储能电芯业务营收占总营收比重达25%，同比增长60%以上。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:5"
+      ],
+      "calibration": {
+        "entity": "宁德时代储能电芯业务占比及增速",
+        "period": "2025年前三季度",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:6",
+      "statement": "宁德时代前三季度储能电芯累计出货量达90GWh，占全球市场份额24.2%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:6"
+      ],
+      "calibration": {
+        "entity": "宁德时代储能电芯",
+        "period": "2025年前三季度",
+        "unit": "GWh/%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:7",
+      "statement": "宁德时代587Ah大电芯量产占储能出货量超30%，推动单位盈利提升至0.09元/Wh，毛利率升至25%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:7"
+      ],
+      "calibration": {
+        "entity": "宁德时代587Ah电芯",
+        "period": "2025年前三季度",
+        "unit": "元/Wh/%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:8",
+      "statement": "比亚迪在北美户用储能市场市占率达51%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:8"
+      ],
+      "calibration": {
+        "entity": "比亚迪北美户用储能",
+        "period": "2025年前三季度",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:9",
+      "statement": "亿纬锂能前三季度储能电芯出货量48.4GWh，全球市占率11.6%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:9"
+      ],
+      "calibration": {
+        "entity": "亿纬锂能储能电芯",
+        "period": "2025年前三季度",
+        "unit": "GWh/%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:10",
+      "statement": "亿纬锂能628Ah储能电芯能量密度达210Wh/kg，系统全生命周期成本降低8%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:10"
+      ],
+      "calibration": {
+        "entity": "亿纬锂能628Ah电芯",
+        "period": "2025年前三季度",
+        "unit": "Wh/kg/%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:11",
+      "statement": "国轩高科第三季度单季营收101.14亿元，同比增长20.68%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:11"
+      ],
+      "calibration": {
+        "entity": "国轩高科",
+        "period": "2025年第三季度",
+        "unit": "亿元/%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:12",
+      "statement": "国轩高科前三季度储能电芯出货量约19GWh，海外液冷储能项目交付量同比增长300%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:12"
+      ],
+      "calibration": {
+        "entity": "国轩高科",
+        "period": "2025年前三季度",
+        "unit": "GWh/%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:13",
+      "statement": "鹏辉能源前三季度总营收75.81亿元，归母净利润1.15亿元，同比增长89.33%，Q3单季净利润同比增幅高达977.24%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:13"
+      ],
+      "calibration": {
+        "entity": "鹏辉能源",
+        "period": "2025年前三季度及Q3",
+        "unit": "亿元/%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:14",
+      "statement": "鹏辉能源扣非净利润同比激增10418.09%，但前三季度86%的净利润仍依赖非经常性损益。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:14"
+      ],
+      "calibration": {
+        "entity": "鹏辉能源",
+        "period": "2025年前三季度",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:15",
+      "statement": "2025年三季度PCS企业平均毛利率较去年同期下降2个百分点，头部与尾部企业毛利率差距最高达27个百分点。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:15"
+      ],
+      "calibration": {
+        "entity": "PCS企业毛利率",
+        "period": "2025年三季度",
+        "unit": "个百分点"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:16",
+      "statement": "盛弘股份前三季度毛利率39.92%，营收22.16亿元同比增长5.78%，净利润2.77亿元。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:16"
+      ],
+      "calibration": {
+        "entity": "盛弘股份",
+        "period": "2025年前三季度",
+        "unit": "亿元/%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:17",
+      "statement": "海兴电力前三季度营收33.69亿元同比微降1.19%，净利润7.32亿元同比下降7.48%，毛利率39.89%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:17"
+      ],
+      "calibration": {
+        "entity": "海兴电力",
+        "period": "2025年前三季度",
+        "unit": "亿元/%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:18",
+      "statement": "锦浪科技前三季度营收56.63亿元同比增长9.71%，净利润8.66亿元同比增长29.39%，毛利率36.04%，欧洲户用市场市占率达18%。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:18"
+      ],
+      "calibration": {
+        "entity": "锦浪科技",
+        "period": "2025年前三季度",
+        "unit": "亿元/%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:19",
+      "statement": "汇川技术前三季度营收316.63亿元同比增长24.67%，净利润42.54亿元同比增长26.84%，毛利率29.27%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:19"
+      ],
+      "calibration": {
+        "entity": "汇川技术",
+        "period": "2025年前三季度",
+        "unit": "亿元/%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:20",
+      "statement": "固德威前三季度营收61.94亿元同比增长25.30%，净利润0.81亿元同比激增837.57%，毛利率22.07%。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:20"
+      ],
+      "calibration": {
+        "entity": "固德威",
+        "period": "2025年前三季度",
+        "unit": "亿元/%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:21",
+      "statement": "2025年前三季度储能系统集成行业整体营收同比增长33%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:21"
+      ],
+      "calibration": {
+        "entity": "储能系统集成行业",
+        "period": "2025年前三季度",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:22",
+      "statement": "阳光电源前三季度储能业务收入288亿元同比增长105%，海外发货占比83%，全球市占率提升至14%，储能业务毛利率达39.92%。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:22"
+      ],
+      "calibration": {
+        "entity": "阳光电源储能业务",
+        "period": "2025年前三季度",
+        "unit": "亿元/%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:23",
+      "statement": "科华数据前三季度储能业务收入同比增长超50%，数据中心储能订单占比达45%，数据中心储能系统市占率超20%。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:23"
+      ],
+      "calibration": {
+        "entity": "科华数据",
+        "period": "2025年前三季度",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:24",
+      "statement": "海博思创Q3单季营收33.9亿元同比增长124.42%，净利润3.07亿元同比增长872.24%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:24"
+      ],
+      "calibration": {
+        "entity": "海博思创",
+        "period": "2025年第三季度",
+        "unit": "亿元/%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:25",
+      "statement": "海博思创前三季度国内订单增长180%，海外订单同比激增500%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:25"
+      ],
+      "calibration": {
+        "entity": "海博思创",
+        "period": "2025年前三季度",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:26",
+      "statement": "中车株洲所2024年储能系统出货量超10GWh，2025年前三季度电网侧GW级项目中标量同比增长30%。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:26"
+      ],
+      "calibration": {
+        "entity": "中车株洲所",
+        "period": "2024年",
+        "unit": "GWh"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:27",
+      "statement": "价格战加剧导致行业毛利率同比下降2个百分点。",
+      "kind": "inference",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:27"
+      ],
+      "calibration": {
+        "entity": "行业毛利率",
+        "period": "2025年前三季度",
+        "unit": "个百分点"
+      },
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:28",
+      "statement": "国内补贴退坡与海外贸易壁垒可能影响行业增长节奏。",
+      "kind": "inference",
+      "evidenceIds": [
+        "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:28"
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:0",
+      "statement": "CNESA DataLink数据显示,2025年全球新增投运电力储能项目装机规模首次突破100GW,达123.9GW,同比增长49.3%。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:0"
+      ],
+      "calibration": {
+        "entity": "全球电力储能项目新增装机",
+        "period": "2025年",
+        "unit": "GW(同比%)"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:1",
+      "statement": "2025年新型储能新增装机占比超90%,规模达113.3GW/305.8GWh,功率规模和能量规模同比分别增长52.9%和72.0%。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:1"
+      ],
+      "calibration": {
+        "entity": "新型储能新增装机",
+        "period": "2025年",
+        "unit": "GW/GWh(同比%)"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:2",
+      "statement": "2025年度全球市场储能电池出货量TOP10中国企业依次为:宁德时代、海辰储能、亿纬储能、比亚迪、瑞浦兰钧、中创新航、远景动力、国轩高科、楚能新能源、鹏辉能源。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:2"
+      ],
+      "calibration": {
+        "entity": "全球储能电池出货量TOP10企业",
+        "period": "2025年度",
+        "unit": "排名"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:3",
+      "statement": "2025年海辰储能全球储能电池出货量排名从2024年的第三升至第二,力神和赣锋锂电跌出前十榜单,被国轩高科和鹏辉能源取代。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:3"
+      ],
+      "calibration": {
+        "entity": "全球储能电池出货量排名",
+        "period": "2025年度",
+        "unit": "排名"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:4",
+      "statement": "2025年度全球市场储能系统出货量TOP10企业依次为:阳光电源、特斯拉、中车株洲所、比亚迪、远景能源、海博思创、中电装储能、融和元储、天合储能、科陆电子。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:4"
+      ],
+      "calibration": {
+        "entity": "全球储能系统出货量TOP10企业",
+        "period": "2025年度",
+        "unit": "排名"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:5",
+      "statement": "2025年度国内市场储能系统并网装机规模TOP10中国企业依次为:中车株洲所、海博思创、远景能源、中电装储能、赣锋锂电、比亚迪、阳光电源、融和元储、宁德时代、远信储能。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:5",
+        "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:7"
+      ],
+      "calibration": {
+        "entity": "国内储能系统并网装机规模TOP10企业",
+        "period": "2025年度",
+        "unit": "排名"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:6",
+      "statement": "2025年国内储能系统并网装机规模榜单中,远景能源从2024年的第五升至第三,阳光电源从第三下滑至第七。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:6"
+      ],
+      "calibration": {
+        "entity": "国内储能系统并网装机规模排名",
+        "period": "2025年度",
+        "unit": "排名"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:8",
+      "statement": "2025年国内储能系统出货量榜单中,阳光电源由2024年的第二滑落至第七,融和元储由第七升至第五。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:8"
+      ],
+      "calibration": {
+        "entity": "国内储能系统出货量排名",
+        "period": "2025年度",
+        "unit": "排名"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:9",
+      "statement": "该文由中国能源新闻网2026年4月3日发布,来源标注为经济观察网。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:9"
+      ],
+      "calibration": {
+        "entity": "文章发布时间",
+        "period": "2026-04-03",
+        "unit": "日期"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://news.smm.cn/news/103748876:0",
+      "statement": "SNE Research于1月28日发布2025年全球储能系统用锂电池出货量数据。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://news.smm.cn/news/103748876:0"
+      ],
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://news.smm.cn/news/103748876:1",
+      "statement": "2025年全球储能系统用锂电池出货量为550 GWh，同比增长79%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://news.smm.cn/news/103748876:1"
+      ],
+      "calibration": {
+        "entity": "全球储能系统用锂电池",
+        "period": "2025年",
+        "unit": "GWh"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://news.smm.cn/news/103748876:2",
+      "statement": "2025年中国储能系统用锂电池市场规模为352 GWh，占全球64%，同比增长117%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://news.smm.cn/news/103748876:2"
+      ],
+      "calibration": {
+        "entity": "中国储能系统用锂电池市场",
+        "period": "2025年",
+        "unit": "GWh"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://news.smm.cn/news/103748876:3",
+      "statement": "2025年北美储能系统用锂电池市场规模为88 GWh，份额16%，位居全球第二。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q1:snap:https://news.smm.cn/news/103748876:3"
+      ],
+      "calibration": {
+        "entity": "北美储能系统用锂电池市场",
+        "period": "2025年",
+        "unit": "GWh"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://news.smm.cn/news/103748876:4",
+      "statement": "2025年全球储能系统用锂电池出货量前七名均为中国企业。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://news.smm.cn/news/103748876:4"
+      ],
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://news.smm.cn/news/103748876:5",
+      "statement": "宁德时代在2025年全球储能系统用锂电池市场以30%市占率居首，海辰储能、亿纬锂能分列二、三位。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://news.smm.cn/news/103748876:5"
+      ],
+      "calibration": {
+        "entity": "宁德时代市占率",
+        "period": "2025年",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://news.smm.cn/news/103748876:6",
+      "statement": "2025年全球储能系统用锂电池出货量前七家中国企业合计市占率为83.3%。",
+      "kind": "unverified",
+      "evidenceIds": [
+        "ev:q1:snap:https://news.smm.cn/news/103748876:6"
+      ],
+      "calibration": {
+        "entity": "前七家中国企业合计市占率",
+        "period": "2025年",
+        "unit": "%"
+      },
+      "confidence": "low"
+    },
+    {
+      "id": "cl:q1:snap:https://news.smm.cn/news/103748876:7",
+      "statement": "韩国三星SDI与LG新能源2025年合计市占率约为4%。",
+      "kind": "fact",
+      "evidenceIds": [
+        "ev:q1:snap:https://news.smm.cn/news/103748876:7"
+      ],
+      "calibration": {
+        "entity": "三星SDI与LG新能源合计市占率",
+        "period": "2025年",
+        "unit": "%"
+      },
+      "confidence": "low"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:0",
+      "snapshotId": "snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491",
+      "quote": "2025年全球储能电池出货640GWh，同比增长82.9%。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-83b05dc02731"
+    },
+    {
+      "id": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:1",
+      "snapshotId": "snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491",
+      "quote": "其中国内电池厂家出货621.5GWh，同比增长82.8%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-83b05dc02731"
+    },
+    {
+      "id": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:2",
+      "snapshotId": "snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491",
+      "quote": "海外电池厂家出货18.5GWh,同比增长85%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-83b05dc02731"
+    },
+    {
+      "id": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:3",
+      "snapshotId": "snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491",
+      "quote": "宁德时代稳居第一，占比23%以上",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-83b05dc02731"
+    },
+    {
+      "id": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:4",
+      "snapshotId": "snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491",
+      "quote": "2025年表前侧储能市场占比79.2%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-83b05dc02731"
+    },
+    {
+      "id": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:5",
+      "snapshotId": "snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491",
+      "quote": "工商业储能市场占比9.6%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-83b05dc02731"
+    },
+    {
+      "id": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:6",
+      "snapshotId": "snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491",
+      "quote": "户储&便携式储能市场占比9.3%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-83b05dc02731"
+    },
+    {
+      "id": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:7",
+      "snapshotId": "snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491",
+      "quote": "基站&数据中心备电市场占比2%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-83b05dc02731"
+    },
+    {
+      "id": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:8",
+      "snapshotId": "snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491",
+      "quote": "2025年表前侧储能电池出货507.9GWh，同比增长82.7%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-83b05dc02731"
+    },
+    {
+      "id": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:9",
+      "snapshotId": "snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491",
+      "quote": "宁德时代……市占率稳居第一，占26%以上",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-83b05dc02731"
+    },
+    {
+      "id": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:10",
+      "snapshotId": "snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491",
+      "quote": "2025年工商业侧储能电池出货61GWh，同比增长103%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-83b05dc02731"
+    },
+    {
+      "id": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:11",
+      "snapshotId": "snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491",
+      "quote": "宁德时代……市占率稳居第一，占13%以上",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-83b05dc02731"
+    },
+    {
+      "id": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:12",
+      "snapshotId": "snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491",
+      "quote": "2025年户储&便携式电池出货58.8GWh，同比增长117.7%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-83b05dc02731"
+    },
+    {
+      "id": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:13",
+      "snapshotId": "snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491",
+      "quote": "瑞浦兰钧、亿纬锂能、鹏辉能源市占率均超20%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-83b05dc02731"
+    },
+    {
+      "id": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:14",
+      "snapshotId": "snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491",
+      "quote": "2025年基站备电&数据中心UPS电池出货12.3GWh，同比下滑22%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-83b05dc02731"
+    },
+    {
+      "id": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:15",
+      "snapshotId": "snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491",
+      "quote": "国轩高科……市占率达28%以上",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-83b05dc02731"
+    },
+    {
+      "id": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:16",
+      "snapshotId": "snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491",
+      "quote": "电池出货有望达到1090GWh，同比增长70%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-83b05dc02731"
+    },
+    {
+      "id": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:17",
+      "snapshotId": "snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491",
+      "quote": "2025年全球储能系统出货498GWh，同比增长99%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-83b05dc02731"
+    },
+    {
+      "id": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:18",
+      "snapshotId": "snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491",
+      "quote": "其中国内系统厂家出货404GWh，同比增长138.7%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-83b05dc02731"
+    },
+    {
+      "id": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:19",
+      "snapshotId": "snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491",
+      "quote": "海外系统厂家出货94GWh,同比增长16%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-83b05dc02731"
+    },
+    {
+      "id": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:20",
+      "snapshotId": "snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491",
+      "quote": "储能系统出货有望达到900GWh，同比增长81%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-83b05dc02731"
+    },
+    {
+      "id": "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:0",
+      "snapshotId": "snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html",
+      "quote": "2025年中国储能锂电池出货量630GWh，同比增幅85%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-49be90698b51"
+    },
+    {
+      "id": "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:1",
+      "snapshotId": "snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html",
+      "quote": "2025年中国储能电池出货量全球占比仍超过90%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-49be90698b51"
+    },
+    {
+      "id": "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:2",
+      "snapshotId": "snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html",
+      "quote": "2025中国储能锂电池出货量TOP 10企业是宁德时代(300750.SZ)、比亚迪(002594.SZ)、海辰储能、亿纬锂能(300014.SZ)、中创新航(03931)、瑞浦兰钧(00666)、楚能新能源、远景动力、鹏辉能源、国轩高科(以上排名未分先后)",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-49be90698b51"
+    },
+    {
+      "id": "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:3",
+      "snapshotId": "snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html",
+      "quote": "从全球出货口径来看，以上中国TOP 10企业也是全球储能锂电池出货TOP 10企业",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-49be90698b51"
+    },
+    {
+      "id": "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:4",
+      "snapshotId": "snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html",
+      "quote": "2025年全球户用储能锂电池出货量达到55GWh，相较于2024年的26GWh，同比实现超过111%的大幅跃升",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-49be90698b51"
+    },
+    {
+      "id": "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:5",
+      "snapshotId": "snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html",
+      "quote": "国内层面，强制配储政策逐步退出、独立储能项目加速落地，推动行业从“被动配置”迈入“主动投资”新阶段;2)海外市场受美国抢装潮、新兴市场需求释放、海外户储去库存结束",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-49be90698b51"
+    },
+    {
+      "id": "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:6",
+      "snapshotId": "snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html",
+      "quote": "自2025年中需求旺季起，100Ah电芯陷入供不应求状态",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-49be90698b51"
+    },
+    {
+      "id": "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:7",
+      "snapshotId": "snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html",
+      "quote": "尽管全年出货预计超过850GWh，但新增产能主要集中在下半年释放",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-49be90698b51"
+    },
+    {
+      "id": "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:8",
+      "snapshotId": "snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html",
+      "quote": "预计2026年储能平均产能利用率>75%，2026年头部厂商将维持持续满产满销状态",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-49be90698b51"
+    },
+    {
+      "id": "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:9",
+      "snapshotId": "snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html",
+      "quote": "预计2026年储能电芯价格将上调约3-6分/Wh，主要受碳酸锂、电解液及原材料、铜、铜箔加工费等关键原材料价格上涨的推动",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-49be90698b51"
+    },
+    {
+      "id": "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:10",
+      "snapshotId": "snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html",
+      "quote": "2026年500+Ah大电芯渗透率超过20%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-49be90698b51"
+    },
+    {
+      "id": "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:11",
+      "snapshotId": "snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html",
+      "quote": "AIDC储能在北美的需求预计在2027年正式爆发：关键制约在于800V供电架构尚未大规模应用",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-49be90698b51"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:0",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "2025年三季度，国内新型储能装机量跃居世界第一，三大核心赛道营收破1.2万亿元。",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:1",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "前三季度全国新型储能装机量达32.8GW，同比激增178%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:2",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "合计营收突破1.2万亿元，净利润规模达810亿元，整体增速维持30%以上高位",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:3",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "2025年上半年全球前十大储能电芯企业均为中国企业，前五家合计市占率超78%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:4",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "2025年前三季度实现营业收入2830亿元，税后净利润490.34亿元",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:5",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "其中储能电芯业务营收占总营收比重达25%，同比增长60%以上",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:6",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "前三季度宁德时代储能电芯累计出货量达90GWh，占全球市场份额24.2%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:7",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "其587Ah大电芯量产占储能出货量超30%，推动单位盈利提升至0.09元/Wh，环比增长17%，带动储能业务毛利率升至25%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:8",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "公司在北美户用储能市场表现亮眼，市占率达51%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:9",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "前三季度储能电芯出货量48.4GWh，全球市占率11.6%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:10",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "其全球首款量产的628Ah储能电芯能量密度达210Wh/kg，已应用于湖北荆门400MWh独立储能电站，推动系统全生命周期成本降低8%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:11",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "第三季度单季营收101.14亿元，同比增长20.68%，创历史同期最高纪录",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:12",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "前三季度公司储能电芯出货量约19GWh，海外液冷储能项目交付量同比增长300%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:13",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "前三季度总营收75.81亿元，同比增长34.23%，归母净利润1.15亿元，同比增长89.33%，而Q3单季净利润达2.03亿元，同比增幅高达977.24%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:14",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "值得注意的是，其扣非净利润同比激增10418.09%，但前三季度86%的净利润仍依赖非经常性损益",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:15",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "2025年三季度PCS企业平均毛利率较去年同期下降2个百分点，但头部企业与尾部企业的差距进一步拉大，最高达27个百分点",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:16",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "盛弘股份与海兴电力稳居毛利率第一梯队，前三季度毛利率分别达39.92%和39.89%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:17",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "前三季度营收33.69亿元，同比微降1.19%，净利润7.32亿元，同比下降7.48%，但39.89%的毛利率彰显技术溢价能力",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:18",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "锦浪科技在户用储能PCS领域保持领先，前三季度营收56.63亿元，同比增长9.71%，净利润8.66亿元，同比增幅29.39%，毛利率36.04%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:19",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "汇川技术以绝对规模优势领跑行业，前三季度营收316.63亿元，同比增长24.67%，净利润42.54亿元，同比增长26.84%，毛利率29.27%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:20",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "固德威则走出“以量补价”的差异化路径，前三季度营收61.94亿元，同比增长25.30%，净利润0.81亿元，同比激增837.57%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:21",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "前三季度行业整体营收同比增长33%，其中海外市场贡献主要增量",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:22",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "阳光电源以绝对优势领跑全球，前三季度储能业务收入288亿元，同比增长105%，海外发货占比高达83%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:23",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "科华数据更爱聚焦细分场景突围，前三季度储能业务收入同比增长超50%，其中数据中心储能订单占比达45%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:24",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "海博思创成为本土企业突围典范，Q3单季营收33.9亿元，净利润3.07亿元，分别同比增长124.42%和872.24%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:25",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "前三季度国内订单增长180%，海外订单同比激增500%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:26",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "中车株洲所则依托资源优势巩固电网侧市场地位，2024年储能系统出货量超10GWh",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:27",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "价格战加剧导致行业毛利率同比下降2个百分点",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:28",
+      "snapshotId": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "quote": "国内补贴退坡与海外贸易壁垒可能影响增长节奏",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2fa893c4664c"
+    },
+    {
+      "id": "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:0",
+      "snapshotId": "snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html",
+      "quote": "全年新增投运电力储能项目装机规模首次突破100GW关口,达123.9GW,同比增长49.3%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-532ce5ff4f6c"
+    },
+    {
+      "id": "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:1",
+      "snapshotId": "snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html",
+      "quote": "新型储能成为市场增长的核心支撑,新增装机占比超90%,规模达113.3GW/305.8GWh,功率规模、能量规模同比分别增长52.9%、72.0%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-532ce5ff4f6c"
+    },
+    {
+      "id": "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:2",
+      "snapshotId": "snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html",
+      "quote": "2025年度全球市场储能电池(不含基站/数据中心备电类电池)出货量TOP10中国企业,依次为:宁德时代、海辰储能、亿纬储能、比亚迪、瑞浦兰钧、中创新航、远景动力、国轩高科、楚能新能源、鹏辉能源",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-532ce5ff4f6c"
+    },
+    {
+      "id": "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:3",
+      "snapshotId": "snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html",
+      "quote": "海辰储能超越亿纬储能,排名从第三升至第二。力神与赣锋锂电跌出前十榜单,被国轩高科和鹏辉能源取代",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-532ce5ff4f6c"
+    },
+    {
+      "id": "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:4",
+      "snapshotId": "snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html",
+      "quote": "2025年度全球市场储能系统出货量TOP10企业,依次为:阳光电源、特斯拉、中车株洲所、比亚迪、远景能源、海博思创、中电装储能、融和元储、天合储能、科陆电子",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-532ce5ff4f6c"
+    },
+    {
+      "id": "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:5",
+      "snapshotId": "snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html",
+      "quote": "2025年度国内市场储能系统并网装机规模TOP10中国企业,依次为:中车株洲所、海博思创、远景能源、中电装储能、赣锋锂电、比亚迪、阳光电源、融和元储、宁德时代、远信储能",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-532ce5ff4f6c"
+    },
+    {
+      "id": "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:6",
+      "snapshotId": "snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html",
+      "quote": "远景能源排名从第五升至第三,阳光电源排名从第三下滑至第七",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-532ce5ff4f6c"
+    },
+    {
+      "id": "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:7",
+      "snapshotId": "snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html",
+      "quote": "2025年度国内市场储能系统出货量TOP10中国企业,依次为:中车株洲所、海博思创、远景能源、中电装储能、融和元储、比亚迪、阳光电源、赣锋锂电、远信储能、新源智储",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-532ce5ff4f6c"
+    },
+    {
+      "id": "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:8",
+      "snapshotId": "snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html",
+      "quote": "阳光电源下滑显著,由第二滑落至第七,融和元储由第七升至第五",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-532ce5ff4f6c"
+    },
+    {
+      "id": "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:9",
+      "snapshotId": "snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html",
+      "quote": "来源:经济观察网 时间:2026-04-03 16:44",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-532ce5ff4f6c"
+    },
+    {
+      "id": "ev:q1:snap:https://news.smm.cn/news/103748876:0",
+      "snapshotId": "snap:https://news.smm.cn/news/103748876",
+      "quote": "SNE Research于1月28日发布的数据",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2707bfbf2288"
+    },
+    {
+      "id": "ev:q1:snap:https://news.smm.cn/news/103748876:1",
+      "snapshotId": "snap:https://news.smm.cn/news/103748876",
+      "quote": "2025年全球储能系统用锂电池出货量达到550GWh，同比增长79%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2707bfbf2288"
+    },
+    {
+      "id": "ev:q1:snap:https://news.smm.cn/news/103748876:2",
+      "snapshotId": "snap:https://news.smm.cn/news/103748876",
+      "quote": "中国是最大市场，规模达352 GWh，占全球总量的64%，同比增速高达117%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2707bfbf2288"
+    },
+    {
+      "id": "ev:q1:snap:https://news.smm.cn/news/103748876:3",
+      "snapshotId": "snap:https://news.smm.cn/news/103748876",
+      "quote": "北美市场以88GWh位列第二，份额为16%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2707bfbf2288"
+    },
+    {
+      "id": "ev:q1:snap:https://news.smm.cn/news/103748876:4",
+      "snapshotId": "snap:https://news.smm.cn/news/103748876",
+      "quote": "全球出货量前七名均为中国企业",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2707bfbf2288"
+    },
+    {
+      "id": "ev:q1:snap:https://news.smm.cn/news/103748876:5",
+      "snapshotId": "snap:https://news.smm.cn/news/103748876",
+      "quote": "宁德时代以30%的市占率居首，海辰储能、亿纬锂能分列二、三位",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2707bfbf2288"
+    },
+    {
+      "id": "ev:q1:snap:https://news.smm.cn/news/103748876:6",
+      "snapshotId": "snap:https://news.smm.cn/news/103748876",
+      "quote": "这七家企业合计市占率高达83.3%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2707bfbf2288"
+    },
+    {
+      "id": "ev:q1:snap:https://news.smm.cn/news/103748876:7",
+      "snapshotId": "snap:https://news.smm.cn/news/103748876",
+      "quote": "韩国三星SDI与LG新能源合计市占率约为4%",
+      "revision": 1,
+      "extractionCheck": "UNCHECKED",
+      "versionId": "sv-2707bfbf2288"
+    }
+  ],
+  "snapshots": [
+    {
+      "id": "snap:https://news.bjx.com.cn/html/20260331/1490022.shtml",
+      "url": "https://news.bjx.com.cn/html/20260331/1490022.shtml",
+      "title": "https://news.bjx.com.cn/html/20260331/1490022.shtml",
+      "fetchedAt": "2026-10-16T03:23:16.527Z",
+      "bodyText": "",
+      "parseStatus": "failed",
+      "contentType": "text/html; charset=utf-8",
+      "tier": "C"
+    },
+    {
+      "id": "snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491",
+      "url": "https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491",
+      "title": "ICC鑫椤资讯：2025年全球储能电池出货640GWh，储能系统出货498GWh",
+      "fetchedAt": "2026-10-16T03:23:16.731Z",
+      "bodyText": "2025年全球储能电池出货640GWh，同比增长82.9%。\n据ICC鑫椤资讯统计，2025年全球储能电池出货640GWh，同比增长82.9%。其中国内电池厂家出货621.5GWh，同比增长82.8%;海外电池厂家出货18.5GWh,同比增长85%。\n\n分企业来看，宁德时代稳居第一，占比23%以上；海辰储能、亿纬锂能、弗迪电池、中创新航、瑞浦兰钧位列第二梯队，海辰储能和亿纬锂能市占率在11%左右，弗迪电池、中创新航、瑞浦兰钧市占率在6%-10%之间；其余电池企业市占率在6%以下，位列第三梯队。\n\n\n储能细分应用领域方面，2025年表前侧储能市场占比79.2%，工商业储能市场占比9.6%，户储&便携式储能市场占比9.3%，基站&数据中心备电市场占比2%。\n\n表前侧：2025年表前侧储能电池出货507.9GWh，同比增长82.7%，表前侧储能形成一超多强的市场竞争格局。宁德时代依靠特斯拉、海博思创、中车株洲所、思源电气等头部系统集成厂商及自有的集成业务，市占率稳居第一，占26%以上，海辰储能、亿纬锂能、弗迪电池占比10%以上，中创新航、远景动力占比在5-10%之间，其余厂家占比在5%以下。\n\n数据来源:ICC鑫椤资讯、LIRA莱睿咨询\n\n工商业侧：2025年工商业侧储能电池出货61GWh，同比增长103%，工商业储能电池市场已经形成五巨头的市场竞争格局。宁德时代依靠特斯拉、为恒智能、四象新能源、协鑫能科、中车株洲所、海博思创等头部系统集成厂商及旗下合资集成企业，市占率稳居第一，占13%以上，瑞浦兰钧、鹏辉能源、海辰储能、亿纬锂能占比10%-13%之间，紧随其后，其余厂家占比在10%以下。\n\n数据来源:ICC鑫椤资讯、LIRA莱睿咨询\n\n户储&便携式：2025年户储&便携式电池出货58.8GWh，同比增长117.7%，户用&便携式储能领域已经形成三巨头的市场竞争发展格局。瑞浦兰钧、亿纬锂能、鹏辉能源市占率均超20%，其余电池厂家市占率在8%以下。\n\n数据来源：ICC鑫椤资讯、LIRA莱睿咨询\n\n基站备电&数据中心UPS：2025年基站备电&数据中心UPS电池出货12.3GWh，同比下滑22%。由于2025年5G基站建设进度放缓，加上锂电的渗透率没有得到进一步的提升。基站备电&数据中心UPS领域已经形成一超多强的市场竞争格局，国轩高科通过绑定华为，每年有较稳定的出货量级，市占率达28%以上，鹏辉、南都、亿纬、三星市占率均超10%以上。\n\n数据来源：ICC鑫椤资讯、LIRA莱睿咨询\n\n展望2026年，500+Ah大容量储能电池市场需求将会加速释放，国内容量电价补贴政策继续延续，AIDC储能需求起量，预计储能市场依然会维持较快增速，电池出货有望达到1090GWh，同比增长70%。\n储能系统\n据ICC鑫椤资讯统计，2025年全球储能系统出货498GWh，同比增长99%。其中国内系统厂家出货404GWh，同比增长138.7%;海外系统厂家出货94GWh,同比增长16%，特斯拉一枝独秀。\n\n分企业来看，储能系统形成以比亚迪、****、特斯拉三巨头为主的市场竞争格局，比亚迪、****、特斯拉三巨头与宁德时代、中车株洲所、海博思创、华为、远景能源等储能新势力形成第一梯队，阿特斯、电工时代、融和元储、Fluence、许继电科、天合储能、Nextera、晶科能源、中天科技、南都电源、Wartsila、智光储能、远信储能、采日能源、LG、天诚同创位列第二梯队，其它厂家则位列第三梯队。\n\n展望2026年，6.25MWh、6.9MWh、7MW、8MWh等大容量储能系统市场需求将会加速释放，预计储能市场依然会维持较快增速，储能系统出货有望达到900GWh，同比增长81%。（咸宁新闻网）",
+      "parseStatus": "ok",
+      "contentType": "text/html; charset=utf-8",
+      "tier": "C"
+    },
+    {
+      "id": "snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html",
+      "url": "https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html",
+      "title": "GGII：2025年中国储能锂电池出货量630GWh 同比增幅达85%",
+      "fetchedAt": "2026-10-16T03:23:19.718Z",
+      "bodyText": "\n\n\n\n\t\n\t\n\t\t\t\t新浪财经\n\t\t\t\t\n\t\t\t\t\t\t港股\n\t\t\t\t\t\t\t\n\t\n\t\n\t\t\n\t\n\n\n\n\n\n\n\n\n\t\n\t\n\n\t\t\n\t\t\t\t\n\t\t\n\t\t\n\t\t\t\t\t\t\n\t\t\t\t\n\t\t\n\t\t\t\n\t\t\t\t\n\t\t\n\n\n\t\n\n高工产研储能研究所(GGII)数据显示，2025年中国储能锂电池出货量630GWh，同比增幅85%。面向全球市场，2025年中国储能电池出货量全球占比仍超过90%。从排行榜来看，2025中国储能锂电池出货量TOP 10企业是宁德时代(300750.SZ)、比亚迪(002594.SZ)、海辰储能、亿纬锂能(300014.SZ)、中创新航(03931)、瑞浦兰钧(00666)、楚能新能源、远景动力、鹏辉能源、国轩高科(以上排名未分先后)。从全球出货口径来看，以上中国TOP 10企业也是全球储能锂电池出货TOP 10企业。\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t2025年，在需求超预期释放、国内外市场同步放量背景下，中国储能锂电池市场迎来爆发增长年，储能锂电池出货规模实现大幅跃升。GGII数据显示，2025年中国储能锂电池出货量同比增幅达85%。这一增长主要来自三方面：1)国内层面，强制配储政策逐步退出、独立储能项目加速落地，推动行业从“被动配置”迈入“主动投资”新阶段;2)海外市场受美国抢装潮、新兴市场需求释放、海外户储去库存结束，需求重新恢复等因素带动，订单量保持强劲增长;3)数据中心等新应用场景逐步落地导入，为储能电芯需求增长持续贡献增量。2025年全球户用储能锂电池市场在海外成熟需求的强劲拉动下步入新一轮增长周期。GGII最新统计数据显示，2025年全球户用储能锂电池出货量达到55GWh，相较于2024年的26GWh，同比实现超过111%的大幅跃升。自2025年中需求旺季起，100Ah电芯陷入供不应求状态，拥有稳定产能和优质客户渠道的企业，其竞争优势会被成倍放大。展望2026年，户用储能锂电池市场将在2025年奠定的新基础上，呈现几个明确的演进趋势：1)产能制约将趋于缓和，产品矩阵双主线确立。随着100Ah电芯产能的逐步扩充与314Ah电芯在户储领域的应用常态化，两种主流规格将成为满足不同系统需求的标配选项。2)供应链全球化布局加速，属地化生产成关键策略。为应对部分海外市场日益凸显的贸易壁垒与对原材料产地溯源的要求，头部户储电芯厂商正积极筹划或已经在海外基地(如东南亚、欧洲)设立专用生产线。3)向更大容量、更高集成度演进，并将大电芯的热失控防护确立为关键的技术攻坚点。2025年户储锂电池市场的竞争，本质上是专业化产能与规模化交付能力的竞争。在这一背景下，头部企业的市场份额与行业地位得以夯实。\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t进入2026年，GGII预计储能锂电池市场将延续高景气态势。大容量电池量产加速、新应用场景需求释放的同时，产能投放节奏及原材料价格波动形成核心制约，也为行业竞争开辟全新机遇。500+Ah电芯渗透率破20%2026年500+Ah大电芯渗透率超过20%：2025年只有宁德时代587、海辰587、海辰1175、欣旺达684小批量出货，2026年大部分厂家500+电芯将在Q3/Q4量产，大部分厂家2026年上半年的订单已排满。AIDC储能势待发，2027年起量AIDC储能在北美的需求预计在2027年正式爆发：关键制约在于800V供电架构尚未大规模应用，而该架构是AIDC储能快速放量的核心条件，因此短期内大储在AIDC场景的需求仍处于蓄势阶段。产能限制，全年电芯出货预计850GWh预计2026年储能平均产能利用率>75%，2026年头部厂商将维持持续满产满销状态。尽管全年出货预计超过850GWh，但新增产能主要集中在下半年释放，还需要一定时间完成爬坡，因此上半年产能压力仍然较大。原料涨价，传导储能电芯涨价预计2026年储能电芯价格将上调约3-6分/Wh，主要受碳酸锂、电解液及原材料、铜、铜箔加工费等关键原材料价格上涨的推动。随着原材料成本上升，这一压力将向下游传导，导致电芯采购成本上升。\t\n\n\t\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\t加载中...\n\t\n\n\n\t\n\n\t\t\t\n\t\t\t\t\t\t视频\n\t\t\t\t直播\n\t\t\t\t美图\n\t\t\t\t博客\n\t\t\t\t看点\n\t\t\t\t政务\n\t\t\t\t搞笑\n\t\t\t\t八卦\n\t\t\t\t情感\n\t\t\t\t旅游\n\t\t\t\t佛学\n\t\t\t\t众测\n\t\t\t\t\t\n\t\t\t\n\n\t\t",
+      "parseStatus": "ok",
+      "contentType": "text/html; charset=utf-8",
+      "tier": "C"
+    },
+    {
+      "id": "snap:https://www.china5e.com/m/news/news-1196622-0.html",
+      "url": "https://www.china5e.com/m/news/news-1196622-0.html",
+      "title": "储能进入深水区，龙头守江山，黑马拼突围!-新闻-能源资讯-中国能源网",
+      "fetchedAt": "2026-10-16T03:23:21.908Z",
+      "bodyText": "\n\t\t\t\t\t\t\t\t\t\t\t2025年三季度，国内新型储能装机量跃居世界第一，三大核心赛道营收破1.2万亿元。但企业盈利质量、价格战等挑战仍需警惕。\r\n2025年11月初，A股储能板块三季报收官战落下帷幕。国家发改委最新数据显示，前三季度全国新型储能装机量达32.8GW，同比激增178%，带动产业链三大核心赛道——储能电芯、储能PCS、储能系统集成合计营收突破1.2万亿元，净利润规模达810亿元，整体增速维持30%以上高位。\r\n这场由“政策+市场”双轮驱动的产业狂欢中，行业格局正发生巨变，头部企业凭借技术壁垒与全球化布局巩固垄断地位，细分领域黑马则依托单点突破实现盈利爆发，而部分企业却在价格战与转型阵痛中陷入业绩滑坡。\r\n储能电芯：78%市占率集中前五，技术迭代改写盈利规则\r\n作为储能产业链的核心环节，电芯赛道的竞争已进入“寡头垄断+技术突围”的双轨模式。数据显示，2025年上半年全球前十大储能电芯企业均为中国企业，前五家合计市占率超78%，头部效应空前显著。\r\n宁德时代的行业“一哥”地位无可撼动。根据公司港股财报披露，2025年前三季度实现营业收入2830亿元，税后净利润490.34亿元，其中储能电芯业务营收占总营收比重达25%，同比增长60%以上。前三季度宁德时代储能电芯累计出货量达90GWh，占全球市场份额24.2%，较去年同期提升3个百分点，海外订单占比62%，主要来自阿联酋19GWh、澳大利亚24GWh等长时储能大项目。值得关注的是，其587Ah大电芯量产占储能出货量超30%，推动单位盈利提升至0.09元/Wh，环比增长17%，带动储能业务毛利率升至25%，与动力电池持平。\r\n同期，比亚迪储能业务延续稳健增长态势，公司在北美户用储能市场表现亮眼，市占率达51%，成为当地主流能源商的核心供应商。亿纬锂能则凭借技术突破实现弯道追赶，前三季度储能电芯出货量48.4GWh，全球市占率11.6%，其中Q3单季营收168.30亿元，同比增长35.51%。其全球首款量产的628Ah储能电芯能量密度达210Wh/kg，已应用于湖北荆门400MWh独立储能电站，推动系统全生命周期成本降低8%，该型号电芯Q3出货占比超40%，成为核心增长引擎。\r\n当然在储能电芯的竞争领域，有老牌前三甲的激烈角逐，也有黑马的爆发奇袭。国轩高科成为三季度电芯赛道最大“黑马”。第三季度单季营收101.14亿元，同比增长20.68%，创历史同期最高纪录。业绩爆发的核心驱动力来自海外市场突破与液冷技术落地，前三季度公司储能电芯出货量约19GWh，海外液冷储能项目交付量同比增长300%，欧洲、澳洲市场订单占比提升至35%。\r\n鹏辉能源则上演“扭亏为盈”反转剧情，前三季度总营收75.81亿元，同比增长34.23%，归母净利润1.15亿元，同比增长89.33%，而Q3单季净利润达2.03亿元，同比增幅高达977.24%。公司解释，业绩增长得益于“3+N”产品布局见效，高倍率、长循环储能电芯占比提升，叠加海外订单溢价红利。值得注意的是，其扣非净利润同比激增10418.09%，但前三季度86%的净利润仍依赖非经常性损益，主营业务盈利能力仍需持续验证。\r\n储能PCS：毛利率差距达27个百分点，技术壁垒决定盈利天花板\r\n作为储能系统的“大脑”，PCS赛道则呈现出“高毛利者领跑、场景化突围”的竞争格局。2025年三季度PCS企业平均毛利率较去年同期下降2个百分点，但头部企业与尾部企业的差距进一步拉大，最高达27个百分点，技术溢价与场景深耕成为盈利分水岭。\r\n盛弘股份与海兴电力稳居毛利率第一梯队，前三季度毛利率分别达39.92%和39.89%，远超行业平均水平。盛弘股份凭借“充电+储能”协同布局，前三季度营收22.16亿元，同比增长5.78%，净利润2.77亿元，核心优势在于能源管理系统的技术壁垒，其PCS产品与充电桩业务形成场景互补，在工商业储能领域市占率稳居前十。海兴电力则聚焦高端市场，尽管前三季度营收33.69亿元，同比微降1.19%，净利润7.32亿元，同比下降7.48%，但39.89%的毛利率彰显技术溢价能力，其EMS系统在欧洲工业储能项目中中标率达28%。\r\n锦浪科技在户用储能PCS领域保持领先，前三季度营收56.63亿元，同比增长9.71%，净利润8.66亿元，同比增幅29.39%，毛利率36.04%。公司依托组串式PCS技术优势，在欧洲户用市场市占率达18%，产品溢价较行业平均水平高15%-20%，成为盈利增长的核心支撑。\r\n汇川技术以绝对规模优势领跑行业，前三季度营收316.63亿元，同比增长24.67%，净利润42.54亿元，同比增长26.84%，毛利率29.27%。公司采用“PCS+储能系统+能源服务”全产业链布局，在工业储能领域树立多个标杆项目，凭借规模化生产与供应链整合能力，有效抵御原材料价格波动影响，净利润增速与营收基本持平，彰显稳健经营特质。\r\n固德威则走出“以量补价”的差异化路径，前三季度营收61.94亿元，同比增长25.30%，净利润0.81亿元，同比激增837.57%。尽管22.07%的毛利率低于行业头部水平，但公司聚焦工商业储能场景，抓住国内“136号文”政策红利，订单量同比增长200%，规模化交付摊薄固定成本，实现盈利爆发式增长。\r\n储能系统集成：寻求海外破局，也离不开本土深耕\r\n系统集成作为储能产业链的终端出口，直接受益于全球装机热潮，前三季度行业整体营收同比增长33%，其中海外市场贡献主要增量，头部企业与黑马企业呈现差异化竞争格局。\r\n阳光电源以绝对优势领跑全球，前三季度储能业务收入288亿元，同比增长105%，海外发货占比高达83%。公司在欧洲工商储市场拿下多个百兆瓦级项目，4GWh长时储能项目落地中东，全球市占率提升至14%，储能业务毛利率达39.92%，显著高于国内市场，全球化布局有效对冲了国内价格竞争压力。\r\n科华数据更爱聚焦细分场景突围，前三季度储能业务收入同比增长超50%，其中数据中心储能订单占比达45%，增速45%。公司凭借液冷技术领先优势，成为国内三大云计算厂商的核心储能供应商，数据中心储能系统市占率超20%，单项目毛利率维持在30%以上，高于行业平均水平5个百分点。\r\n海博思创成为本土企业突围典范，Q3单季营收33.9亿元，净利润3.07亿元，分别同比增长124.42%和872.24%。公司深度受益于国内“136号文”及容量电价政策，聚焦电网侧与工商业储能市场，同时加速东南亚市场扩张，前三季度国内订单增长180%，海外订单同比激增500%，形成“本土+新兴市场”双轮驱动格局。\r\n中车株洲所则依托资源优势巩固电网侧市场地位，2024年储能系统出货量超10GWh，2025年前三季度虽未披露具体业绩，但据行业测算，其电网侧GW级项目中标量同比增长30%，凭借央企背景与技术积累，在大型储能项目中保持竞争优势。\r\n综合来看，三季度财报数据清晰显示，储能行业已告别“野蛮生长”，进入“分化竞争”深水区，工商业储能、数据中心储能等场景快速增长，场景化布局帮助企业避开同质化竞争，但仍有三重挑战不容忽视。部分企业净利润“含金量”不足;价格战加剧导致行业毛利率同比下降2个百分点，中小企业生存压力陡增;行业对政策依赖度较高，国内补贴退坡与海外贸易壁垒可能影响增长节奏。事实上，这场万亿赛道的生死竞速中，只有真正具备核心竞争力的企业，才能在分化格局中笑到最后。\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t责任编辑：                                                                张磊                                                                \n\t\t\t\t\n\t\t\t\t\t\t\t\t\t标签：\t\t\t\t\t储能 \n\t\t\t\t \n\t\t\t        ",
+      "parseStatus": "ok",
+      "contentType": "text/html; charset=utf-8",
+      "tier": "C"
+    },
+    {
+      "id": "snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html",
+      "url": "https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html",
+      "title": "2025储能电池排名洗牌--中国能源新闻网",
+      "fetchedAt": "2026-10-16T03:23:21.941Z",
+      "bodyText": "\n        \n        \n        \n        \n            X\n            \n                \n                    \n                        \n                        \n                            能源中国IOS版\n                        \n                    \n                \n                    \n                        \n                        \n                            能源中国安卓版\n                        \n                    \n                \n                    \n                        \n                        \n                            陇上孟河\n                        \n                    \n                \n            \n\n\n        \n        \n    \n\t\t\t\n\t\t\t\t2025储能电池排名洗牌\n\t\t\t\t来源：经济观察网 时间：2026-04-03 16:44\n\t\t\t\t\n                    \n                        \n                    \n                    力神、赣锋锂电跌出全球前十，国轩高科、鹏辉能源上位　　CNESA DataLink全球储能数据库最新发布的统计数据显示，2025年全球储能市场延续高速发展态势，全年新增投运电力储能项目装机规模首次突破100GW关口，达123.9GW，同比增长49.3%。　　其中，新型储能成为市场增长的核心支撑，新增装机占比超90%，规模达113.3GW/305.8GWh，功率规模、能量规模同比分别增长52.9%、72.0%。　　作为全球储能产业的核心力量，中国企业凭借技术优势与规模化产能，在储能电池领域表现突出，持续占据全球市场重要份额。伴随行业核心数据发布，2025年度储能领域全球及国内市场的关键榜单也同步出炉，具体排名如下：　　2025年度全球市场储能电池（不含基站/数据中心备电类电池）出货量TOP10中国企业，依次为：宁德时代、海辰储能、亿纬储能、比亚迪、瑞浦兰钧、中创新航、远景动力、国轩高科、楚能新能源、鹏辉能源。与2024年对比，海辰储能超越亿纬储能，排名从第三升至第二。力神与赣锋锂电跌出前十榜单，被国轩高科和鹏辉能源取代。　　2025年度全球市场储能系统出货量TOP10企业，依次为：阳光电源、特斯拉、中车株洲所、比亚迪、远景能源、海博思创、中电装储能、融和元储、天合储能、科陆电子。　　2025年度国内市场储能系统并网装机规模TOP10中国企业，依次为：中车株洲所、海博思创、远景能源、中电装储能、赣锋锂电、比亚迪、阳光电源、融和元储、宁德时代、远信储能。与2024年对比，中车株洲所与海博思创保持前二。远景能源排名从第五升至第三，阳光电源排名从第三下滑至第七。电工时代、新源智储、金风零碳、采日能源跌出榜单，中电装储能、赣锋锂电、宁德时代、远信储能新晋入榜。　　2025年度国内市场储能系统出货量TOP10中国企业，依次为：中车株洲所、海博思创、远景能源、中电装储能、融和元储、比亚迪、阳光电源、赣锋锂电、远信储能、新源智储。与2024年对比，阳光电源下滑显著，由第二滑落至第七，融和元储由第七升至第五，中电装储能、赣锋锂电、远信储能表现突出，新晋入榜。新源智储在出货量榜单中守住了第十名的位置。　　免责声明：本文观点仅代表作者本人，供参考、交流，不构成任何建议。　　责任编辑：杨娜\n\n                \n                \n\n\t\t\t\n\t\t\t\n\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\t\n                            \n                                \n                                \t\n                                \t学习贯彻四中全会精神\n                                \n                            \n                        \n                            \n                                \n                                \t\n                                \t“十四五”能源高质量发展\n                                \n                            \n                        \n\t\t\t\t\t\n\t\t\t\t\n                                \n\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t                    \n\t\t                        碳排放从万吨级到零：博鳌绿电蝶变\n\t\t                    \n\t\t                \n\t\t                    \n\t\t                        新能源企业高质量“出海”后劲足\n\t\t                    \n\t\t                \n\t\t                    \n\t\t                        全球储能需求旺盛 多家上市公司订单饱满\n\t\t                    \n\t\t                \n\t\t                    \n\t\t                        海上风电大开放，中企机会来了\n\t\t                    \n\t\t                \n\t\t                    \n\t\t                        新能源汽车动力电池溯源平台上线\n\t\t                    \n\t\t                \n\t\t                    \n\t\t                        屋顶也能发电？单月9万度！年减碳排放超1400吨\n\t\t                    \n\t\t                \n\t\t                    \n\t\t                        青海算力中心年绿电应用比例已超九成\n\t\t                    \n\t\t                \n\t\t                    \n\t\t                        中国电动车首次登顶巴西零售销量榜\n\t\t                    \n\t\t                \n\t\t\t\t\t\n\t\t\t\t\n\t\t\t\n\t\t\t\n\t\t",
+      "parseStatus": "ok",
+      "contentType": "text/html",
+      "tier": "C"
+    },
+    {
+      "id": "snap:https://news.smm.cn/news/103748876",
+      "url": "https://news.smm.cn/news/103748876",
+      "title": "【SMM新能源快讯】SNE数据显示2025年中国储能电池市占率64%，包揽全球前七__上海有色网",
+      "fetchedAt": "2026-10-16T03:23:22.029Z",
+      "bodyText": "SNE Research于1月28日发布的数据，2025年全球储能系统用锂电池出货量达到550GWh，同比增长79%。区域市场方面，中国是最大市场，规模达352 GWh，占全球总量的64%，同比增速高达117%。北美市场以88GWh位列第二，份额为16%。企业竞争方面，全球出货量前七名均为中国企业。宁德时代以30%的市占率居首，海辰储能、亿纬锂能分列二、三位。这七家企业合计市占率高达83.3%。韩国三星SDI与LG新能源合计市占率约为4%。",
+      "parseStatus": "ok",
+      "contentType": "text/html; charset=utf-8",
+      "tier": "C"
+    }
+  ],
+  "limitations": [
+    "以下主张引用核查未通过,已降级为未验证:cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:9、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:11、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:15、cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:0、cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:1、cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:2、cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:3、cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:4、cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:5、cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:6、cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:8、cl:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:9",
+    "以下主张的引句不支持其转述(语义蕴涵未通过),已降级为未验证:cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:3、cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:7、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:16、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:18、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:20、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:22、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:23、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:26、cl:q1:snap:https://news.smm.cn/news/103748876:3、cl:q1:snap:https://news.smm.cn/news/103748876:6",
+    "以下主张仅有 C 级信源(社媒/自媒体/未知来源)支撑,置信度低:cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:0、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:1、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:2、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:4、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:5、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:6、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:7、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:8、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:10、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:12、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:13、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:14、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:16、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:17、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:18、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:19、cl:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:20、cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:0、cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:1、cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:2、cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:3、cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:4、cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:5、cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:6、cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:8、cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:9、cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:10、cl:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:11、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:0、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:1、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:2、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:3、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:4、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:5、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:6、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:7、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:8、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:9、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:10、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:11、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:12、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:13、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:14、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:15、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:17、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:19、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:21、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:24、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:25、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:27、cl:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:28、cl:q1:snap:https://news.smm.cn/news/103748876:0、cl:q1:snap:https://news.smm.cn/news/103748876:1、cl:q1:snap:https://news.smm.cn/news/103748876:2、cl:q1:snap:https://news.smm.cn/news/103748876:4、cl:q1:snap:https://news.smm.cn/news/103748876:5、cl:q1:snap:https://news.smm.cn/news/103748876:7",
+    "存在引用/蕴涵/数值核查未通过的关键结论",
+    "模块质量检查未通过:主题未覆盖「行业边界」;主题未覆盖「产业链」;主题未覆盖「竞争」;numeric-claims-calibrated: 数值主张缺口径(对象/时间/单位) \"SNE Research于1月28日发布2025年全球储能系统用锂电池出货量数据。\"(cl:q1:snap:https://news.smm.cn/news/103748876:0);numeric-claims-calibrated: 数值主张缺口径(对象/时间/单位) \"2025年全球储能系统用锂电池出货量前七名均为中国企业。\"(cl:q1:snap:https://news.smm.cn/news/103748876:4)"
+  ],
+  "unresolved": [],
+  "verdicts": [
+    {
+      "evidenceId": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:0",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:1",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:2",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:3",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:4",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:5",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:6",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:7",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:8",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:9",
+      "verdict": "quote-mismatch",
+      "entailment": "na",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:10",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:11",
+      "verdict": "quote-mismatch",
+      "entailment": "na",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:12",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:13",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:14",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:15",
+      "verdict": "quote-mismatch",
+      "entailment": "na",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:16",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:17",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:18",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:19",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://m.chinadevelopment.com.cn/checklist.php?s=index/detail/id/1979491:20",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:0",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:1",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:2",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:3",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:4",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:5",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:6",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:7",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:8",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:9",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:10",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://finance.sina.cn/hkstock/ggyw/2026-02-06/detail-inhkwsry1199695.d.html:11",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:0",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:1",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:2",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:3",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:4",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:5",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:6",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:7",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:8",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:9",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:10",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:11",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:12",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:13",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:14",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:15",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:16",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:17",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:18",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:19",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:20",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:21",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:22",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:23",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:24",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:25",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:26",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:27",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://www.china5e.com/m/news/news-1196622-0.html:28",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:0",
+      "verdict": "quote-mismatch",
+      "entailment": "na",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:1",
+      "verdict": "quote-mismatch",
+      "entailment": "na",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:2",
+      "verdict": "quote-mismatch",
+      "entailment": "na",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:3",
+      "verdict": "quote-mismatch",
+      "entailment": "na",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:4",
+      "verdict": "quote-mismatch",
+      "entailment": "na",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:5",
+      "verdict": "quote-mismatch",
+      "entailment": "na",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:6",
+      "verdict": "quote-mismatch",
+      "entailment": "na",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:7",
+      "verdict": "quote-mismatch",
+      "entailment": "na",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:8",
+      "verdict": "quote-mismatch",
+      "entailment": "na",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://cpnn.com.cn/news/xny/202604/t20260403_1878875.html:9",
+      "verdict": "quote-mismatch",
+      "entailment": "na",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://news.smm.cn/news/103748876:0",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://news.smm.cn/news/103748876:1",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://news.smm.cn/news/103748876:2",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://news.smm.cn/news/103748876:3",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://news.smm.cn/news/103748876:4",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://news.smm.cn/news/103748876:5",
+      "verdict": "quote-hit",
+      "entailment": "weak",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://news.smm.cn/news/103748876:6",
+      "verdict": "quote-hit",
+      "entailment": "fail",
+      "numeric": "na",
+      "tier": "C"
+    },
+    {
+      "evidenceId": "ev:q1:snap:https://news.smm.cn/news/103748876:7",
+      "verdict": "quote-hit",
+      "entailment": "strong",
+      "numeric": "na",
+      "tier": "C"
+    }
+  ]
+}

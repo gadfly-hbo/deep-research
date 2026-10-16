@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>P2-5 UI-GATE 原型 — 追问徽章(轻量)</title>
+<link rel="stylesheet" href="../../ui/styles.css">
+<style>
+  body { background: var(--bg); margin: 0; padding: 24px 32px 48px; }
+  .gate-sec { max-width: 860px; margin: 0 auto 30px; }
+  .gate-h { font: 600 15px/1.4 Inter, system-ui; color: var(--text-2); letter-spacing: .04em; text-transform: uppercase; margin: 0 0 4px; }
+  .gate-note { font: 12px/1.6 Inter, system-ui; color: var(--text-3); margin: 0 0 12px; }
+  .gate-cell { border: 1px dashed var(--line-strong); border-radius: 8px; padding: 10px; margin-bottom: 12px; }
+  .gate-cell > .gate-tag { font: 11px/1 Inter, system-ui; color: var(--accent-strong); display: block; margin-bottom: 8px; letter-spacing: .06em; }
+  .demo-card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; box-shadow: 0 3px 12px rgba(40,36,30,.04); }
+  .badge-row { display: flex; gap: 8px; align-items: center; margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<section class="gate-sec">
+  <h1 style="font:600 18px/1.4 Inter,system-ui; margin:0 0 6px">P2-5 追问徽章原型(静态,真实 ui/styles.css)</h1>
+  <p class="gate-note">零新表面:S1 追问按钮交互不变(仅数据通道换 followup 端点);S2 确认卡片增"延续研究"徽章。数值合成。</p>
+</section>
+
+<section class="gate-sec">
+  <p class="gate-h">S2 · 计划确认卡片(增量追问形态)</p>
+  <div class="gate-cell">
+    <div class="demo-card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h2 style="margin:0;font-size:16px">研究计划待确认</h2>
+        <span class="chip chip-wait" style="font-size:12px;padding:2px 10px;border-radius:999px;border:1px solid var(--warn-line);background:var(--warn-soft);color:var(--warn)">待确认</span>
+      </div>
+      <div class="badge-row">
+        <span class="chip chip-fork" style="font-size:11px;padding:1px 8px;border-radius:999px">延续研究 · 第 3 次追问</span>
+        <span class="fine">基准:req-101 · 已答 6 问 · 证据 24(本次只为新问题采证)</span>
+      </div>
+      <div class="fld" style="margin-top:8px"><span class="fld-label">问题 1(增量)</span><input value="与优衣库线上大促对比"></div>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <button class="btn btn-primary" type="button">确认计划,开始框架</button>
+        <button class="btn btn-ghost" type="button">放弃</button>
+      </div>
+    </div>
+  </div>
+  <div class="gate-cell">
+    <span class="gate-tag">首次追问(N=1)· 非增量/全新研究不显徽章(负例)</span>
+    <div class="demo-card">
+      <h2 style="margin:0;font-size:16px">研究计划待确认</h2>
+      <div class="badge-row"><span class="chip chip-fork" style="font-size:11px;padding:1px 8px;border-radius:999px">延续研究 · 首次追问</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="gate-sec">
+  <p class="gate-h">S1 · 追问按钮(现状不变,仅通道换)</p>
+  <div class="gate-cell">
+    <div class="demo-card" style="display:flex;justify-content:space-between;align-items:center">
+      <span class="fine" style="margin:0">req-101 完整交付 · 搜索 40 · 抓取 72</span>
+      <button class="btn btn-sm" type="button">追问</button>
+    </div>
+    <p class="gate-note" style="margin:8px 0 0">交互/文案/禁用条件与现状逐字一致(点击→计划页预填表单);提交改 POST /runs/followup。</p>
+  </div>
+</section>
+
+</body>
+</html>

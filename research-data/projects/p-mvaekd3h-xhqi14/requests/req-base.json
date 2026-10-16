@@ -1,0 +1,10 @@
+{
+  "id": "req-base",
+  "module": "industry",
+  "goal": "中国储能电池产业链",
+  "scope": {
+    "summary": "2025,中国",
+    "queries": []
+  },
+  "attachments": []
+}

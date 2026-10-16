@@ -1,0 +1,20 @@
+{
+  "id": "a42cf3aa-047b-4ecc-b9eb-1dd235e68719",
+  "requestId": "req-base",
+  "stage": "publish",
+  "status": "limited",
+  "checkpoints": [],
+  "usage": {
+    "searches": 2,
+    "fetches": 6,
+    "modelCalls": 14,
+    "outputTokens": 22978,
+    "wallMs": 299306
+  },
+  "progress": {
+    "answered": 1,
+    "open": 0,
+    "skipped": 0,
+    "total": 1
+  }
+}
