@@ -1,7 +1,7 @@
 # DESIGN.md — 独立深度研究工作台
 
-本项目视觉基线:**JuanerAI Xanthil 橘accent 桌面工作台**(全局规范 `~/.zcode/design/DESIGN.md` · 2026-09-28 契约版,2026-09-29 起生效;权威链 `~/JuanerAI/docs/planning/2026-09-28/xanthil-case-assistant-ui-contract-v1.0.md` + 同名 clickable 原型 dist)。
-取代旧「暖灰 + 青(teal accent)」基线(2026-09-18/09-23 版)。按全局规则,本文件优先于全局规范;本文件与 09-28 契约保持一致,仅追加本产品的适配决策(见下)。
+本项目视觉基线:**JuanerAI Xanthil 橘accent 桌面工作台**(2026-09-28 契约版,2026-09-29 起生效)。
+取代旧「暖灰 + 青(teal accent)」基线(2026-09-18/09-23 版)。**本文件自身即唯一权威基线**:原先外链的全局规范 `~/.zcode/design/DESIGN.md` 与 `~/JuanerAI/docs/planning/2026-09-28/xanthil-case-assistant-ui-contract-v1.0.md` 契约已随 ZCode 卸载失效,不再可依赖(2026-10-16 清理)。此后 UI 变更一律先改本文件、再改 `ui/styles.css` 实现,不再回溯外部契约。
 
 ## 色彩 token(实现于 `ui/styles.css` :root)
 
