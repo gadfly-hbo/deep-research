@@ -9,8 +9,7 @@ import type {
   SessionRuntime,
   SessionRuntimeOptions,
 } from "pi-agent-runtime";
-import { buildLimits, makeAuditSink } from "../adapters/piRuntime.js";
-import { defaultDataDir } from "../app/dataDir.js";
+import { buildLimits, makeAuditSink, resolveAuditPath, type AuthorizeHook } from "../adapters/piRuntime.js";
 import { getBudgetStore } from "./fileBudgetStore.js";
 import { acquireLock } from "./lockfile.js";
 
@@ -19,8 +18,12 @@ export interface ProjectSessionRuntimeOptions {
   projectDir: string;
   /** 模型候选链(冒烟注入合成 transport;生产解析随 P2-5 接入)。 */
   candidates?: Array<{ model: ModelConfig; transport: ModelTransport }>;
-  /** 审计路径(缺省 defaultDataDir();账本目录=dirname(auditPath) 与审计同源,R1-5)。 */
+  /** 审计路径(缺省经 resolveAuditPath 派生:auditPath > dataDir > defaultDataDir;账本目录=dirname(auditPath),R1-5)。 */
   auditPath?: string;
+  /** J1:显式数据目录(auditPath 未给时定位审计与账本;与 piRuntime 同一派生规则,零分叉)。 */
+  dataDir?: string;
+  /** J1:宿主 SDK 级授权钩子(缺省=无条件放行;storage 级授权另属 storage.authorize,不动)。 */
+  authorize?: AuthorizeHook;
 }
 
 /** bindings.json 条目(SDK 零读零校验,形状纯自定;R1-7 唯一核账源)。 */
@@ -60,12 +63,13 @@ const writeBindings = (path: string, list: BindingRecord[]): void => {
 export function createSessionRuntimeOptions(
   opts: ProjectSessionRuntimeOptions,
 ): Omit<SessionRuntimeOptions, "model" | "transport" | "fallbacks"> {
-  const auditPath = opts.auditPath ?? join(defaultDataDir(), "model-audit.jsonl");
+  // J1:auditPath 派生复用 piRuntime 单一规则(KA4:两文件零分叉)
+  const auditPath = resolveAuditPath(opts);
   const sessionDir = join(opts.projectDir, "session");
   const bindingsPath = join(sessionDir, "bindings.json");
   return {
-    // 结果仅进程内返回(P2-5 接工具时按 kind 收紧)
-    authorize: async () => true,
+    // J1:宿主授权钩子透传(缺省=无条件放行常量;结果仅进程内返回,P2-5 接工具时按 kind 收紧)
+    authorize: opts.authorize ?? (async () => true),
     audit: makeAuditSink(auditPath),
     budgets: getBudgetStore(dirname(auditPath)),
     storage: {

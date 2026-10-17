@@ -5,7 +5,16 @@
    - 主备链:config 链映射 ModelConfig(真值表/自定义 baseUrl+api/其余拒绝),无密钥候选跳过,
      切换与单次超时(modelTimeoutMs + modelRecovery:1)交 runtime。
    - 五必要输入:authorize 放行 model/publish(结果仅进程内返回,本批无工具/外发);
-     audit→dataDir/model-audit.jsonl;budgets→内存 store(uncapped,名义账本,P2-2 正式化)。 */
+     audit→dataDir/model-audit.jsonl;budgets→内存 store(uncapped,名义账本,P2-2 正式化)。
+   ── J1 装配级扩展(2026-10-17)─────────────────────────────────────────────
+   PiRuntimeOptions 增可选 authorize(宿主注入 SDK 级授权策略)与 dataDir(显式定位审计与账本)。
+   - authorize 为 **channel 级**策略,非任务级:同一装配键共享一个 channel/策略;不同策略引用各自
+     起 channel。宿主应保持策略函数引用稳定——每次调用新建闭包会增殖 channel(本文件不做容量上限)。
+   - SDK 会对四类动作询问 authorize:model / tool / publish / control。"拒 publish"与"拒 model"在
+     runText 通道观察等价(同一 AUTHORITY_REQUIRED 异常文案);runAgent 通道恒为 status=blocked。
+   - 缺省(不传)= 无条件放行常量,与既有单机语义逐字节等价;storage 级授权另属 sessionRuntime。
+   - auditPath 派生单一规则(resolveAuditPath,sessionRuntime 复用):显式 auditPath 优先 →
+     join(dataDir,"model-audit.jsonl") → defaultDataDir();预算账本目录恒为 dirname(auditPath)。 */
 import { appendFile, mkdir, rename, stat as statFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import {
@@ -18,12 +27,45 @@ import {
   type ModelConfig,
   type ModelTransport,
   type Runtime,
+  type RuntimeOptions,
 } from "pi-agent-runtime";
 import { defaultDataDir } from "../app/dataDir.js";
 import { getBudgetStore } from "../server/fileBudgetStore.js";
 import type { StageName } from "../core/stages.js";
 import { buildExtractPrompt, buildStagePrompt, parseClaims, parseJsonLoose, draftFromText } from "./modelText.js";
 import type { AgentTool, ModelProvider, RunAgentResult } from "./types.js";
+
+/** J1:宿主授权钩子类型(与 SDK RuntimeOptions.authorize 同签名;两处装配接口共用,零分叉)。 */
+export type AuthorizeHook = RuntimeOptions["authorize"];
+
+/** J1:auditPath 单一派生规则(KA4)——显式 auditPath 优先,dataDir 仅影响缺省派生。 */
+export function resolveAuditPath(opts: { auditPath?: string; dataDir?: string }): string {
+  if (opts.auditPath) return opts.auditPath;
+  if (opts.dataDir) return join(opts.dataDir, "model-audit.jsonl");
+  return join(defaultDataDir(), "model-audit.jsonl");
+}
+
+/** J1:键序稳定序列化(固定字段序——对象键排序,消除装配点写法差异的假阴性分叉)。 */
+const stableKey = (value: unknown): string =>
+  JSON.stringify(value, (_k, v) => {
+    if (v && typeof v === "object" && !Array.isArray(v)) {
+      return Object.fromEntries(Object.entries(v as Record<string, unknown>).sort(([a], [b]) => a.localeCompare(b)));
+    }
+    return v;
+  });
+
+/** J1:函数/对象引用恒等 id(WeakMap 计数器;authorize/transport 引用区分进缓存键)。 */
+const refIds = new WeakMap<object, string>();
+let refCounter = 0;
+const refIdOf = (ref: object | undefined, fallback: string): string => {
+  if (!ref) return fallback;
+  let id = refIds.get(ref);
+  if (!id) {
+    id = `ref:${++refCounter}`;
+    refIds.set(ref, id);
+  }
+  return id;
+};
 
 export interface LiveModelConfig {
   provider: string;
@@ -154,8 +196,12 @@ function clampExtractPrompt(snapshot: { url: string; title: string; bodyText: st
 }
 
 export interface PiRuntimeOptions {
-  /** 审计文件路径(默认 dataDir/model-audit.jsonl;测试注入临时目录)。 */
+  /** 审计文件路径(默认按 resolveAuditPath 派生:auditPath > dataDir > defaultDataDir;测试注入临时目录)。 */
   auditPath?: string;
+  /** J1:显式数据目录——缺省派生审计(auditPath 未给时)与预算账本(dirname(auditPath))的落位。 */
+  dataDir?: string;
+  /** J1:宿主 SDK 级授权钩子(channel 级;缺省=无条件放行,单机语义不变)。 */
+  authorize?: AuthorizeHook;
   /** 显式候选链(测试/装配注入,绕过 env 密钥解析;生产路径不传,走真值表+密钥跳过)。 */
   candidates?: Array<{ model: ModelConfig; transport: ModelTransport }>;
 }
@@ -182,11 +228,22 @@ const channelCache = new Map<string, Channel>();
 
 function getChannel(configs: LiveModelConfig | LiveModelConfig[], opts: PiRuntimeOptions = {}): Channel {
   const chain = Array.isArray(configs) ? configs : [configs];
-  const cacheKey = JSON.stringify({ configs: opts.candidates ? null : configs, auditPath: opts.auditPath ?? null, candidates: opts.candidates?.length ?? 0 });
+  // J1(G1-2):缓存键按分支派生——生产分支 configs 稳定序列化 + auditPath 哨兵(null)+ authorize
+  // 缺省常量 id,不把 defaultDataDir() 解析进键(非记忆化,读 env/cwd,进键会让进程内 env/cwd
+  // 变化分叉 channel);candidates 分支逐候选 ModelConfig 身份 + transport 引用 + 派生 auditPath
+  // (仅显式输入)+ authorize 引用 id。缺省装配的键构成与旧实现语义等价(进程级单例保持)。
+  const cacheKey = JSON.stringify({
+    configs: opts.candidates ? null : chain.map(stableKey),
+    candidates: opts.candidates
+      ? opts.candidates.map((c) => [stableKey(c.model), refIdOf(c.transport, "no-transport")])
+      : null,
+    auditPath: opts.auditPath ?? (opts.dataDir ? join(opts.dataDir, "model-audit.jsonl") : null),
+    authorize: refIdOf(opts.authorize, "default-allow-all"),
+  });
   let channel = channelCache.get(cacheKey);
   if (channel) return channel;
   // P2-3b(R1-5):账本目录=审计同源(dirname(auditPath),与 config.json 一致;--datadir 不改其位置)
-  const auditPath = opts.auditPath ?? join(defaultDataDir(), "model-audit.jsonl");
+  const auditPath = resolveAuditPath(opts);
   const auditSink = makeAuditSink(auditPath);
   // P2-3b(D1):持久账本——路径级进程单例,打开处 O_EXCL 跨进程收口,跨 channel 重建延续
   const budgets = getBudgetStore(dirname(auditPath));
@@ -212,8 +269,9 @@ function getChannel(configs: LiveModelConfig | LiveModelConfig[], opts: PiRuntim
       model: candidates[0].model,
       transport: candidates[0].transport,
       fallbacks: candidates.slice(1).map((c) => ({ model: c.model, transport: c.transport })),
-      // 放行 model/publish(红队强制:成功路径强制 publish 授权;结果仅进程内返回,无外发)
-      authorize: async () => true,
+      // J1:宿主授权钩子透传(缺省=无条件放行常量——KA3 守卫:禁止任何按 kind 过滤;
+      // 红队强制:成功路径强制 publish 授权;结果仅进程内返回,无外发)
+      authorize: opts.authorize ?? (async () => true),
       audit: auditSink,
       budgets,
       onEvent: (event) => {
