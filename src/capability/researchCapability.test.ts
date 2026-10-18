@@ -1,6 +1,6 @@
 /* E1 T2:嵌入式研究能力库——Port/job 管理器/装配/持久化(合成驱动,不触网)。
    缝:Adapters 直注(budgetTopup fakes 先例)+ FsProjectStore 临时目录。 */
-import { existsSync, mkdtempSync, readdirSync, readFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -193,5 +193,29 @@ describe("E1 T2:能力库 Port", () => {
     expect(() =>
       createResearchCapability({ adapters: fakes(), dataDir: root, library: { dir: root } as never }),
     ).toThrow(/projectId/);
+  });
+
+  it("F1 自愈清扫:上次进程遗留的 submitted/running 作业在装配时标 failed(进程中断);终态不动", () => {
+    const root = dataDir();
+    const jobRoot = join(root, "capability-jobs");
+    mkdirSync(join(jobRoot, "cap-orphan-1", "runs"), { recursive: true });
+    mkdirSync(join(jobRoot, "cap-orphan-2"), { recursive: true });
+    mkdirSync(join(jobRoot, "cap-done-3"), { recursive: true });
+    const base = { request: { questions: [{ id: "q1", question: "x" }] }, submittedAt: "2026-10-18T00:00:00Z" };
+    writeFileSync(join(jobRoot, "cap-orphan-1", "job.json"), JSON.stringify({ jobId: "cap-orphan-1", status: "running", ...base }));
+    writeFileSync(join(jobRoot, "cap-orphan-2", "job.json"), JSON.stringify({ jobId: "cap-orphan-2", status: "submitted", ...base }));
+    writeFileSync(join(jobRoot, "cap-done-3", "job.json"), JSON.stringify({ jobId: "cap-done-3", status: "completed", ...base }));
+    const cap = createResearchCapability({ adapters: fakes(), dataDir: root });
+    expect(cap.status("cap-orphan-1").status).toBe("failed");
+    expect(cap.result("cap-orphan-1")?.limitations[0]).toContain("进程中断");
+    expect(cap.status("cap-orphan-2").status).toBe("failed");
+    expect(cap.status("cap-done-3").status).toBe("completed"); // 终态不动
+  });
+
+  it("F2 tier 枚举白名单:非法 tier 在 submit 期抛错(不产生作业)", () => {
+    const cap = createResearchCapability({ adapters: fakes(), dataDir: dataDir() });
+    expect(() =>
+      cap.submit({ questions: [{ id: "q1", question: "x" }], tier: "ultra" as never }),
+    ).toThrow(/low\|medium\|high/);
   });
 });

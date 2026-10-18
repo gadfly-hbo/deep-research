@@ -11,8 +11,9 @@
  * 取消语义(D5 披露):信号在问/阶段边界生效,单次模型调用最长 ~300s(DR_MODEL_TIMEOUT_MS),
  * 期间 status 保持 running;在途问题仍完整跑完(含其抽取调用,有界)。
  * 幂等(G1-4):同 idempotencyKey 一律返回既有 jobId(含 failed,不重跑);重试=换新键。
+ * 幂等窗口=进程生命周期(映射为内存表;进程重启后同键会新开 job,F3 披露)。
  */
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join, resolve as resolvePath } from "node:path";
 import type { Adapters } from "../adapters/types.js";
 import { BudgetSchema, ResearchRequestSchema } from "../contracts.js";
@@ -118,6 +119,7 @@ export function createResearchCapability(opts: ResearchCapabilityOptions): Resea
 
   mkdirSync(jobRoot, { recursive: true });
 
+
   const jobDir = (jobId: string): string => join(jobRoot, jobId);
   const jobFile = (jobId: string): string => join(jobDir(jobId), "job.json");
 
@@ -143,9 +145,38 @@ export function createResearchCapability(opts: ResearchCapabilityOptions): Resea
     usage,
   });
 
+
+  // F1(评审遗留):进程内自愈清扫——上次进程中断遗留的 submitted/running 作业标 failed
+  // (可换幂等键重新提交);终态记录不动。装配约定:同一 dataDir 同时只应有一个活跃实例
+  //(本清扫在装配时执行,双活实例会把对方在途作业误判为孤儿)。
+  for (const dir of existsSync(jobRoot) ? readdirSync(jobRoot) : []) {
+    const file = join(jobRoot, dir, "job.json");
+    if (!existsSync(file)) continue;
+    try {
+      const orphan = JSON.parse(readFileSync(file, "utf8")) as JobRecord;
+      if (orphan.status !== "submitted" && orphan.status !== "running") continue;
+      const healed: JobRecord = {
+        ...orphan,
+        status: "failed",
+        finishedAt: new Date().toISOString(),
+        result: {
+          ...emptyResult(orphan.jobId, "failed", "进程中断,作业未完成(可换幂等键重新提交)"),
+          error: "进程中断",
+        },
+      };
+      writeFileSync(file, JSON.stringify(healed, null, 2));
+    } catch {
+      /* 单个 job 记录损坏不影响装配 */
+    }
+  }
+
   const validate = (req: ExternalResearchRequest): void => {
     if (!Array.isArray(req.questions) || req.questions.length < 1 || req.questions.length > 6) {
       throw new Error("questions 须为 1~6 个");
+    }
+    // F2:tier 枚举白名单(JS 运行时调用方绕过类型时的 submit 期错误,优于作业期 failed)
+    if (req.tier !== undefined && !["low", "medium", "high"].includes(req.tier)) {
+      throw new Error(`tier 须为 low|medium|high(现:${String(req.tier)})`);
     }
     const seen = new Set<string>();
     for (const q of req.questions) {
@@ -169,24 +200,28 @@ export function createResearchCapability(opts: ResearchCapabilityOptions): Resea
     if (!record || record.status !== "submitted") return; // 排队期被取消
     const controller = new AbortController();
     controllers.set(jobId, controller);
-    record.status = "running";
-    record.startedAt = new Date().toISOString();
-    persist(record);
 
-    // TS 控制流不追踪闭包内赋值,用 holder 避免收窄为 never
-    const progress: { latest: GatherProgressSnapshot | null } = { latest: null };
-    const store = FsProjectStore.open(jobDir(jobId));
-    const req = record.request;
-    const firstQuestion = req.questions[0]!.question.slice(0, 40);
-    const request = ResearchRequestSchema.parse({
-      id: `cap:${jobId}`,
-      module: "industry",
-      goal: `外部研究(${req.questions.length} 问):${firstQuestion}`,
-      scope: { summary: "嵌入式外部研究(数据分析任务)", queries: [] },
-      ...(req.budget !== undefined ? { budget: req.budget } : { budgetTier: req.tier ?? "medium" }),
-    });
-
+    // F2:前置段(persist/open/schema parse)一并入 try——任一抛错落 failed 终态,
+    // 不再产生 unhandled rejection;catch 内落盘再失败也不再上抛(内存态已终态)
     try {
+      record.status = "running";
+      record.startedAt = new Date().toISOString();
+      persist(record);
+
+      // TS 控制流不追踪闭包内赋值,用 holder 避免收窄为 never
+      const progress: { latest: GatherProgressSnapshot | null } = { latest: null };
+      const store = FsProjectStore.open(jobDir(jobId));
+      const req = record.request;
+      const firstQuestion = req.questions[0]!.question.slice(0, 40);
+      const request = ResearchRequestSchema.parse({
+        id: `cap:${jobId}`,
+        module: "industry",
+        goal: `外部研究(${req.questions.length} 问):${firstQuestion}`,
+        scope: { summary: "嵌入式外部研究(数据分析任务)", queries: [] },
+        ...(req.budget !== undefined ? { budget: req.budget } : { budgetTier: req.tier ?? "medium" }),
+      });
+
+      {
       const { run, bundle } = await runResearch(request, opts.adapters, store, {
         runId: `run-${jobId}`,
         plan: {
@@ -256,6 +291,7 @@ export function createResearchCapability(opts: ResearchCapabilityOptions): Resea
       record.finishedAt = new Date().toISOString();
       record.result = result;
       persist(record);
+      }
     } catch (error) {
       record.status = "failed";
       record.finishedAt = new Date().toISOString();
@@ -263,7 +299,11 @@ export function createResearchCapability(opts: ResearchCapabilityOptions): Resea
         ...emptyResult(jobId, "failed", `研究执行异常:${error instanceof Error ? error.message : String(error)}`),
         error: String(error instanceof Error ? error.message : error),
       };
-      persist(record);
+      try {
+        persist(record);
+      } catch {
+        /* 落盘也失败:内存态已终态,不再上抛(F2) */
+      }
     } finally {
       controllers.delete(jobId);
     }

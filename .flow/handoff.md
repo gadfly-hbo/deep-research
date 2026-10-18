@@ -1,30 +1,32 @@
-# U1 交接卡:侧边栏层级迭代——类型→项目(自定义名称)→任务(2026-10-18)
+# E1 交接卡:嵌入式外部研究能力库(2026-10-18)
 
-> 前序:用户 UI-GATE 确认(2026-10-18,契约按推荐全采纳)。规格:.flow/{proposal,prd,ui-contract}.md;评审:review-findings{,-r1}.md(R1 FAIL→修复→R2 PASS)。
+> 前序:提案 `docs/embedded-research-capability-proposal.md`@`4499762`(§8 按推荐)+ 用户批准 → dev-flow E1(commit `a75a247`)。
 
 ## 本批交付
 
-- **三级树侧边栏**:类型(品牌/行业研究,常驻+空态+节头「＋」深链 `?module=`)→ 项目(name??goal 截断,悬停「＋任务」守卫禁用)→ 任务(name??requestId 等宽回退,状态点+状态词,mtime 倒序);版本子树与「最近运行」区移除(发布页 ?v= 不动)。
-- **命名链路**:`DisplayNameSchema`(trim 1-60)进 ResearchRequest/ResearchRun/ProjectMeta;编排器新鲜构造透传(G1-1,runNaming.test 三测);launch 预落/失败记录带名;rerun「·重跑」/followup「·追问」自动后缀(无名回退 requestId 前 8 位)。
-- **改名**:项目 PATCH `:id {name|null}`;任务 PATCH `:id/runs/:rid/name`(终态+awaiting 可改,running 409「运行进行中,处理后方可改名」;audit run-renamed);空=清除回退。
-- **树数据流(D1/G1-2/G1-3)**:GET /api/projects 附轻量 runs 摘要(id/requestId/name/status/stage/updatedAt=mtime);ProjectsProvider 档位轮询 30s↔2.5s(hasActive 自举)+409 boostAndReload。
-- **表单**:创建项目「项目名称(可选)」+模块预选;发起任务「任务名称(可选)」(followup 不显示,服务端自动命名)。
+- **核心加法(三触点)**:`RunOptions.onGatherProgress`——gather 每问收束切片回调(questions/claimQuestions/claims/evidence/snapshots/limitations/unresolved;纯被动,resume/清扫零影响)。
+- **能力库** `src/capability/`:`createResearchCapability({adapters, dataDir, library?, projectId?, maxConcurrentJobs=2})` → `{submit, status, result, cancel}`;每 job 一个内部 run(plan=questions、stopAfter gather);`assembleFindings` 单一装配两路共用(checkpoint.claimQuestions 主路径;取消=快照+verifyCitations 现算);终态同步落 job.json(跨重启可读);幂等含 failed 不重跑;FIFO 并发上限;档位×问数联动(low≤2/medium≤4/high≤6,显式 budget 免);目录硬隔离(capability-jobs 永不落 projects 路径,server 清扫/列表不触及);取消=cancelled 独立终态+已完成问 claims 级保留。
+- **情报库开关**:library+projectId 注入即沉淀(采证时刻;取消时已抓已入库);module 中性防回归断言。
 
 ## 验证状态
 
-- 441/441(71 文件,433 既有+8 新:runNaming 3+namingRoutes 5)+ typecheck + vite build 干净;两拍一致。
-- 评审 R1 FAIL(1 blocking:非当前行菜单定位锚)→ 修复(sb-row 常态锚)→ R2 PASS;non-blocking 记录不动。
+- 454/454(74 文件,441 既有+13 新)+ typecheck + build;两拍一致;评审 PASS(0 blocking)。
+- 无真实 Provider 用例(提案出界;合成驱动覆盖行为面)。
 
-## 遗留与后续批候选(评审记录)
+## 遗留更新(2026-10-18 F 批清尾)
 
-1. **S-2(建议下批首选)**:当前项目任务行全部 aria-current/高亮——应仅聚焦 run 一行(running 优先否则 mtime 第一)。
-2. 测试补强(S-8):gate confirm CAS 后 name 存活端点断言;audit renamed/run-renamed 断言;followup 无名回退断言。
-3. 交互细节:S-3 右键菜单通道;S-5 Esc 焦点还原;S-6 禁用形态改菜单项;S-7 boost 在 hasActive=false 时的独立提频;R2-1 展开态菜单落点收紧。
-4. 术语统一:「新建研究运行」页面级残留 6 处(Palette/PublishView/PlanView×3/GatherView)与侧栏「新建任务」不一致——后续批统一。
-5. 死代码清理批:T-1 归档/非归档 sb-actions 合并;T-3(.sb-run 规则/RowMenu disabled 分支/BOOST_MS);R2-2(.sb-item position 冗余)。
-6. INFO 备案:S-9 awaiting 改名与 confirm CAS 竞态窗口(PRD 未要求锁);S-10 项目改名使行浮顶(updatedAt 语义)。
+1. ~~F1 自愈清扫~~ **已清**(commit 见下):装配时扫描 jobRoot,submitted/running 孤儿标 failed(「进程中断,可换幂等键重新提交」);终态不动;装配约定=同 dataDir 单活跃实例(文档化)。
+2. ~~F2 前置段加固~~ **已清**:runJob 前置段入 try,catch 内落盘二次守护(不再有 unhandled rejection 路径);validate 增 tier 枚举白名单(submit 期报错)。~~F3 幂等窗口~~ 顺手文档化(jsdoc:窗口=进程生命周期)。
+3. 待清:F4:D2 路径校验大小写/symlink 边界;F5:verified 聚合口径细分(snapshot-missing/多证据展示);测试夹具第 4 份出现时抽 testing.ts。
+
+## 对 JuanerAI 侧的输入(阶段 1 交接时用)
+
+- 库入口:`src/capability/researchCapability.ts`(Port 签名/取消时延披露/幂等窗口见文件头 jsdoc)。
+- 装配:adapters 由宿主构造(piRuntimeModel(configs,{authorize,dataDir}) + live 搜索/抓取/解析);dataDir 必须独立于任何 projects 路径。
+- 身份锚点:本批 commit `a75a247`;固定交付物料(T4)另批。
+- 上游提案勘误待记:libraryReuse 字段为空开关(绑定机制未建);asOf 未承接(PRD 收敛)。
 
 ## 下一批前置
 
-- 工作区仅剩 research-data 运行数据(用户既有);无代码 WIP。
-- UI 契约与原型留档:.flow/ui-contract.md + .flow/ui/u1-sidebar-tree.html(下批按惯例归档);浏览器实测走查留用户复查判据(契约 §9)。
+- 工作区仅剩 research-data 运行数据;无代码 WIP。
+- 阶段 1(接入说明文档落 docs/)待用户指示;阶段 2(JuanerAI 仓接线)归宿主工程 agent。
