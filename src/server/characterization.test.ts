@@ -219,7 +219,7 @@ describe("T3 formal 端点形状", () => {
     expect(formal.status).toBe(200);
     const formalBody = await formal.json();
     expect(formalBody.version).toBe(1);
-    expect(formalBody.formats).toEqual(["html", "pptx", "json"]);
+    expect(formalBody.formats).toEqual(["html", "md", "pptx", "json"]);
 
     const jsonRes = await fetch(`${ctx.base}/api/projects/${projectId}/versions/1/formal/json`);
     expect(jsonRes.status).toBe(200);
@@ -230,6 +230,12 @@ describe("T3 formal 端点形状", () => {
     expect(htmlRes.status).toBe(200);
     expect(htmlRes.headers.get("content-type")).toBe("text/html; charset=utf-8");
     expect(htmlRes.headers.get("content-disposition")).toBe('attachment; filename="research-v1.html"');
+
+    const mdRes = await fetch(`${ctx.base}/api/projects/${projectId}/versions/1/formal/md`);
+    expect(mdRes.status).toBe(200);
+    expect(mdRes.headers.get("content-type")).toBe("text/markdown; charset=utf-8");
+    expect(mdRes.headers.get("content-disposition")).toBe('attachment; filename="research-v1.md"');
+    expect((await mdRes.text()).startsWith("# ")).toBe(true);
 
     const pptxRes = await fetch(`${ctx.base}/api/projects/${projectId}/versions/1/formal/pptx`);
     expect(pptxRes.status).toBe(200);

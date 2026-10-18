@@ -5,7 +5,7 @@ import type { Adapters } from "../adapters/types.js";
 import type { ResearchRequest, ResearchResultBundle } from "../contracts.js";
 import { runResearch, type RunOptions, type RunResult } from "../core/runResearch.js";
 import { FormalOutputSchema, type FormalOutput } from "../core/stages.js";
-import { assembleFormalReport, renderFormalHtml, renderFormalPptx } from "./formalReport.js";
+import { assembleFormalReport, renderFormalHtml, renderFormalMd, renderFormalPptx } from "./formalReport.js";
 import { splitMdSections } from "./markdown.js";
 import { FsProjectStore } from "../stores/fsStore.js";
 
@@ -219,7 +219,8 @@ export async function generateFormal(
   mkdirSync(outDir, { recursive: true });
   writeFileSync(join(outDir, "formal.json"), JSON.stringify(formal, null, 2));
   writeFileSync(join(outDir, "report.html"), renderFormalHtml(formal));
+  writeFileSync(join(outDir, "report.md"), renderFormalMd(formal));
   writeFileSync(join(outDir, "report.pptx"), Buffer.from(await renderFormalPptx(formal)));
   store.audit("formal", { version, summarySource, delivery: formal.delivery });
-  return { version, formats: ["html", "pptx", "json"], summarySource };
+  return { version, formats: ["html", "md", "pptx", "json"], summarySource };
 }

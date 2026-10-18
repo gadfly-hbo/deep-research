@@ -45,19 +45,21 @@ export const handleVersionRoutes = async (
       return true;
     }
 
-    const formalMatch = vRest.match(/^\/formal\/(html|pptx|json)$/);
+    const formalMatch = vRest.match(/^\/formal\/(html|md|pptx|json)$/);
     if (method === "GET" && formalMatch) {
       const formalDir = join(dir, "reports", `v${v}`, "formal");
       const file =
         formalMatch[1] === "html"
           ? { path: join(formalDir, "report.html"), type: "text/html; charset=utf-8", name: `research-v${v}.html` }
-          : formalMatch[1] === "pptx"
-            ? {
-                path: join(formalDir, "report.pptx"),
-                type: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-                name: `research-v${v}.pptx`,
-              }
-            : { path: join(formalDir, "formal.json"), type: "application/json; charset=utf-8", name: `research-v${v}-formal.json` };
+          : formalMatch[1] === "md"
+            ? { path: join(formalDir, "report.md"), type: "text/markdown; charset=utf-8", name: `research-v${v}.md` }
+            : formalMatch[1] === "pptx"
+              ? {
+                  path: join(formalDir, "report.pptx"),
+                  type: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                  name: `research-v${v}.pptx`,
+                }
+              : { path: join(formalDir, "formal.json"), type: "application/json; charset=utf-8", name: `research-v${v}-formal.json` };
       if (!existsSync(file.path)) {
         json(res, 404, { error: `正式报告尚未生成: v${v}(先 POST /versions/${v}/formal)` });
         return true;
@@ -76,18 +78,21 @@ export const handleVersionRoutes = async (
       const files = await buildExportFilesV2(bundle, { library: ctx.library, runId: bundle.runId });
       const formalDir = join(dir, "reports", `v${v}`, "formal");
       if (existsSync(formalDir)) {
-        files.push({
-          path: "formal/report.html",
-          content: readFileSync(join(formalDir, "report.html"), "utf8"),
-        });
-        files.push({
-          path: "formal/report.pptx",
-          content: new Uint8Array(readFileSync(join(formalDir, "report.pptx"))),
-        });
-        files.push({
-          path: "formal/formal.json",
-          content: readFileSync(join(formalDir, "formal.json"), "utf8"),
-        });
+        // 逐文件守护:旧版本已生成的 formal 目录可能缺 md(该格式后加)
+        const formalFiles: Array<{ rel: string; binary?: boolean }> = [
+          { rel: "report.html" },
+          { rel: "report.md" },
+          { rel: "report.pptx", binary: true },
+          { rel: "formal.json" },
+        ];
+        for (const f of formalFiles) {
+          const full = join(formalDir, f.rel);
+          if (!existsSync(full)) continue;
+          files.push({
+            path: `formal/${f.rel}`,
+            content: f.binary ? new Uint8Array(readFileSync(full)) : readFileSync(full, "utf8"),
+          });
+        }
       }
       const zipped = zipExport(files);
       res.writeHead(200, {

@@ -21,6 +21,8 @@ export interface FormalSection {
   purpose?: string;
   highlights: string[];
   html: string;
+  /** 章节正文原始 Markdown(不含标题行);正式报告 md 渲染用 */
+  md: string;
 }
 
 export interface FormalReport {
@@ -128,6 +130,7 @@ export function assembleFormalReport(
           purpose: os.purpose,
           highlights: highlightBySection.get(os.id) ?? os.bullets.slice(0, 4),
           html: draftSections[idx].html,
+          md: draftSections[idx].md,
         });
       } else {
         // 框架有而草稿缺:如实标注,不补写内容
@@ -137,6 +140,7 @@ export function assembleFormalReport(
           purpose: os.purpose,
           highlights: [],
           html: "<p>(草稿未覆盖本节,详见「限制与未解决问题」。)</p>",
+          md: "(草稿未覆盖本节,详见「限制与未解决问题」。)",
         });
       }
     }
@@ -148,6 +152,7 @@ export function assembleFormalReport(
       title: ds.heading ?? `补充 ${i + 1}`,
       highlights: [],
       html: ds.html,
+      md: ds.md,
     });
   });
 
@@ -312,6 +317,82 @@ export function renderFormalHtml(r: FormalReport): string {
 <script>if(location.search.indexOf("print=1")>=0){setTimeout(function(){window.print()},300)}</script>
 </body>
 </html>`;
+}
+
+/** Markdown 定稿:与精排 HTML 同构(封面元信息/摘要/正文/附录),纯文本可移植。 */
+export function renderFormalMd(r: FormalReport): string {
+  const date = new Date(r.generatedAt);
+  const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+  const out: string[] = [];
+  out.push(`# ${r.title}`);
+  if (r.subtitle) out.push(`> ${r.subtitle}`);
+  out.push("");
+  out.push(
+    [
+      `${r.moduleLabel} · v${r.version} · ${dateStr} · ${r.delivery === "limited" ? "有限交付(限制见附录)" : "完整交付"}`,
+      r.incremental ? `增量研究:自 ${r.incremental.baseRunId}(新问 ${r.incremental.newQuestions} · 复用快照 ${r.incremental.reusedSnapshots})` : "",
+      `主张 ${r.stats.claims}(已核查 ${r.stats.verified} · 推断 ${r.stats.inference} · 未验证 ${r.stats.unverified})`,
+      `来源 ${r.stats.sources}(A 级 ${r.stats.tierA} · B 级 ${r.stats.tierB} · C 级 ${r.stats.tierC})`,
+    ]
+      .filter(Boolean)
+      .join("  \n"),
+  );
+  out.push("");
+  out.push("## 摘要");
+  out.push("");
+  for (const b of r.executiveSummary) out.push(`- ${b}`);
+  out.push("");
+  if (r.sections.length > 0) {
+    out.push("## 目录");
+    out.push("");
+    r.sections.forEach((s, i) => out.push(`${i + 1}. ${s.title}`));
+    out.push("");
+  }
+  for (const s of r.sections) {
+    out.push(`## ${s.title}`);
+    if (s.purpose) {
+      out.push("");
+      out.push(`> ${s.purpose}`);
+    }
+    if (s.highlights.length) {
+      out.push("");
+      for (const h of s.highlights) out.push(`- **${h}**`);
+    }
+    if (s.md.trim()) {
+      out.push("");
+      out.push(s.md.trim());
+    }
+    out.push("");
+  }
+  out.push("## 附录:主张与核查");
+  out.push("");
+  out.push("| 主张 | 类型 | 核查 |");
+  out.push("| --- | --- | --- |");
+  for (const c of r.claimsTable) {
+    out.push(`| ${c.statement.replace(/\|/g, "\\|")} | ${KIND_LABEL[c.kind] ?? c.kind} | ${VERDICT_LABEL[c.verdict] ?? c.verdict} |`);
+  }
+  out.push("");
+  if (r.limitations.length) {
+    out.push("## 限制");
+    out.push("");
+    for (const l of r.limitations) out.push(`- ${l}`);
+    out.push("");
+  }
+  if (r.unresolved.length) {
+    out.push("## 未解决问题");
+    out.push("");
+    for (const u of r.unresolved) out.push(`- ${u}`);
+    out.push("");
+  }
+  out.push("## 来源清单");
+  out.push("");
+  r.sources.forEach((s, i) => out.push(`${i + 1}. ${s.title}${s.tier ? `[${s.tier}级]` : ""} — ${s.url}`));
+  out.push("");
+  out.push("---");
+  out.push("");
+  out.push(`独立深度研究工作台 · 证据可追溯 · run ${r.version} · ${dateStr} 生成`);
+  out.push("");
+  return out.join("\n");
 }
 
 /** PPTX:封面/摘要/分节/主张统计/限制与来源,16:9。 */

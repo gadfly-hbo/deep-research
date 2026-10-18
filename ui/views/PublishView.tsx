@@ -174,6 +174,7 @@ export function PublishView() {
                     ) : (
                       <>
                         <a className="btn btn-sm" href={`${apiBase}/${v.version}/formal/html`} target="_blank" rel="noreferrer">HTML</a>
+                        <a className="btn btn-sm" href={`${apiBase}/${v.version}/formal/md`} download>MD</a>
                         <a className="btn btn-sm" href={`${apiBase}/${v.version}/formal/html?print=1`} target="_blank" rel="noreferrer">PDF</a>
                         <a className="btn btn-sm" href={`${apiBase}/${v.version}/formal/pptx`} download>PPTX</a>
                       </>

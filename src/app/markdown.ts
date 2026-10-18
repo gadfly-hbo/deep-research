@@ -21,6 +21,8 @@ function renderInline(text: string): string {
 
 interface MdSection {
   html: string;
+  /** 章节正文原始 Markdown(不含标题行;U1+ 正式报告 md 渲染用) */
+  md: string;
   /** 章节标题(## 级),供正式报告装配对齐用 */
   heading?: string;
   level?: number;
@@ -153,7 +155,7 @@ export function splitMdSections(md: string): MdSection[] {
   const push = () => {
     const html = markdownBlocks(current.lines.join("\n")).join("\n");
     if (current.heading !== undefined || html.trim() !== "") {
-      sections.push({ html, heading: current.heading, level: current.level });
+      sections.push({ html, md: current.lines.join("\n").trim(), heading: current.heading, level: current.level });
     }
   };
   for (const line of lines) {
