@@ -63,7 +63,7 @@ export function configHashOf(input: unknown): string {
 
 export function createProject(
   dataDir: string,
-  input: { module: "brand" | "industry"; goal: string; scope: { summary: string; queries: string[] } },
+  input: { module: "brand" | "industry"; goal: string; scope: { summary: string; queries: string[] }; name?: string },
 ): string {
   const id = `p-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
   const dir = join(dataDir, "projects", id);

@@ -75,6 +75,9 @@ export const BudgetSchema = z.object({
 });
 export type Budget = z.infer<typeof BudgetSchema>;
 
+/** U1:项目/任务自定义名称(展示层专用,不参与执行语义;G1-4:trim 1-60,空=未命名/清除)。 */
+export const DisplayNameSchema = z.string().trim().min(1).max(60);
+
 export const OutlineSectionSchema = z.object({
   id: z.string().min(1),
   title: z.string().min(1),
@@ -115,6 +118,8 @@ export const ResearchRequestSchema = z.object({
     .optional(),
   /** 报告丰满度:草稿后是否跑 polish 润色 pass(缺省=true;false 可降级省成本)。 */
   polish: z.boolean().optional(),
+  /** U1:任务展示名称(树内/列表显示;缺省回退 requestId;G1-1 经 request 透传进 run 记录)。 */
+  name: DisplayNameSchema.optional(),
 });
 export type ResearchRequest = z.infer<typeof ResearchRequestSchema>;
 
@@ -196,6 +201,8 @@ export const ResearchRunSchema = z.object({
   progress: RunProgressSchema.optional(),
   /** P2-3:确认门身份(仅 awaiting-confirmation 期间存在;confirm 的 CAS 写清理)。 */
   gate: z.object({ kind: z.enum(["plan", "outline"]) }).optional(),
+  /** U1:任务展示名称(G1-1:编排器构造透传;纯展示,不参与执行/恢复语义)。 */
+  name: DisplayNameSchema.optional(),
 });
 export type ResearchRun = z.infer<typeof ResearchRunSchema>;
 

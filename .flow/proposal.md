@@ -1,44 +1,35 @@
-# Proposal: JuanerAI 接入就绪装配级最小调整(批次 J1)
+# Proposal: 侧边栏层级迭代——类型 → 项目(自定义名称)→ 任务(自定义名称,无版本层)(批次 U1)
 
-> 规格源:2026-10-16/17《deep-research 接入 JuanerAI 只读差距评估报告》v0.2/v0.3(会话内交付)+ 用户 2026-10-17 授权("授权。调用/dev-flow开发流程来完成")。基线 main @ `e3341c1`(= origin/main)。
+> 规格源:用户 2026-10-18 反馈(截图本模型不可读,规格以文字描述为准,已在会话声明):「这个侧边的逻辑有问题,正确的逻辑应该是:类型(品牌、行业研究)——类型下可创建项目——项目下可创建任务(不用版本),项目名称和任务名称可以自定义」。基线 main @ `1ac4b98`。
 
-## 来源与授权范围
+## 问题(现状,已核实代码)
 
-评估结论:现有能力可直接用于后续 JuanerAI Adapter 接线,无"必须立即实施"的插件侧改动;报告列出两项条件性插件侧最小调整与一项拟验证。用户已授权实施该最小调整,经 dev-flow 完成。
+- 侧边栏(`ui/shell/Sidebar.tsx`)现为:类型节头(仅非空显示,`Sidebar.tsx:99-112`)→ 项目行显示 **goal 文本**(`:53`,项目无名称字段)→ 可展开 **版本子树 v1/v2…**(`:56-66`)→ 运行仅出现在当前项目的「最近运行」区、以自动生成 requestId 展示(`:136-163`)。
+- 数据面:项目创建仅收 `{module, goal, scope}`(`projectService.ts:64-72`、`routes/projectsRuns.ts:221-229`),project.json 无 name;运行由 requestId(`req-<ts36>`)标识(`projectsRuns.ts:315-320`),`ResearchRequest/ResearchRun` 均无名称字段(`contracts.ts:94-231`)。
 
-**授权含**:下述 A1/A2/A3。
-**授权不含**(明确出界):live Provider 真实验证(另行授权);SDK 升级/0.5.0 立项(另行);JuanerAI 侧 Adapter/装配(归宿主仓);README 同步口径修正等可后置项;任何宿主仓文件改动。
+## 已确认决策(用户规格的直接落点)
 
-## 已确认决策
-
-1. **A1 SDK authorize 装配透传**:`PiRuntimeOptions`(`src/adapters/piRuntime.ts`)与 `ProjectSessionRuntimeOptions`(`src/server/sessionRuntime.ts`)增加可选 `authorize` 注入,透传至 pi-agent-runtime `createRuntime`/`createSessionRuntime`。缺省保持现状(允许全部,任务级预授权语义不变——评估报告已确认其符合标准 P3,独立形态无阻塞)。
-2. **A2 显式 dataDir 装配参数**:同一装配选项增加可选 `dataDir`,显式定位 `model-audit.jsonl` 与预算账本目录(现仅能经 auditPath 间接控制);缺省保持 `defaultDataDir()`(env `DEEP_RESEARCH_DATA_DIR`/cwd)行为不变。
-3. **A3 合成宿主消费者验证**:新增测试证明第三方消费者可**进程内装配**调用真实业务实现(`piRuntimeModel` 注入候选链/authorize/dataDir + `runResearch` 闭环),含负例(authorize 拒绝路径、dataDir 落位);loopback HTTP 消费形态复用既有 `src/server/server.test.ts` 集成覆盖(记录复用理由,不重复建)。
+1. **侧边栏树改为三级:类型 → 项目 → 任务**。类型 = 品牌研究/行业研究(一级节点);项目挂在所属类型下;任务(=run)挂在所属项目下;**移除版本子树**(版本功能与 `/project/:id/publish?v=` 页保持可达,只是不进导航树)。
+2. **项目名称可自定义**:创建项目表单增「项目名称」输入;`POST /api/projects` 增可选 `name`;写入 project.json 并在列表/详情透出。
+3. **任务名称可自定义**:发起运行表单增「任务名称」输入;`ResearchRequest` 增可选 `name`(zod;旧数据缺省兼容);运行记录与侧边栏/运行列表显示 `name ?? requestId`。
+4. **存量兼容**:无 name 的存量项目回退显示 goal(截断);无 name 的存量运行回退 requestId;不迁移不改写历史数据。
 
 ## 约束
 
-- **只做加法**:现有入口(CLI `run/project/spike`、`serve`、UI、launcher)行为零变化;缺省路径与现状等价。
-- A1/A2 是**通用装配选项,不是 JuanerAI 专属接缝**——README:73"本轮不建专属接缝"决策维持;本仓不建宿主 Adapter、不做输入/成果映射。
-- 不动 vendored SDK 0.4.3(`vendor/pi-agent-runtime-0.4.3.tgz` 哈希锁定)、不升级、不改业务核心/质量门禁/存储格式/情报库。
-- 不调用真实 Provider、不读凭据;验证仅合成 transport/replay 夹具。
-- 既有 426 测试 + typecheck 全程保持绿。
+- API 只做加法(可选字段),既有调用方(CLI `project create`、宿主 Adapter 文档口径)不受影响。
+- 不改 run 执行/恢复/门禁语义;不改版本与发布数据模型;不动情报库。
+- 既有 433 测试 + typecheck 全程保持绿;UI 以 typecheck + vite build 校验(仓内惯例)。
+- 视觉遵循仓内 DESIGN.md(JuanerAI Xanthil 基线);侧边栏外的 UI 不做大改。
 
-## 拒绝的替代方案
+## 出界
 
-- 重写为库单进程调用或统一 HTTP-only(评估结论:两种消费形态已存在,无需改写)。
-- 在本仓建设 JuanerAI 专属 Adapter/任务映射(归宿主仓薄 Adapter)。
-- 升级 pi-agent-runtime 0.5.0(上游无版本说明;受控升级另立项)。
-- 顺带修 README:15/21 同步口径漂移、`--datadir` 与 config.json/审计位置既有不一致等可后置项(本批仅记录,不动)。
+- 版本管理改造(查看/对比/删除)不做;多选/拖拽/搜索树不做;侧边栏以外页面的大改版不做;「最近运行」区去留属 UI-GATE 决策点,不预设。
 
-## 开放问题(交 PRD/GRILL 细化)
+## 开放问题(交 PRD/GRILL/UI-GATE)
 
-- `authorize` 的精确签名与类型对齐(以 node_modules 内 pi-agent-runtime 0.4.3 实际导出为准)。
-- A2 是否同批覆盖 `sessionRuntime` 的 auditPath 缺省(倾向:覆盖,同一装配语义)。
-- A3 负例选择范围(authorize 拒绝在 runText/runAgent 两通道的映射行为断言;audit/账本落位断言)。
-- 测试缝选择(候选:`piRuntimeModel` 显式 candidates 注入 + 临时目录,复用 P2-1 冒烟先例)。
-
-## 验收口径
-
-- 全部既有测试 + 新增测试绿,typecheck 干净。
-- 新装配选项缺省时与现状行为等价(既有测试不改动即绿为证)。
-- 新增测试以合成方式证明:宿主式消费者可注入授权策略(拒绝生效)、显式数据目录(审计/账本落位),并完成一次进程内研究闭环。
+- 类型一级节点是否常驻(含空类型、带「+」直接创建该类型项目)——现状仅非空时节头。
+- 「最近运行」区在任务进树后的去留/简化形态。
+- rerun(`runs/rerun`)与追问(`runs/followup`)生成的运行名称策略(继承原名加后缀 vs 自动生成)。
+- 树中任务显示数量与排序(全部 vs 最近 N;按时间倒序)。
+- 「新建项目」入口位置(类型节点上 vs 维持顶部按钮);新建任务的树内入口。
+- name 的长度/_trim 校验(倾向:trim 后 1-60 字符,空=未命名回退)。

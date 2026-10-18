@@ -201,9 +201,52 @@ body {
 .sb-item .sb-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sb-item .caret { flex: none; color: var(--text-3); font-size: 10px; width: 12px; }
 .sb-meta { margin-left: auto; flex: none; font-size: 10.5px; color: var(--text-3); }
-.sb-versions { margin: 0 0 4px 20px; padding: 0; list-style: none; }
-.sb-versions .sb-item { font-size: 11.5px; padding: 3px 8px; color: var(--text-2); }
-.sb-runs { margin-left: 14px; }
+/* ---- U1:三级树(类型→项目→任务) ---- */
+.sb-item { position: relative; }
+.sb-actions { margin-left: auto; flex: none; display: none; gap: 2px; align-items: center; }
+.sb-item:hover .sb-actions, .sb-item:focus-within .sb-actions { display: inline-flex; }
+.sb-act {
+  flex: none; width: 20px; height: 20px; padding: 0; border: 0; border-radius: 6px;
+  background: transparent; color: var(--text-3); font-size: 12px; line-height: 1; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.sb-act:hover:not(:disabled) { background: rgba(0, 0, 0, .08); color: var(--ink); }
+.sb-act:disabled { opacity: .35; cursor: not-allowed; }
+.sb-act:focus-visible { outline: 3px solid rgba(232, 100, 58, .28); outline-offset: 2px; }
+.sb-h-new { margin-left: auto; }
+.sb-h .sb-h-count { margin-right: 4px; }
+.sb-tasks { margin: 0 0 4px 20px; padding: 0; list-style: none; }
+.sb-task .sb-label { flex: 1 1 auto; text-align: left; }
+.sb-task-row { position: relative; }
+.sb-menu {
+  position: absolute; left: 24px; top: 100%; z-index: 30; min-width: 120px;
+  background: var(--panel, #fff); border: 1px solid var(--line, #d8d4cc); border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-float); padding: 4px; display: flex; flex-direction: column; gap: 2px;
+}
+.sb-menu button {
+  border: 0; background: transparent; text-align: left; padding: 6px 10px; border-radius: 6px;
+  font-size: 12px; color: var(--ink); cursor: pointer;
+}
+.sb-menu button:hover:not(:disabled) { background: var(--accent-soft); color: var(--accent-strong); }
+.sb-menu button:disabled { opacity: .45; cursor: not-allowed; }
+.sb-rename { padding: 2px 8px 6px 20px; display: flex; flex-direction: column; gap: 2px; }
+.sb-rename input {
+  width: 100%; font-size: 12px; padding: 4px 8px; border: 1px solid var(--accent-line);
+  border-radius: 6px; background: #fff; color: var(--ink);
+}
+.sb-rename input:focus { outline: 3px solid rgba(232, 100, 58, .28); outline-offset: 2px; }
+.sb-rename-hint { margin: 0; font-size: 10.5px; color: var(--text-3); display: flex; gap: 8px; justify-content: space-between; }
+.sb-rename-count { font-variant-numeric: tabular-nums; }
+.sb-rename-error { margin: 0; font-size: 11px; color: var(--dot-red, #c0392b); }
+.sb-empty-action { cursor: pointer; border-radius: 6px; }
+.sb-empty-action:hover, .sb-empty-action:focus-visible { background: rgba(0, 0, 0, .05); color: var(--text-2); }
+.sb-skel { display: flex; flex-direction: column; gap: 8px; padding: 6px 8px; }
+.sb-skel span { height: 14px; border-radius: 6px; background: rgba(0, 0, 0, .07); animation: sb-skel-pulse 1.2s ease-in-out infinite; }
+.sb-skel span:nth-child(2) { width: 78%; animation-delay: .15s; }
+.sb-skel span:nth-child(3) { width: 56%; animation-delay: .3s; }
+@keyframes sb-skel-pulse { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+/* REVIEW S-1/T-2 修复:项目行 li 常态即定位锚(菜单浮层落行内),与「当前项目」视觉态解耦 */
+.sb-row { position: relative; }
 .sb-run { font-size: 12px; }
 .sb-empty { color: var(--text-3); font-size: 11.5px; padding: 4px 8px; }
 

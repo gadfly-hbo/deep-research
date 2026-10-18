@@ -9,5 +9,8 @@ export const api = async <T,>(path: string, init?: RequestInit): Promise<T> => {
 export const post = <T,>(path: string, body: unknown): Promise<T> =>
   api<T>(path, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
 
+export const patch = <T,>(path: string, body: unknown): Promise<T> =>
+  api<T>(path, { method: "PATCH", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
+
 export const errMsg = (e: unknown, limit = 200): string =>
   String(e instanceof Error ? e.message : e).slice(0, limit);

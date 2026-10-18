@@ -21,6 +21,8 @@ export interface StartRunParams {
   goal: string;
   summary: string;
   attachments: string;
+  /** U1:任务展示名称(树内显示;空=未命名回退 requestId;followup 路径服务端自动命名)。 */
+  name?: string;
   /** P2-3:免 plan 起跑(缺省)走 run 内确认门;旧路径显式携带则跳过 plan 门 */
   plan?: { id: string; question: string }[];
   outline?: Outline;
@@ -242,6 +244,7 @@ export function ProjectDetailProvider({ id, children }: { id: string; children: 
             goal: p.goal,
             scope: { summary: p.summary, queries: (p.plan ?? []).map((q) => q.question) },
             attachments: p.attachments.split("\n").map((s) => s.trim()).filter(Boolean),
+            ...(p.name && p.name.trim() ? { name: p.name.trim() } : {}),
             outline: p.outline,
             incrementalOf: p.incrementalOf,
             budgetTier: p.budgetTier ?? "medium",
@@ -264,7 +267,11 @@ export function ProjectDetailProvider({ id, children }: { id: string; children: 
         void projects.reload();
         return { ok: true, rejected };
       } catch (e) {
-        toast.show(errMsg(e));
+        const message = errMsg(e);
+        toast.show(message);
+        // U1(G1-3):409 守卫竞态兜底——立即刷新列表并临时提频(树内「＋」禁用态随之收敛);
+        // 服务器守卫文案为「该项目存在进行中或待确认的运行(…),结束后才能…」
+        if (message.includes("进行中或待确认")) void projects.boostAndReload();
         return { ok: false, rejected: [] };
       }
     },

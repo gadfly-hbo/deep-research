@@ -13,7 +13,7 @@ import type { BudgetTier, Module, Outline, Run } from "../state/types";
 
 const FETCH_LABEL = FETCH_STATUS_LABEL;
 
-interface WizardForm { goal: string; summary: string; attachments: string; budgetTier: BudgetTier }
+interface WizardForm { name: string; goal: string; summary: string; attachments: string; budgetTier: BudgetTier }
 interface BaseRunRef { runId: string; requestId: string }
 
 /** gate GET 契约(R1-5):payload 为 PlanOutput | ReportOutline,context 为请求语境。 */
@@ -348,7 +348,7 @@ export function PlanView() {
   const meta = p.detail?.meta;
 
   const [wizard, setWizard] = useState(false);
-  const [form, setForm] = useState<WizardForm>({ goal: "", summary: "", attachments: "", budgetTier: "medium" as BudgetTier });
+  const [form, setForm] = useState<WizardForm>({ name: "", goal: "", summary: "", attachments: "", budgetTier: "medium" as BudgetTier });
   const [busy, setBusy] = useState("");
   // plan 门确认后等待框架门(C1 中间态);run 不再占用时复位
   const [awaitingNextGate, setAwaitingNextGate] = useState(false);
@@ -372,6 +372,7 @@ export function PlanView() {
     if (!meta) return;
     setBaseRun(null);
     setForm({
+      name: "",
       goal: prefill?.goal ?? meta.goal,
       summary: prefill?.summary ?? meta.scope.summary,
       attachments: "",
@@ -399,7 +400,7 @@ export function PlanView() {
       const target = p.detail.runs.find((r) => r.id === fu && (r.status === "published" || r.status === "limited"));
       if (target) {
         setBaseRun({ runId: target.id, requestId: target.requestId });
-        setForm({ goal: `追问:${meta.goal}`, summary: meta.scope.summary, attachments: "", budgetTier: "medium" });
+        setForm({ name: "", goal: `追问:${meta.goal}`, summary: meta.scope.summary, attachments: "", budgetTier: "medium" });
         setWizard(true);
       }
     }
@@ -421,6 +422,8 @@ export function PlanView() {
       goal: form.goal,
       summary: form.summary,
       attachments: form.attachments,
+      // U1:追问(followup)路径服务端自动命名,不传;全新任务传自定义名称
+      ...(baseRun ? {} : { name: form.name.trim() || undefined }),
       selectedAssets: selected,
       incrementalOf: baseRun ?? undefined,
       budgetTier: form.budgetTier,
@@ -492,6 +495,17 @@ export function PlanView() {
             <span className="fld-label">研究目标</span>
             <input value={form.goal} onChange={(e) => setForm({ ...form, goal: e.target.value })} placeholder="研究目标" />
           </label>
+          {!baseRun && (
+            <label className="fld">
+              <span className="fld-label">任务名称(可选)</span>
+              <input
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                placeholder="如:Q4 渠道摸底;留空以运行编号为名"
+                maxLength={60}
+              />
+            </label>
+          )}
           <label className="fld">
             <span className="fld-label">范围说明</span>
             <input value={form.summary} onChange={(e) => setForm({ ...form, summary: e.target.value })} placeholder="对象、时间、单位等边界" />

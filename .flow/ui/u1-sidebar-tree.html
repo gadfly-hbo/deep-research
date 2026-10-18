@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1280">
+<title>U1 原型 · 侧边栏三级树(类型 → 项目 → 任务)</title>
+<!-- 单文件原型:内联 CSS/JS,零依赖,零网络请求。数据为合成样例(.flow/ui-contract.md §7)。
+     视觉 token 逐值取自 ui/styles.css :root 与 sb-* 段;右下「原型演示控制」为演示脚手架,非产品 UI。 -->
+<style>
+:root{
+  --bg:#eceae5; --shell:#f7f6f3; --surface:#ffffff; --surface-2:#f4f3ef; --soft:#f7f6f2;
+  --border:#e5e2dc; --border-strong:#d8d3cb;
+  --text:#1d2027; --text-2:#6f7480; --text-3:#8a8076;
+  --accent:#e8643a; --accent-strong:#bf4927; --accent-soft:#fff1e8; --accent-line:#e8c1b4;
+  --navy:#263442; --navy-soft:#edf3f5; --navy-ink:#496271;
+  --ok:#176247; --fail:#952f2f;
+  --dot-amber:#d28c2d; --dot-green:#3e9a73; --dot-gray:#aaaaaa; --dot-red:#c84c4c;
+  --radius:14px; --radius-sm:8px; --side:248px; --insp:300px;
+  --font:Inter, ui-sans-serif, -apple-system, "SF Pro Text", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --mono:"SF Mono", ui-monospace, Menlo, Consolas, monospace;
+  --shadow-card:0 3px 12px rgba(40,36,30,.04);
+  --shadow-float:0 18px 48px rgba(35,35,30,.12);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--font);font-size:13px;color:var(--text);background:var(--bg);padding:22px 16px 130px}
+:focus-visible{outline:3px solid rgba(232,100,58,.28);outline-offset:2px}
+button{font-family:var(--font)}
+.mono{font-family:var(--mono)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ---------- 整窗 mock ---------- */
+.proto-page{display:flex;justify-content:center}
+.proto-window{width:min(1440px,100%);height:min(920px,calc(100vh - 44px));min-height:640px;background:var(--shell);border:1px solid var(--border-strong);border-radius:var(--radius);box-shadow:var(--shadow-float);display:flex;flex-direction:column;overflow:hidden}
+.topbar{height:64px;flex:none;display:flex;align-items:center;gap:14px;padding:0 18px;border-bottom:1px solid var(--border);background:var(--shell)}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand-logo{width:36px;height:36px;flex:none;border-radius:8px;border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent-strong);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
+.brand-text{display:flex;flex-direction:column;line-height:1.25}
+.brand-text strong{font-size:13px}
+.brand-text .slogan{font-size:10px;color:var(--text-3)}
+.brand-sep{width:1px;height:22px;background:var(--border)}
+.product-name{font-size:12px;color:var(--text-2);white-space:nowrap}
+.boundary-badge{margin-left:auto;padding:5px 10px;border:1px solid var(--accent-line);border-radius:999px;color:var(--accent-strong);background:var(--accent-soft);font-size:11px;white-space:nowrap;cursor:help}
+.proto-body{flex:1;display:flex;min-height:0}
+.proto-main{flex:1;min-width:0;background:var(--bg);overflow:auto;padding:16px 20px 28px}
+.proto-insp{width:var(--insp);flex:none;background:var(--surface);border-left:1px solid var(--border);display:flex;justify-content:center;padding-top:28px;color:var(--text-3);font-size:11px}
+.statusbar{flex:none;display:flex;align-items:center;gap:14px;flex-wrap:wrap;border-top:1px solid var(--border);background:var(--surface-2);padding:5px 14px;font-size:11.5px;color:var(--text-2)}
+.statusbar .sb-meta{margin-left:auto;color:var(--text-3)}
+@media (max-width:1250px){:root{--side:224px;--insp:272px}}
+@media (max-width:1100px){.proto-insp{display:none}}
+
+/* ---------- 左侧边栏(形态语言循 ui/styles.css sb-* 段) ---------- */
+.sidebar{width:var(--side);flex:none;background:var(--surface-2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;padding:12px 8px 10px}
+.sb-top{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.sb-search{display:flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:5px 9px;color:var(--text-2);font-size:12.5px;cursor:pointer;text-align:left;width:100%}
+.sb-search kbd{margin-left:auto;font-size:10.5px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;padding:0 4px;color:var(--text-3)}
+.sb-new{background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);padding:6px 9px;font-size:12.5px;font-weight:600;cursor:pointer;text-align:left;width:100%}
+.sb-new:hover{background:var(--accent-strong)}
+.sb-new:disabled{opacity:.45;cursor:not-allowed}
+.sb-section{margin-bottom:14px}
+.sb-h{font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.04em;margin:0 4px 4px;display:flex;align-items:center;gap:6px}
+.sb-h .sb-h-count{margin-left:auto;text-transform:none;letter-spacing:0;font-weight:500;font-variant-numeric:tabular-nums}
+.sb-plus{flex:none;width:16px;height:16px;line-height:13px;border:1px solid var(--border);background:var(--surface);color:var(--text-2);border-radius:4px;font-size:11px;cursor:pointer;padding:0}
+.sb-plus:hover{border-color:var(--accent-line);color:var(--accent-strong);background:var(--accent-soft)}
+.sb-list{list-style:none;margin:0;padding:0}
+.sb-item{display:flex;align-items:center;gap:6px;width:100%;background:none;border:none;border-radius:var(--radius-sm);padding:5px 8px;font-size:12.5px;color:var(--text);cursor:pointer;text-align:left;line-height:1.4}
+.sb-item:hover{background:rgba(0,0,0,.05)}
+.sb-item.active{background:var(--accent-soft);color:var(--accent-strong);font-weight:600}
+.sb-item .sb-label{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sb-item .caret{flex:none;color:var(--text-3);font-size:10px;width:12px;cursor:pointer}
+.sb-meta{margin-left:auto;flex:none;font-size:10.5px;color:var(--text-3)}
+.sb-empty{color:var(--text-3);font-size:11.5px;padding:4px 8px;margin:0}
+.sb-empty .sb-link{background:none;border:none;padding:0;color:var(--accent-strong);font-size:11.5px;cursor:pointer;font-weight:600}
+.sb-foot{margin-top:auto;padding:8px 4px 0;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:8px}
+.sb-note{border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);padding:8px 10px;color:var(--text-2);font-size:11px;line-height:1.5}
+.sb-note strong{display:block;color:var(--accent-strong);font-size:11px;margin-bottom:2px}
+
+/* 行结构:主区 + 悬停动作区(focus-within 同步显现,键盘可达) */
+.sb-row{position:relative}
+.sb-actions{margin-left:auto;flex:none;display:none;gap:2px;align-items:center}
+.sb-row:hover .sb-actions,.sb-row:focus-within .sb-actions{display:inline-flex}
+.sb-act{width:18px;height:18px;flex:none;border:1px solid transparent;background:var(--surface);border-radius:4px;color:var(--text-2);font-size:11px;line-height:1;cursor:pointer;padding:0}
+.sb-act:hover:not(:disabled){color:var(--accent-strong);background:var(--accent-soft);border-color:var(--accent-line)}
+.sb-act:disabled{opacity:.4;cursor:not-allowed}
+
+/* 任务子树(替代已移除的 sb-versions / sb-runs 区) */
+.sb-tasks{margin:0 0 4px 18px;padding:0;list-style:none}
+.sb-tasks .sb-item{font-size:11.5px;padding:3px 8px;color:var(--text-2)}
+.sb-tasks .sb-item.active{color:var(--accent-strong)}
+.sb-tasks .sb-label.mono{font-size:10.5px}
+
+/* 状态点四色(点 + 状态词双通道,点 aria-hidden) */
+.dot{width:8px;height:8px;border-radius:50%;flex:none}
+.dot-run{background:var(--dot-amber)}
+.dot-ok{background:var(--dot-green)}
+.dot-fail{background:var(--dot-red)}
+.dot-warn{background:var(--dot-amber)}
+.dot-cancel{background:var(--dot-gray)}
+.dot-amber{background:var(--dot-amber)}
+
+/* 首载骨架 */
+.skel{height:22px;border-radius:6px;margin:4px 8px;background:linear-gradient(90deg,var(--soft),var(--surface-2),var(--soft));background-size:200% 100%;animation:sk 1.2s infinite}
+@keyframes sk{from{background-position:200% 0}to{background-position:-200% 0}}
+
+/* 内联改名(S9) */
+.sb-row.editing .sb-main{display:none}
+.sb-row.editing .sb-actions{display:inline-flex;visibility:hidden}
+.sb-editrow{display:flex;align-items:center;gap:6px;padding:2px 4px}
+#sbEditInput{flex:1;min-width:0;font-size:12px;font-family:var(--font);border:1px solid var(--accent-line);border-radius:6px;padding:3px 6px;background:var(--surface);color:var(--text)}
+.sb-edit-count{flex:none;font-size:10px;color:var(--text-3);font-variant-numeric:tabular-nums}
+.sb-edit-hint{font-size:10px;color:var(--text-3);padding:0 4px 2px}
+.sb-edit-err{font-size:10.5px;color:var(--fail);padding:0 4px 2px}
+
+/* 悬停/右键菜单(D4) */
+.sb-menu{position:fixed;z-index:80;min-width:132px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:var(--shadow-float);padding:4px;display:none}
+.sb-menu.open{display:block}
+.sb-menu button{display:block;width:100%;text-align:left;background:none;border:none;border-radius:6px;padding:6px 8px;font-size:12.5px;color:var(--text);cursor:pointer}
+.sb-menu button:hover:not(:disabled){background:var(--accent-soft);color:var(--accent-strong)}
+.sb-menu button:disabled{opacity:.45;cursor:not-allowed}
+
+/* Toast(底部 navy 胶囊,循 styles.css) */
+.toast{position:fixed;left:50%;bottom:44px;transform:translateX(-50%);background:var(--navy);color:#f7f6f3;font-size:12.5px;border-radius:999px;padding:8px 16px;z-index:100;box-shadow:var(--shadow-float);max-width:min(560px,90vw);text-align:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+
+/* 主区落点 stub(CP 落点示意,目标页细节不属本批) */
+.route-line{font-family:var(--mono);font-size:11px;color:var(--text-3);margin:0 auto 10px;max-width:560px}
+.stub{max-width:560px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-card);padding:16px 18px;margin:0 auto}
+.stub h2{margin:0 0 6px;font-size:14px}
+.stub p{color:var(--text-2);font-size:12px;line-height:1.7;margin:6px 0}
+.stub .note{font-size:11px;color:var(--text-3);border-top:1px dashed var(--border);margin-top:12px;padding-top:8px}
+.fld{margin:10px 0}
+.fld-label{display:block;font-size:11px;color:var(--text-3);margin:0 0 4px}
+.fld input,.fld select,.fld textarea{width:100%;font-family:var(--font);font-size:12.5px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);padding:6px 9px;background:var(--surface);color:var(--text)}
+.fld .radio-row{display:flex;gap:14px;font-size:12.5px}
+.btn{background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);padding:6px 12px;font-size:12.5px;font-weight:600;cursor:pointer;margin-top:8px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.kv{font-size:12px;color:var(--text-2);line-height:1.8}
+.kv b{color:var(--text);font-weight:600}
+
+/* 原型演示控制(脚手架,非产品 UI) */
+.proto-controls{position:fixed;right:16px;bottom:16px;z-index:90;width:268px;background:var(--surface);border:1px solid var(--border-strong);border-radius:var(--radius);box-shadow:var(--shadow-float);padding:10px 12px;font-size:11.5px;color:var(--text-2)}
+.proto-controls h3{margin:0 0 6px;font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:.04em}
+.proto-controls button{display:block;width:100%;margin:4px 0;padding:5px 8px;border:1px solid var(--border);background:var(--surface-2);border-radius:6px;font-size:11.5px;color:var(--text);cursor:pointer;text-align:left}
+.proto-controls button:hover{border-color:var(--accent-line);color:var(--accent-strong)}
+.proto-controls button.armed{border-color:var(--accent);color:var(--accent-strong);background:var(--accent-soft)}
+.proto-controls .pc-note{margin:6px 0 0;font-size:10.5px;color:var(--text-3);line-height:1.5}
+</style>
+</head>
+<body>
+
+<div class="proto-page">
+  <div class="proto-window">
+    <header class="topbar">
+      <div class="brand" aria-label="JuanerAI,持续做出更好的决策;独立深度研究工作台">
+        <span class="brand-logo" aria-hidden="true" title="原型占位:真实品牌图为契约冻结资源,不以位图内嵌(见 ui-contract.md §7)">JA</span>
+        <span class="brand-text"><strong>JuanerAI</strong><span class="slogan">持续做出更好的决策</span></span>
+        <span class="brand-sep" aria-hidden="true"></span>
+        <span class="product-name">独立深度研究工作台</span>
+      </div>
+      <span class="boundary-badge" title="研究服务仅在本机运行(127.0.0.1),不连接 JuanerAI;采证与模型调用经「设置」中配置的外部 API 发起,外发内容在运行记录可核查">● 本机服务 · 127.0.0.1</span>
+    </header>
+
+    <div class="proto-body">
+      <nav class="sidebar" id="sidebar" aria-label="项目与任务导航">
+        <div class="sb-top">
+          <button class="sb-search" type="button" data-route="/?palette" data-title="命令面板 ⌘K">
+            <span aria-hidden="true">⌕</span> 搜索项目与命令 <kbd>⌘K</kbd>
+          </button>
+          <button class="sb-item" type="button" data-route="/library" data-title="外部情报库">
+            <span aria-hidden="true">▣</span> 外部情报库
+          </button>
+          <button class="sb-new" type="button" id="topNew">＋ 新建任务</button>
+        </div>
+        <div id="sbTree"></div>
+        <div class="sb-foot">
+          <button class="sb-item" type="button" data-route="/settings" data-title="设置">
+            <span aria-hidden="true">⚙</span> 设置
+          </button>
+          <div class="sb-note">
+            <strong>执行完成 ≠ 证据充分</strong>
+            资料不足或预算到达上限时有限交付并披露限制,不编造完整答案。
+          </div>
+        </div>
+      </nav>
+
+      <main class="proto-main" id="protoMain" aria-label="主工作区(示意)"></main>
+      <aside class="proto-insp" aria-hidden="true">Inspector(示意 · 本批不涉及)</aside>
+    </div>
+
+    <footer class="statusbar">
+      <span>本机服务 · 127.0.0.1</span>
+      <span id="stProj">项目:—</span>
+      <span id="stStage">阶段:—</span>
+      <span id="stRun">运行:空闲</span>
+      <span class="mono">搜索 12/40 · 抓取 30/80</span>
+      <span class="sb-meta">执行完成 ≠ 证据充分</span>
+    </footer>
+  </div>
+</div>
+
+<div class="sb-menu" id="sbMenu" role="menu" aria-label="行菜单"></div>
+<div class="toast" id="toast" role="status"></div>
+
+<aside class="proto-controls" aria-label="原型演示控制(非产品 UI)">
+  <h3>原型演示控制(非产品 UI)</h3>
+  <button type="button" id="btnSkel">① 首载骨架:开 / 关</button>
+  <button type="button" id="btnEmpty">② 行业研究:示例数据 ↔ 空类型态</button>
+  <button type="button" id="btnRaceNew">③ 装填「＋ 新建任务」409 竞态(一次)</button>
+  <button type="button" id="btnRaceRename">④ 装填「改名」409 竞态(一次)</button>
+  <button type="button" id="btnReset">⑤ 重置演示数据</button>
+  <p class="pc-note">数据为合成样例;不接真实 API。轮询档位(30s 常驻 / 任一 running·待确认提频 2.5s)与 reload 为契约行为,原型以竞态注入演示。走查路径见 ui-contract.md §2。</p>
+</aside>
+
+<script>
+"use strict";
+/* ---------- 常量(文案全部溯源 ui-contract.md §4) ---------- */
+const GUARD = "运行进行中或待确认,处理后方可再次发起";      /* 现状守卫原句(Sidebar.tsx:89)/ D6 / G1-3 */
+const RENAME_GUARD = "运行进行中,处理后方可改名";            /* G1-5 文案循守卫先例(ui-contract.md §8-diff3) */
+const TASK_TITLE = "查看该项目当前调查流";                    /* D7 原文 */
+const EMPTY_TYPE = "暂无项目,";                              /* D7 原文「暂无项目,+ 新建」 */
+const EMPTY_TASKS = "尚无任务;悬停项目行「+」发起。";
+const LEN_MAX = 60;                                            /* G1-4:trim 1-60 */
+const MODULES = [["brand","品牌研究"],["industry","行业研究"]];
+const STATUS_LABEL = {running:"进行中","awaiting-confirmation":"待确认",published:"已发布",limited:"有限交付",failed:"已失败",cancelled:"已取消"};
+const STATUS_DOT  = {running:"dot-run","awaiting-confirmation":"dot-amber",published:"dot-ok",limited:"dot-warn",failed:"dot-fail",cancelled:"dot-cancel"};
+const STAGE_LABEL = {plan:"计划",gather:"采证",analysis:"分析",draft:"草稿",review:"评审",publish:"发布"};
+const BUDGETS = [["low","低·快速"],["medium","中·标准"],["high","高·深度"]];
+
+/* ---------- 合成数据(ui-contract.md §7:真实数据不可访问) ---------- */
+const NOW = Date.now();
+function freshProjects(){ return [
+  { id:"p1", module:"brand", name:"安克品牌研究", status:"active",
+    goal:"研究 Anker 的品牌打法",
+    runs:[
+      { id:"r1", requestId:"req-l0x8q3v7", name:"Q4 渠道摸底",      status:"published", stage:"publish",  mtime:NOW-16*3600e3 },
+      { id:"r2", requestId:"req-l3m2k9d4", name:"竞品定价拆解·重跑", status:"limited",   stage:"publish",  mtime:NOW-50*3600e3 },
+      { id:"r3", requestId:"req-k2f9d0t2", name:null,                status:"failed",    stage:"analysis", mtime:NOW-74*3600e3 },
+    ]},
+  { id:"p2", module:"brand", name:null, status:"active",
+    goal:"研究 Anker 在欧美市场的品牌定位与定价策略,输出可执行的定位陈述与建议价格带,覆盖 Amazon、独立站与线下渠道",
+    runs:[
+      { id:"r4", requestId:"req-m8c1z5p0", name:"进阶问题清单·追问", status:"awaiting-confirmation", stage:"plan", mtime:NOW-2*3600e3 },
+    ]},
+  { id:"p3", module:"industry", name:"储能行业摸底", status:"active",
+    goal:"梳理户用储能产业链与主要玩家",
+    runs:[
+      { id:"r5", requestId:"req-n4b7x2q6", name:"产业链地图梳理", status:"running", stage:"gather", mtime:NOW-0.5*3600e3 },
+    ]},
+  { id:"p5", module:"industry", name:"欧洲户储需求追踪", status:"active",
+    goal:"跟踪欧洲户储需求与政策变化",
+    runs:[] },
+  { id:"p4", module:"brand", name:"旧·户外电源调研", status:"archived",
+    goal:"旧项目(已归档)",
+    runs:[ { id:"r9", requestId:"req-a1b2c3d4", name:"初版摸底", status:"cancelled", stage:"gather", mtime:NOW-90*24*3600e3 } ]},
+];}
+
+let state = initialState();
+function initialState(){ return {
+  projects: freshProjects(),
+  loading:false, industryEmpty:false,
+  raceNewTask:false, raceRename:false,          /* G1-3 / G1-5 竞态演示(一次性) */
+  expanded:{ p1:true, p3:true },
+  archivedOpen:false,
+  current:{ pid:"p1", rid:"r1" },
+  view:{ kind:"home" },
+  editing:null, refocus:null,
+};}
+
+/* ---------- 纯函数 ---------- */
+const $id = (s)=>document.getElementById(s);
+const esc = (s)=>String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const findP = (pid)=>state.projects.find(p=>p.id===pid);
+const findR = (p,rid)=>p.runs.find(r=>r.id===rid);
+const runsSorted = (p)=>p.runs.slice().sort((a,b)=>b.mtime-a.mtime);   /* G1-2:mtime 倒序 */
+const labelOf = (p)=>p.name ?? p.goal;                                  /* D3 回退 */
+const runLabel = (r)=>r.name ?? r.requestId;                            /* D2 回退 */
+const canNewTask = (p)=>!p.runs.some(r=>r.status==="running"||r.status==="awaiting-confirmation"); /* D6 守卫 */
+const canRenameRun = (r)=>r.status!=="running";                          /* G1-5:终态 + 待确认可改 */
+const focusRunOf = (p)=>p.runs.find(r=>r.status==="running") || runsSorted(p)[0] || null; /* D7:running 优先否则最新 */
+
+/* ---------- 渲染 ---------- */
+function render(){
+  const sidebar=$id("sidebar"), st=sidebar.scrollTop;
+  /* 键盘可达性(契约 §3):重渲染前记录焦点元素,渲染后回焦,避免 →/← 展开收起后焦点丢失 */
+  let fk=null;
+  const ae=document.activeElement;
+  if(ae&&ae.closest&&ae.closest("#sbTree")){
+    const row=ae.closest(".sb-row");
+    if(ae.classList.contains("sb-main")&&row) fk={main:true,kind:row.dataset.kind,pid:row.dataset.pid,rid:row.dataset.rid};
+    else if(ae.dataset&&ae.dataset.act) fk={act:ae.dataset.act,pid:ae.dataset.pid,rid:ae.dataset.rid,module:ae.dataset.module};
+  }
+  closeMenu(false);
+  renderTopNew();
+  $id("sbTree").innerHTML = state.loading ? skeletonHtml() : treeHtml();
+  $id("sbTree").setAttribute("aria-busy", state.loading ? "true":"false");
+  renderMain(); renderStatusbar();
+  sidebar.scrollTop=st;
+  if(state.editing){
+    const inp=$id("sbEditInput");
+    if(inp){ inp.focus(); const n=inp.value.length; inp.setSelectionRange(n,n); }
+  } else if(state.refocus){
+    const f=state.refocus; state.refocus=null;
+    const row=document.querySelector(`.sb-row[data-pid="${f.pid}"]${f.rid?`[data-rid="${f.rid}"]`:""}`);
+    const btn=row && (row.querySelector('[data-act="menu"]')||row.querySelector(".sb-main"));
+    if(btn) btn.focus();
+  } else if(fk&&!state.loading){
+    let sel=null;
+    if(fk.main) sel=`.sb-row[data-kind="${fk.kind||""}"][data-pid="${fk.pid}"]${fk.rid?`[data-rid="${fk.rid}"]`:""} > .sb-main`;
+    else if(fk.act==="type-new") sel=`[data-act="type-new"][data-module="${fk.module}"]`;
+    else if(fk.act) sel=`[data-act="${fk.act}"]${fk.pid?`[data-pid="${fk.pid}"]`:""}${fk.rid?`[data-rid="${fk.rid}"]`:""}`;
+    const el=sel&&document.querySelector(sel);
+    if(el) el.focus({preventScroll:true});
+  }
+}
+
+function renderTopNew(){
+  const btn=$id("topNew"), cur=findP(state.current.pid);
+  if(cur){                                             /* G1-7 双入口:现状条件(有当前项目) */
+    const guard=!canNewTask(cur);
+    btn.textContent="＋ 新建任务";                     /* 术语对齐 PRD(替换「＋ 新建研究运行」) */
+    btn.disabled=guard;
+    btn.title=guard?GUARD:"";
+    btn.onclick=()=>{ if(guard) return; state.view={kind:"newTask",pid:cur.id}; state.expanded[cur.id]=true; render(); };
+  } else {
+    btn.textContent="＋ 新建项目";
+    btn.disabled=false; btn.title="";
+    btn.onclick=()=>{ state.view={kind:"newProject",module:"brand"}; render(); };
+  }
+}
+
+function skeletonHtml(){
+  return `<div class="sb-section" aria-busy="true">
+    <h2 class="sb-h">品牌研究</h2><ul class="sb-list"><li class="skel"></li><li class="skel"></li><li class="skel"></li></ul>
+    <span class="sr-only">加载中</span>
+  </div>
+  <div class="sb-section"><h2 class="sb-h">行业研究</h2><ul class="sb-list"><li class="skel"></li><li class="skel"></li></ul></div>`;
+}
+
+function treeHtml(){
+  let html="";
+  const active=state.projects.filter(p=>p.status!=="archived");
+  const archived=state.projects.filter(p=>p.status==="archived");
+  for(const [mod,label] of MODULES){
+    let items=active.filter(p=>p.module===mod);
+    if(mod==="industry" && state.industryEmpty) items=[];   /* D7 空类型态演示 */
+    html+=`<div class="sb-section">
+      <h2 class="sb-h">${label}<span class="sb-h-count">${items.length}</span>
+        <button class="sb-plus" type="button" data-act="type-new" data-module="${mod}" title="新建${label}项目" aria-label="新建${label}项目">＋</button>
+      </h2>`;
+    if(items.length===0){
+      html+=`<p class="sb-empty">${EMPTY_TYPE}<button class="sb-link" type="button" data-act="type-new" data-module="${mod}">+ 新建</button></p>`;
+    } else {
+      html+=`<ul class="sb-list" role="list">${items.map(projectRow).join("")}</ul>`;
+    }
+    html+=`</div>`;
+  }
+  if(archived.length>0){                                    /* G1-7:无子树 / 无「+」/ 无 caret */
+    html+=`<div class="sb-section"><h2 class="sb-h">
+      <button class="sb-item" type="button" style="padding:0;width:auto" data-act="arch-toggle" aria-expanded="${state.archivedOpen}">
+        <span class="caret" aria-hidden="true">${state.archivedOpen?"▾":"▸"}</span>
+        已归档<span class="sb-meta">${archived.length}</span>
+      </button></h2>`;
+    if(state.archivedOpen){
+      html+=`<ul class="sb-list" role="list">${archived.map(p=>`
+        <li class="sb-row" data-kind="project" data-pid="${p.id}">
+          <button class="sb-item sb-main${state.current.pid===p.id?" active":""}" type="button" data-act="open-project" data-pid="${p.id}" aria-current="${state.current.pid===p.id?"true":"false"}">
+            <span class="sb-label" title="${esc(labelOf(p))}">${esc(labelOf(p))}</span>
+          </button>
+          <span class="sb-actions"><button class="sb-act" type="button" data-act="menu" data-kind="project" data-pid="${p.id}" aria-haspopup="menu" aria-expanded="false" aria-label="更多操作">⋯</button></span>
+        </li>`).join("")}</ul>`;
+    }
+    html+=`</div>`;
+  }
+  return html;
+}
+
+function projectRow(p){
+  const open=state.expanded[p.id]===true;
+  const guard=!canNewTask(p);
+  const title=guard?GUARD:"新建任务";
+  if(state.editing && state.editing.kind==="project" && state.editing.pid===p.id) return editRow("project",p,null);
+  return `<li class="sb-row" data-kind="project" data-pid="${p.id}">
+    <div class="sb-item sb-main${state.current.pid===p.id?" active":""}" role="button" tabindex="0"
+         data-act="open-project" data-pid="${p.id}" aria-expanded="${open}" aria-current="${state.current.pid===p.id?"true":"false"}">
+      <span class="caret" aria-hidden="true">${open?"▾":"▸"}</span>
+      <span class="sb-label" title="${esc(labelOf(p))}">${esc(labelOf(p))}</span>
+    </div>
+    <span class="sb-actions">
+      <button class="sb-act" type="button" data-act="new-task" data-pid="${p.id}" title="${title}" aria-label="新建任务" ${guard?"disabled":""}>＋</button>
+      <button class="sb-act" type="button" data-act="menu" data-kind="project" data-pid="${p.id}" aria-haspopup="menu" aria-expanded="false" aria-label="更多操作">⋯</button>
+    </span>
+    ${open?tasksHtml(p):""}
+  </li>`;
+}
+
+function tasksHtml(p){
+  if(p.runs.length===0) return `<ul class="sb-tasks" role="list" aria-label="任务"><li><p class="sb-empty">${EMPTY_TASKS}</p></li></ul>`;
+  return `<ul class="sb-tasks" role="list" aria-label="${esc(labelOf(p))} 的任务">${
+    runsSorted(p).map(r=>{
+      if(state.editing && state.editing.kind==="run" && state.editing.rid===r.id) return editRow("run",p,r);
+      const act=state.current.pid===p.id && state.current.rid===r.id;
+      return `<li class="sb-row" data-kind="run" data-pid="${p.id}" data-rid="${r.id}">
+        <button class="sb-item sb-main sb-run${act?" active":""}" type="button" data-act="open-run" data-pid="${p.id}" data-rid="${r.id}"
+                title="${TASK_TITLE}" aria-current="${act?"true":"false"}">
+          <span class="dot ${STATUS_DOT[r.status]}" aria-hidden="true"></span>
+          <span class="sb-label${r.name?"":" mono"}">${esc(runLabel(r))}</span>
+          <span class="sb-meta">${STATUS_LABEL[r.status]}</span>
+        </button>
+        <span class="sb-actions"><button class="sb-act" type="button" data-act="menu" data-kind="run" data-pid="${p.id}" data-rid="${r.id}" aria-haspopup="menu" aria-expanded="false" aria-label="更多操作">⋯</button></span>
+      </li>`;
+    }).join("")}</ul>`;
+}
+
+function editRow(kind,p,r){
+  const v=kind==="project" ? (p.name??"") : (r.name??"");
+  const ph=kind==="project"?"项目名称":"任务名称";
+  return `<li class="sb-row editing" data-kind="${kind}" data-pid="${p.id}"${r?` data-rid="${r.id}"`:""}>
+    <div class="sb-editrow">
+      <input id="sbEditInput" value="${esc(v)}" placeholder="${ph}" aria-label="重命名${kind==="project"?"项目":"任务"}" autocomplete="off">
+      <span class="sb-edit-count" id="sbEditCount">${v.trim().length} / ${LEN_MAX}</span>
+    </div>
+    <div class="sb-edit-hint">Enter 保存 · Esc 取消 · 留空恢复默认</div>
+    <div class="sb-edit-err" id="sbEditErr" hidden>名称不能超过 ${LEN_MAX} 字</div>
+  </li>`;
+}
+
+/* ---------- 主区落点 stub(CP 溯源见 ui-contract.md §2) ---------- */
+function renderMain(){
+  const v=state.view, el=$id("protoMain");
+  let route="", body="";
+  if(v.kind==="home"){
+    const p=findP(v.pid??state.current.pid)||findP(state.current.pid);
+    route=`模拟导航:/project/${p.id}`;
+    const fr=focusRunOf(p);
+    body=`<h2>${esc(labelOf(p))}${p.name?"":'<span style="font-size:11px;color:var(--text-3)">(未命名 · 显示研究目标)</span>'}</h2>
+      <p class="kv">类型 <b>${p.module==="brand"?"品牌研究":"行业研究"}</b> · 任务 <b>${p.runs.length}</b>${p.status==="archived"?" · <b>已归档</b>":""}</p>
+      <p>展开项目行查看任务子树(mtime 倒序);任务行点击导航到本项目 gather 视图并聚焦运行——<b>running 优先,否则最新</b>(D7)。当前将聚焦:${fr?esc(runLabel(fr))+"("+STATUS_LABEL[fr.status]+")":"无任务"}。</p>`;
+  }
+  else if(v.kind==="newProject"){
+    route=`模拟导航:/?new=1&module=${v.module}`;
+    body=`<h2>新建项目</h2>
+      <div class="fld"><span class="fld-label">类型(节头「＋」已预选)</span>
+        <div class="radio-row">${MODULES.map(([m,l])=>`<label><input type="radio" name="np-mod" value="${m}" ${m===v.module?"checked":""}> ${l}</label>`).join("")}</div></div>
+      <div class="fld"><label class="fld-label" for="np-name">项目名称</label><input id="np-name" placeholder="项目名称"></div>
+      <div class="fld"><label class="fld-label" for="np-goal">研究目标</label><textarea id="np-goal" rows="3"></textarea></div>
+      <button class="btn" type="button" disabled>创建项目</button>`;
+  }
+  else if(v.kind==="newTask"){
+    const p=findP(v.pid);
+    route=`模拟导航:/project/${p.id}/plan?new=1`;
+    body=`<h2>发起任务 · ${esc(labelOf(p))}</h2>
+      <div class="fld"><label class="fld-label" for="nt-name">任务名称</label><input id="nt-name" placeholder="任务名称"></div>
+      <div class="fld"><label class="fld-label" for="nt-budget">预算档位</label>
+        <select id="nt-budget">${BUDGETS.map(([b,l])=>`<option value="${b}">${l}</option>`).join("")}</select></div>
+      <button class="btn" type="button" disabled>发起任务</button>`;
+  }
+  else if(v.kind==="gather"){
+    const p=findP(v.pid), fr=focusRunOf(p);
+    route=`模拟导航:/project/${p.id}/gather`;
+    body=`<h2>采证视图(示意)</h2>
+      <p class="kv">聚焦运行 <b>${fr?esc(runLabel(fr)):"无"}</b>${fr&&!fr.name?' <span class="mono" style="font-size:11px;color:var(--text-3)">'+fr.requestId+"</span>":""} · 状态 <b>${fr?STATUS_LABEL[fr.status]:"—"}</b></p>
+      <p>任务行点击不做 per-run 路由,统一聚焦该项目当前调查流(D7 / 负向 N8)。</p>`;
+  }
+  else { route=`模拟导航:${v.route}`; body=`<h2>${esc(v.title||"")}</h2><p>现状表面,本批不改动(CP-14)。</p>`; }
+  el.innerHTML=`<p class="route-line">${esc(route)}</p><div class="stub">${body}<p class="note">主区为落点示意(stub):表单与目标页细节不属本批侧栏契约(ui-contract.md §0)。</p></div>`;
+}
+
+function renderStatusbar(){
+  const cur=findP(state.current.pid);
+  const running=state.projects.flatMap(p=>p.runs).filter(r=>r.status==="running");
+  $id("stProj").textContent="项目:"+(cur?labelOf(cur):"—");
+  $id("stStage").textContent="阶段:"+(running[0]?STAGE_LABEL[running[0].stage]??"—":"—");
+  $id("stRun").textContent="运行:"+(running.length>0?"进行中":"空闲");
+}
+
+/* ---------- Toast / 菜单 ---------- */
+let toastTimer=null;
+function toast(msg){
+  const t=$id("toast"); t.textContent=msg; t.classList.add("show");
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove("show"),3000);
+}
+let menuCtx=null;
+function openMenu(anchor,kind,pid,rid){
+  const menu=$id("sbMenu"); menuCtx={kind,pid,rid,anchor};
+  let dis=false, title="";
+  if(kind==="run"){ const r=findR(findP(pid),rid); dis=!canRenameRun(r); title=RENAME_GUARD; }  /* G1-5 */
+  menu.innerHTML=`<button role="menuitem" type="button" data-menu="rename" ${dis?`disabled title="${title}"`:""}>重命名</button>`;
+  const rect=anchor.getBoundingClientRect();
+  menu.style.left=Math.min(rect.left, window.innerWidth-150)+"px";
+  menu.style.top=Math.min(rect.bottom+4, window.innerHeight-60)+"px";
+  menu.classList.add("open"); anchor.setAttribute("aria-expanded","true");
+}
+function closeMenu(refocusAnchor=true){
+  const menu=$id("sbMenu");
+  if(!menu.classList.contains("open")) return;
+  if(menuCtx&&menuCtx.anchor) menuCtx.anchor.setAttribute("aria-expanded","false");
+  if(refocusAnchor&&menuCtx){ state.refocus={pid:menuCtx.pid,rid:menuCtx.rid}; }
+  menu.classList.remove("open"); menuCtx=null;
+}
+function closeMenuSilent(){ const m=$id("sbMenu"); if(menuCtx&&menuCtx.anchor) menuCtx.anchor.setAttribute("aria-expanded","false"); m.classList.remove("open"); menuCtx=null; state.refocus=null; }
+
+/* ---------- 编辑(CP-9 / CP-11) ---------- */
+function startEdit(kind,pid,rid){
+  if(kind==="run"){ const r=findR(findP(pid),rid); if(!canRenameRun(r)){ toast(RENAME_GUARD); return; } }
+  state.editing={kind,pid,rid}; render();
+}
+function cancelEdit(){ state.refocus={pid:state.editing.pid,rid:state.editing.rid}; state.editing=null; render(); }
+function saveEdit(){
+  const inp=$id("sbEditInput"), err=$id("sbEditErr");
+  const v=(inp.value||"").trim();                                  /* G1-4:trim */
+  if(v.length>LEN_MAX){ err.hidden=false; inp.focus(); return; }   /* 400 内联错误 */
+  const ed=state.editing;
+  if(ed.kind==="run"){
+    const p=findP(ed.pid), r=findR(p,ed.rid);
+    if(state.raceRename){                                          /* G1-5 竞态兜底:409 + reload */
+      state.raceRename=false; disarm($id("btnRaceRename"));
+      r.status="running"; r.stage="gather"; r.mtime=Date.now();
+      state.editing=null; toast(RENAME_GUARD); render(); return;
+    }
+    r.name=v.length?v:null; r.mtime=Date.now();                    /* 留空=清除回退 / G1-2 改名浮顶一次 */
+    state.editing=null; toast("任务已重命名"); render(); return;
+  }
+  const p=findP(ed.pid);
+  p.name=v.length?v:null;                                          /* 留空=清除回退 goal */
+  state.editing=null; toast("项目已重命名"); render();
+}
+
+/* ---------- 事件 ---------- */
+const tree=$id("sbTree");
+tree.addEventListener("click",(e)=>{
+  if(e.target.closest(".caret")){                                   /* caret 点击只切换展开 */
+    const row=e.target.closest(".sb-row"); if(!row) return;
+    state.expanded[row.dataset.pid]=!state.expanded[row.dataset.pid]; render(); return;
+  }
+  const act=e.target.closest("[data-act]"); if(!act) return;
+  const a=act.dataset.act;
+  if(a==="type-new"){ state.view={kind:"newProject",module:act.dataset.module}; render(); }
+  else if(a==="open-project"){
+    const pid=act.dataset.pid, p=findP(pid);
+    state.current={pid, rid:(state.current.pid===pid?state.current.rid:null)};
+    state.view={kind:"home",pid}; render();
+  }
+  else if(a==="open-run"){
+    state.current={pid:act.dataset.pid, rid:act.dataset.rid};
+    state.view={kind:"gather",pid:act.dataset.pid}; render();
+  }
+  else if(a==="new-task"){
+    if(act.disabled) return;
+    const p=findP(act.dataset.pid);
+    if(!canNewTask(p)){ toast(GUARD); return; }                     /* 理论不可达:禁用兜底 */
+    if(state.raceNewTask){                                          /* G1-3:409 → toast + reload + 提频 */
+      state.raceNewTask=false; disarm($id("btnRaceNew"));
+      p.runs.push({id:"rx"+Date.now(), requestId:"req-"+Math.random().toString(36).slice(2,8), name:null, status:"running", stage:"plan", mtime:Date.now()});
+      toast(GUARD); state.expanded[p.id]=true; render(); return;
+    }
+    state.view={kind:"newTask",pid:p.id}; state.expanded[p.id]=true; render();
+  }
+  else if(a==="menu"){ openMenu(act,act.dataset.kind,act.dataset.pid,act.dataset.rid); }
+  else if(a==="arch-toggle"){ state.archivedOpen=!state.archivedOpen; render(); }
+});
+tree.addEventListener("keydown",(e)=>{                               /* 项目行:Enter/Space 导航;→ ← 展开/收起 */
+  const main=e.target.closest(".sb-main"); if(!main||!main.contains(e.target)&&e.target!==main) return;
+  if(e.target.id==="sbEditInput") return;
+  if(main.dataset.act==="open-project"){
+    if(e.key==="ArrowRight"){ state.expanded[main.dataset.pid]=true; e.preventDefault(); render(); }
+    else if(e.key==="ArrowLeft"){ state.expanded[main.dataset.pid]=false; e.preventDefault(); render(); }
+    else if(e.key==="Enter"||e.key===" "){ e.preventDefault(); main.click(); }
+  }
+});
+tree.addEventListener("contextmenu",(e)=>{                           /* D4:右键菜单 */
+  const row=e.target.closest(".sb-row"); if(!row||state.editing) return;
+  e.preventDefault();
+  openMenu(row.querySelector('[data-act="menu"]')||row, row.dataset.kind, row.dataset.pid, row.dataset.rid);
+});
+tree.addEventListener("input",(e)=>{
+  if(e.target.id!=="sbEditInput") return;
+  const v=e.target.value.trim();
+  $id("sbEditCount").textContent=v.length+" / "+LEN_MAX;
+  $id("sbEditErr").hidden=v.length<=LEN_MAX;
+});
+tree.addEventListener("keydown",(e)=>{
+  if(e.target.id!=="sbEditInput") return;
+  if(e.key==="Enter"){ e.preventDefault(); saveEdit(); }
+  else if(e.key==="Escape"){ e.preventDefault(); cancelEdit(); }
+});
+tree.addEventListener("focusout",(e)=>{                              /* blur=取消(Enter 显式提交) */
+  if(e.target.id!=="sbEditInput") return;
+  setTimeout(()=>{
+    const li=tree.querySelector(".sb-row.editing");
+    if(li&&!li.contains(document.activeElement)&&state.editing) cancelEdit();
+  },0);
+});
+
+$id("sbMenu").addEventListener("click",(e)=>{
+  const b=e.target.closest("[data-menu]"); if(!b||b.disabled) return;
+  const ctx=menuCtx; closeMenuSilent();
+  if(b.dataset.menu==="rename"&&ctx) startEdit(ctx.kind,ctx.pid,ctx.rid);
+});
+document.addEventListener("click",(e)=>{                             /* 菜单外点击关闭(不抢焦点) */
+  if(!menuCtx) return;
+  if(e.target.closest("#sbMenu")||e.target.closest('[data-act="menu"]')) return;
+  closeMenuSilent();
+});
+document.addEventListener("keydown",(e)=>{
+  if(e.key!=="Escape") return;
+  if(menuCtx){ closeMenu(); render(); }                              /* Esc 关菜单,焦点返还原行 */
+  else if(state.editing){ cancelEdit(); }
+});
+document.querySelectorAll("[data-route]").forEach(b=>{
+  b.addEventListener("click",()=>{ state.view={kind:"stub",route:b.dataset.route,title:b.dataset.title}; render(); });
+});
+
+/* ---------- 演示控制(脚手架) ---------- */
+function arm(btn){ btn.classList.add("armed"); btn.dataset.base=btn.dataset.base||btn.textContent; btn.textContent=btn.dataset.base+" · 已装填(下一步触发)"; }
+function disarm(btn){ btn.classList.remove("armed"); if(btn.dataset.base) btn.textContent=btn.dataset.base; }
+$id("btnSkel").addEventListener("click",()=>{ state.loading=!state.loading; render(); });
+$id("btnEmpty").addEventListener("click",()=>{ state.industryEmpty=!state.industryEmpty; render(); });
+$id("btnRaceNew").addEventListener("click",()=>{ state.raceNewTask=true; arm($id("btnRaceNew")); });
+$id("btnRaceRename").addEventListener("click",()=>{ state.raceRename=true; arm($id("btnRaceRename")); });
+$id("btnReset").addEventListener("click",()=>{
+  const keep=state; state=initialState();
+  disarm($id("btnRaceNew")); disarm($id("btnRaceRename"));
+  render();
+});
+
+render();
+</script>
+</body>
+</html>

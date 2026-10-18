@@ -25,6 +25,25 @@ import { handleVersionRoutes } from "./versions.js";
 
 const IncrementalRefSchema = z.object({ runId: z.string().min(1), requestId: z.string().min(1) });
 
+/** U1(G1-4):名称入参解析——trim 1-60;null/空串=清除(由调用方落 undefined 语义);超长 400。 */
+const parseNameInput = (raw: unknown): { error: string } | { name: string | null } => {
+  if (raw === null || raw === undefined) return { name: null };
+  if (typeof raw !== "string") return { error: "name 须为字符串或 null" };
+  const trimmed = raw.trim();
+  if (trimmed === "") return { name: null };
+  if (trimmed.length > 60) return { error: "名称不能超过 60 字" };
+  return { name: trimmed };
+};
+
+/** U1(G1-2):run.json mtime(先例:followup 的 mtimeOf);读不到回 0(旧序兜底)。 */
+const runMtimeOf = (runJsonPath: string): number => {
+  try {
+    return statSync(runJsonPath).mtimeMs;
+  } catch {
+    return 0;
+  }
+};
+
 /** P2-3:确认门常开组合——POST /runs body 无 plan 时由 server 传入(R1-4)。 */
 const CONFIRM_GATES = { plan: true as const, outline: true as const };
 
@@ -157,7 +176,7 @@ const launchRun = async (
     });
     bindReport = { bound: outcome.bindings.length, rejected: outcome.rejected };
   }
-  // 先落一条 running 记录:启动即可见,进程中断也不至于"无痕消失"
+  // 先落一条 running 记录:启动即可见,进程中断也不至于"无痕消失"(U1:带任务名,树内即显)
   await FsProjectStore.open(dir).saveRun({
     id: runId,
     requestId: request.id ?? runId,
@@ -165,6 +184,7 @@ const launchRun = async (
     status: "running",
     checkpoints: [],
     usage: { searches: 0, fetches: 0, modelCalls: 0, outputTokens: 0, wallMs: 0 },
+    ...(request.name ? { name: request.name } : {}),
   });
   startPipeline(
     ctx,
@@ -181,7 +201,7 @@ const launchRun = async (
     },
     runId,
     async (error) => {
-      // 失败不冒充完成:落一条 failed run 记录,带错误信息
+      // 失败不冒充完成:落一条 failed run 记录,带错误信息(U1:保留任务名)
       await FsProjectStore.open(dir).saveRun({
         id: runId,
         requestId: request.id ?? runId,
@@ -189,6 +209,7 @@ const launchRun = async (
         status: "failed",
         checkpoints: [],
         usage: { searches: 0, fetches: 0, modelCalls: 0, outputTokens: 0, wallMs: 0 },
+        ...(request.name ? { name: request.name } : {}),
         error: String(error instanceof Error ? error.message : error),
       });
     },
@@ -209,20 +230,47 @@ export const handleProjectsRoutes = async (
 
   if (method === "GET" && path === "/api/projects") {
     const root = join(ctx.dataDir, "projects");
-    const projects = existsSync(root)
-      ? readdirSync(root)
-          .filter((id) => PROJECT_ID.test(id) && existsSync(join(root, id, "project.json")))
-          .map((id) => FsProjectStore.open(join(root, id)).meta())
+    const ids = existsSync(root)
+      ? readdirSync(root).filter((id) => PROJECT_ID.test(id) && existsSync(join(root, id, "project.json")))
       : [];
+    // U1(D1/G1-2):列表附带轻量 runs 摘要(树内单请求渲染);mtime 倒序,无 checkpoints/bundle/usage
+    const projects = await Promise.all(
+      ids.map(async (id) => {
+        const store = FsProjectStore.open(join(root, id));
+        const runsDir = join(root, id, "runs");
+        const runs = (await store.listRuns())
+          .map((r) => ({
+            id: r.id,
+            requestId: r.requestId,
+            ...(r.name ? { name: r.name } : {}),
+            status: r.status,
+            stage: r.stage,
+            updatedAt: runMtimeOf(join(runsDir, r.id, "run.json")),
+          }))
+          .sort((a, b) => b.updatedAt - a.updatedAt);
+        return { ...store.meta(), runs };
+      }),
+    );
     json(res, 200, { projects });
     return true;
   }
 
   if (method === "POST" && path === "/api/projects") {
+    // U1(D3/G1-4):可选项目名称——trim;空串/null=不设置;超长 400
+    let name: string | undefined;
+    if (body.name !== undefined && body.name !== null) {
+      const parsed = parseNameInput(body.name);
+      if ("error" in parsed) {
+        json(res, 400, { error: parsed.error });
+        return true;
+      }
+      name = parsed.name ?? undefined;
+    }
     const dir = createProject(ctx.dataDir, {
       module: body.module,
       goal: body.goal,
       scope: body.scope,
+      ...(name ? { name } : {}),
     });
     json(res, 200, { dir, id: dir.split("/").pop() });
     return true;
@@ -263,6 +311,21 @@ export const handleProjectsRoutes = async (
       // P0-2:列表型响应剥离 bodyText(UI 从未消费;正文按需走 /snapshots?sid=)
       snapshots: (await s.listSnapshots()).map(({ bodyText: _omit, ...rest }) => rest),
     });
+    return true;
+  }
+
+  // U1(D3/G1-4):项目改名——saveMeta patch-merge;name:null/空串=清除(回退 goal 显示)
+  if (method === "PATCH" && rest === "") {
+    const parsed = parseNameInput(body.name);
+    if ("error" in parsed) {
+      json(res, 400, { error: parsed.error });
+      return true;
+    }
+    const name = parsed.name ?? undefined;
+    const store = ctx.storeFor(id);
+    store.saveMeta({ ...(name ? { name } : { name: undefined }) });
+    store.audit("renamed", { name: name ?? null });
+    json(res, 200, { name: name ?? null });
     return true;
   }
 
@@ -312,11 +375,14 @@ export const handleProjectsRoutes = async (
       return true;
     }
     const tier = z.enum(["low", "medium", "high"]).default("medium").parse(body.budgetTier);
+    // U1(G1-6):重跑显式命名——spread 会原样带出原名,必须在此 override;无名原型回退 requestId 前 8 位
+    const baseName = (original.name ?? "").trim() || String(original.id ?? body.requestId).slice(0, 8);
     const request = ResearchRequestSchema.parse({
       ...original,
       id: `req-${Date.now().toString(36)}`,
       budgetTier: tier,
       budget: undefined,
+      name: `${baseName}·重跑`,
     });
     if (request.incrementalOf) {
       const resolved = await resolveIncrementalBase(ctx.storeFor(id), request.incrementalOf);
@@ -371,6 +437,8 @@ export const handleProjectsRoutes = async (
       json(res, 404, { error: `基准请求不存在: ${base.requestId}` });
       return true;
     }
+    // U1(G1-6):追问显式命名——基准 run 名(无名回退 requestId 前 8 位)+「·追问」后缀
+    const baseName = (base.name ?? "").trim() || base.requestId.slice(0, 8);
     const request = ResearchRequestSchema.parse({
       id: `req-${Date.now().toString(36)}`,
       module: baseRequest.module,
@@ -379,6 +447,7 @@ export const handleProjectsRoutes = async (
       incrementalOf: { runId: base.id, requestId: base.requestId },
       budgetTier: body.budgetTier ?? "medium",
       budget: undefined,
+      name: `${baseName}·追问`,
     });
     const resolved = await resolveIncrementalBase(store, request.incrementalOf);
     if ("error" in resolved) {
@@ -494,6 +563,31 @@ export const handleProjectsRoutes = async (
       budget: { maxSearches: budget.maxSearches, maxFetches: budget.maxFetches, maxWallMs: budget.maxWallMs },
       note: "已加注,配额饿死的问题将在发布门评估前的评估点自动重开,其后加注只恢复润色/评审回环;恢复/重启后加注不延续",
     });
+    return true;
+  }
+
+  // ---- U1(D4/G1-5):任务改名——终态与 awaiting-confirmation 可改;running 409;空=清除回退 requestId ----
+  const renameRunMatch = rest.match(/^\/runs\/([^/]+)\/name$/);
+  if (method === "PATCH" && renameRunMatch) {
+    const parsed = parseNameInput(body.name);
+    if ("error" in parsed) {
+      json(res, 400, { error: parsed.error });
+      return true;
+    }
+    const name = parsed.name ?? undefined;
+    const store = ctx.storeFor(id);
+    const run = (await store.listRuns()).find((r) => r.id === renameRunMatch[1]);
+    if (!run) {
+      json(res, 404, { error: `找不到运行: ${renameRunMatch[1]}` });
+      return true;
+    }
+    if (run.status === "running") {
+      json(res, 409, { error: "运行进行中,处理后方可改名" });
+      return true;
+    }
+    // awaiting 的 confirm CAS 为 spread current,name 随记录存活(G1-5)
+    await store.saveRun({ ...run, ...(name ? { name } : { name: undefined }) }, "run-renamed");
+    json(res, 200, { ...run, ...(name ? { name } : { name: undefined }) });
     return true;
   }
 

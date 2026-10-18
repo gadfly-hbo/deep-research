@@ -16,11 +16,26 @@ export interface ProjectMeta {
   id: string;
   module: Module;
   goal: string;
+  /** U1:项目展示名称(树内/列表显示;缺省回退 goal 截断)。 */
+  name?: string;
   scope: { summary: string; queries: string[] };
   updatedAt: string;
   versions: VersionEntry[];
   status?: "active" | "archived";
 }
+
+/** U1(D1/G1-2):列表端点附带的轻量任务摘要(mtime 倒序;无 checkpoints/bundle/usage)。 */
+export interface RunSummary {
+  id: string;
+  requestId: string;
+  name?: string;
+  status: string;
+  stage: string;
+  updatedAt: number;
+}
+
+/** U1:列表端点项目形状 = meta + runs 摘要(侧栏树单请求渲染)。 */
+export type ProjectWithRuns = ProjectMeta & { runs: RunSummary[] };
 export interface RunProgress {
   currentQuestionId?: string;
   currentQuestionText?: string;

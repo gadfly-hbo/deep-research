@@ -149,6 +149,9 @@ export async function runResearch(
         status: "running",
         checkpoints: [],
         usage: { searches: 0, fetches: 0, modelCalls: 0, outputTokens: 0, wallMs: 0 },
+        // U1(G1-1):新鲜路径必须带上 request.name,否则首次 persistRun 会把 launchRun
+        // 预落的 name 覆写掉(rerun/免门直跑均走此路径);纯展示字段,不参与执行语义
+        ...(request.name ? { name: request.name } : {}),
       };
   const priorCheckpoints = resuming ? await store.checkpoints(runId) : [];
   const completedStages = new Set(priorCheckpoints.map((c) => c.stage));

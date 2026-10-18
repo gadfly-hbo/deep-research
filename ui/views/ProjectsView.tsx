@@ -6,7 +6,7 @@ import Empty from "../components/Empty";
 import { useProjects } from "../state/projects";
 import { groupProjects } from "../../src/app/projectGroups";
 import { MODULE_LABEL } from "../state/types";
-import type { Module, ProjectMeta } from "../state/types";
+import type { Module, ProjectWithRuns } from "../state/types";
 
 export function ProjectsView() {
   const navigate = useNavigate();
@@ -15,7 +15,18 @@ export function ProjectsView() {
   const [creating, setCreating] = useState(false);
   const [busy, setBusy] = useState(false);
   const [showArchived, setShowArchived] = useState(false);
-  const [form, setForm] = useState({ module: "brand" as Module, goal: "", summary: "" });
+  const [form, setForm] = useState({ module: "brand" as Module, name: "", goal: "", summary: "" });
+
+  // U1(G1-7):?module= 预选(类型节头「＋」深链;已挂载时 URL 变化也要生效)
+  useEffect(() => {
+    const mod = params.get("module");
+    if (mod === "brand" || mod === "industry") {
+      setForm((f) => ({ ...f, module: mod }));
+      params.delete("module");
+      setParams(params, { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params]);
 
   useEffect(() => {
     if (params.get("new") === "1") {
@@ -27,11 +38,11 @@ export function ProjectsView() {
 
   const submit = async () => {
     setBusy(true);
-    const id = await create(form);
+    const id = await create({ ...form, name: form.name.trim() || undefined });
     setBusy(false);
     if (id) {
       setCreating(false);
-      setForm({ module: "brand", goal: "", summary: "" });
+      setForm({ module: "brand", name: "", goal: "", summary: "" });
       navigate(`/project/${id}`);
     }
   };
@@ -39,10 +50,10 @@ export function ProjectsView() {
   const groups = groupProjects(projects);
   const archivedGroup = groups.find((g) => g.key === "archived");
 
-  const row = (p: ProjectMeta) => (
+  const row = (p: ProjectWithRuns) => (
     <div key={p.id} className="file clickable" onClick={() => navigate(`/project/${p.id}`)}>
       <span className="file-icon" aria-hidden="true">▤</span>
-      <span className="file-name">{p.goal}</span>
+      <span className="file-name" title={p.name ?? p.goal}>{p.name ?? p.goal}</span>
       <Chip tone={p.module === "brand" ? "agg" : "fork"}>{MODULE_LABEL[p.module]}</Chip>
       <span className="file-meta num">更新于 {new Date(p.updatedAt).toLocaleString("zh-CN")}</span>
       <div className="actions">
@@ -85,6 +96,15 @@ export function ProjectsView() {
                 <option value="brand">品牌研究</option>
                 <option value="industry">行业研究</option>
               </select>
+            </label>
+            <label className="fld">
+              <span className="fld-label">项目名称(可选)</span>
+              <input
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                placeholder="如:安克品牌研究;留空则以研究目标为名"
+                maxLength={60}
+              />
             </label>
             <label className="fld">
               <span className="fld-label">研究目标</span>

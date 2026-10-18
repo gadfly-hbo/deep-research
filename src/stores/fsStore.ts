@@ -32,6 +32,8 @@ export interface ProjectMeta {
   versions: VersionEntry[];
   /** 归档状态:archived 不进主列表,可随时恢复;缺省视为 active */
   status?: "active" | "archived";
+  /** U1:项目展示名称(树内显示;缺省回退 goal 截断;纯展示字段)。 */
+  name?: string;
 }
 
 // ---- 快照布局(P0-2 D1):一文件一快照 + index.json 插入序索引 ----
@@ -142,7 +144,7 @@ export class FsProjectStore implements ResearchStore {
 
   static create(
     dir: string,
-    input: { module: "brand" | "industry"; goal: string; scope: { summary: string; queries: string[] } },
+    input: { module: "brand" | "industry"; goal: string; scope: { summary: string; queries: string[] }; name?: string },
   ): FsProjectStore {
     if (existsSync(join(dir, "project.json"))) {
       throw new Error(`项目已存在: ${dir}`);
@@ -156,6 +158,7 @@ export class FsProjectStore implements ResearchStore {
       module: input.module,
       goal: input.goal,
       scope: input.scope,
+      ...(input.name ? { name: input.name } : {}),
       createdAt: now,
       updatedAt: now,
       versions: [],
@@ -278,10 +281,11 @@ export class FsProjectStore implements ResearchStore {
     return parsed.success ? parsed.data : (raw as unknown as ResearchRun);
   }
 
-  async saveRun(run: ResearchRun): Promise<void> {
+  async saveRun(run: ResearchRun, auditEvent = "run-finished"): Promise<void> {
     mkdirSync(join(this.dir, "runs", run.id), { recursive: true });
     this.writeJson(join("runs", run.id, "run.json"), run);
-    this.audit("run-finished", { runId: run.id, requestId: run.requestId, status: run.status, usage: run.usage });
+    // U1(G1-5):audit 事件可注入(改名传 "run-renamed");缺省逐位保持旧值
+    this.audit(auditEvent, { runId: run.id, requestId: run.requestId, status: run.status, usage: run.usage });
   }
 
   async saveBundle(bundle: ResearchResultBundle): Promise<void> {
