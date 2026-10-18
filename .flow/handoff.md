@@ -17,7 +17,8 @@
 
 1. ~~F1 自愈清扫~~ **已清**(commit 见下):装配时扫描 jobRoot,submitted/running 孤儿标 failed(「进程中断,可换幂等键重新提交」);终态不动;装配约定=同 dataDir 单活跃实例(文档化)。
 2. ~~F2 前置段加固~~ **已清**:runJob 前置段入 try,catch 内落盘二次守护(不再有 unhandled rejection 路径);validate 增 tier 枚举白名单(submit 期报错)。~~F3 幂等窗口~~ 顺手文档化(jsdoc:窗口=进程生命周期)。
-3. 待清:F4:D2 路径校验大小写/symlink 边界;F5:verified 聚合口径细分(snapshot-missing/多证据展示);测试夹具第 4 份出现时抽 testing.ts。
+3. ~~F4~~ **已清**:路径校验段匹配大小写不敏感 + dataDir 已存在时 realpathSync 解析符号链接(测试:Projects 大写/alias→projects 均拒绝,普通目录不受影响)。~~F5~~ **已清**:verified 细分为五值联合(quote-hit/mismatch/snapshot-missing/unverified/no-evidence,缺失比 mismatch 严重单独口径);展示 quote/source 取首条命中证据,与聚合判定对齐(findings.test.ts 3 用例钉死)。
+4. 仅存:测试夹具第 4 份出现时抽 src/capability/testing.ts;F5 的 FindingClaim.verified 已顺带改为字面量联合(T-2 一并清)。
 
 ## 对 JuanerAI 侧的输入(阶段 1 交接时用)
 

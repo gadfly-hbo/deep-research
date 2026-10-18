@@ -218,4 +218,19 @@ describe("E1 T2:能力库 Port", () => {
       cap.submit({ questions: [{ id: "q1", question: "x" }], tier: "ultra" as never }),
     ).toThrow(/low\|medium\|high/);
   });
+
+  it("F4 路径校验边界:大小写不敏感段匹配 + 符号链接解析到真实路径", () => {
+    const { symlinkSync } = require("node:fs") as typeof import("node:fs");
+    // 大小写:macOS 大小写不敏感 FS 下 Projects 物理同 projects,按段小写匹配拒绝
+    const rootA = dataDir();
+    mkdirSync(join(rootA, "Projects"), { recursive: true });
+    expect(() => createResearchCapability({ adapters: fakes(), dataDir: join(rootA, "Projects") })).toThrow(/projects/i);
+    // 符号链接:alias → …/projects,realpath 解析后段匹配拒绝
+    const rootB = dataDir();
+    mkdirSync(join(rootB, "projects"), { recursive: true });
+    symlinkSync(join(rootB, "projects"), join(rootB, "alias"));
+    expect(() => createResearchCapability({ adapters: fakes(), dataDir: join(rootB, "alias") })).toThrow(/projects/i);
+    // 合法路径不受影响(普通临时目录)
+    expect(() => createResearchCapability({ adapters: fakes(), dataDir: dataDir() })).not.toThrow();
+  });
 });

@@ -11,8 +11,13 @@ export interface FindingClaim {
   quote?: string;
   source?: { url: string; title: string; tier?: string; fetchedAt: string };
   calibration?: Calibration;
-  /** verified:quote-hit(全部证据引句命中)/ mismatch / unverified / no-evidence */
-  verified: string;
+  /**
+   * F5 口径细分(聚合该主张全部证据):
+   * quote-hit=全部证据引句逐字命中;mismatch=存在未命中;snapshot-missing=存在快照缺失
+   * (比 mismatch 更严重,无法核验);unverified=主张自身未验证;no-evidence=无证据绑定。
+   * 展示用 quote/source 取首条 quote-hit 证据(无命中则取首条),与聚合判定对齐。
+   */
+  verified: "quote-hit" | "mismatch" | "snapshot-missing" | "unverified" | "no-evidence";
 }
 
 export interface QuestionFinding {
@@ -49,19 +54,24 @@ export function assembleFindings(input: AssembleInput): AssembledFindings {
   const evidenceById = new Map(input.evidence.map((e) => [e.id, e]));
   const snapshotById = new Map(input.snapshots.map((s) => [s.id, s]));
 
-  const verifiedOf = (claim: Claim): string => {
+  const verifiedOf = (claim: Claim): FindingClaim["verified"] => {
     if (claim.kind === "unverified") return "unverified";
     if (claim.evidenceIds.length === 0) return "no-evidence";
-    return claim.evidenceIds.every((eid) => verdictByEvidence.get(eid) === "quote-hit") ? "quote-hit" : "mismatch";
+    const verdicts = claim.evidenceIds.map((eid) => verdictByEvidence.get(eid) ?? "snapshot-missing");
+    if (verdicts.every((v) => v === "quote-hit")) return "quote-hit";
+    if (verdicts.some((v) => v === "snapshot-missing")) return "snapshot-missing";
+    return "mismatch";
   };
 
   const toFindingClaim = (claim: Claim): FindingClaim => {
-    const evidence = claim.evidenceIds.map((eid) => evidenceById.get(eid)).find((e) => e !== undefined);
-    const snapshot = evidence ? snapshotById.get(evidence.snapshotId) : undefined;
+    // F5:展示证据取首条 quote-hit(无命中取首条)——quote/source 与聚合判定同源,不错位
+    const evidences = claim.evidenceIds.map((eid) => evidenceById.get(eid)).filter((e) => e !== undefined);
+    const hitEvidence = evidences.find((e) => verdictByEvidence.get(e.id) === "quote-hit") ?? evidences[0];
+    const snapshot = hitEvidence ? snapshotById.get(hitEvidence.snapshotId) : undefined;
     return {
       statement: claim.statement,
       kind: claim.kind,
-      ...(evidence?.quote ? { quote: evidence.quote } : {}),
+      ...(hitEvidence?.quote ? { quote: hitEvidence.quote } : {}),
       ...(snapshot
         ? { source: { url: snapshot.url, title: snapshot.title, ...(snapshot.tier ? { tier: snapshot.tier } : {}), fetchedAt: snapshot.fetchedAt } }
         : {}),

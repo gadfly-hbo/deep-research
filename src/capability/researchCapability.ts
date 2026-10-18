@@ -13,7 +13,7 @@
  * 幂等(G1-4):同 idempotencyKey 一律返回既有 jobId(含 failed,不重跑);重试=换新键。
  * 幂等窗口=进程生命周期(映射为内存表;进程重启后同键会新开 job,F3 披露)。
  */
-import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, realpathSync, writeFileSync } from "node:fs";
 import { join, resolve as resolvePath } from "node:path";
 import type { Adapters } from "../adapters/types.js";
 import { BudgetSchema, ResearchRequestSchema } from "../contracts.js";
@@ -101,9 +101,17 @@ const TIER_QUESTION_LIMIT: Record<"low" | "medium" | "high", number> = { low: 2,
 const EMPTY_USAGE = { searches: 0, fetches: 0, modelCalls: 0, outputTokens: 0, wallMs: 0 };
 
 export function createResearchCapability(opts: ResearchCapabilityOptions): ResearchCapability {
-  // 红队#2 硬约束:job 根绝不落在任何 */projects 路径下(防 server 清扫误杀/混入项目列表)
-  const jobRoot = resolvePath(join(opts.dataDir, "capability-jobs"));
-  if (jobRoot.split(/[\\/]/).includes("projects")) {
+  // 红队#2 硬约束:job 根绝不落在任何 projects 路径下(防 server 清扫误杀/混入项目列表)。
+  // F4:段比较大小写不敏感(macOS 大小写不敏感 FS 下 …/Projects 物理同目录可绕过)+
+  // 符号链接解析(dataDir 已存在时 realpath 收敛;未创建时按字面路径保守校验)。
+  let dataDirPath = opts.dataDir;
+  try {
+    dataDirPath = realpathSync(opts.dataDir);
+  } catch {
+    /* 目录尚未创建:按字面路径保守校验 */
+  }
+  const jobRoot = resolvePath(join(dataDirPath, "capability-jobs"));
+  if (jobRoot.split(/[\\/]/).some((seg) => seg.toLowerCase() === "projects")) {
     throw new Error(`capability dataDir 不得位于任何 projects 路径下(当前:${jobRoot})`);
   }
   if (opts.library && !opts.projectId) {
