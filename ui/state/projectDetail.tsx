@@ -299,7 +299,8 @@ export function ProjectDetailProvider({ id, children }: { id: string; children: 
   const cancelRun = useCallback(async (r: Run) => {
     try {
       await post(`/api/projects/${id}/runs/cancel`, { requestId: r.requestId });
-      toast.show("已取消,已完成阶段保留");
+      // 005 回流:取消是异步信号(问/阶段边界生效),受理即显"已取消"属过度承诺——与宿主候选005 构建转换同款措辞
+      toast.show("取消请求已受理;以运行终态为准,状态未知时不会声称已停止");
       await reload();
     } catch (e) {
       toast.show(errMsg(e));
