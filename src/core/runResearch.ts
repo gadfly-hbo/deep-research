@@ -100,11 +100,29 @@ export interface RunOptions {
    * 留给问间隙 drain)。返回 null=当前无待注入改道。
    */
   takeRefinement?: () => Intervention | null;
+  /**
+   * E1(G1-1):gather 每问收束回调——state 可序列化浅切片(questions/claimQuestions/
+   * claims/evidence/snapshots/limitations/unresolved)。纯被动:不落 checkpoint、不进
+   * run 记录,resume/清扫零影响;capability 以此实现取消后 claims 级部分结果。
+   * 在途问题在取消信号后仍完整跑完(含其抽取调用,有界)。
+   */
+  onGatherProgress?: (snapshot: GatherProgressSnapshot) => void;
 }
 
 export interface RunResult {
   run: ResearchRun;
   bundle: ResearchResultBundle | null;
+}
+
+/** E1(G1-1):gather 进度切片——字段与 RunState 同名同义,浅拷贝防内部状态串改。 */
+export interface GatherProgressSnapshot {
+  questions: PlanQuestion[];
+  claimQuestions: Record<string, string>;
+  claims: Claim[];
+  evidence: Evidence[];
+  snapshots: SourceSnapshot[];
+  limitations: string[];
+  unresolved: string[];
 }
 
 export async function runResearch(
@@ -432,6 +450,7 @@ export async function runResearch(
     cancelled,
     ...(options.pollInstructions ? { pollInstructions: options.pollInstructions } : {}),
     ...(options.takeRefinement ? { takeRefinement: options.takeRefinement } : {}),
+    ...(options.onGatherProgress ? { onGatherProgress: options.onGatherProgress } : {}),
     wasToppedUp,
     persistRun,
     persistUsageThrottled,

@@ -1,35 +1,43 @@
-# Proposal: 侧边栏层级迭代——类型 → 项目(自定义名称)→ 任务(自定义名称,无版本层)(批次 U1)
+# Proposal: 嵌入式外部研究能力库(批次 E1)——T1 库本体 + T2 情报库开关
 
-> 规格源:用户 2026-10-18 反馈(截图本模型不可读,规格以文字描述为准,已在会话声明):「这个侧边的逻辑有问题,正确的逻辑应该是:类型(品牌、行业研究)——类型下可创建项目——项目下可创建任务(不用版本),项目名称和任务名称可以自定义」。基线 main @ `1ac4b98`。
+> 规格源:`docs/embedded-research-capability-proposal.md`(提案 v0.1,commit `4499762`)+ 用户 2026-10-18 批准("按推荐"启动 T1/T2,§8 五决策点全按推荐)。基线 main @ `4499762`。与插件接入路线(kickoff prompt)并行,互不改动的对方范围。
 
-## 问题(现状,已核实代码)
+## 已确认决策(提案 §8 按推荐,约束级)
 
-- 侧边栏(`ui/shell/Sidebar.tsx`)现为:类型节头(仅非空显示,`Sidebar.tsx:99-112`)→ 项目行显示 **goal 文本**(`:53`,项目无名称字段)→ 可展开 **版本子树 v1/v2…**(`:56-66`)→ 运行仅出现在当前项目的「最近运行」区、以自动生成 requestId 展示(`:136-163`)。
-- 数据面:项目创建仅收 `{module, goal, scope}`(`projectService.ts:64-72`、`routes/projectsRuns.ts:221-229`),project.json 无 name;运行由 requestId(`req-<ts36>`)标识(`projectsRuns.ts:315-320`),`ResearchRequest/ResearchRun` 均无名称字段(`contracts.ts:94-231`)。
+1. **交付形态 = A 纯库**:本仓新增能力门面(`src/capability/`),进程内调用;不做独立服务/第二插件/HTTP;交付物料机制(T4)后定,本批只做库本体。
+2. **questions 即 plan**:不跑 plan LLM,免门直跑语义(内部 run 的 options.plan = questions)。
+3. **v1 不做每问 LLM 综合**:findings 只交 claims+证据,综合归分析流程。
+4. **情报库沉淀默认开**(T2):capability 接受可选 LibraryStore 注入,经 runResearch 既有 library/projectId 沉淀路径;无库注入=不沉淀(降级,不报错)。
+5. JuanerAI 侧三接点(计划步骤/工具/UI)是宿主侧任务,本批不出界。
 
-## 已确认决策(用户规格的直接落点)
+## 范围(T1/T2)
 
-1. **侧边栏树改为三级:类型 → 项目 → 任务**。类型 = 品牌研究/行业研究(一级节点);项目挂在所属类型下;任务(=run)挂在所属项目下;**移除版本子树**(版本功能与 `/project/:id/publish?v=` 页保持可达,只是不进导航树)。
-2. **项目名称可自定义**:创建项目表单增「项目名称」输入;`POST /api/projects` 增可选 `name`;写入 project.json 并在列表/详情透出。
-3. **任务名称可自定义**:发起运行表单增「任务名称」输入;`ResearchRequest` 增可选 `name`(zod;旧数据缺省兼容);运行记录与侧边栏/运行列表显示 `name ?? requestId`。
-4. **存量兼容**:无 name 的存量项目回退显示 goal(截断);无 name 的存量运行回退 requestId;不迁移不改写历史数据。
+**T1 库本体**:
+- `createResearchCapability(opts)` → `{ submit, status, result, cancel }`(提案 §2 Port 签名);
+- job 管理器:提交/幂等键去重/并发上限(缺省 2,排队)/状态查询/取消(AbortSignal 传入 runResearch);
+- 每 job 一个内部 run:runResearch(request, adapters, store, { plan: questions, stopAfter: "gather", signal }),共享预算与快照去重;
+- findings 装配:按问题归组(经调查事件 sid→qid 归属),每问 answer 判定(answered/partial/unanswered,取自 gather checkpoint 问题状态),claims 带溯源(statement/kind/quote/source{url,title,tier,fetchedAt}/calibration/verified);
+- job 记录落 dataDir(capability 专属目录,不混用户 projects);崩溃后 running→failed(下次进程内自愈清扫,跨进程恢复 v1 不做,已知限制);
+- 状态机:submitted→running→completed|limited|failed|cancelled;预算尽/取消→limited(已完成问题 findings 照常可取)。
+
+**T2 情报库开关**:
+- opts.library?: LibraryStore + opts.projectId? → 透传 runResearch options.library/projectId(既有沉淀路径);默认行为:注入即沉淀;不注入零影响。
 
 ## 约束
 
-- API 只做加法(可选字段),既有调用方(CLI `project create`、宿主 Adapter 文档口径)不受影响。
-- 不改 run 执行/恢复/门禁语义;不改版本与发布数据模型;不动情报库。
-- 既有 433 测试 + typecheck 全程保持绿;UI 以 typecheck + vite build 校验(仓内惯例)。
-- 视觉遵循仓内 DESIGN.md(JuanerAI Xanthil 基线);侧边栏外的 UI 不做大改。
+- 复用不改核心:runResearch/gather/adapters/质量核查零改动(或仅加法);既有 441+ 测试零回归;
+- module 映射:ResearchRequest.module 必填 → capability 缺省 "industry"(中性;module 专属的模板/检查在 stopAfter gather 路径不生效,记录);
+- 预算:提案 §2(tier 或显式);usage 随 result 返回;
+- 凭据/授权/审计:装配归调用方(adapters 经 piRuntimeModel(configs,{authorize,dataDir}) 注入;库不自行读 env);
+- 测试:replay/合成驱动 job 全生命周期 + 负例(坏输入/幂等/取消/预算尽→limited);不调真实 Provider。
 
 ## 出界
 
-- 版本管理改造(查看/对比/删除)不做;多选/拖拽/搜索树不做;侧边栏以外页面的大改版不做;「最近运行」区去留属 UI-GATE 决策点,不预设。
+JuanerAI 侧装配/步骤/工具/skill;npm 发布;跨进程 job 恢复;每问 LLM 综合;HTTP/UI;每问独立 run 的预算再分配。
 
-## 开放问题(交 PRD/GRILL/UI-GATE)
+## 开放问题(交 PRD/GRILL)
 
-- 类型一级节点是否常驻(含空类型、带「+」直接创建该类型项目)——现状仅非空时节头。
-- 「最近运行」区在任务进树后的去留/简化形态。
-- rerun(`runs/rerun`)与追问(`runs/followup`)生成的运行名称策略(继承原名加后缀 vs 自动生成)。
-- 树中任务显示数量与排序(全部 vs 最近 N;按时间倒序)。
-- 「新建项目」入口位置(类型节点上 vs 维持顶部按钮);新建任务的树内入口。
-- name 的长度/_trim 校验(倾向:trim 后 1-60 字符,空=未命名回退)。
+- 取消/预算尽时 findings 的部分结果装配口径(bundle 缺失时从 checkpoint 能取到什么);
+- sid→多 qid 归属时 claim 归属(全部挂/首挂);无归属 claim(如情报库复用快照)的呈现;
+- job 并发排队的等待语义(submitted 排队计时不入 wallMs?);
+- result 的终态后留存期/重复读取;幂等键的 job 复用窗口。

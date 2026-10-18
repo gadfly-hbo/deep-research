@@ -1,31 +1,30 @@
-# U1 Tasks:侧边栏层级迭代——类型→项目→任务
+# E1 Tasks:嵌入式外部研究能力库
 
-> 来源:`.flow/prd.md`(D1-D7 + G1-1~G1-7)+ `.flow/ui-contract.md`(S1-S10/CP1-15/N1-N12,用户已批准)。无 issue tracker,降级本文件。依赖:T1→T2→T3。
+> 来源:`.flow/prd.md`(D1-D10 + G1-1~G1-6)。无 issue tracker,降级本文件。依赖:T1→T2→T3。
 
-- [x] 1. T1 数据层:名称字段落盘/读回/编排器透传
+- [x] 1. T1 核心加法:onGatherProgress 回调(三触点)
 
-> 勾选证据 T1:runNaming.test.ts 3/3 绿(往返 strip 钉死/新鲜路径透传/恢复 spread);全量 436/436(70 文件)。gates 路径覆盖口径勘误(评审 S-8①):T2 仅覆盖 awaiting 状态下改名落盘读回;**gate confirm CAS spread 后 name 存活未走端点验证**——结构上由 `{...current}` spread + schema 含 name 保障,列为后续批补测项。
-- [x] 2. T2 API 层:创建/改名/自动后缀/列表 runs 摘要
+> 勾选证据 T1:gatherProgress.test.ts 2/2 绿(两问两次触发/claimQuestions 归组闭合/切片防串改/不传回调零影响);全量 443/443。红阶段以最终断言形态落地(选项字段 runtime 忽略即红,未单独跑红,如实记录)。
+- [x] 2. T2 能力库本体:Port/job 管理器/装配/持久化
 
-> 勾选证据 T2:namingRoutes.test.ts 5/5 绿(创建/校验/双 PATCH 改名含 409/后缀含无名回退/摘要形状与 mtime 倒序);全量 441/441(71 文件)+ typecheck 干净。
-- [x] 3. T3 UI 层:表单名称输入 + 三级树侧边栏 + 轮询/守卫/改名交互
+> 勾选证据 T2:researchCapability.test.ts 7/7 绿(happy 归组+溯源/scopeNote 并入/limited 部分/取消保留 claims+排队取消/幂等含 failed/并发排队/目录隔离+server 不触及+跨重启/装配校验);450/450+typecheck。
+- [x] 3. T3 情报库沉淀开关 + 防回归断言
 
-> 勾选证据 T3:typecheck + vite build 干净(772ms/764ms);全量 441/441 绿。契约走查(代码级,非浏览器实测):CP-1~15 逐条对码落实——CP-1/12 模块预选(修复挂载态 deps)/CP-4 →←键盘/CP-5/6 守卫禁用 title/CP-7 409 兜底(修正匹配串为服务器实际文案「进行中或待确认」)+boost/CP-8 任务行 div role=button(修复嵌套 button 非法 HTML)+aria-current/CP-9-11 内联改名(空=清除/超长 400 阻断/Esc·blur 取消)/CP-13 归档无子树/CP-15 骨架+档位轮询;N1-N12 无违例(退役串侧栏零残留;页面级「新建研究运行」串在本批契约范围外,记录 handoff)。
+> 勾选证据 T3:librarySwitch.test.ts 4/4 绿(沉淀入库/取消时已抓已入库/无库零影响/module 中性断言);454/454+typecheck+build。
 
 ---
 
-## 1. T1 数据层:名称字段落盘/读回/编排器透传
+## 1. T1 核心加法:onGatherProgress 回调
 
 ### What to build
 
-`ResearchRequest`/`ResearchRun` 增可选 `name`(共用 zod:trim 1-60,可缺省);`ProjectMeta`(src+ui types)增 `name?`;`runResearch` 新鲜构造 run 对象透传 `request.name`(G1-1 生死点);`launchRun` 预落 running 记录带 `name`(D2)。名称纯展示字段,不参与执行/恢复/门语义。
+`RunOptions` 增可选 `onGatherProgress?: (snapshot: GatherProgressSnapshot) => void`;`GatherContext` 增函数字段;`runResearch` 装配 wiring;`gatherDomain` 每问收束点(q.status 合成后、persistRun 处)调用,快照 = state 可序列化浅切片 `{questions, claimQuestions, claims, evidence, snapshots, limitations, unresolved}`。纯被动:不落 checkpoint、不进 run 记录,resume/清扫零影响。
 
 ### Acceptance criteria
 
-- [ ] 往返单测:`saveRun({...run, name})` → `listRuns()` 读回 name 存活(钉死 readRun zod strip 陷阱,K2)
-- [ ] 编排器新鲜路径(带 plan 无 gates,同 rerun/免门路径)run 记录落盘含 name(G1-1)
-- [ ] gates 路径(confirm CAS spread)name 存活
-- [ ] 既有测试零改动全绿
+- [ ] 回调每问触发一次,末次快照含全部已完成问的 claimQuestions/claims(evidence/snapshots 引用共享不深拷)
+- [ ] 快照含 limitations/unresolved(G1-1);skipped/starved/通道不支持路径不触发(无害)
+- [ ] 不传回调 → 行为与现状逐位一致(既有测试零改动全绿)
 
 ### Blocked by
 
@@ -33,40 +32,42 @@ None - can start immediately
 
 ---
 
-## 2. T2 API 层:创建/改名/自动后缀/列表 runs 摘要
+## 2. T2 能力库本体
 
 ### What to build
 
-`POST /api/projects` 接受可选 name(路由层校验 trim,空=不设置,>60→400);`PATCH /api/projects/:id {name|null}` 项目改名(saveMeta+audit "renamed";null/空=清除);`PATCH :id/runs/:rid/name {name|null}` 任务改名(终态+awaiting 可改,running→409「运行进行中,处理后方可改名」;`saveRun` 增可选 audit 事件参数,改名传 "run-renamed";响返更新后摘要);rerun 显式后缀「·重跑」、followup「·追问」(G1-6,无名回退 requestId 前 8 位);`GET /api/projects` 每项目附 `runs` 轻量摘要 `{id,requestId,name?,status,stage,updatedAt=mtimeMs}` mtime 倒序(D1/G1-2)。
+`src/capability/researchCapability.ts`(Port/job 管理器)+ `src/capability/findings.ts`(assembleFindings 纯函数,单一装配路径两路适配)。submit 校验(questions 1-6、qid 非空唯一、tier×问数联动仅 tier-only、scopeNote 并入问题文本、幂等键→既有 jobId 含 failed 不重跑);job 目录 `cap-<ts36>-<rand>` 于 `<dataDir>/capability-jobs/`(装配期校验非 */projects 路径);FIFO 排队+maxConcurrentJobs 信号量;每 job 一个内部 run(plan=questions、stopAfter gather、signal、request.id=`cap:${jobId}`、goal 合成有信息量);终态处理:published→completed / limited→limited(bundle+gather checkpoint 装配)/ cancelled→cancelled(最新快照+verifyCitations 现算装配)/ failed→failed;**装配结果+usage 同步落 job.json,result() 以 job 记录为源(跨重启可读)**;cancel:排队中即时终态、运行中 abort(jsdoc 披露问边界生效与在途问题完整跑完)。
 
 ### Acceptance criteria
 
-- [ ] 创建带 name / >60 400 / 空串=未命名
-- [ ] 项目改名:设置/清除(null)/回退字段;audit 记 renamed
-- [ ] 任务改名:终态 OK、awaiting OK、running 409 同文案;audit 记 run-renamed;响应为更新后 run
-- [ ] rerun/followup 落盘 name 含后缀(无名原型回退 req 前 8 位)
-- [ ] 列表 runs 摘要:形状(轻载,无 checkpoints/bundle)、mtime 倒序、覆盖存量项目
+- [ ] happy 2 问→completed:findings 按 claimQuestions 归组、claims 带引句/来源(tier/fetchedAt)/verified、usage 返回
+- [ ] 预算尽→limited+部分 findings+unanswered 如实;取消→cancelled+已完成问 claims 级 findings+取消 limitation(含 0 问完成边界)
+- [ ] 幂等键同 jobId(含 failed);重试换键新 job
+- [ ] maxConcurrentJobs=2 三 job→第三排队后起步;排队 cancel 即时终态
+- [ ] 坏输入(0 问/7 问/low×3 问/重复 qid)拒绝且不产生 jobId;显式 budget 免联动
+- [ ] 目录隔离:cap- 前缀、capability-jobs 与 projects 兄弟、server 启动清扫与 GET /api/projects 均不触及(测试钉死)
+- [ ] result() 跨"重启"(新 capability 实例同 dataDir)可读终态结果
 - [ ] 既有测试零改动全绿
 
 ### Blocked by
 
-- T1(schema/字段)
+- T1(onGatherProgress)
 
 ---
 
-## 3. T3 UI 层:表单名称输入 + 三级树侧边栏 + 交互
+## 3. T3 情报库沉淀开关 + 防回归断言
 
 ### What to build
 
-按 UI 契约全量落地:ProjectsView 创建表单「项目名称」+ `?module=` 预选;PlanView 发起表单「任务名称」(数据流 WizardForm→StartRunParams→request body);Sidebar 重构——类型常驻节头+「＋」+空态(S3)、项目行(caret 任务子树/悬停「＋任务」守卫禁用/「⋯」重命名)(S4)、任务子树(状态点+name??requestId 等宽回退+状态词,mtime 倒序,⋯重命名 running 禁用)(S5)、归档区无子树保留重命名(S6)、内联改名控件 S9(Enter 保存/Esc/blur 取消/留空清除/n/60 计数/>60 内联 400)、toast S8(409 两类/成功)、首载骨架 S10、顶部按钮「＋新建任务」判据统一 D1(diff6)、移除版本子树与最近运行区(D7);`ui/state/projects.tsx` 列表类型扩展+档位轮询(30s↔2.5s,409 后 reload+提频)(G1-3);`api.ts` PATCH 助手;styles.css 新增 sb-actions/sb-menu/sb-rename/骨架样式(取 DESIGN.md token)。键盘/焦点/aria 循契约 §3。
+opts.library?: LibraryStore + opts.projectId?: string 透传 runResearch(注入即沉淀,采证时刻;取消时已抓快照已入库);**注入 library 必须 projectId(装配期校验)**;不注入零影响。module 中性防回归断言:brand/industry 两 config 的 preferredDomains 均空。
 
 ### Acceptance criteria
 
-- [ ] typecheck + vite build 干净;契约 CP-1~CP-15 逐条自查走查(记录于勾选证据)
-- [ ] N1-N12 负向自查(无版本子树回归/归档无子树/running 禁改/守卫禁用同源)
-- [ ] 退役串零残留(「新建研究运行」「最近运行」节头等,§4 退役清单)
-- [ ] 既有测试零改动全绿(UI 无既有测试,typecheck/build 即门)
+- [ ] 注入 library+projectId:job 完成后 acquisitions/sources 有沉淀;取消后已抓快照已入库
+- [ ] library 无 projectId → 装配抛错;无 library → 无沉淀无错
+- [ ] 两 module config preferredDomains 空(断言进测试,未来加域偏好即红)
+- [ ] 既有测试零改动全绿
 
 ### Blocked by
 
-- T2(端点与摘要)
+- T2

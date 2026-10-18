@@ -50,6 +50,8 @@ export interface GatherContext {
   takeRefinement?: RunOptions["takeRefinement"];
   /** P2-6(F3):加注到达判据(装配层以运行起始预算基线快照比对同对象变异;缺省按未加注)。 */
   wasToppedUp?: () => boolean;
+  /** E1(G1-1):gather 每问收束回调(纯被动切片;capability 取消保留依据)。 */
+  onGatherProgress?: RunOptions["onGatherProgress"];
   persistRun(stage?: ResearchRun["stage"]): Promise<void>;
   persistUsageThrottled(): Promise<void>;
   appendInvestigationSafe(event: Omit<InvestigationEvent, "seq" | "at">): Promise<void>;
@@ -562,6 +564,16 @@ export const gather = async (ctx: GatherContext, round: number, targets?: PlanQu
         );
       }
       await ctx.persistRun();
+      // E1(G1-1):每问收束切片回调——浅拷贝防串改;skipped/starved/通道不支持路径不进本循环,天然不触发
+      ctx.onGatherProgress?.({
+        questions: ctx.state.questions.map((pq) => ({ ...pq })),
+        claimQuestions: { ...ctx.state.claimQuestions },
+        claims: [...ctx.state.claims],
+        evidence: [...ctx.state.evidence],
+        snapshots: [...ctx.state.snapshots],
+        limitations: [...ctx.state.limitations],
+        unresolved: [...ctx.state.unresolved],
+      });
     }
   } finally {
     ctx.activeGatherTargets = null;
